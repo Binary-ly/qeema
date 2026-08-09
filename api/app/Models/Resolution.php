@@ -34,7 +34,7 @@ final class Resolution extends Model
 
     protected $fillable = [
         'submission_id', 'canonical_item_id', 'method', 'confidence',
-        'candidates', 'reviewed', 'reviewed_by_user_id', 'reviewed_at', 'model_version',
+        'candidates', 'reviewed', 'reviewed_by_user_id', 'reviewed_at', 'model_version', 'notes',
     ];
 
     protected function casts(): array

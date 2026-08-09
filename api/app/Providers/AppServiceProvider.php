@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Services\Ml\MlClient;
+use App\Services\Ml\MlClientInterface;
 use App\Support\Scraping\OpenDataCsvScraper;
 use App\Support\Scraping\ScraperRegistry;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -20,6 +22,10 @@ final class AppServiceProvider extends ServiceProvider
     {
         // Scrapers are registered once as a singleton so a source can name one
         // by key in configuration rather than the pipeline knowing about them.
+        // Callers depend on the interface; the HTTP client is the production
+        // binding and a fake stands in as a peer during tests.
+        $this->app->bind(MlClientInterface::class, MlClient::class);
+
         $this->app->singleton(ScraperRegistry::class, function (): ScraperRegistry {
             $registry = new ScraperRegistry;
             $registry->register(new OpenDataCsvScraper);

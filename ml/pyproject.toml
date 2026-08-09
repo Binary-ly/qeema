@@ -36,6 +36,9 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8.3",
+    # Validates the real service's responses against the same contract the PHP
+    # test double is validated against.
+    "jsonschema>=4.23",
     "pytest-cov>=6.0",
     "pytest-asyncio>=0.24",
     "ruff>=0.8",

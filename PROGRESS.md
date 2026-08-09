@@ -16,7 +16,7 @@ here, assume it does not work yet.
 | 2 — Synthetic data generator | **Complete and verified** |
 | 3 — Reporter PWA | **Complete and verified** |
 | 4 — Ingestion (partner + scrapers) | **Complete and verified** |
-| 5 — Product matching | **ML core complete**; PHP integration outstanding |
+| 5 — Product matching | **Complete and verified** |
 | 6–12 | Not started |
 
 ---
@@ -25,11 +25,11 @@ here, assume it does not work yet.
 
 | Gate | Result |
 |---|---|
-| Pest | **266 passed**, 1 skipped, 1,340 assertions |
-| PHP coverage | **94.2%** (gate ≥80%) |
+| Pest | **293 passed**, 1 skipped, 1,392 assertions |
+| PHP coverage | **93.8%** (gate ≥80%) |
 | Playwright (offline E2E) | **8 passed** |
-| pytest | **121 passed** |
-| Python coverage | **88.3%** (gate ≥80%) |
+| pytest | **132 passed** |
+| Python coverage | **94.5%** (gate ≥80%) |
 | PHPStan (larastan, level 6) | **0 errors** |
 | Pint / ruff / mypy | clean |
 | Country-agnostic check (C3) | pass |
@@ -257,15 +257,37 @@ auto-resolves.
 **The normaliser is contract-bound.** The Python implementation passes the same
 22 fixtures as the PHP one, so the two cannot silently drift.
 
-### Still to do in Phase 5
+### The Laravel boundary
 
-- `MlClient` on the Laravel side, with the circuit breaker described in PLAN.md.
-- Contract tests validating the fake client against `contracts/`.
-- Wiring resolutions into the Filament review queue, and turning a reviewer's
-  correction into a new variant.
+`MlClient` with a consecutive-failure circuit breaker. **It never throws at the
+caller.** A null return means "no opinion" — unreachable, errored, or circuit
+open — which becomes a review-queue entry. It never means "no match": discarding
+a valid observation because a container was restarting would be silent data loss
+with no trace.
+
+Degradation is tested directly: with the service down, submissions queue for
+review and no observation is created. After the failure threshold the breaker
+opens and the client provably stops issuing requests.
+
+**Contract tests run on both sides of the same schema.** The PHP suite validates
+the *fake* against `contracts/ml-match-response.json`; the Python suite validates
+the *real* FastAPI responses against the identical file. That pairing is the only
+thing preventing the classic mocked-boundary failure where a drifting double
+keeps every test green until production.
+
+**The review loop teaches the matcher.** Every approved decision becomes a new
+`human_review` variant keyed on its normalised form, and invalidates the
+catalogue cache so it takes effect immediately. A queue that only fixes the
+submission in front of the reviewer never shrinks.
+
+### Still outstanding in Phase 5
+
 - Embedding generation and the pgvector semantic path end to end. The matcher
   supports it and is tested with a stand-in embedder, but no real embeddings are
-  written yet, so production matching is currently **lexical-only**.
+  written, so **production matching is currently lexical-only** — and the 98.4%
+  figure above is a lexical-only result.
+- A Filament screen for the review queue. The actions behind it (`approve`,
+  `reject`) are built and tested; only the UI is missing.
 
 ---
 
@@ -305,6 +327,10 @@ auto-resolves.
   wrong day and move the published index. Now pinned via the connection config.
 - **The demo `APP_KEY` decoded to 31 bytes, not 32.** AES-256 rejected it, so
   the admin panel 500'd while the public API worked fine.
+- **An unknown matched item violated a foreign key.** When the ML service named
+  an item this deployment does not have — a stale catalogue cache — the id was
+  still written to `resolutions.canonical_item_id`, turning a recoverable
+  mismatch into a 500.
 - **Absent evidence was treated as evidence of absence.** With
   `semantic_weight=0.6` and no semantic index — the state every new deployment
   starts in — a *perfect* lexical match of 1.0 fused to 0.40 and was rejected.
