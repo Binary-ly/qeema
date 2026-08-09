@@ -101,9 +101,30 @@ final class IndexSnapshot extends Model
     {
         return match (true) {
             $this->hasLowCoverage() => 'low',
-            $this->imputed_share > 0.3 || $this->fx_is_stale => 'moderate',
+            // Anything materially incomplete is at best moderate. A basket
+            // missing a fifth of its weight was reading as "good", which is how
+            // a reader ends up concluding one town is cheaper than another when
+            // it is merely less observed.
+            $this->imputed_share > 0.1 || $this->fx_is_stale => 'moderate',
             default => 'good',
         };
+    }
+
+    /**
+     * Whether this cost may be compared with another location's.
+     *
+     * Until every basket item has a price — observed or imputed — `cost_local`
+     * is the cost of only the *observed* part of the basket. Comparing a 95%
+     * basket against an 88% one reads the missing 7% as a discount, which is
+     * precisely backwards: thin coverage usually accompanies harder conditions,
+     * not cheaper ones.
+     *
+     * Consumers ranking locations must check this, and the public API exposes
+     * it rather than leaving the trap for them to fall into.
+     */
+    public function isComparable(): bool
+    {
+        return $this->imputed_share <= 0.0;
     }
 
     /** Mark for recomputation; a queued job picks it up. Idempotent. */

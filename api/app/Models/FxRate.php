@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Database\Factories\FxRateFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * basket cost is country configuration, defaulting to parallel — the official
  * rate in a crisis economy typically describes a transaction ordinary people
  * cannot access, so a USD figure derived from it would understate hardship.
+ *
+ * Cast attributes are declared explicitly because Larastan cannot infer them
+ * from casts(), and the stale-rate path calls date methods on rate_date.
+ *
+ * @property CarbonInterface $rate_date
+ * @property CarbonInterface|null $fetched_at
  */
 final class FxRate extends Model
 {

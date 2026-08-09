@@ -18,7 +18,8 @@ here, assume it does not work yet.
 | 4 — Ingestion (partner + scrapers) | **Complete and verified** |
 | 5 — Product matching | **Complete and verified** |
 | 6 — Anomaly detection | **Complete and verified** |
-| 7–12 | Not started |
+| 7 — Index computation + FX | **Core working**; recompute queue and tests outstanding |
+| 8–12 | Not started |
 
 ---
 
@@ -27,7 +28,7 @@ here, assume it does not work yet.
 | Gate | Result |
 |---|---|
 | Pest | **304 passed**, 1 skipped, 1,415 assertions |
-| PHP coverage | **93.7%** (gate ≥80%) |
+| PHP coverage | **89.4%** (gate ≥80%) |
 | Playwright (offline E2E) | **8 passed** |
 | pytest | **160 passed** |
 | Python coverage | **84.0%** (gate ≥80%) |
@@ -347,6 +348,68 @@ silently discarding their work is a decision a person should make.
 **Unscored is not clean.** When the ML service is unavailable the pipeline
 records nothing rather than a clean verdict, which would let bad data through
 precisely when the system is least able to notice.
+
+---
+
+## Phase 7 — the platform produces its first index figure
+
+Real data, real basket, computed across three locations for the same day:
+
+| Location | cost (LYD) | USD | coverage | interval | quality | comparable |
+|---|---|---|---|---|---|---|
+| Tripoli | 2,954.81 | 344.36 | 95.0% | [2,925, 3,032] | good | no |
+| Sabha | 2,570.70 | 299.60 | 88.0% | [2,325, 2,707] | moderate | no |
+| Ghat | 3,516.94 | 409.87 | 78.0% | [3,476, 3,857] | moderate | no |
+
+Converted at the **parallel** rate (8.5805), with a bootstrap confidence
+interval and weight-based coverage.
+
+### A comparability trap, found by looking at the output
+
+Sabha reads *cheaper* than Tripoli despite carrying a regional premium — because
+at 88% coverage the missing 12% of the basket is simply **not counted**. A reader
+would conclude Sabha is cheaper when it is merely less observed, and thin
+coverage usually accompanies harder conditions rather than cheaper ones.
+
+This is the exact failure mode the platform must not have. Two responses:
+
+- `qualityLabel()` was too generous — a basket missing a fifth of its weight
+  read as "good". Anything above 10% imputed is now at best "moderate".
+- `isComparable()` was added and is false until every basket item has a price.
+  Consumers ranking locations have to check it, rather than the trap being left
+  for them to fall into.
+
+The real fix is Phase 8: imputing the missing items so every basket is complete
+and costs *are* comparable. Until then, `cost_local` is the cost of the observed
+part of the basket, and the API must say so.
+
+### Design decisions
+
+**Weighted median, not mean.** Crisis price data is heavy-tailed; a mean is
+dragged by exactly the values that should count least.
+
+**Recomputation is deterministic.** Bootstrap seeds are derived from
+(location, item, date), and reputation is frozen on the observation at
+ingestion — so recomputing an old snapshot reproduces it exactly rather than
+drifting because a reporter's score changed since.
+
+**Basket intervals are one joint draw**, not a sum of per-item bounds, which
+would be far too wide.
+
+**Stale FX is used but always flagged**, and refused beyond the country's
+configured horizon — `cost_usd` is published as null rather than converted at a
+rate nobody can stand behind.
+
+### Still outstanding in Phase 7
+
+- The incremental recompute queue. `index_snapshots.is_stale` exists and the
+  calculator upserts idempotently, but nothing yet marks snapshots stale when a
+  historical observation is corrected, and no job drains them.
+- Dedicated tests for the estimator and calculator. The existing 304 tests still
+  pass and the numbers above were verified by hand against the seeded data, but
+  the weighted median, the bootstrap and the FX staleness rules deserve unit
+  tests of their own before this phase is called done.
+- Chain-linking across basket versions.
 
 ---
 
