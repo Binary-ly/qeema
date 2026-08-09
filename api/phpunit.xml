@@ -16,6 +16,9 @@
         <include>
             <directory>app</directory>
         </include>
+        <exclude>
+            <directory>app/Console</directory>
+        </exclude>
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
@@ -23,14 +26,31 @@
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array"/>
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
-        <env name="DB_URL" value=""/>
+
+        <!--
+            Tests run against real PostgreSQL, not SQLite. The matcher depends on
+            pgvector and pg_trgm, which SQLite cannot provide; testing against a
+            different engine than production would only prove the wrong thing.
+            Credentials default to the same values used by docker compose and CI,
+            so one configuration works in all three places. Existing environment
+            variables win, so a developer can point at their own database.
+        -->
+        <env name="DB_CONNECTION" value="pgsql"/>
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_PORT" value="5432"/>
+        <env name="DB_DATABASE" value="qeema_test"/>
+        <env name="DB_USERNAME" value="qeema"/>
+        <env name="DB_PASSWORD" value="qeema"/>
+
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>
+
+        <!-- No test may reach the real ML service; it is faked at the client. -->
+        <env name="QEEMA_ML_URL" value="http://ml.invalid"/>
+        <env name="QEEMA_SEED_DEMO" value="false"/>
     </php>
 </phpunit>

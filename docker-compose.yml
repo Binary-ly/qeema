@@ -1,0 +1,152 @@
+# SPDX-License-Identifier: Apache-2.0
+#
+# Qeema — one-command demo stack.
+#
+#   docker compose up
+#
+# On a clean machine with nothing but Docker installed, this brings up the whole
+# platform, migrated and seeded with a six-month synthetic history, and serves a
+# working dashboard and public API. No manual steps (constraint C2).
+#
+# Every image is OSI-licensed and pulled from a public registry; nothing here
+# needs a commercial account (constraint C1).
+
+name: qeema
+
+x-app-env: &app-env
+  APP_NAME: Qeema
+  APP_ENV: ${APP_ENV:-production}
+  APP_KEY: ${APP_KEY:-base64:Q2VlbWFEZW1vS2V5Rm9yTG9jYWxVc2VPbmx5ISEhIQ==}
+  APP_DEBUG: ${APP_DEBUG:-false}
+  APP_URL: ${APP_URL:-http://localhost:8080}
+  LOG_CHANNEL: stderr
+  LOG_LEVEL: ${LOG_LEVEL:-info}
+
+  DB_CONNECTION: pgsql
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_DATABASE: ${POSTGRES_DB:-qeema}
+  DB_USERNAME: ${POSTGRES_USER:-qeema}
+  DB_PASSWORD: ${POSTGRES_PASSWORD:-qeema}
+
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  CACHE_STORE: redis
+  QUEUE_CONNECTION: redis
+  SESSION_DRIVER: redis
+
+  QEEMA_ML_URL: http://ml:8000
+  QEEMA_COUNTRIES_PATH: /countries
+  QEEMA_SEED_COUNTRIES: ${QEEMA_SEED_COUNTRIES:-*}
+  QEEMA_SEED_DEMO: ${QEEMA_SEED_DEMO:-true}
+  QEEMA_SEED_DEMO_MONTHS: ${QEEMA_SEED_DEMO_MONTHS:-6}
+
+services:
+
+  postgres:
+    # pgvector's own image, so the extension is present without a custom build.
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-qeema}
+      POSTGRES_USER: ${POSTGRES_USER:-qeema}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-qeema}
+      # Faster, deterministic initdb for a demo database.
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      # Creates vector, pg_trgm and the qeema_eval schema before any migration.
+      - ./infra/postgres:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-qeema} -d ${POSTGRES_DB:-qeema}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    restart: unless-stopped
+
+  redis:
+    # Redis 8+ only: from 8.0 Redis offers an AGPLv3 option, which is
+    # OSI-approved, satisfying the all-OSI-dependencies constraint. Set
+    # REDIS_IMAGE=valkey/valkey:8 for a BSD-licensed, wire-compatible drop-in.
+    image: ${REDIS_IMAGE:-redis:8-alpine}
+    command: ["redis-server", "--appendonly", "yes", "--save", "60", "1"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+    restart: unless-stopped
+
+  ml:
+    build:
+      context: .
+      dockerfile: infra/docker/ml.Dockerfile
+      args:
+        EMBEDDING_MODEL: ${QEEMA_EMBEDDING_MODEL:-intfloat/multilingual-e5-base}
+    environment:
+      QEEMA_ML_ENVIRONMENT: ${APP_ENV:-production}
+      QEEMA_ML_EMBEDDING_MODEL: ${QEEMA_EMBEDDING_MODEL:-intfloat/multilingual-e5-base}
+      QEEMA_ML_DATABASE_URL: postgresql://${POSTGRES_USER:-qeema}:${POSTGRES_PASSWORD:-qeema}@postgres:5432/${POSTGRES_DB:-qeema}
+      QEEMA_ML_LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${ML_PORT:-8000}:8000"
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: infra/docker/app.Dockerfile
+    environment: *app-env
+    volumes:
+      # Country configuration is read at seed time and is the only place country
+      # facts live, so it is mounted rather than baked in — an operator adding a
+      # country should not need to rebuild the image.
+      - ./countries:/countries:ro
+      - app-storage:/app/storage/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      # The app must not start bootstrapping until the ML service can actually
+      # serve inference, or the first seeded submissions resolve by fallback.
+      ml:
+        condition: service_healthy
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: infra/docker/app.Dockerfile
+    entrypoint: ["/usr/local/bin/entrypoint-worker"]
+    environment: *app-env
+    volumes:
+      - ./countries:/countries:ro
+      - app-storage:/app/storage/app
+    depends_on:
+      # Waits on app, not just postgres: the app owns migrations, and a worker
+      # that starts against a half-migrated schema fails in confusing ways.
+      app:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "php artisan horizon:status | grep -q running"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  redis-data:
+  app-storage:
