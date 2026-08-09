@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from qeema_ml import __version__
+from qeema_ml.api.anomaly import router as anomaly_router
 from qeema_ml.api.matching import router as matching_router
 from qeema_ml.config import Settings, get_settings
 
@@ -117,6 +118,7 @@ def create_app() -> FastAPI:
     )
 
     app.include_router(matching_router)
+    app.include_router(anomaly_router)
 
     @app.get("/health", response_model=HealthResponse, tags=["ops"])
     def health() -> HealthResponse:

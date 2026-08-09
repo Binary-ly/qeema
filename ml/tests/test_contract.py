@@ -20,9 +20,7 @@ import pytest
 from fastapi.testclient import TestClient
 from jsonschema import Draft202012Validator
 
-CONTRACT_PATH = (
-    Path(__file__).resolve().parents[2] / "contracts" / "ml-match-response.json"
-)
+CONTRACT_PATH = Path(__file__).resolve().parents[2] / "contracts" / "ml-match-response.json"
 
 CATALOGUE = {
     "variants": [
@@ -72,9 +70,7 @@ class TestMatchContract:
     def test_an_exact_match_satisfies_the_contract(
         self, client: TestClient, validator: Draft202012Validator
     ) -> None:
-        response = client.post(
-            "/v1/match", json={"text": "حليب اطفال", "catalogue": CATALOGUE}
-        )
+        response = client.post("/v1/match", json={"text": "حليب اطفال", "catalogue": CATALOGUE})
 
         assert response.status_code == 200
         assert_valid(validator, response.json())
@@ -82,9 +78,7 @@ class TestMatchContract:
     def test_a_fuzzy_match_satisfies_the_contract(
         self, client: TestClient, validator: Draft202012Validator
     ) -> None:
-        response = client.post(
-            "/v1/match", json={"text": "حليب اطفل", "catalogue": CATALOGUE}
-        )
+        response = client.post("/v1/match", json={"text": "حليب اطفل", "catalogue": CATALOGUE})
 
         assert response.status_code == 200
         assert_valid(validator, response.json())
@@ -94,9 +88,7 @@ class TestMatchContract:
     ) -> None:
         # The empty-candidate shape is the one most likely to be modelled
         # wrongly by a test double.
-        response = client.post(
-            "/v1/match", json={"text": "zzzz qqqq wwww", "catalogue": CATALOGUE}
-        )
+        response = client.post("/v1/match", json={"text": "zzzz qqqq wwww", "catalogue": CATALOGUE})
 
         assert response.status_code == 200
         assert_valid(validator, response.json())
@@ -117,18 +109,14 @@ class TestMatchContract:
 
 class TestMatchBehaviour:
     def test_resolves_an_exact_variant(self, client: TestClient) -> None:
-        body = client.post(
-            "/v1/match", json={"text": "حليب اطفال", "catalogue": CATALOGUE}
-        ).json()
+        body = client.post("/v1/match", json={"text": "حليب اطفال", "catalogue": CATALOGUE}).json()
 
         assert body["action"] == "auto_resolve"
         assert body["candidates"][0]["canonical_item_id"] == 1
 
     def test_normalises_before_matching(self, client: TestClient) -> None:
         # Hamza and Arabic-Indic digits must not defeat an exact match.
-        body = client.post(
-            "/v1/match", json={"text": "حليب أطفال", "catalogue": CATALOGUE}
-        ).json()
+        body = client.post("/v1/match", json={"text": "حليب أطفال", "catalogue": CATALOGUE}).json()
 
         assert body["normalised_text"] == "حليب اطفال"
         assert body["action"] == "auto_resolve"
@@ -143,9 +131,7 @@ class TestMatchBehaviour:
     def test_rejects_an_empty_catalogue_rather_than_matching_nothing(
         self, client: TestClient
     ) -> None:
-        response = client.post(
-            "/v1/match", json={"text": "ارز", "catalogue": {"variants": []}}
-        )
+        response = client.post("/v1/match", json={"text": "ارز", "catalogue": {"variants": []}})
 
         assert response.status_code == 422
 
