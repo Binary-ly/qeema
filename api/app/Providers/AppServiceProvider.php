@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Support\Scraping\OpenDataCsvScraper;
+use App\Support\Scraping\ScraperRegistry;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -16,7 +18,14 @@ final class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        // Scrapers are registered once as a singleton so a source can name one
+        // by key in configuration rather than the pipeline knowing about them.
+        $this->app->singleton(ScraperRegistry::class, function (): ScraperRegistry {
+            $registry = new ScraperRegistry;
+            $registry->register(new OpenDataCsvScraper);
+
+            return $registry;
+        });
     }
 
     public function boot(): void

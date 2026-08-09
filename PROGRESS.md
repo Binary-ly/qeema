@@ -15,7 +15,8 @@ here, assume it does not work yet.
 | 1 — Domain model + admin | **Complete and verified** |
 | 2 — Synthetic data generator | **Complete and verified** |
 | 3 — Reporter PWA | **Complete and verified** |
-| 4–12 | Not started |
+| 4 — Ingestion (partner + scrapers) | **Complete and verified** |
+| 5–12 | Not started |
 
 ---
 
@@ -23,8 +24,8 @@ here, assume it does not work yet.
 
 | Gate | Result |
 |---|---|
-| Pest | **213 passed**, 1 skipped, 1,240 assertions |
-| PHP coverage | **96.9%** (gate ≥80%) |
+| Pest | **266 passed**, 1 skipped, 1,340 assertions |
+| PHP coverage | **94.2%** (gate ≥80%) |
 | Playwright (offline E2E) | **8 passed** |
 | pytest | **21 passed** |
 | Python coverage | **100%** (gate ≥80%) |
@@ -173,6 +174,46 @@ that registered it. The UI says so when no cached catalogue exists.
 
 ---
 
+## Phase 4 — verified
+
+**Partner spreadsheets.** Streaming CSV/TSV/XLSX via OpenSpout, so a partner's
+annual export does not turn one upload into an outage. The delimiter is sniffed
+rather than assumed — semicolon-separated CSV is what Excel produces across much
+of Europe and the Middle East, and reading it as comma-separated yields one
+column and a wall of meaningless errors.
+
+**Partial success is the normal outcome.** A file with 900 good rows and 100 bad
+ones imports 900 and returns a per-row report naming the row, the column and the
+value. Rejecting the file wholesale means the partner has to fix everything
+before Qeema gets any of it, which in practice means Qeema never gets any of it.
+Error reports are bounded so a wholly-broken file cannot produce a report nobody
+can read.
+
+**Formats real partners actually send**, all tested: comma decimal marks
+(`6,50`), thousands separators (`1,250`), both together (`1,250.75`),
+Arabic-Indic digits (`٦.٥٠`), currency symbols beside the number, Excel serial
+dates, and day-first vs month-first dates. Headers are guessed in English *and*
+Arabic — then confirmed by a human, because a silently misread column puts a
+price against the wrong item.
+
+**Re-uploading is a no-op.** A file checksum recognises the resend, and each row
+carries a UUID v5 derived from that checksum and its row number, so the property
+holds even if the batch check is bypassed.
+
+**Scraper framework** with a contract requiring resumability, idempotency and
+politeness — and a runner that enforces all three. The worked example targets
+*openly licensed published datasets* rather than a shop's website: pointing an
+example scraper at someone's storefront invites operators to take data nobody
+offered and gets the deployment blocked. It checks robots.txt before fetching,
+identifies itself honestly, declares a conservative rate, and persists its cursor
+after **every page** so an interrupted run resumes instead of re-fetching against
+a rate-limited endpoint.
+
+**Admin upload page** with a two-step flow: guess the mapping, show the operator
+the first rows and the guess, import only on confirmation.
+
+---
+
 ## Decisions taken (full rationale in PLAN.md §2)
 
 - **Latest stable majors**: Laravel 13.24, Filament 5.7.6, Livewire 4.3.5,
@@ -209,6 +250,11 @@ that registered it. The UI says so when no cached catalogue exists.
   wrong day and move the published index. Now pinned via the connection config.
 - **The demo `APP_KEY` decoded to 31 bytes, not 32.** AES-256 rejected it, so
   the admin panel 500'd while the public API worked fine.
+- **Carbon throws instead of returning `false`** from `createFromFormat` on a
+  mismatch, so a `!== false` check never fired and one odd date failed a
+  partner's entire upload.
+- **`hash_file()` on a missing path raised before a batch existed** to record
+  the failure on — a 500 rather than the actionable report the phase promises.
 - **Generated redirects dropped the port** (`http://localhost/admin/login`),
   because Laravel builds URLs from the request rather than `APP_URL`. In the
   demo stack that turned "open the admin panel" into a connection refused.
