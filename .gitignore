@@ -1,0 +1,73 @@
+# ---- PHP / Laravel ----
+/api/vendor/
+/api/node_modules/
+/api/public/build/
+/api/public/hot
+/api/public/storage
+/api/storage/*.key
+/api/storage/pail
+/api/storage/app/public/*
+!/api/storage/app/public/.gitignore
+/api/storage/framework/cache/data/*
+/api/storage/framework/sessions/*
+/api/storage/framework/testing/*
+/api/storage/framework/views/*
+/api/storage/logs/*
+/api/bootstrap/cache/*.php
+/api/.env
+/api/.env.backup
+/api/.env.production
+/api/.phpunit.result.cache
+/api/.phpunit.cache/
+/api/auth.json
+/api/database/*.sqlite
+/api/database/*.sqlite-journal
+/api/coverage/
+/api/clover.xml
+/api/coverage.xml
+/api/.pest/
+
+# ---- Python / ML ----
+/ml/.venv/
+/ml/**/__pycache__/
+/ml/**/*.py[cod]
+/ml/.pytest_cache/
+/ml/.mypy_cache/
+/ml/.ruff_cache/
+/ml/.coverage
+/ml/coverage.xml
+/ml/htmlcov/
+/ml/*.egg-info/
+/ml/build/
+/ml/dist/
+
+# Model weights and trained artifacts are large; they are baked into the image
+# at build time or produced by a training run. Never commit the raw weights.
+/ml/models/hf/
+/ml/models/*.bin
+/ml/models/*.safetensors
+/ml/models/*.onnx
+/ml/artifacts/*.txt
+/ml/artifacts/*.joblib
+/ml/artifacts/*.lgb
+!/ml/artifacts/.gitkeep
+
+# ---- E2E ----
+/e2e/node_modules/
+/e2e/test-results/
+/e2e/playwright-report/
+/e2e/.playwright/
+/e2e/blob-report/
+
+# ---- Local infra ----
+/.data/
+/infra/local/*.env
+docker-compose.override.yml
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/*
+!.vscode/extensions.json
