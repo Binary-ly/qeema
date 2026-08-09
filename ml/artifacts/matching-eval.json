@@ -1,0 +1,18 @@
+{
+  "n_queries": 371,
+  "top1_accuracy": 0.9838274932614556,
+  "top3_accuracy": 0.9973045822102425,
+  "top5_accuracy": 0.9973045822102425,
+  "mean_reciprocal_rank": 0.9905660377358491,
+  "auto_resolve_rate": 0.3611859838274933,
+  "auto_resolve_precision": 0.9925373134328358,
+  "review_rate": 0.6388140161725068,
+  "reject_rate": 0.0,
+  "by_perturbation": {
+    "absorbed_by_normalisation": 1.0,
+    "typo": 1.0,
+    "head_noun_only": 0.8928571428571429,
+    "reordered_tokens": 1.0
+  },
+  "caveat": "These figures are measured on **synthetically perturbed catalogue variants**, not on real reporter submissions. They characterise robustness to known classes of noise (dropped hamza, Arabic-Indic digits, typos, head-noun queries, token reordering) and should be read as an upper bound: real submissions contain dialect, brand names and item descriptions this set does not model. Replace with held-out human-reviewed decisions once enough have accumulated."
+}

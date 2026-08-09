@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from qeema_ml import __version__
+from qeema_ml.api.matching import router as matching_router
 from qeema_ml.config import Settings, get_settings
 
 if TYPE_CHECKING:
@@ -114,6 +115,8 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
         license_info={"name": "Apache-2.0", "url": "https://www.apache.org/licenses/LICENSE-2.0"},
     )
+
+    app.include_router(matching_router)
 
     @app.get("/health", response_model=HealthResponse, tags=["ops"])
     def health() -> HealthResponse:

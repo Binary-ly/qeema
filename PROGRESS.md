@@ -16,7 +16,8 @@ here, assume it does not work yet.
 | 2 — Synthetic data generator | **Complete and verified** |
 | 3 — Reporter PWA | **Complete and verified** |
 | 4 — Ingestion (partner + scrapers) | **Complete and verified** |
-| 5–12 | Not started |
+| 5 — Product matching | **ML core complete**; PHP integration outstanding |
+| 6–12 | Not started |
 
 ---
 
@@ -27,8 +28,8 @@ here, assume it does not work yet.
 | Pest | **266 passed**, 1 skipped, 1,340 assertions |
 | PHP coverage | **94.2%** (gate ≥80%) |
 | Playwright (offline E2E) | **8 passed** |
-| pytest | **21 passed** |
-| Python coverage | **100%** (gate ≥80%) |
+| pytest | **121 passed** |
+| Python coverage | **88.3%** (gate ≥80%) |
 | PHPStan (larastan, level 6) | **0 errors** |
 | Pint / ruff / mypy | clean |
 | Country-agnostic check (C3) | pass |
@@ -214,6 +215,60 @@ the first rows and the guess, import only on confirmation.
 
 ---
 
+## Phase 5 — ML core verified, integration outstanding
+
+**Measured on the real 18-item / 133-variant Libya catalogue, 371 labelled queries:**
+
+| Metric | Value |
+|---|---|
+| Top-1 accuracy | **98.4%** |
+| Top-3 accuracy | 99.7% |
+| Mean reciprocal rank | 0.991 |
+| Auto-resolve rate | 36.1% |
+| **Auto-resolve precision** | **99.3%** |
+| Sent to review | 63.9% |
+| Rejected | 0.0% |
+
+Auto-resolve precision is the figure that matters: the share of matches accepted
+*without a human* that were correct. The conservative 36% auto-resolve rate is
+correct behaviour for an **uncalibrated** deployment — confidence is deliberately
+shrunk toward 0.5 until real human decisions exist to calibrate against.
+
+Published to `docs/model-cards/matching-evaluation.md` with its own caveat: these
+are synthetically perturbed catalogue variants, not real submissions, and should
+be read as an upper bound.
+
+**Scorer chosen by measurement, not intuition.** The first implementation took
+`max()` of three rapidfuzz scorers. Measured against genuine matches and
+unrelated Arabic pairs:
+
+| scorer | min(match) | max(non-match) | margin |
+|---|---|---|---|
+| token_set_ratio | 95 | 40 | **55** |
+| WRatio | 90 | 72 | 18 |
+| token_sort / ratio / QRatio | 35 | 40 | −5 |
+
+`max()` of several scorers is *strictly worse* than the best single one, because
+the maximum inherits the worst false-positive behaviour of its members —
+`partial_ratio` scored **0.80** for "ارز" against "بوتاجاز", two unrelated words.
+Arabic product names are short, so that would have produced confident wrong
+auto-resolves.
+
+**The normaliser is contract-bound.** The Python implementation passes the same
+22 fixtures as the PHP one, so the two cannot silently drift.
+
+### Still to do in Phase 5
+
+- `MlClient` on the Laravel side, with the circuit breaker described in PLAN.md.
+- Contract tests validating the fake client against `contracts/`.
+- Wiring resolutions into the Filament review queue, and turning a reviewer's
+  correction into a new variant.
+- Embedding generation and the pgvector semantic path end to end. The matcher
+  supports it and is tested with a stand-in embedder, but no real embeddings are
+  written yet, so production matching is currently **lexical-only**.
+
+---
+
 ## Decisions taken (full rationale in PLAN.md §2)
 
 - **Latest stable majors**: Laravel 13.24, Filament 5.7.6, Livewire 4.3.5,
@@ -250,6 +305,18 @@ the first rows and the guess, import only on confirmation.
   wrong day and move the published index. Now pinned via the connection config.
 - **The demo `APP_KEY` decoded to 31 bytes, not 32.** AES-256 rejected it, so
   the admin panel 500'd while the public API worked fine.
+- **Absent evidence was treated as evidence of absence.** With
+  `semantic_weight=0.6` and no semantic index — the state every new deployment
+  starts in — a *perfect* lexical match of 1.0 fused to 0.40 and was rejected.
+  Measured on the real catalogue that discarded **63.9% of correct matches**
+  while top-1 accuracy read 98.4%: the matcher was finding the right answer and
+  throwing it away. Weights are now renormalised over the signals that actually
+  ran.
+- **The evaluation harness mislabelled its own perturbations.** Dropping a hamza
+  and writing Arabic-Indic digits both normalise back to the canonical form, so
+  those queries deduped together and whichever ran first kept the label — the
+  reported "hamza_dropped: 100%" was really "canonical form: 100%". Now labelled
+  `absorbed_by_normalisation`, which is what it actually measures.
 - **Carbon throws instead of returning `false`** from `createFromFormat` on a
   mismatch, so a `!== false` check never fired and one odd date failed a
   partner's entire upload.

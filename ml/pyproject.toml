@@ -80,7 +80,17 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "UP", "B", "A", "C4", "SIM", "RUF"]
-ignore = ["A003"]
+ignore = [
+    "A003",
+    # RUF001/2/3 flag "ambiguous" Unicode — a homoglyph-spoofing check that
+    # assumes Latin text. This codebase matches Arabic product names, so every
+    # legitimate Arabic literal trips it (ARABIC LETTER ALEF "looks like" a
+    # Latin l). Keeping it enabled would mean a blanket noqa on every Arabic
+    # string, which is worse than turning it off deliberately here.
+    "RUF001",
+    "RUF002",
+    "RUF003",
+]
 
 [tool.mypy]
 python_version = "3.11"
