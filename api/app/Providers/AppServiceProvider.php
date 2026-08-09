@@ -62,5 +62,16 @@ final class AppServiceProvider extends ServiceProvider
             return Limit::perMinute((int) config('qeema.api.rate_limit_per_minute'))
                 ->by($request->ip() ?? 'unknown');
         });
+
+        // Writes are limited per device rather than per IP: reporters in the
+        // same town routinely share one mobile carrier NAT, so an IP-based
+        // limit would throttle a whole community because one phone was busy.
+        // Falling back to IP keeps a client that omits the header bounded.
+        RateLimiter::for('submissions', function (Request $request): Limit {
+            $reporterRef = (string) $request->input('reporter_ref', '');
+
+            return Limit::perMinute((int) config('qeema.api.submission_rate_limit_per_minute'))
+                ->by($reporterRef !== '' ? 'reporter:'.$reporterRef : 'ip:'.($request->ip() ?? 'unknown'));
+        });
     }
 }

@@ -60,6 +60,13 @@ return [
     */
     'api' => [
         'rate_limit_per_minute' => (int) env('QEEMA_API_RATE_LIMIT', 120),
+
+        /*
+        | Write limit, applied per reporter device. Generous enough that an
+        | offline queue holding a day's observations flushes in one go, tight
+        | enough that a runaway retry loop or a manipulation attempt is bounded.
+        */
+        'submission_rate_limit_per_minute' => (int) env('QEEMA_SUBMISSION_RATE_LIMIT', 60),
         'max_page_size' => (int) env('QEEMA_API_MAX_PAGE_SIZE', 500),
         'export_chunk_size' => (int) env('QEEMA_API_EXPORT_CHUNK', 1000),
     ],

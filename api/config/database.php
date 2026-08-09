@@ -97,6 +97,18 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
+
+            /*
+             * Pin the session time zone to UTC.
+             *
+             * Laravel writes timestamps without an offset, so PostgreSQL
+             * interprets them in the session time zone — which defaults to the
+             * server's, and is therefore whatever the host happens to be set
+             * to. Left unpinned, the same submission lands on a different
+             * instant in dev, CI and production, and observations near midnight
+             * get bucketed into the wrong day, shifting the published index.
+             */
+            'timezone' => env('DB_TIMEZONE', 'UTC'),
         ],
 
         'sqlsrv' => [

@@ -22,8 +22,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * Nothing here is ever rewritten. `raw_text` in particular keeps the original
  * spelling, dialect and script exactly as submitted, because it is both the
  * audit trail and the training signal for the matcher.
- */
-/**
+ *
+ * The cast attributes are declared explicitly because Larastan cannot infer
+ * types from the casts() method and would otherwise treat these as strings.
+ *
+ * @property CarbonInterface|null $observed_at
  * @property CarbonInterface|null $collected_at
  * @property CarbonInterface|null $ingested_at
  * @property array<string, mixed>|null $device_metadata

@@ -76,6 +76,7 @@ test-ml: ## Run the Python suite with the 80% coverage gate
 
 .PHONY: test-e2e
 test-e2e: ## Run Playwright end-to-end tests against the running stack
+	cd e2e && npm install --silent && npx playwright install chromium --with-deps 2>/dev/null || true
 	cd e2e && npx playwright test
 
 .PHONY: lint

@@ -14,7 +14,8 @@ here, assume it does not work yet.
 | 0 — Foundation | **Complete and verified** |
 | 1 — Domain model + admin | **Complete and verified** |
 | 2 — Synthetic data generator | **Complete and verified** |
-| 3–12 | Not started |
+| 3 — Reporter PWA | **Complete and verified** |
+| 4–12 | Not started |
 
 ---
 
@@ -22,8 +23,9 @@ here, assume it does not work yet.
 
 | Gate | Result |
 |---|---|
-| Pest | **165 passed**, 1 skipped, 1,117 assertions |
-| PHP coverage | **97.2%** (gate ≥80%) |
+| Pest | **213 passed**, 1 skipped, 1,240 assertions |
+| PHP coverage | **96.9%** (gate ≥80%) |
+| Playwright (offline E2E) | **8 passed** |
 | pytest | **21 passed** |
 | Python coverage | **100%** (gate ≥80%) |
 | PHPStan (larastan, level 6) | **0 errors** |
@@ -127,6 +129,50 @@ be absent from `public`, and `price_observations` is asserted to carry no
 
 ---
 
+## Phase 3 — verified
+
+A mobile-first, installable PWA at `/report` that works with no connection.
+
+**The honest architecture.** Livewire is server-driven and cannot function
+offline, so the submission path is deliberately **plain Alpine against a JSON
+endpoint**. Everything a reporter enters goes into an IndexedDB outbox first and
+is only removed once the server has acknowledged it.
+
+**Idempotency is enforced by the database, not by application logic.** Every
+queued item carries a client-generated UUID, and `unique(reporter_id,
+client_idempotency_key)` is what actually prevents a double-count. The action
+also catches the constraint violation, because a read-then-write check races
+under concurrent replay. A replay returns **200 `duplicate` with the original
+id** — never a 4xx, which would leave the item stuck in the queue retrying
+forever.
+
+**Verified in a real browser** (Playwright, emulating a Pixel 5):
+
+- shell and cached catalogue load and are usable with the network off
+- a price entered offline is kept, then sent on reconnect
+- three offline entries all survive and sync together
+- the same payload sent twice yields `201 accepted` then `200 duplicate`, same id
+- the interface renders `dir="rtl"` in Arabic, with the price field kept LTR
+- the app is installable and the manifest resolves
+
+**Bilingual and RTL.** Direction is derived from the *locale*, not a per-country
+flag, so any country configured with an RTL language works unchanged. One
+stylesheet serves both directions via CSS logical properties — a mirrored second
+stylesheet would drift the first time someone edited one of them.
+
+**Two details worth naming.** The scaffold's Instrument Sans has **no Arabic
+coverage**, so the reporter uses a system font stack: it renders Arabic natively
+everywhere and costs zero bytes. And the price field is pinned `direction: ltr`
+inside the RTL layout, because a number is not bidirectional text.
+
+Total reporter bundle: **18.2 kB gzipped** (CSS + JS), no webfont, no images.
+
+**Known limitation, by design:** the app must be opened once *with* a connection
+before it can survive losing one — a service worker does not control the page
+that registered it. The UI says so when no cached catalogue exists.
+
+---
+
 ## Decisions taken (full rationale in PLAN.md §2)
 
 - **Latest stable majors**: Laravel 13.24, Filament 5.7.6, Livewire 4.3.5,
@@ -157,6 +203,15 @@ be absent from `public`, and `price_observations` is asserted to carry no
   unique-constraint failures.
 - **`Collection::shuffle()` takes no seed**, so the bad-actor cluster was not
   reproducible despite the surrounding code being seeded.
+- **The Postgres session timezone was `Africa/Tripoli`, not UTC.** Laravel
+  writes timestamps without an offset, so they were being interpreted as local
+  time — a two-hour shift that would bucket observations near midnight into the
+  wrong day and move the published index. Now pinned via the connection config.
+- **The demo `APP_KEY` decoded to 31 bytes, not 32.** AES-256 rejected it, so
+  the admin panel 500'd while the public API worked fine.
+- **Generated redirects dropped the port** (`http://localhost/admin/login`),
+  because Laravel builds URLs from the request rather than `APP_URL`. In the
+  demo stack that turned "open the admin panel" into a connection refused.
 
 ---
 
