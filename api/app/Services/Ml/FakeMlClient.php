@@ -99,6 +99,42 @@ final class FakeMlClient implements MlClientInterface
             : null;
     }
 
+    /** @var list<array<string, mixed>>|null */
+    private ?array $nextAnomalies = null;
+
+    /**
+     * @param  list<array<string, mixed>>  $verdicts
+     */
+    public function willScoreAnomalies(array $verdicts): self
+    {
+        $this->nextAnomalies = $verdicts;
+
+        return $this;
+    }
+
+    public function scoreAnomalies(array $observations): ?array
+    {
+        $this->calls[] = ['method' => 'scoreAnomalies', 'count' => count($observations)];
+
+        if (! $this->available) {
+            return null;
+        }
+
+        if ($this->nextAnomalies !== null) {
+            return $this->nextAnomalies;
+        }
+
+        // Default: everything clean, one verdict per observation and in order,
+        // which is the contract callers rely on to zip results back to rows.
+        return array_map(static fn (array $o): array => [
+            'submission_id' => $o['submission_id'],
+            'score' => 0.0,
+            'verdict' => 'clean',
+            'reasons' => [],
+            'layer_scores' => ['bounds' => 0.0, 'robust' => 0.0, 'isolation_forest' => 0.0],
+        ], $observations);
+    }
+
     /**
      * @return list<array<string, mixed>>
      */

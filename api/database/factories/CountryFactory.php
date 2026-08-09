@@ -27,9 +27,20 @@ final class CountryFactory extends Factory
      */
     private static function nextCode(): string
     {
-        $n = self::$codeSequence++ % 676;
+        // Skips codes already present. The sequence eventually reaches real ISO
+        // codes, and a suite that seeds a country then generates enough factory
+        // countries to wrap around to it fails on a unique constraint — with a
+        // message that points nowhere near the actual cause.
+        for ($attempt = 0; $attempt < 676; $attempt++) {
+            $n = self::$codeSequence++ % 676;
+            $code = chr(65 + intdiv($n, 26)).chr(65 + $n % 26);
 
-        return chr(65 + intdiv($n, 26)).chr(65 + $n % 26);
+            if (! Country::query()->where('code', $code)->exists()) {
+                return $code;
+            }
+        }
+
+        throw new \RuntimeException('Exhausted the two-letter country code space.');
     }
 
     /**

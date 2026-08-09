@@ -17,7 +17,8 @@ here, assume it does not work yet.
 | 3 — Reporter PWA | **Complete and verified** |
 | 4 — Ingestion (partner + scrapers) | **Complete and verified** |
 | 5 — Product matching | **Complete and verified** |
-| 6–12 | Not started |
+| 6 — Anomaly detection | **Complete and verified** |
+| 7–12 | Not started |
 
 ---
 
@@ -25,11 +26,11 @@ here, assume it does not work yet.
 
 | Gate | Result |
 |---|---|
-| Pest | **293 passed**, 1 skipped, 1,392 assertions |
-| PHP coverage | **93.8%** (gate ≥80%) |
+| Pest | **304 passed**, 1 skipped, 1,415 assertions |
+| PHP coverage | **93.7%** (gate ≥80%) |
 | Playwright (offline E2E) | **8 passed** |
-| pytest | **132 passed** |
-| Python coverage | **94.5%** (gate ≥80%) |
+| pytest | **160 passed** |
+| Python coverage | **84.0%** (gate ≥80%) |
 | PHPStan (larastan, level 6) | **0 errors** |
 | Pint / ruff / mypy | clean |
 | Country-agnostic check (C3) | pass |
@@ -291,6 +292,64 @@ submission in front of the reviewer never shrinks.
 
 ---
 
+## Phase 6 — verified
+
+**Measured against 10,675 labelled observations** (10,099 clean, 576 labelled bad):
+
+| Error type | Recall |
+|---|---|
+| unit_confusion | **100%** |
+| decimal_slip | **100%** |
+| wrong_currency | 99.3% |
+| stale_copy | 12.8% |
+| coordinated manipulation (observation-level) | 5.3% |
+
+Overall 68.6% recall, 74.8% precision, **1.3% false-positive rate on clean data**.
+The false-positive rate matters as much as recall: a detector that flags
+everything has perfect recall and no value.
+
+### The statistic mattered more than the model
+
+5.3% on manipulation is structural, not a tuning problem — every manipulated
+price is individually plausible, so no per-observation test can separate it from
+a genuinely cheaper shop.
+
+A reporter-level layer was added, and **scored 0%**. Manipulators had a median
+price ratio of 0.995 against honest reporters' 1.001: no separation at all. The
+cause is that only **~12% of a manipulator's submissions are falsified**, so the
+median is dominated by their honest majority — a *robust* statistic that is
+robust against exactly the signal being hunted.
+
+The **lower decile**, where partial manipulation lives, separates cleanly:
+
+| Manipulation detection | Median | Lower decile |
+|---|---|---|
+| Recall | 0% | **100%** (4 of 4) |
+| Precision | — | 80% (1 false positive) |
+| Separation | none | manipulators z −22…−14; next honest −2.2 |
+
+Same data, same model, one statistic changed. Published in
+`docs/model-cards/anomaly-evaluation.md`.
+
+### Design choices worth stating
+
+Hard bounds **permit a genuine 40% supply shock** — tested explicitly. A detector
+that discards those discards the signal the platform exists to publish.
+
+Layers combine with a **maximum, not an average**: averaging would let two quiet
+layers dilute one that is certain.
+
+`rejected` invalidates an observation but never deletes it; `suspect` keeps it
+valid and asks a human. Flagged *reporters* go to review, never to automatic
+rejection — accusing someone of manipulation on statistical evidence and
+silently discarding their work is a decision a person should make.
+
+**Unscored is not clean.** When the ML service is unavailable the pipeline
+records nothing rather than a clean verdict, which would let bad data through
+precisely when the system is least able to notice.
+
+---
+
 ## Decisions taken (full rationale in PLAN.md §2)
 
 - **Latest stable majors**: Laravel 13.24, Filament 5.7.6, Livewire 4.3.5,
@@ -327,6 +386,13 @@ submission in front of the reviewer never shrinks.
   wrong day and move the published index. Now pinned via the connection config.
 - **The demo `APP_KEY` decoded to 31 bytes, not 32.** AES-256 rejected it, so
   the admin panel 500'd while the public API worked fine.
+- **A test factory eventually collided with real data.** `CountryFactory`
+  generated sequential two-letter codes and, after ~297 calls in one process,
+  reached `LY` — the code the suite seeds — failing on a unique constraint with
+  a message pointing nowhere near the cause. It now skips codes already present.
+- **`value(DB::raw(...))` silently returns null**, because it looks the result
+  up by the raw SQL string as a column name. The median reference was quietly
+  null for every observation until it was checked against real data.
 - **An unknown matched item violated a foreign key.** When the ML service named
   an item this deployment does not have — a stale catalogue cache — the id was
   still written to `resolutions.canonical_item_id`, turning a recoverable

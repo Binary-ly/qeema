@@ -41,6 +41,14 @@ interface MlClientInterface
     public function calibrate(array $scores, array $correct): ?array;
 
     /**
+     * Score submissions for anomalies.
+     *
+     * @param  list<array<string, mixed>>  $observations  price plus the context needed to judge it
+     * @return list<array<string, mixed>>|null one verdict per observation, in order
+     */
+    public function scoreAnomalies(array $observations): ?array;
+
+    /**
      * @return list<array<string, mixed>>
      */
     public function catalogueFor(Country $country): array;

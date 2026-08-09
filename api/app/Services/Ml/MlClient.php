@@ -122,6 +122,35 @@ final class MlClient implements MlClientInterface
     }
 
     /**
+     * Score submissions for anomalies.
+     *
+     * Null on failure, like every other method here — an unscored submission is
+     * one nobody has judged yet, not one judged clean. Treating a service
+     * outage as a clean verdict would let bad data through precisely when the
+     * system is least able to notice.
+     *
+     * @param  list<array<string, mixed>>  $observations
+     * @return list<array<string, mixed>>|null
+     */
+    public function scoreAnomalies(array $observations): ?array
+    {
+        if ($observations === [] || ! $this->isAvailable()) {
+            return null;
+        }
+
+        return $this->post(
+            '/v1/anomaly/score',
+            ['observations' => $observations],
+            static function (array $body): array {
+                /** @var list<array<string, mixed>> $results */
+                $results = $body['results'] ?? [];
+
+                return $results;
+            },
+        );
+    }
+
+    /**
      * The catalogue this country matches against.
      *
      * Sent per request so the ML service stays stateless. Cached because it

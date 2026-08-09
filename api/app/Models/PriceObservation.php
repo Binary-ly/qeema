@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 /**
  * @property CarbonInterface $observed_on
+ * @property CarbonInterface $observed_at
  */
 final class PriceObservation extends Model
 {
