@@ -9,3 +9,11 @@ parameters:
         - app
         - database
         - routes
+
+    ignoreErrors:
+        # Larastan types Seeder::$command as non-nullable, but it is genuinely
+        # null when a seeder is constructed and run programmatically rather than
+        # through `artisan db:seed`. The nullsafe calls are load-bearing.
+        -
+            identifier: nullsafe.neverNull
+            path: database/seeders/*.php

@@ -1,0 +1,323 @@
+# SPDX-License-Identifier: Apache-2.0
+#
+# Libya — default country configuration.
+#
+# This file is the ONLY place Libya-specific facts may live. Application code
+# reads all of this from the database after seeding and never assumes any of it
+# (constraint C3). Adding a country means adding a file like this one, not
+# patching code.
+#
+# Seed with:  php artisan qeema:bootstrap --force
+
+country:
+  code: LY
+  name: Libya
+  name_local: ليبيا
+  currency:
+    code: LYD
+    symbol: "د.ل"
+    # The dinar is subdivided into 1000 dirham, not 100. Assuming two decimal
+    # places — as most currency code does — would silently misprice everything.
+    minor_units: 3
+  timezone: Africa/Tripoli
+  locales: [ar, en]
+  default_locale: ar
+  admin_labels:
+    admin1: Municipality
+    admin2: District
+
+# ---------------------------------------------------------------------------
+# Exchange rates
+# ---------------------------------------------------------------------------
+# The gap between the official and parallel rate is the single most important
+# number for this index. Costing a basket at the official rate would produce a
+# USD figure describing a transaction ordinary people cannot make.
+fx:
+  provider: manual          # manual | generic_http | fulus_ly
+  base_currency: USD
+  rate_type: parallel
+  max_staleness_days: 7
+  config: {}
+  # The Fulus.ly adapter is deliberately NOT the default: its terms of use have
+  # not been reviewed, and shipping a scraper enabled-by-default against a third
+  # party's site would be inconsiderate at best. See PLAN.md §11 open question 2.
+  #
+  # provider: generic_http
+  # config:
+  #   url: https://example.org/rates.json
+  #   official_path: "$.rates.official"
+  #   parallel_path: "$.rates.parallel"
+
+# ---------------------------------------------------------------------------
+# Index estimator settings
+# ---------------------------------------------------------------------------
+index:
+  observation_window_days: 7
+  recency_half_life_days: 3
+  min_observations_for_ci: 3
+  bootstrap_draws: 500
+  base_date: 2026-01-01
+
+# ---------------------------------------------------------------------------
+# Units
+# ---------------------------------------------------------------------------
+units:
+  - { code: kg,    name: Kilogram,   name_local: كيلوغرام, dimension: mass,   base_unit_code: kg,    factor_to_base: 1 }
+  - { code: g,     name: Gram,       name_local: غرام,     dimension: mass,   base_unit_code: kg,    factor_to_base: 0.001 }
+  - { code: l,     name: Litre,      name_local: لتر,      dimension: volume, base_unit_code: l,     factor_to_base: 1 }
+  - { code: ml,    name: Millilitre, name_local: مليلتر,   dimension: volume, base_unit_code: l,     factor_to_base: 0.001 }
+  - { code: piece, name: Piece,      name_local: قطعة,     dimension: count,  base_unit_code: piece, factor_to_base: 1 }
+  - { code: pack,  name: Pack,       name_local: علبة,     dimension: count,  base_unit_code: piece, factor_to_base: 1 }
+  - { code: dozen, name: Dozen,      name_local: دزينة,    dimension: count,  base_unit_code: piece, factor_to_base: 12 }
+
+# ---------------------------------------------------------------------------
+# Locations
+# ---------------------------------------------------------------------------
+# A deliberate spread across the coast, the interior and the south. The coastal
+# / interior gradient matters: supply lines differ sharply, and an index that
+# only sampled Tripoli and Benghazi would miss most of the hardship.
+locations:
+  - { name: Tripoli,   name_local: طرابلس,      slug: tripoli,   admin1_name: Tripoli,       admin1_code: LY-TB, latitude: 32.8872, longitude: 13.1913, population_estimate: 1150000 }
+  - { name: Benghazi,  name_local: بنغازي,      slug: benghazi,  admin1_name: Benghazi,      admin1_code: LY-BA, latitude: 32.1167, longitude: 20.0667, population_estimate: 650000 }
+  - { name: Misrata,   name_local: مصراتة,      slug: misrata,   admin1_name: Misrata,       admin1_code: LY-MI, latitude: 32.3754, longitude: 15.0925, population_estimate: 280000 }
+  - { name: Zawiya,    name_local: الزاوية,     slug: zawiya,    admin1_name: Zawiya,        admin1_code: LY-ZA, latitude: 32.7522, longitude: 12.7278, population_estimate: 200000 }
+  - { name: Zliten,    name_local: زليتن,       slug: zliten,    admin1_name: Murqub,        admin1_code: LY-MB, latitude: 32.4674, longitude: 14.5687, population_estimate: 140000 }
+  - { name: Khoms,     name_local: الخمس,       slug: khoms,     admin1_name: Murqub,        admin1_code: LY-MB, latitude: 32.6486, longitude: 14.2619, population_estimate: 120000 }
+  - { name: Sirte,     name_local: سرت,         slug: sirte,     admin1_name: Sirte,         admin1_code: LY-SR, latitude: 31.2089, longitude: 16.5887, population_estimate: 130000 }
+  - { name: Tobruk,    name_local: طبرق,        slug: tobruk,    admin1_name: Butnan,        admin1_code: LY-BU, latitude: 32.0836, longitude: 23.9764, population_estimate: 120000 }
+  - { name: Derna,     name_local: درنة,        slug: derna,     admin1_name: Derna,         admin1_code: LY-DR, latitude: 32.7556, longitude: 22.6389, population_estimate: 90000 }
+  - { name: Bayda,     name_local: البيضاء,     slug: bayda,     admin1_name: Jabal al Akhdar, admin1_code: LY-JA, latitude: 32.7627, longitude: 21.7551, population_estimate: 120000 }
+  - { name: Ajdabiya,  name_local: أجدابيا,     slug: ajdabiya,  admin1_name: Wahat,         admin1_code: LY-WA, latitude: 30.7554, longitude: 20.2263, population_estimate: 76000 }
+  - { name: Gharyan,   name_local: غريان,       slug: gharyan,   admin1_name: Jabal al Gharbi, admin1_code: LY-JG, latitude: 32.1722, longitude: 13.0203, population_estimate: 90000 }
+  - { name: Sabha,     name_local: سبها,        slug: sabha,     admin1_name: Sabha,         admin1_code: LY-SB, latitude: 27.0377, longitude: 14.4283, population_estimate: 130000 }
+  - { name: Ubari,     name_local: أوباري,      slug: ubari,     admin1_name: Wadi al Hayat, admin1_code: LY-WD, latitude: 26.5921, longitude: 12.7764, population_estimate: 40000 }
+  - { name: Murzuq,    name_local: مرزق,        slug: murzuq,    admin1_name: Murzuq,        admin1_code: LY-MQ, latitude: 25.9155, longitude: 13.9184, population_estimate: 35000 }
+  - { name: Ghat,      name_local: غات,         slug: ghat,      admin1_name: Ghat,          admin1_code: LY-GT, latitude: 24.9647, longitude: 10.1800, population_estimate: 25000 }
+
+# ---------------------------------------------------------------------------
+# Canonical items
+# ---------------------------------------------------------------------------
+# `variants` seed the matcher's vocabulary so it works on day one, before any
+# human review has happened. They deliberately include unnormalised Arabic
+# (hamza forms, taa marbuta, Arabic-Indic digits), dialect, common
+# transliterations and brand names, because that is what reporters actually type.
+canonical_items:
+  - code: infant_formula_400g
+    name_en: Infant formula (400g tin)
+    name_local: حليب أطفال ٤٠٠ غرام
+    category: infant_nutrition
+    default_unit_code: pack
+    default_quantity: 1
+    variants: [حليب اطفال, حليب أطفال, حليب بودرة, حليب رضع, حليب صناعي, baby milk, infant formula, formula milk, nido, cerelac milk]
+
+  - code: baby_cereal_400g
+    name_en: Baby cereal (400g)
+    name_local: سيريلاك ٤٠٠ غرام
+    category: infant_nutrition
+    default_unit_code: pack
+    default_quantity: 1
+    variants: [سيريلاك, سريلاك, طعام اطفال, حبوب اطفال, baby cereal, cerelac]
+
+  - code: wheat_flour_1kg
+    name_en: Wheat flour
+    name_local: دقيق قمح
+    category: staples
+    default_unit_code: kg
+    default_quantity: 1
+    variants: [دقيق, طحين, دقيق ابيض, دقيق أبيض, flour, wheat flour, da2ee2]
+
+  - code: rice_1kg
+    name_en: Rice
+    name_local: أرز
+    category: staples
+    default_unit_code: kg
+    default_quantity: 1
+    variants: [ارز, أرز, رز, ارز ابيض, rice, white rice]
+
+  - code: cooking_oil_1l
+    name_en: Cooking oil
+    name_local: زيت طعام
+    category: staples
+    default_unit_code: l
+    default_quantity: 1
+    variants: [زيت, زيت طعام, زيت نباتي, زيت قلي, oil, cooking oil, vegetable oil]
+
+  - code: eggs_30
+    name_en: Eggs (tray of 30)
+    name_local: بيض طبق ٣٠
+    category: protein
+    default_unit_code: piece
+    default_quantity: 30
+    variants: [بيض, طبق بيض, بيض طبق, eggs, egg tray]
+
+  - code: chicken_1kg
+    name_en: Chicken
+    name_local: دجاج
+    category: protein
+    default_unit_code: kg
+    default_quantity: 1
+    variants: [دجاج, دجاجة, فروج, لحم دجاج, chicken, poultry]
+
+  - code: tomatoes_1kg
+    name_en: Tomatoes
+    name_local: طماطم
+    category: produce
+    default_unit_code: kg
+    default_quantity: 1
+    variants: [طماطم, بندورة, طماطة, tomato, tomatoes]
+
+  - code: ors_sachet
+    name_en: Oral rehydration salts (sachet)
+    name_local: أملاح الإماهة الفموية
+    category: medicine
+    default_unit_code: piece
+    default_quantity: 1
+    variants: [محلول جفاف, أملاح معالجة الجفاف, املاح الجفاف, او ار اس, ors, oral rehydration, rehydration salts]
+
+  - code: paracetamol_suspension_60ml
+    name_en: Paracetamol suspension (60ml, paediatric)
+    name_local: شراب باراسيتامول ٦٠ مل
+    category: medicine
+    default_unit_code: ml
+    default_quantity: 60
+    variants: [بنادول شراب, باراسيتامول شراب, خافض حرارة اطفال, panadol syrup, paracetamol syrup, calpol]
+
+  - code: amoxicillin_suspension_60ml
+    name_en: Amoxicillin suspension (60ml, paediatric)
+    name_local: شراب أموكسيسيلين ٦٠ مل
+    category: medicine
+    default_unit_code: ml
+    default_quantity: 60
+    variants: [اموكسيسيلين, أموكسيسيلين شراب, مضاد حيوي اطفال, amoxicillin, amoxil syrup]
+
+  - code: school_notebook_80p
+    name_en: School notebook (80 pages)
+    name_local: دفتر مدرسي ٨٠ ورقة
+    category: school
+    default_unit_code: piece
+    default_quantity: 1
+    variants: [دفتر, كراس, كراسة, دفتر مدرسي, notebook, exercise book]
+
+  - code: sanitary_pads_10
+    name_en: Sanitary pads (pack of 10)
+    name_local: فوط صحية ١٠ قطع
+    category: hygiene
+    default_unit_code: pack
+    default_quantity: 1
+    variants: [فوط صحية, فوط نسائية, حفاضات نسائية, always, sanitary pads, sanitary towels]
+
+  - code: cooking_gas_11kg
+    name_en: Cooking gas cylinder (11kg refill)
+    name_local: أسطوانة غاز ١١ كغم
+    category: fuel
+    default_unit_code: piece
+    default_quantity: 1
+    variants: [غاز, اسطوانة غاز, أسطوانة غاز, قارورة غاز, بوتاجاز, gas cylinder, cooking gas, lpg]
+
+  - code: drinking_water_20l
+    name_en: Drinking water (20L)
+    name_local: ماء شرب ٢٠ لتر
+    category: water
+    default_unit_code: l
+    default_quantity: 20
+    variants: [ماء, مياه, ماء شرب, مياه معدنية, قارورة ماء, water, drinking water, mineral water]
+
+  # Not in basket v1. Present so the matcher can resolve them and an operator can
+  # add them to a v2 basket without touching code — which also exercises the
+  # basket-versioning and chain-linking path.
+  - code: ballpoint_pen
+    name_en: Ballpoint pen
+    name_local: قلم جاف
+    category: school
+    default_unit_code: piece
+    default_quantity: 1
+    variants: [قلم, قلم جاف, قلم حبر, pen, biro]
+
+  - code: school_backpack
+    name_en: School backpack
+    name_local: حقيبة مدرسية
+    category: school
+    default_unit_code: piece
+    default_quantity: 1
+    variants: [حقيبة مدرسية, شنطة مدرسة, محفظة, backpack, school bag]
+
+  - code: bath_soap_bar
+    name_en: Bath soap (bar)
+    name_local: صابون استحمام
+    category: hygiene
+    default_unit_code: piece
+    default_quantity: 1
+    variants: [صابون, صابونة, صابون استحمام, soap, bath soap]
+
+# ---------------------------------------------------------------------------
+# The basket
+# ---------------------------------------------------------------------------
+# Child-weighted, NOT a general CPI. Weights are the share of a household's
+# child-related outlay each item represents, and must sum to 1.0 exactly.
+# Quantities are what the basket physically contains and drive the cost.
+basket:
+  name: Child Affordability Basket
+  version: 1
+  effective_from: 2026-01-01
+  items:
+    - { item: infant_formula_400g,          weight: 0.13, quantity: 1,  unit: pack,  category: infant_nutrition }
+    - { item: baby_cereal_400g,             weight: 0.05, quantity: 1,  unit: pack,  category: infant_nutrition }
+    - { item: wheat_flour_1kg,              weight: 0.10, quantity: 5,  unit: kg,    category: staples }
+    - { item: rice_1kg,                     weight: 0.08, quantity: 3,  unit: kg,    category: staples }
+    - { item: cooking_oil_1l,               weight: 0.08, quantity: 2,  unit: l,     category: staples }
+    - { item: eggs_30,                      weight: 0.07, quantity: 30, unit: piece, category: protein }
+    - { item: chicken_1kg,                  weight: 0.08, quantity: 2,  unit: kg,    category: protein }
+    - { item: tomatoes_1kg,                 weight: 0.05, quantity: 3,  unit: kg,    category: produce }
+    - { item: ors_sachet,                   weight: 0.04, quantity: 6,  unit: piece, category: medicine }
+    - { item: paracetamol_suspension_60ml,  weight: 0.04, quantity: 60, unit: ml,    category: medicine }
+    - { item: amoxicillin_suspension_60ml,  weight: 0.03, quantity: 60, unit: ml,    category: medicine }
+    - { item: school_notebook_80p,          weight: 0.03, quantity: 4,  unit: piece, category: school }
+    - { item: sanitary_pads_10,             weight: 0.06, quantity: 2,  unit: pack,  category: hygiene }
+    - { item: cooking_gas_11kg,             weight: 0.10, quantity: 1,  unit: piece, category: fuel }
+    - { item: drinking_water_20l,           weight: 0.06, quantity: 60, unit: l,     category: water }
+
+# ---------------------------------------------------------------------------
+# Sources
+# ---------------------------------------------------------------------------
+sources:
+  - { type: reporter,       slug: community-reporters, name: Community reporters, license: CC-BY-4.0 }
+  - { type: partner_upload, slug: partner-uploads,     name: Partner organisations, license: CC-BY-4.0 }
+
+# ---------------------------------------------------------------------------
+# Synthetic demo data (Phase 2)
+# ---------------------------------------------------------------------------
+# Reference prices in LYD as of the base date, used only to seed the generator.
+# These are plausible starting points for a demo, not measured values, and the
+# API marks all generated data as synthetic.
+demo:
+  seed: 20260101
+  months: 6
+  reporters_per_location: 4
+  # Southern and interior locations run structurally dearer: longer supply
+  # lines, thinner competition.
+  regional_premium:
+    sabha: 1.18
+    ubari: 1.26
+    murzuq: 1.30
+    ghat: 1.34
+    ajdabiya: 1.08
+    gharyan: 1.05
+  monthly_inflation: 0.021
+  fx_start_parallel: 7.60
+  fx_start_official: 4.85
+  reference_prices:
+    infant_formula_400g: 32.0
+    baby_cereal_400g: 18.5
+    wheat_flour_1kg: 4.2
+    rice_1kg: 6.5
+    cooking_oil_1l: 9.0
+    eggs_30: 24.0
+    chicken_1kg: 17.5
+    tomatoes_1kg: 4.0
+    ors_sachet: 1.5
+    paracetamol_suspension_60ml: 8.0
+    amoxicillin_suspension_60ml: 14.0
+    school_notebook_80p: 3.0
+    sanitary_pads_10: 12.0
+    cooking_gas_11kg: 28.0
+    drinking_water_20l: 6.0

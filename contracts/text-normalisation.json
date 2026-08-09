@@ -1,0 +1,127 @@
+{
+  "$comment": "SPDX-License-Identifier: Apache-2.0 — Shared normalisation fixtures. Both the PHP normaliser (App\\Support\\Text\\TextNormalizer) and the Python normaliser (qeema_ml.matching.normalise) are tested against this file. Two implementations of the same transform WILL drift apart otherwise, and a drift here silently breaks matching: text normalised one way at seed time and another way at query time simply will not match.",
+  "version": 1,
+  "cases": [
+    {
+      "name": "strips harakat (short vowel diacritics)",
+      "input": "حَلِيبُ أَطْفَال",
+      "expected": "حليب اطفال",
+      "why": "Reporters rarely type diacritics; catalogue entries sometimes carry them."
+    },
+    {
+      "name": "strips tatweel (kashida elongation)",
+      "input": "حلـــيب",
+      "expected": "حليب",
+      "why": "Tatweel is decorative and carries no meaning."
+    },
+    {
+      "name": "unifies alef with hamza above",
+      "input": "أرز",
+      "expected": "ارز",
+      "why": "The single most common Arabic spelling variation."
+    },
+    {
+      "name": "unifies alef with hamza below",
+      "input": "إسم",
+      "expected": "اسم"
+    },
+    {
+      "name": "unifies alef madda",
+      "input": "آمن",
+      "expected": "امن"
+    },
+    {
+      "name": "unifies alef wasla",
+      "input": "ٱرز",
+      "expected": "ارز"
+    },
+    {
+      "name": "folds taa marbuta to haa",
+      "input": "صابونة",
+      "expected": "صابونه",
+      "why": "Word-final ة and ه are used interchangeably in informal writing."
+    },
+    {
+      "name": "folds alef maksura to yaa",
+      "input": "مصطفى",
+      "expected": "مصطفي"
+    },
+    {
+      "name": "folds waw with hamza",
+      "input": "مؤسسة",
+      "expected": "موسسه"
+    },
+    {
+      "name": "folds yaa with hamza",
+      "input": "مئة",
+      "expected": "ميه"
+    },
+    {
+      "name": "converts Arabic-Indic digits to ASCII",
+      "input": "حليب ٤٠٠ غرام",
+      "expected": "حليب 400 غرام",
+      "why": "A price or size typed in Arabic-Indic digits must match one typed in ASCII."
+    },
+    {
+      "name": "converts extended Arabic-Indic digits to ASCII",
+      "input": "۴۰۰ غرام",
+      "expected": "400 غرام",
+      "why": "Persian/Urdu keyboards produce U+06F0..U+06F9 rather than U+0660..U+0669."
+    },
+    {
+      "name": "collapses runs of whitespace",
+      "input": "حليب    اطفال",
+      "expected": "حليب اطفال"
+    },
+    {
+      "name": "trims leading and trailing whitespace",
+      "input": "   ارز   ",
+      "expected": "ارز"
+    },
+    {
+      "name": "lowercases Latin script",
+      "input": "Infant FORMULA",
+      "expected": "infant formula",
+      "why": "Reporters type in both scripts, often mixed."
+    },
+    {
+      "name": "handles mixed Arabic and Latin",
+      "input": "حليب Nido ٤٠٠g",
+      "expected": "حليب nido 400g",
+      "why": "Brand names are written in Latin script inside otherwise Arabic text."
+    },
+    {
+      "name": "normalises Arabic punctuation to spaces",
+      "input": "ارز، ابيض",
+      "expected": "ارز ابيض"
+    },
+    {
+      "name": "removes tashkeel combined with normalisation",
+      "input": "أَرُزّ أَبْيَض",
+      "expected": "ارز ابيض",
+      "why": "Shadda plus hamza plus harakat all in one token."
+    },
+    {
+      "name": "leaves an already-normalised string unchanged",
+      "input": "حليب اطفال 400 غرام",
+      "expected": "حليب اطفال 400 غرام",
+      "why": "Normalisation must be idempotent."
+    },
+    {
+      "name": "handles an empty string",
+      "input": "",
+      "expected": ""
+    },
+    {
+      "name": "handles whitespace only",
+      "input": "   ",
+      "expected": ""
+    },
+    {
+      "name": "preserves ASCII digits and decimal points",
+      "input": "12.50",
+      "expected": "12.50",
+      "why": "Prices must survive normalisation intact."
+    }
+  ]
+}
