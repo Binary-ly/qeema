@@ -65,6 +65,19 @@ return [
     ],
 
     /*
+    | Initial admin account, created on first boot so the panel is reachable
+    | without exec-ing into a container.
+    |
+    | Read through config rather than env() at the point of use: the container
+    | entrypoint runs `config:cache` before seeding, and env() is unreliable
+    | once configuration is cached.
+    */
+    'admin' => [
+        'email' => env('QEEMA_ADMIN_EMAIL', 'admin@qeema.local'),
+        'password' => env('QEEMA_ADMIN_PASSWORD', 'qeema-demo'),
+    ],
+
+    /*
     | Seeding. `demo` controls whether the synthetic generator runs on boot so
     | that `docker compose up` yields a populated, demonstrable system (C2).
     */

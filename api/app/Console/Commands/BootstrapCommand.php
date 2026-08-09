@@ -69,6 +69,7 @@ final class BootstrapCommand extends Command
             $this->call('migrate', ['--force' => true]);
         }
 
+        $this->seedAdminUser();
         $this->seedReferenceData();
 
         if (! $this->option('skip-demo') && config('qeema.seed.demo')) {
@@ -110,6 +111,25 @@ final class BootstrapCommand extends Command
         }
 
         return true;
+    }
+
+    /**
+     * Create the initial admin account, so the panel is reachable on first boot
+     * without exec-ing into a container.
+     */
+    private function seedAdminUser(): void
+    {
+        if (! Schema::hasTable('users')) {
+            return;
+        }
+
+        $seeder = 'Database\\Seeders\\AdminUserSeeder';
+
+        if (! class_exists($seeder)) {
+            return;
+        }
+
+        $this->call('db:seed', ['--force' => true, '--class' => $seeder]);
     }
 
     /**
