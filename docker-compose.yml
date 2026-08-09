@@ -16,7 +16,11 @@ name: qeema
 x-app-env: &app-env
   APP_NAME: Qeema
   APP_ENV: ${APP_ENV:-production}
-  APP_KEY: ${APP_KEY:-base64:Q2VlbWFEZW1vS2V5Rm9yTG9jYWxVc2VPbmx5ISEhIQ==}
+  # Demo key for local use only — see SECURITY.md. Must decode to exactly 32
+  # bytes: AES-256 rejects anything else, and because only session and cookie
+  # encryption use it, a wrong length breaks the admin panel while leaving the
+  # public API working, which is a confusing way to fail.
+  APP_KEY: ${APP_KEY:-base64:UWVlbWFEZW1vS2V5TG9jYWxVc2VPbmx5Q2hhbmdlTWU=}
   APP_DEBUG: ${APP_DEBUG:-false}
   APP_URL: ${APP_URL:-http://localhost:8080}
   LOG_CHANNEL: stderr

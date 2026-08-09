@@ -141,8 +141,8 @@ final class CountryConfigLoader
             $problems[] = 'country.currency.code must be a three-letter ISO 4217 code.';
         }
 
-        // Not every currency has two decimal places — the Libyan dinar has
-        // three. Getting this wrong misprices every published figure, so it is
+        // Not every currency has two decimal places; several use three.
+        // Getting this wrong misprices every published figure, so it is
         // validated rather than defaulted silently.
         if (isset($currency['minor_units']) && ! is_int($currency['minor_units'])) {
             $problems[] = 'country.currency.minor_units must be an integer.';

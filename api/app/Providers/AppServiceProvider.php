@@ -9,6 +9,7 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 final class AppServiceProvider extends ServiceProvider
@@ -20,7 +21,33 @@ final class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        $this->configureUrlGeneration();
         $this->configureRateLimiting();
+    }
+
+    /**
+     * Make APP_URL authoritative for generated URLs.
+     *
+     * Laravel builds redirects from the incoming request by default, which
+     * silently loses the port behind nginx and produces a Location header
+     * pointing at port 80. In the demo stack that turns "open the admin panel"
+     * into a connection refused. A self-hosted deployment sitting behind a
+     * reverse proxy has the same problem with scheme, so APP_URL — which the
+     * operator has already had to set correctly — wins.
+     */
+    private function configureUrlGeneration(): void
+    {
+        $url = (string) config('app.url');
+
+        if ($url === '') {
+            return;
+        }
+
+        URL::forceRootUrl($url);
+
+        if (str_starts_with($url, 'https://')) {
+            URL::forceScheme('https');
+        }
     }
 
     /**
