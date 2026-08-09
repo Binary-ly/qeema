@@ -116,7 +116,8 @@ final class RowValidator
     /**
      * Match a partner's location string to a configured location.
      *
-     * Partners write "Tripoli", "tripoli", or the local-language name. Matching
+     * Partners write the English name, a lowercased form, or the local-language
+     * name. Matching
      * on slug and on either name form covers those without demanding the
      * partner adopt Qeema's identifiers.
      */
