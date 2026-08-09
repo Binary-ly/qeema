@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Services\Index\IndexCalculator;
+use App\Services\Index\ItemImputer;
 use App\Services\Ml\MlClient;
 use App\Services\Ml\MlClientInterface;
 use App\Support\Scraping\OpenDataCsvScraper;
@@ -25,6 +27,13 @@ final class AppServiceProvider extends ServiceProvider
         // Callers depend on the interface; the HTTP client is the production
         // binding and a fake stands in as a peer during tests.
         $this->app->bind(MlClientInterface::class, MlClient::class);
+
+        // The calculator gets an imputer by default, so a scheduled recompute
+        // fills gaps rather than publishing partial baskets. It still degrades
+        // honestly when the ML service is unreachable.
+        $this->app->bind(IndexCalculator::class, fn ($app): IndexCalculator => new IndexCalculator(
+            imputer: new ItemImputer($app->make(MlClientInterface::class)),
+        ));
 
         $this->app->singleton(ScraperRegistry::class, function (): ScraperRegistry {
             $registry = new ScraperRegistry;
@@ -77,6 +86,11 @@ final class AppServiceProvider extends ServiceProvider
             return Limit::perMinute((int) config('qeema.api.rate_limit_per_minute'))
                 ->by($request->ip() ?? 'unknown');
         });
+
+        // Bulk export is streamed but still expensive; limited far more
+        // tightly than an ordinary read so one scraper cannot monopolise it.
+        RateLimiter::for('export', fn (Request $request): Limit => Limit::perMinute(5)
+            ->by($request->ip() ?? 'unknown'));
 
         // Writes are limited per device rather than per IP: reporters in the
         // same town routinely share one mobile carrier NAT, so an IP-based

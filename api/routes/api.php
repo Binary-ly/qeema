@@ -5,6 +5,8 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\V1\HealthController;
+use App\Http\Controllers\Api\V1\IndexController;
+use App\Http\Controllers\Api\V1\ReferenceController;
 use App\Http\Controllers\Api\V1\SubmissionController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +29,23 @@ Route::prefix('v1')->name('api.v1.')->group(function (): void {
         // Everything the reporter app needs to function offline, in one call.
         Route::get('/bootstrap/{countryCode}', [SubmissionController::class, 'bootstrap'])
             ->name('bootstrap');
+
+        // --- reference data ---
+        Route::get('/countries', [ReferenceController::class, 'countries'])->name('countries');
+        Route::get('/countries/{countryCode}/locations', [ReferenceController::class, 'locations'])->name('locations');
+        Route::get('/countries/{countryCode}/basket', [ReferenceController::class, 'basket'])->name('basket');
+        Route::get('/countries/{countryCode}/fx', [ReferenceController::class, 'fx'])->name('fx');
+
+        // --- the published index ---
+        Route::get('/countries/{countryCode}/index/current', [IndexController::class, 'current'])->name('index.current');
+        Route::get('/countries/{countryCode}/coverage', [IndexController::class, 'coverage'])->name('index.coverage');
+        Route::get('/locations/{locationSlug}/index', [IndexController::class, 'history'])->name('index.history');
+        Route::get('/locations/{locationSlug}/index/{date}', [IndexController::class, 'show'])->name('index.show');
+
+        // Bulk download. Streamed, and rate limited more tightly than the rest.
+        Route::get('/countries/{countryCode}/export.csv', [IndexController::class, 'export'])
+            ->middleware('throttle:export')
+            ->name('export.csv');
     });
 
     /*

@@ -598,3 +598,46 @@ locations, including a review queue with ~537 low-confidence resolutions.
 PWA, partner ingestion, and all three ML components (matching, anomaly scoring,
 nowcasting) — the ML service currently exposes only health, readiness and model
 info.
+
+### Phase 9 — Public API with OpenAPI 3 — complete
+
+Nine read endpoints plus one write, all unauthenticated (C6), rate limited per
+IP, with bulk CSV export held to a tighter limit than ordinary reads.
+
+Verified live against a running server: every endpoint 200s, the CSV export
+streams, and it carries `X-Qeema-License: CC-BY-4.0` — a downloaded file
+outlives the page that explained its terms.
+
+**The spec is generated, not hand-maintained.** `php artisan qeema:openapi`
+scans annotations into `public/openapi.json`; `--check` fails if the committed
+file has drifted, and CI runs it. A spec that has quietly diverged from the code
+is worse than none, because consumers build against it.
+
+Served at `/api/v1/openapi.json`, rendered at `/docs` from the spec with no
+external assets. A docs page that fetches its renderer from a CDN would breach
+C1 and would be blank in exactly the low-connectivity settings this platform
+targets.
+
+Three schema decisions are enforced by test rather than left to convention:
+
+- `is_imputed` is **required** on every priced item. Were it optional, a
+  consumer could reasonably read its absence as "observed" — the precise
+  confusion between estimate and measurement the platform exists to prevent.
+- `comparable`, `coverage` and `imputed_share` are required on `quality`.
+  Ranking locations without checking `comparable` produces the inverted result
+  found in Phase 7, where a thinly-covered location read as cheaper.
+- `cost.usd` is documented **nullable**. Null means no exchange rate inside the
+  staleness horizon existed — a refusal to invent a conversion, not missing data.
+
+| Gate | Result |
+|---|---|
+| Pest | 358 passed, 1 skipped, 1,567 assertions |
+| Coverage | 93.7% |
+| PHPStan (level 6) | 0 errors |
+| Pint | passed |
+
+**Carried forward:** matching remains lexical-only, so the 98.4% top-1 figure is
+a lexical result; pgvector embeddings are wired but not yet generating. Nowcast
+intervals under-cover (74.6% empirical against 80% nominal), documented in the
+model card with two untried remedies. Chain-linking across basket versions and
+the Filament review-queue UI both still outstanding.

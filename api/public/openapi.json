@@ -1,0 +1,518 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Qeema — Open Affordability Index",
+        "description": "A live, child-weighted affordability index for crisis economies.\n\nEvery read endpoint is unauthenticated: the data being open is the point.\nReads are rate limited per IP; bulk export more tightly still.\n\n**Reading the numbers honestly.** Every price-bearing object carries\n`is_imputed`. An imputed value is an estimate produced by a model, never a\nmeasurement, and is never silently mixed with observed data. Snapshots also\ncarry `coverage`, `imputed_share` and `comparable` — `comparable` is false\nuntil every basket item has a price, and a consumer ranking locations must\ncheck it, because a partially-observed basket costs less simply because part\nof it is missing.\n\n`cost.usd` is null when no exchange rate within the configured staleness\nhorizon was available. That is a deliberate refusal to invent a conversion,\nnot missing data.",
+        "license": {
+            "name": "Apache-2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api/v1",
+            "description": "Public API v1"
+        }
+    ],
+    "paths": {
+        "/countries": {
+            "get": {
+                "tags": [
+                    "reference"
+                ],
+                "summary": "Countries this deployment publishes",
+                "operationId": "8aebf6f6fc8c06536c546aafb4d1916d",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/countries/{countryCode}/basket": {
+            "get": {
+                "tags": [
+                    "reference"
+                ],
+                "summary": "The basket being costed, with its weights",
+                "description": "Weights are a judgement rather than a fact, so they are published: a consumer cannot disagree with the basket composition without seeing it.",
+                "operationId": "af13789b8768b9e037265c34ee91d51e",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "LY"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Unknown country"
+                    }
+                }
+            }
+        },
+        "/countries/{countryCode}/fx": {
+            "get": {
+                "tags": [
+                    "reference"
+                ],
+                "summary": "Official and parallel exchange rates",
+                "description": "Both rates and the premium between them. The gap is itself a headline indicator of economic stress.",
+                "operationId": "b6b4bf76bbb21a3d9780a46ce2e80476",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/countries/{countryCode}/index/current": {
+            "get": {
+                "tags": [
+                    "index"
+                ],
+                "summary": "Latest snapshot per location",
+                "description": "The most recent snapshot for each location individually, so a location that has not reported today is still returned with its last known figure rather than dropped.",
+                "operationId": "ca0857e91a9d44b60cdf3759b1b962f9",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/IndexSnapshot"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/locations/{locationSlug}/index": {
+            "get": {
+                "tags": [
+                    "index"
+                ],
+                "summary": "Time series for one location",
+                "operationId": "ae38ac4006dd0da8401d006bc3c24f96",
+                "parameters": [
+                    {
+                        "name": "locationSlug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/locations/{locationSlug}/index/{date}": {
+            "get": {
+                "tags": [
+                    "index"
+                ],
+                "summary": "One snapshot with its full item breakdown",
+                "operationId": "790d0cd3905b2ca54c5ac9b545b06c99",
+                "parameters": [
+                    {
+                        "name": "locationSlug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "No snapshot for that date"
+                    }
+                }
+            }
+        },
+        "/countries/{countryCode}/coverage": {
+            "get": {
+                "tags": [
+                    "index"
+                ],
+                "summary": "Coverage and freshness per location",
+                "description": "Published so a consumer can judge the data before using it.",
+                "operationId": "86939d23e6a9c6ce0ab6acfdc9ec5378",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/countries/{countryCode}/export.csv": {
+            "get": {
+                "tags": [
+                    "index"
+                ],
+                "summary": "Bulk CSV export, streamed",
+                "description": "Rate limited more tightly than ordinary reads. Carries the data licence in an X-Qeema-License header, because a CSV passed on loses the context the API page carried.",
+                "operationId": "bd16848f4b995cc87682bbfba3c06c74",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CSV"
+                    }
+                }
+            }
+        },
+        "/submissions": {
+            "post": {
+                "tags": [
+                    "submissions"
+                ],
+                "summary": "Report a price",
+                "description": "The only write route. Unauthenticated because requiring a signup would suppress the participation the platform runs on. A repeated client_idempotency_key returns 200 with status \"duplicate\" rather than creating a second row.",
+                "operationId": "b391b5f293335b8fa6742f20e947fe6b",
+                "responses": {
+                    "201": {
+                        "description": "Accepted"
+                    },
+                    "200": {
+                        "description": "Duplicate — already recorded"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "tags": [
+                    "ops"
+                ],
+                "summary": "Service health",
+                "operationId": "f23ec238d3e4a41495389d92cf0a96c8",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Quality": {
+                "description": "How far a published figure can be trusted. Never omitted.",
+                "required": [
+                    "coverage",
+                    "imputed_share",
+                    "comparable",
+                    "label"
+                ],
+                "properties": {
+                    "coverage": {
+                        "description": "Share of basket weight backed by real observations.",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "imputed_share": {
+                        "description": "Share of basket weight that was estimated.",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "observed_items": {
+                        "type": "integer"
+                    },
+                    "total_items": {
+                        "type": "integer"
+                    },
+                    "label": {
+                        "type": "string",
+                        "enum": [
+                            "good",
+                            "moderate",
+                            "low"
+                        ]
+                    },
+                    "comparable": {
+                        "description": "False until every basket item has a price. Check before ranking locations.",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "Cost": {
+                "required": [
+                    "local",
+                    "currency"
+                ],
+                "properties": {
+                    "local": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "LYD"
+                    },
+                    "usd": {
+                        "description": "Null when no usable exchange rate existed.",
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "confidence_low": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "confidence_high": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "SnapshotItem": {
+                "required": [
+                    "is_imputed",
+                    "unit_price",
+                    "observation_count"
+                ],
+                "properties": {
+                    "is_imputed": {
+                        "description": "True when this price was estimated rather than observed. Always present.",
+                        "type": "boolean"
+                    },
+                    "imputation_method": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "unit_price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "quantity": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "contribution": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "confidence_low": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "confidence_high": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "observation_count": {
+                        "description": "Zero on an imputed price, by construction.",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "IndexSnapshot": {
+                "required": [
+                    "date",
+                    "cost",
+                    "quality",
+                    "exchange_rate"
+                ],
+                "properties": {
+                    "date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "cost": {
+                        "$ref": "#/components/schemas/Cost"
+                    },
+                    "quality": {
+                        "$ref": "#/components/schemas/Quality"
+                    },
+                    "exchange_rate": {
+                        "properties": {
+                            "rate": {
+                                "type": "number",
+                                "format": "float",
+                                "nullable": true
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "parallel",
+                                    "official",
+                                    null
+                                ],
+                                "nullable": true
+                            },
+                            "date": {
+                                "type": "string",
+                                "format": "date",
+                                "nullable": true
+                            },
+                            "is_stale": {
+                                "type": "boolean"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SnapshotItem"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "index",
+            "description": "The published affordability index"
+        },
+        {
+            "name": "reference",
+            "description": "Countries, locations, basket composition and exchange rates"
+        },
+        {
+            "name": "submissions",
+            "description": "Inbound price reports"
+        },
+        {
+            "name": "ops",
+            "description": "Health and readiness"
+        }
+    ]
+}
