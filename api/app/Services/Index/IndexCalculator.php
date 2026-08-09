@@ -136,13 +136,21 @@ final class IndexCalculator
         foreach ($missing as $entry) {
             $imputed = $imputations[$entry->canonical_item_id] ?? null;
 
-            // Weight counts against coverage either way. What changes is
-            // whether the basket cost includes this item at all.
-            $imputedWeight += (float) $entry->weight;
-
             if ($imputed === null) {
+                // Neither observed nor imputed: this item has no price at all.
+                // Its weight is counted in neither share, so
+                // `coverage_pct + imputed_share < 1` marks the basket as
+                // genuinely incomplete — which is what `isComparable()` reads.
+                //
+                // Counting it as imputed weight (as this once did) claimed the
+                // item had been estimated when nothing had estimated it, and
+                // forced the two shares to sum to exactly 1.0 on every
+                // snapshot, leaving no way to tell a complete basket from a
+                // broken one.
                 continue;
             }
+
+            $imputedWeight += (float) $entry->weight;
 
             $contribution = (float) $entry->quantity * $imputed['value'];
             $costLocal += $contribution;

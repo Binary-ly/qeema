@@ -112,6 +112,32 @@ front of reviewers.
 
 ---
 
+
+### D-10 — Inline SVG map, not MapLibre GL (supersedes §7.4)
+
+§7.4 specified MapLibre GL JS over bundled GeoJSON. Building Phase 10 changed
+the answer, for three reasons found in that order:
+
+1. **There are no polygons.** Locations in a country config are points
+   (lat/lon); no admin boundary GeoJSON ships with the project and none can be
+   fetched at runtime under C1. A choropleth was never on the table — the map is
+   sixteen points. MapLibre would ship ~230 kB gzipped and a WebGL requirement
+   to draw sixteen circles.
+2. **A canvas is opaque to assistive technology.** The Lighthouse accessibility
+   target is ≥90, and a WebGL map contributes nothing to the accessibility tree,
+   so a parallel DOM table would have been required anyway. With inline SVG,
+   every point *is* a real element: focusable, labelled, and present without
+   JavaScript.
+3. **WebGL is unreliable on low-end Android**, which is the hardware most common
+   in the places this platform measures.
+
+The projection (`App\Services\Dashboard\MapProjection`) is equirectangular
+with a cosine correction at the country's mean latitude, fitted to the bounding
+box of the plotted points — so it holds nothing about any particular country
+(C3). ECharts remains for the time series, imported by named export inside a
+dynamically-loaded module.
+
+
 ## 3. Architecture
 
 ```

@@ -4,6 +4,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReporterController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +37,5 @@ Route::get('/api/v1/openapi.json', function () {
 // useless in exactly the deployments this platform targets.
 Route::view('/docs', 'docs')->name('docs');
 
-Route::redirect('/', '/report');
+// The public dashboard is the front page: the published data is the product.
+Route::get('/', DashboardController::class)->name('dashboard');

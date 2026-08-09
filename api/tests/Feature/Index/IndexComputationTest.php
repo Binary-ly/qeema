@@ -156,7 +156,11 @@ describe('costing the basket', function () {
         $snapshot = computeIndex();
 
         expect($snapshot->coverage_pct)->toBe(0.4)
-            ->and($snapshot->imputed_share)->toBe(0.6)
+            // No imputer here, so the missing 60% is genuinely absent rather
+            // than estimated, and neither share accounts for it. The gap
+            // between the two shares and 1.0 is what marks the basket
+            // incomplete.
+            ->and($snapshot->imputed_share)->toBe(0.0)
             ->and($snapshot->observed_item_count)->toBe(1)
             ->and($snapshot->total_item_count)->toBe(2);
     });
@@ -402,7 +406,51 @@ describe('imputation fills the basket', function () {
         $snapshot = computeIndex();
 
         expect($snapshot->cost_local)->toBe(20.0)
+            // The oil was neither observed nor imputed, so it counts toward
+            // neither share and the basket is visibly incomplete.
+            ->and($snapshot->coverage_pct)->toBe(0.6)
+            ->and($snapshot->imputed_share)->toBe(0.0)
             ->and($snapshot->isComparable())->toBeFalse();
+    });
+
+    it('treats an imputed basket as comparable, because that is what imputation is for', function () {
+        // Regression. `isComparable()` originally read `imputed_share <= 0`,
+        // which was accidentally correct only while nothing was ever imputed.
+        // Once Phase 8 began filling gaps, every snapshot gained an imputed
+        // share and the rule started reporting `comparable: false` for 46 of 48
+        // published snapshots — including baskets that were fully priced.
+        //
+        // The consequence was not cosmetic: the public API told consumers not
+        // to compare almost anything, and the dashboard headline, which is a
+        // median across comparable locations, computed over nearly nothing.
+        //
+        // Imputation is precisely what makes a sparse location comparable. The
+        // uncertainty it introduces is reported by `imputed_share` and
+        // `qualityLabel()`, which is the right place for it.
+        basketOf([[$this->rice, 0.6, 2.0, 'kg'], [$this->oil, 0.4, 3.0, 'l']]);
+        priceOn($this->rice, 10.0, DAY);
+        $elsewhere = Location::factory()->create(['country_id' => $this->country->id]);
+        PriceObservation::factory()->create([
+            'submission_id' => Submission::factory()->create([
+                'country_id' => $this->country->id, 'location_id' => $elsewhere->id,
+            ])->id,
+            'country_id' => $this->country->id,
+            'location_id' => $elsewhere->id,
+            'canonical_item_id' => $this->oil->id,
+            'normalized_price_per_base_unit' => 5.0,
+            'observed_on' => DAY,
+            'observed_at' => DAY.' 12:00:00',
+        ]);
+
+        $snapshot = (new IndexCalculator(
+            imputer: new ItemImputer(new FakeMlClient),
+        ))->calculate($this->country, $this->location, $this->basket, CarbonImmutable::parse(DAY));
+
+        expect($snapshot->imputed_share)->toBeGreaterThan(0.0)
+            ->and($snapshot->coverage_pct + $snapshot->imputed_share)->toBeGreaterThanOrEqual(0.999)
+            ->and($snapshot->isComparable())->toBeTrue()
+            // Comparable, but the reader is still told how much was estimated.
+            ->and($snapshot->qualityLabel())->not->toBe('good');
     });
 
     it('fills a missing item and flags it as imputed', function () {
@@ -509,6 +557,10 @@ describe('imputation fills the basket', function () {
 
         expect($snapshot->cost_local)->toBe(20.0)
             ->and($snapshot->items()->imputed()->count())->toBe(0)
-            ->and($snapshot->imputed_share)->toBe(0.4);
+            // Nothing was imputed, so nothing is reported as imputed. This
+            // previously read 0.4 alongside a zero imputed-item count — the
+            // published figure claimed estimation that had not happened.
+            ->and($snapshot->imputed_share)->toBe(0.0)
+            ->and($snapshot->isComparable())->toBeFalse();
     });
 });

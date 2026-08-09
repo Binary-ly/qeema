@@ -105,6 +105,16 @@ final class IndexSnapshot extends Model
      * Exposed on the public API so a consumer does not have to reimplement the
      * judgement from the constituent fields — and so they cannot quietly skip it.
      */
+    /**
+     * Share of basket weight with no price at all — neither observed nor
+     * imputed. Distinct from `imputed_share`, which counts weight that *was*
+     * estimated.
+     */
+    public function missingShare(): float
+    {
+        return max(0.0, 1.0 - $this->coverage_pct - $this->imputed_share);
+    }
+
     public function qualityLabel(): string
     {
         return match (true) {
@@ -113,6 +123,12 @@ final class IndexSnapshot extends Model
             // missing a fifth of its weight was reading as "good", which is how
             // a reader ends up concluding one town is cheaper than another when
             // it is merely less observed.
+            //
+            // The missing share has to be tested explicitly. It used to be
+            // caught only incidentally, because unpriced weight was miscounted
+            // as imputed; once that was corrected, an incomplete basket with no
+            // imputation had a zero imputed share and passed as "good".
+            $this->missingShare() > 0.0 => 'moderate',
             $this->imputed_share > 0.1 || $this->fx_is_stale => 'moderate',
             default => 'good',
         };
@@ -121,18 +137,27 @@ final class IndexSnapshot extends Model
     /**
      * Whether this cost may be compared with another location's.
      *
-     * Until every basket item has a price — observed or imputed — `cost_local`
-     * is the cost of only the *observed* part of the basket. Comparing a 95%
-     * basket against an 88% one reads the missing 7% as a discount, which is
-     * precisely backwards: thin coverage usually accompanies harder conditions,
-     * not cheaper ones.
+     * Until every basket item has a price — observed **or imputed** —
+     * `cost_local` is the cost of only the priced part of the basket. Comparing
+     * a 95% basket against an 88% one reads the missing 7% as a discount, which
+     * is precisely backwards: thin coverage usually accompanies harder
+     * conditions, not cheaper ones.
+     *
+     * Note what this does *not* mean. Imputation is what makes a sparse
+     * location comparable, so a heavily-imputed basket is still comparable — it
+     * is simply less certain, which `imputed_share` and `qualityLabel()` are
+     * there to say. Treating any imputation as disqualifying would discard the
+     * very locations imputation exists to serve, and would leave the headline
+     * drawn from only the best-covered places.
      *
      * Consumers ranking locations must check this, and the public API exposes
      * it rather than leaving the trap for them to fall into.
      */
     public function isComparable(): bool
     {
-        return $this->imputed_share <= 0.0;
+        // Epsilon rather than == 1.0: both shares are rounded to four places on
+        // write, so an exact comparison would reject baskets that are complete.
+        return ($this->coverage_pct + $this->imputed_share) >= 0.999;
     }
 
     /** Mark for recomputation; a queued job picks it up. Idempotent. */

@@ -11,6 +11,8 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/css/reporter.css',
                 'resources/js/reporter.js',
+                'resources/css/dashboard.css',
+                'resources/js/dashboard.js',
             ],
             refresh: true,
             fonts: [

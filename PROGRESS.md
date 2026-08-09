@@ -641,3 +641,78 @@ a lexical result; pgvector embeddings are wired but not yet generating. Nowcast
 intervals under-cover (74.6% empirical against 80% nominal), documented in the
 model card with two untried remedies. Chain-linking across basket versions and
 the Filament review-queue UI both still outstanding.
+
+### Phase 10 — Public dashboard — complete
+
+Server-rendered at `/`, bilingual EN/AR with true RTL, no third-party asset of
+any kind. Every figure is in the markup before a byte of JavaScript executes.
+
+**A published-data bug surfaced while wiring the headline, and it was the
+serious kind — wrong numbers on the public API, not a broken page.**
+
+`IndexCalculator` counted an unpriced basket item as *imputed* weight whether or
+not anything had actually imputed it: the increment sat above the null check.
+Two consequences, both of which had shipped:
+
+- `imputed_share` claimed estimation that never happened. Locally, with no ML
+  service running, snapshots reported 22% of the basket "estimated" when 22% was
+  simply missing and excluded from the cost.
+- `coverage_pct + imputed_share` therefore summed to exactly 1.0 on every
+  snapshot, leaving no way to distinguish a complete basket from a broken one.
+
+`isComparable()` then compounded it. It read `imputed_share <= 0.0` — accidentally
+correct only while nothing was ever imputed. Once Phase 8 began filling gaps,
+**46 of 48 published snapshots reported `comparable: false`**, including baskets
+that were fully priced. The public API was telling consumers not to compare
+almost anything.
+
+Fixed in three places, each with a regression test naming the failure:
+
+| | |
+|---|---|
+| `IndexCalculator` | counts imputed weight only when an imputation actually succeeded |
+| `IndexSnapshot::isComparable()` | fully *priced* — observed **or** imputed — not fully observed |
+| `IndexSnapshot::qualityLabel()` | tests `missingShare()` explicitly; an incomplete basket with zero imputation was passing as "good" once `imputed_share` became honest |
+
+Imputation is what makes a sparse location comparable, so a heavily-imputed
+basket is comparable — just less certain, which `imputed_share` and the quality
+label are there to say. Treating any imputation as disqualifying discards the
+very locations imputation exists to serve.
+
+**Map: inline SVG, not MapLibre GL.** PLAN.md §7.4 said otherwise; D-10 records
+why that changed. Locations are points, not polygons, so a WebGL engine meant
+~230 kB gzipped to draw sixteen circles — and a canvas contributes nothing to
+the accessibility tree, so a parallel table would have been needed regardless.
+Every point is now a focusable, labelled DOM element that works with JavaScript
+off.
+
+**Bundle.** The critical path is 1.65 kB + 1.89 kB gzipped (script + styles).
+ECharts loads lazily behind an IntersectionObserver. The first attempt imported
+`echarts/charts` and `echarts/components` dynamically, which loads the barrels
+whole — 84 kB gzipped of unused chart types plus a 245 kB GeoJSON parser. Named
+static imports inside a lazily-imported module fixed it.
+
+Also fixed: Blade's directive parser silently truncates a multi-line array
+literal passed to `@json(...)`, which emitted malformed JSON; and it compiles
+directive names appearing inside `{{-- --}}` comments.
+
+| Gate | Result |
+|---|---|
+| Pest | 387 passed, 1 skipped, 1,664 assertions |
+| Coverage | 93.9% |
+| PHPStan (level 6) | 0 errors |
+| Pint | passed |
+
+**Not yet measured: Lighthouse.** The ≥90 performance and accessibility targets
+are designed for — server-rendered, no render-blocking third-party assets,
+deferred charts, skip link, labelled sections, table headers, no colour-only
+signalling — but no Lighthouse run has been performed, because it needs a
+headless Chrome this environment does not have. Deferred to Phase 12 and stated
+here rather than claimed.
+
+**Carried forward:** imputation does not run without the ML service, so the
+local demo currently shows every location as incomparable — correct behaviour,
+but `docker compose up` is needed to see the imputed path. Matching remains
+lexical-only. Nowcast intervals under-cover (74.6% against 80% nominal).
+Chain-linking across basket versions and the Filament review-queue UI still
+outstanding.

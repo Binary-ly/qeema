@@ -31,8 +31,12 @@ describe('serving the app', function () {
         $this->get('/report')->assertOk();
     });
 
-    it('redirects the site root to the reporter', function () {
-        $this->get('/')->assertRedirect('/report');
+    it('serves the dashboard at the site root', function (): void {
+        // The root used to redirect to the reporter. The public dashboard now
+        // holds it: the published data is the product, and it is what a first
+        // visitor should land on. The reporter keeps its own route.
+        $this->get('/')->assertOk();
+        $this->get('/report')->assertOk();
     });
 
     it('links the web app manifest so it can be installed', function () {

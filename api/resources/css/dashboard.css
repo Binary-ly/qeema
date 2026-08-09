@@ -1,0 +1,483 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+
+/*
+ * Public dashboard.
+ *
+ * Hand-written rather than a utility framework: this page loads on throttled
+ * connections on mid-tier phones, and the whole stylesheet below is smaller
+ * than the CSS a framework emits after purging.
+ *
+ * Logical properties throughout (inline-start, padding-inline, margin-block)
+ * so one stylesheet is correct in both LTR and RTL. A mirrored stylesheet
+ * drifts out of sync the first time someone edits only one of them.
+ */
+
+:root {
+    --bg: #0b1120;
+    --surface: #131c31;
+    --surface-2: #1b2740;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --border: #263349;
+    --radius: 0.75rem;
+
+    /* Sequential scale, low to high cost. Chosen for two properties: it stays
+     * ordered when converted to greyscale, and adjacent steps remain
+     * distinguishable under the common forms of colour vision deficiency —
+     * so the map is not the only way to read the data, but it is still
+     * readable on its own. */
+    --scale-low: #22d3ee;
+    --scale-high: #f97316;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --surface-2: #f1f5f9;
+        --text: #0f172a;
+        --muted: #475569;
+        --accent: #0369a1;
+        --border: #e2e8f0;
+    }
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body.dash {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", sans-serif;
+    line-height: 1.6;
+    /* System fonts only. A web font would be a render-blocking download and,
+     * if hosted elsewhere, a third-party runtime dependency (C1). */
+}
+
+/* Visible only on focus. Keyboard users reach the content without tabbing
+ * through the whole header; nobody else sees it. */
+.dash__skip {
+    position: absolute;
+    inset-inline-start: -9999px;
+    z-index: 10;
+    padding: 0.75rem 1rem;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 0 0 var(--radius) 0;
+}
+
+.dash__skip:focus {
+    inset-inline-start: 0;
+    top: 0;
+}
+
+.dash__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- header ---------- */
+
+.dash__header {
+    border-block-end: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.dash__header-inner,
+.dash__main {
+    max-width: 68rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+}
+
+.dash__header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 1.5rem;
+}
+
+.dash__title {
+    margin: 0;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    line-height: 1.2;
+}
+
+.dash__tagline {
+    margin: 0.375rem 0 0;
+    color: var(--muted);
+    max-width: 46ch;
+}
+
+.dash__nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.dash__select {
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font: inherit;
+    /* 44px minimum touch target. */
+    min-height: 2.75rem;
+}
+
+.dash__field-label {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--muted);
+}
+
+.dash__locales {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dash__locales a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+.dash__locales a[aria-current="true"] {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+}
+
+/* ---------- layout ---------- */
+
+.dash__main {
+    padding-block: 2rem 4rem;
+    display: grid;
+    gap: 1.5rem;
+}
+
+.dash__panel,
+.dash__headline,
+.dash__empty {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+}
+
+.dash__section-title {
+    margin: 0 0 0.25rem;
+    font-size: 1.125rem;
+}
+
+.dash__section-desc,
+.dash__note {
+    margin: 0 0 1rem;
+    color: var(--muted);
+    font-size: 0.9375rem;
+    max-width: 62ch;
+}
+
+.dash__note {
+    margin: 1rem 0 0;
+}
+
+/* ---------- headline ---------- */
+
+.dash__figure {
+    margin: 0.5rem 0;
+    font-size: clamp(2.25rem, 8vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.dash__unit {
+    font-size: 0.4em;
+    font-weight: 500;
+    color: var(--muted);
+    margin-inline-start: 0.25em;
+}
+
+.dash__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 1rem;
+    margin: 1.25rem 0 0;
+}
+
+.dash__stat dt {
+    font-size: 0.8125rem;
+    color: var(--muted);
+}
+
+.dash__stat dd {
+    margin: 0.125rem 0 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.dash__asof {
+    margin: 1rem 0 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+/* The comparability caveat. Given real visual weight rather than being
+ * relegated to a footnote, because it changes how the headline should be read. */
+.dash__caveat {
+    margin: 1.25rem 0 0;
+    padding: 0.875rem 1rem;
+    background: var(--surface-2);
+    border-inline-start: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.9375rem;
+    max-width: 68ch;
+}
+
+/* ---------- map ---------- */
+
+.dash__map-figure {
+    margin: 0;
+}
+
+.dash__map {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: var(--surface-2);
+    border-radius: var(--radius);
+}
+
+.dash__map-dot {
+    /* Interpolate between the two ends of the scale using the per-point
+     * --intensity set in markup. color-mix keeps the palette in the stylesheet
+     * where a designer can find it, instead of computing colours in PHP. */
+    fill: color-mix(in oklab, var(--scale-high) calc(var(--intensity, 0) * 100%), var(--scale-low));
+    stroke: var(--surface);
+    stroke-width: 2;
+    transition: r 0.15s ease;
+}
+
+/* Incomparable locations are drawn hollow: present on the map, visibly outside
+ * the ranking. Filling them with a scale colour would assert a position on a
+ * scale they do not belong on. */
+.dash__map-dot--incomparable {
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 2;
+    stroke-dasharray: 3 2;
+}
+
+.dash__map-label {
+    fill: var(--text);
+    font-size: 11px;
+    font-weight: 500;
+    paint-order: stroke;
+    stroke: var(--surface-2);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+}
+
+.dash__map a:focus-visible .dash__map-dot,
+.dash__map a:hover .dash__map-dot {
+    r: 12;
+}
+
+.dash__map a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.dash__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.dash__legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dash__swatch {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dash__swatch--low { background: var(--scale-low); }
+.dash__swatch--high { background: var(--scale-high); }
+
+.dash__swatch--none {
+    border: 2px dashed var(--muted);
+}
+
+/* ---------- charts ---------- */
+
+.dash__chart {
+    min-height: 18rem;
+    width: 100%;
+}
+
+.dash__fallback {
+    margin: 0;
+    font-size: 1.125rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.dash__delta {
+    color: var(--accent);
+    font-weight: 600;
+    margin-inline-start: 0.5rem;
+}
+
+/* ---------- table ---------- */
+
+.dash__table-scroll {
+    overflow-x: auto;
+}
+
+.dash__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+}
+
+.dash__table th,
+.dash__table td {
+    text-align: start;
+    padding: 0.625rem 0.75rem;
+    border-block-end: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.dash__table thead th {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.dash__table tbody th {
+    font-weight: 600;
+}
+
+.dash__table td {
+    font-variant-numeric: tabular-nums;
+}
+
+.dash__name-local {
+    display: block;
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 0.875rem;
+}
+
+.dash__row--incomparable td,
+.dash__row--incomparable th {
+    color: var(--muted);
+}
+
+.dash__badge {
+    display: inline-block;
+    margin-inline-start: 0.5rem;
+    padding: 0.125rem 0.5rem;
+    border: 1px dashed var(--muted);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.dash__quality {
+    display: inline-block;
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    background: var(--surface-2);
+}
+
+/* Quality is never signalled by colour alone — the word is always present, so
+ * the colour is reinforcement rather than the message (WCAG 1.4.1). */
+.dash__quality--good { color: #34d399; }
+.dash__quality--moderate { color: #fbbf24; }
+.dash__quality--low { color: #f87171; }
+
+/* ---------- calls to action ---------- */
+
+.dash__panel--cta {
+    background: var(--surface-2);
+}
+
+.dash__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+}
+
+.dash__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 1rem;
+    border-radius: 0.5rem;
+    background: var(--accent);
+    color: var(--bg);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.dash__links a:focus-visible,
+.dash__locales a:focus-visible,
+.dash__select:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+}
+
+/* Respect a stated preference for less motion rather than assuming animation
+ * is always welcome. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
