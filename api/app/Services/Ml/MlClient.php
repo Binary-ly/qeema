@@ -151,6 +151,26 @@ final class MlClient implements MlClientInterface
     }
 
     /**
+     * Impute prices for cells with no observation.
+     *
+     * @param  list<array<string, mixed>>  $requests
+     * @return list<array<string, mixed>>|null
+     */
+    public function nowcast(array $requests): ?array
+    {
+        if ($requests === [] || ! $this->isAvailable()) {
+            return null;
+        }
+
+        return $this->post('/v1/nowcast/impute', ['requests' => $requests], static function (array $body): array {
+            /** @var list<array<string, mixed>> $results */
+            $results = $body['results'] ?? [];
+
+            return $results;
+        });
+    }
+
+    /**
      * The catalogue this country matches against.
      *
      * Sent per request so the ML service stays stateless. Cached because it

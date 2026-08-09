@@ -135,6 +135,48 @@ final class FakeMlClient implements MlClientInterface
         ], $observations);
     }
 
+    /** @var list<array<string, mixed>>|null */
+    private ?array $nextNowcasts = null;
+
+    /**
+     * @param  list<array<string, mixed>>  $results
+     */
+    public function willNowcast(array $results): self
+    {
+        $this->nextNowcasts = $results;
+
+        return $this;
+    }
+
+    public function nowcast(array $requests): ?array
+    {
+        $this->calls[] = ['method' => 'nowcast', 'count' => count($requests)];
+
+        if (! $this->available) {
+            return null;
+        }
+
+        if ($this->nextNowcasts !== null) {
+            return $this->nextNowcasts;
+        }
+
+        // Default: a plausible imputation anchored on whatever context was sent,
+        // always labelled.
+        return array_map(static function (array $r): array {
+            $anchor = (float) ($r['national_median'] ?? 0.0);
+
+            return $anchor > 0.0
+                ? [
+                    'value' => $anchor,
+                    'lower' => $anchor * 0.8,
+                    'upper' => $anchor * 1.2,
+                    'method' => 'fallback_national_median',
+                    'is_imputed' => true,
+                ]
+                : ['value' => null, 'lower' => null, 'upper' => null, 'method' => null, 'is_imputed' => true];
+        }, $requests);
+    }
+
     /**
      * @return list<array<string, mixed>>
      */

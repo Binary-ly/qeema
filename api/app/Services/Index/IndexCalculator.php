@@ -40,6 +40,10 @@ final class IndexCalculator
     public function __construct(
         private readonly PriceEstimator $estimator = new PriceEstimator,
         private readonly FxRateResolver $fx = new FxRateResolver,
+        // Optional: without it, missing items simply count against coverage.
+        // A deployment that cannot impute publishes a partial basket and says
+        // so, rather than publishing nothing.
+        private readonly ?ItemImputer $imputer = null,
     ) {}
 
     public function calculate(
@@ -64,6 +68,8 @@ final class IndexCalculator
 
         /** @var list<array<string, mixed>> $itemRows */
         $itemRows = [];
+        /** @var list<BasketItem> $missing */
+        $missing = [];
         /** @var list<array{quantity: float, samples: list<float>, point: float}> $components */
         $components = [];
 
@@ -77,11 +83,11 @@ final class IndexCalculator
             );
 
             if ($estimate === null) {
-                // No observation in the window. Phase 8 will impute here; until
-                // then the item is recorded as missing and its weight counts
-                // against coverage rather than being quietly dropped, which
-                // would make a half-empty basket look complete.
-                $imputedWeight += (float) $entry->weight;
+                // No observation in the window. Held for imputation below; if
+                // that fails the weight counts against coverage rather than the
+                // item being quietly dropped, which would make a half-empty
+                // basket look complete.
+                $missing[] = $entry;
 
                 continue;
             }
@@ -117,6 +123,53 @@ final class IndexCalculator
                 'ci_high' => $samples === [] ? null : round($this->percentile($samples, 97.5), 6),
                 'observation_count' => $estimate->observationCount,
                 'source_observation_ids' => $estimate->observationIds,
+            ];
+        }
+
+        // Impute what was not observed. This is what makes two locations
+        // comparable: without it, `cost_local` prices only the observed part of
+        // the basket, and a thinly-covered location reads as *cheaper* than a
+        // well-covered one — exactly backwards, since thin coverage usually
+        // accompanies harder conditions.
+        $imputations = $this->imputer?->impute($country, $location, $missing, $date) ?? [];
+
+        foreach ($missing as $entry) {
+            $imputed = $imputations[$entry->canonical_item_id] ?? null;
+
+            // Weight counts against coverage either way. What changes is
+            // whether the basket cost includes this item at all.
+            $imputedWeight += (float) $entry->weight;
+
+            if ($imputed === null) {
+                continue;
+            }
+
+            $contribution = (float) $entry->quantity * $imputed['value'];
+            $costLocal += $contribution;
+
+            $components[] = [
+                'quantity' => (float) $entry->quantity,
+                // The imputation's own interval is sampled, so the basket
+                // interval reflects imputation uncertainty rather than only
+                // sampling noise — which would be badly wrong on a snapshot
+                // that is largely imputed.
+                'samples' => [$imputed['lower'], $imputed['value'], $imputed['upper']],
+                'point' => $imputed['value'],
+            ];
+
+            $itemRows[] = [
+                'canonical_item_id' => $entry->canonical_item_id,
+                'unit_price_local' => round($imputed['value'], 6),
+                'weight' => (float) $entry->weight,
+                'quantity' => (float) $entry->quantity,
+                'contribution_local' => round($contribution, 4),
+                // Never anything but true on this path.
+                'is_imputed' => true,
+                'imputation_method' => $imputed['method'],
+                'ci_low' => round($imputed['lower'], 6),
+                'ci_high' => round($imputed['upper'], 6),
+                'observation_count' => 0,
+                'source_observation_ids' => [],
             ];
         }
 

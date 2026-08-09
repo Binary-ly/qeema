@@ -16,7 +16,9 @@ use App\Models\Submission;
 use App\Services\Fx\FxRateResolver;
 use App\Services\Index\IndexCalculator;
 use App\Services\Index\IndexStaleness;
+use App\Services\Index\ItemImputer;
 use App\Services\Index\PriceEstimator;
+use App\Services\Ml\FakeMlClient;
 use Carbon\CarbonImmutable;
 
 /*
@@ -387,5 +389,126 @@ describe('correcting a historical observation', function () {
             ->pluck('snapshot_date')->map(fn ($d) => $d->toDateString())->all();
 
         expect($order)->toBe(['2026-03-10', '2026-03-11', '2026-03-12']);
+    });
+});
+
+describe('imputation fills the basket', function () {
+    it('leaves the basket partial when no imputer is configured', function () {
+        // A deployment that cannot impute publishes a partial basket and says
+        // so, rather than publishing nothing.
+        basketOf([[$this->rice, 0.6, 2.0, 'kg'], [$this->oil, 0.4, 3.0, 'l']]);
+        priceOn($this->rice, 10.0, DAY);
+
+        $snapshot = computeIndex();
+
+        expect($snapshot->cost_local)->toBe(20.0)
+            ->and($snapshot->isComparable())->toBeFalse();
+    });
+
+    it('fills a missing item and flags it as imputed', function () {
+        basketOf([[$this->rice, 0.6, 2.0, 'kg'], [$this->oil, 0.4, 3.0, 'l']]);
+        priceOn($this->rice, 10.0, DAY);
+        // Another location reports the oil, so there is context to impute from.
+        $elsewhere = Location::factory()->create(['country_id' => $this->country->id]);
+        PriceObservation::factory()->create([
+            'submission_id' => Submission::factory()->create([
+                'country_id' => $this->country->id, 'location_id' => $elsewhere->id,
+            ])->id,
+            'country_id' => $this->country->id,
+            'location_id' => $elsewhere->id,
+            'canonical_item_id' => $this->oil->id,
+            'normalized_price_per_base_unit' => 5.0,
+            'observed_on' => DAY,
+            'observed_at' => DAY.' 12:00:00',
+        ]);
+
+        $calculator = new IndexCalculator(
+            imputer: new ItemImputer(new FakeMlClient),
+        );
+
+        $snapshot = $calculator->calculate(
+            $this->country, $this->location, $this->basket, CarbonImmutable::parse(DAY),
+        );
+
+        $imputed = $snapshot->items()->imputed()->first();
+
+        expect($imputed)->not->toBeNull()
+            ->and($imputed->canonical_item_id)->toBe($this->oil->id)
+            ->and($imputed->imputation_method)->not->toBeNull()
+            ->and($imputed->observation_count)->toBe(0);
+    });
+
+    it('includes the imputed item in the basket cost', function () {
+        // 2 kg rice at 10.00 = 20.00, plus 3 l oil imputed at 5.00 = 15.00.
+        basketOf([[$this->rice, 0.6, 2.0, 'kg'], [$this->oil, 0.4, 3.0, 'l']]);
+        priceOn($this->rice, 10.0, DAY);
+        $elsewhere = Location::factory()->create(['country_id' => $this->country->id]);
+        PriceObservation::factory()->create([
+            'submission_id' => Submission::factory()->create([
+                'country_id' => $this->country->id, 'location_id' => $elsewhere->id,
+            ])->id,
+            'country_id' => $this->country->id,
+            'location_id' => $elsewhere->id,
+            'canonical_item_id' => $this->oil->id,
+            'normalized_price_per_base_unit' => 5.0,
+            'observed_on' => DAY,
+            'observed_at' => DAY.' 12:00:00',
+        ]);
+
+        $snapshot = (new IndexCalculator(
+            imputer: new ItemImputer(new FakeMlClient),
+        ))->calculate($this->country, $this->location, $this->basket, CarbonImmutable::parse(DAY));
+
+        expect($snapshot->cost_local)->toBe(35.0)
+            ->and($snapshot->imputed_share)->toBe(0.4);
+    });
+
+    it('never marks an imputed value as observed', function () {
+        // The invariant the whole platform's credibility rests on.
+        basketOf([[$this->rice, 0.6, 2.0, 'kg'], [$this->oil, 0.4, 3.0, 'l']]);
+        priceOn($this->rice, 10.0, DAY);
+        $elsewhere = Location::factory()->create(['country_id' => $this->country->id]);
+        PriceObservation::factory()->create([
+            'submission_id' => Submission::factory()->create([
+                'country_id' => $this->country->id, 'location_id' => $elsewhere->id,
+            ])->id,
+            'country_id' => $this->country->id,
+            'location_id' => $elsewhere->id,
+            'canonical_item_id' => $this->oil->id,
+            'normalized_price_per_base_unit' => 5.0,
+            'observed_on' => DAY,
+            'observed_at' => DAY.' 12:00:00',
+        ]);
+
+        $snapshot = (new IndexCalculator(
+            imputer: new ItemImputer(new FakeMlClient),
+        ))->calculate($this->country, $this->location, $this->basket, CarbonImmutable::parse(DAY));
+
+        foreach ($snapshot->items as $item) {
+            if ($item->is_imputed) {
+                expect($item->observation_count)->toBe(0)
+                    ->and($item->source_observation_ids)->toBe([]);
+            } else {
+                expect($item->imputation_method)->toBeNull()
+                    ->and($item->observation_count)->toBeGreaterThan(0);
+            }
+        }
+    });
+
+    it('leaves the basket partial when the ML service is unavailable', function () {
+        // A silently completed basket would be worse than an honestly partial
+        // one, because nothing would indicate the numbers were invented.
+        basketOf([[$this->rice, 0.6, 2.0, 'kg'], [$this->oil, 0.4, 3.0, 'l']]);
+        priceOn($this->rice, 10.0, DAY);
+
+        $snapshot = (new IndexCalculator(
+            imputer: new ItemImputer(
+                (new FakeMlClient)->pretendUnavailable(),
+            ),
+        ))->calculate($this->country, $this->location, $this->basket, CarbonImmutable::parse(DAY));
+
+        expect($snapshot->cost_local)->toBe(20.0)
+            ->and($snapshot->items()->imputed()->count())->toBe(0)
+            ->and($snapshot->imputed_share)->toBe(0.4);
     });
 });

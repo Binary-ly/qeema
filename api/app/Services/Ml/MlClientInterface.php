@@ -49,6 +49,17 @@ interface MlClientInterface
     public function scoreAnomalies(array $observations): ?array;
 
     /**
+     * Impute prices for cells with no observation.
+     *
+     * Every result is labelled imputed. There is no shape this can return that
+     * a caller could mistake for a measurement.
+     *
+     * @param  list<array<string, mixed>>  $requests
+     * @return list<array<string, mixed>>|null one result per request, in order
+     */
+    public function nowcast(array $requests): ?array;
+
+    /**
      * @return list<array<string, mixed>>
      */
     public function catalogueFor(Country $country): array;

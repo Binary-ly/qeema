@@ -19,7 +19,8 @@ here, assume it does not work yet.
 | 5 — Product matching | **Complete and verified** |
 | 6 — Anomaly detection | **Complete and verified** |
 | 7 — Index computation + FX | **Complete and verified** |
-| 8–12 | Not started |
+| 8 — Nowcasting / imputation | **Complete and verified** |
+| 9–12 | Not started |
 
 ---
 
@@ -27,11 +28,11 @@ here, assume it does not work yet.
 
 | Gate | Result |
 |---|---|
-| Pest | **330 passed**, 1 skipped, 1,458 assertions |
-| PHP coverage | **93.7%** (gate ≥80%) |
+| Pest | **335 passed**, 1 skipped, 1,473 assertions |
+| PHP coverage | **93.6%** (gate ≥80%) |
 | Playwright (offline E2E) | **8 passed** |
-| pytest | **160 passed** |
-| Python coverage | **84.0%** (gate ≥80%) |
+| pytest | **210 passed** |
+| Python coverage | **86.0%** (gate ≥80%) |
 | PHPStan (larastan, level 6) | **0 errors** |
 | Pint / ruff / mypy | clean |
 | Country-agnostic check (C3) | pass |
@@ -429,6 +430,61 @@ and null-rather-than-unconverted.
 
 - Chain-linking across basket versions, so a basket definition change does not
   create an artificial discontinuity in the published series.
+
+---
+
+## Phase 8 — verified
+
+**Backtested on 27,650 held-out cells**, split temporally rather than randomly —
+a random split lets the model see prices from the week it is asked to predict,
+which in a series this autocorrelated is close to showing it the answer.
+
+| Metric | Value |
+|---|---|
+| MAPE | **3.5%** |
+| Median APE | 2.7% |
+| National-median baseline | 9.0% |
+| **Improvement over baseline** | **+61%** |
+| Mean interval width | 10.9% |
+
+The baseline is reported alongside deliberately: a model that cannot beat the
+national median is not worth its complexity.
+
+### Known weakness: the interval under-covers
+
+Empirical coverage is **74.6%** against a nominal **80%**. Roughly one true value
+in twenty falls outside a band advertised as containing four in five.
+
+Not catastrophic, but the wrong direction to be wrong in — an interval should
+over-cover, because a reader trusting an 80% band is entitled to have it hold at
+least that often. Two remedies are documented in the model card (widening the
+trained quantiles to 0.05/0.95, or a conformal correction); neither is applied
+because both require re-measurement rather than assertion. Until then the card
+states plainly that the interval should be read as roughly 75%.
+
+### This is what makes locations comparable
+
+Before imputation, `cost_local` priced only the *observed* part of the basket, so
+a location at 78% coverage read as **cheaper** than one at 95% — exactly
+backwards, since thin coverage usually accompanies harder conditions. Missing
+items are now filled and the cost is complete.
+
+Design commitments, each tested:
+
+- **Every imputed value is flagged.** `is_imputed` is true on that code path with
+  no branch that can produce an unlabelled value, `observation_count` is 0, and
+  `source_observation_ids` is empty. A test asserts observed and imputed rows can
+  never be confused.
+- **The basket interval samples the imputation's own interval**, so uncertainty
+  reflects imputation error rather than sampling noise alone — which would be
+  badly wrong on a largely-imputed snapshot.
+- **It refuses rather than guesses.** With the ML service unavailable the basket
+  stays honestly partial: no imputed rows, weight still counted against
+  coverage. A silently completed basket would be worse than an openly partial
+  one, because nothing would indicate the numbers were invented.
+- **Targets are ratios to the national median**, so one model serves every item
+  regardless of price scale — predicting absolutes would need a model per item
+  and would relearn inflation as signal every month.
 
 ---
 
