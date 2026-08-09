@@ -6,8 +6,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Observers\PriceObservationObserver;
 use Carbon\CarbonInterface;
 use Database\Factories\PriceObservationFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property CarbonInterface $observed_on
  * @property CarbonInterface $observed_at
  */
+#[ObservedBy(PriceObservationObserver::class)]
 final class PriceObservation extends Model
 {
     /** @use HasFactory<PriceObservationFactory> */
@@ -53,6 +56,12 @@ final class PriceObservation extends Model
     public function submission(): BelongsTo
     {
         return $this->belongsTo(Submission::class);
+    }
+
+    /** @return BelongsTo<Country, $this> */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
     }
 
     /** @return BelongsTo<Location, $this> */

@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Database\Factories\IndexSnapshotFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +21,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * imputed share, a confidence interval, and whether the exchange rate was stale.
  * A cost with 40% of its weight imputed against a nine-day-old rate is a
  * legitimate estimate; publishing it as though it were measured would not be.
+ *
+ * Cast attributes are declared explicitly because Larastan cannot infer them
+ * from casts().
+ *
+ * @property CarbonInterface $snapshot_date
+ * @property CarbonInterface|null $fx_rate_date
+ * @property CarbonInterface|null $computed_at
  */
 final class IndexSnapshot extends Model
 {

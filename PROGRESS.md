@@ -18,7 +18,7 @@ here, assume it does not work yet.
 | 4 — Ingestion (partner + scrapers) | **Complete and verified** |
 | 5 — Product matching | **Complete and verified** |
 | 6 — Anomaly detection | **Complete and verified** |
-| 7 — Index computation + FX | **Core working**; recompute queue and tests outstanding |
+| 7 — Index computation + FX | **Complete and verified** |
 | 8–12 | Not started |
 
 ---
@@ -27,8 +27,8 @@ here, assume it does not work yet.
 
 | Gate | Result |
 |---|---|
-| Pest | **304 passed**, 1 skipped, 1,415 assertions |
-| PHP coverage | **89.4%** (gate ≥80%) |
+| Pest | **330 passed**, 1 skipped, 1,458 assertions |
+| PHP coverage | **93.7%** (gate ≥80%) |
 | Playwright (offline E2E) | **8 passed** |
 | pytest | **160 passed** |
 | Python coverage | **84.0%** (gate ≥80%) |
@@ -400,16 +400,35 @@ would be far too wide.
 configured horizon — `cost_usd` is published as null rather than converted at a
 rate nobody can stand behind.
 
+### Correction ripple — the phase's acceptance criterion
+
+A `PriceObservation` observer marks every snapshot in the estimator's look-back
+window stale when an observation is created, invalidated, superseded or has its
+price changed. Marking the observation's *own day* only would leave a week of
+published figures silently wrong after a correction — worse than never
+correcting, because the error is then dated and invisible.
+
+Verified end to end on the seeded data: rebuilt 48 snapshots, invalidated one
+historical observation, watched exactly one snapshot go stale, drained the queue
+with `qeema:index`, and confirmed 0 pending. A unit test asserts the same in
+miniature — a price entered per gram instead of per kilo, superseded, and the
+published cost moving 200.00 → 20.00 with no duplicate snapshot.
+
+Marking is deliberately generous: recomputing a snapshot that did not need it
+costs a little work, while missing one leaves a wrong number published forever.
+Unrelated column changes are excluded, so touching a currency code does not
+trigger a week of recomputation.
+
+**26 dedicated tests** cover the weighted median (hand-computed expectations,
+including weight-beats-count and outlier-immunity), window inclusion, weight-based
+coverage, interval bracketing, determinism across recomputation, and every FX
+path — exact, stale fallback, refusal beyond the horizon, never-use-a-future-rate,
+and null-rather-than-unconverted.
+
 ### Still outstanding in Phase 7
 
-- The incremental recompute queue. `index_snapshots.is_stale` exists and the
-  calculator upserts idempotently, but nothing yet marks snapshots stale when a
-  historical observation is corrected, and no job drains them.
-- Dedicated tests for the estimator and calculator. The existing 304 tests still
-  pass and the numbers above were verified by hand against the seeded data, but
-  the weighted median, the bootstrap and the FX staleness rules deserve unit
-  tests of their own before this phase is called done.
-- Chain-linking across basket versions.
+- Chain-linking across basket versions, so a basket definition change does not
+  create an artificial discontinuity in the published series.
 
 ---
 
