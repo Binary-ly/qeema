@@ -75,6 +75,22 @@ jobs:
             -c "CREATE EXTENSION IF NOT EXISTS btree_gin;" \
             -c "CREATE SCHEMA IF NOT EXISTS qeema_eval;"
 
+      # public/build is generated, so it is gitignored and absent in CI. Blade
+      # views call @vite(), which reads the manifest from there — without this
+      # every test that renders a page dies on "Vite manifest not found".
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+
+      - name: Build frontend assets
+        working-directory: api
+        run: |
+          npm ci
+          npm run build
+
       - name: Check formatting
         working-directory: api
         run: ./vendor/bin/pint --test
