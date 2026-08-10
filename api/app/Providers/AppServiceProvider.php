@@ -89,7 +89,7 @@ final class AppServiceProvider extends ServiceProvider
 
         // Bulk export is streamed but still expensive; limited far more
         // tightly than an ordinary read so one scraper cannot monopolise it.
-        RateLimiter::for('export', fn (Request $request): Limit => Limit::perMinute(5)
+        RateLimiter::for('export', fn (Request $request): Limit => Limit::perMinute((int) config('qeema.api.export_rate_limit_per_minute'))
             ->by($request->ip() ?? 'unknown'));
 
         // Writes are limited per device rather than per IP: reporters in the

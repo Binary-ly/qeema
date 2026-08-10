@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Country;
+use App\Models\Submission;
 use App\Support\CountryConfig\CountryConfigLoader;
 use App\Support\Synthetic\SyntheticDataGenerator;
 use Illuminate\Database\Seeder;
@@ -43,6 +44,17 @@ final class DemoDataSeeder extends Seeder
 
             if ($country === null) {
                 $this->command?->warn("Country {$code} is not seeded; skipping demo data.");
+
+                continue;
+            }
+
+            // Skip a country that already has a demo history. The generator
+            // plain-inserts its FX rates rather than upserting, so re-running
+            // it over existing rows aborts the whole bootstrap on a unique
+            // violation — which is what happened the first time a second
+            // country was added to an already-seeded deployment.
+            if (Submission::query()->where('country_id', $country->id)->exists()) {
+                $this->command?->line("Demo data already present for {$code}; skipping.");
 
                 continue;
             }

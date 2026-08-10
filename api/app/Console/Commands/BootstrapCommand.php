@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use Carbon\CarbonImmutable;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Support\Facades\Cache;
@@ -25,6 +26,9 @@ use Throwable;
  */
 final class BootstrapCommand extends Command
 {
+    /** How far back to publish on a first boot. */
+    private const DEMO_INDEX_DAYS = 30;
+
     protected $signature = 'qeema:bootstrap
                             {--force : Run without interactive confirmation}
                             {--fresh : Drop and rebuild the schema first (destructive)}
@@ -75,6 +79,13 @@ final class BootstrapCommand extends Command
         if (! $this->option('skip-demo') && config('qeema.seed.demo')) {
             $this->seedDemoData();
         }
+
+        // Seeding prices is not the same as publishing an index. Without this,
+        // `make demo` came up with two fully-seeded countries and an empty
+        // dashboard — every endpoint returning 200 with nothing in it, which is
+        // the most misleading way for a demo to fail. Constraint C2 asks for a
+        // system that works after one command, not one that is merely running.
+        $this->computeIndex();
 
         $this->info('Bootstrap complete.');
 
@@ -144,11 +155,25 @@ final class BootstrapCommand extends Command
             return;
         }
 
-        if (DB::table('countries')->exists()) {
-            $this->line('Reference data already present; skipping.');
+        // Per-country, not "any country at all". The coarse check meant that
+        // dropping a new countries/*.yaml into a running deployment did nothing
+        // and said nothing — while the config files themselves promise that
+        // adding a country is exactly that and no code change. An operator
+        // would have had no way to tell the difference between "ignored" and
+        // "broken".
+        //
+        // The importer is idempotent throughout (updateOrCreate), so re-running
+        // for a country already present is safe; the guard exists only to keep
+        // routine container restarts cheap.
+        $missing = $this->unseededCountryCodes();
+
+        if ($missing === []) {
+            $this->line('All configured countries are already seeded; skipping.');
 
             return;
         }
+
+        $this->info('Seeding country configuration: '.implode(', ', $missing).'.');
 
         $seeder = 'Database\\Seeders\\CountryConfigSeeder';
 
@@ -161,8 +186,80 @@ final class BootstrapCommand extends Command
             return;
         }
 
-        $this->info('Seeding country configuration.');
         $this->call('db:seed', ['--force' => true, '--class' => $seeder]);
+    }
+
+    /**
+     * Publish the index over whatever history now exists.
+     *
+     * Bounded to the demo window rather than all of time: recomputing six
+     * months for every country on every container start would dominate boot,
+     * and older snapshots do not change unless their observations do — the
+     * staleness observer marks those individually.
+     */
+    private function computeIndex(): void
+    {
+        if (! Schema::hasTable('index_snapshots')) {
+            return;
+        }
+
+        if (! DB::table('price_observations')->exists()) {
+            $this->line('No observations to index yet.');
+
+            return;
+        }
+
+        $countries = DB::table('countries')->pluck('code');
+
+        foreach ($countries as $code) {
+            $published = DB::table('index_snapshots')
+                ->join('countries', 'countries.id', '=', 'index_snapshots.country_id')
+                ->where('countries.code', $code)
+                ->exists();
+
+            if ($published) {
+                continue;
+            }
+
+            $this->info("Computing the index for {$code}...");
+
+            $this->call('qeema:index', [
+                '--country' => $code,
+                '--from' => CarbonImmutable::now()->subDays(self::DEMO_INDEX_DAYS)->toDateString(),
+                '--to' => CarbonImmutable::now()->toDateString(),
+            ]);
+        }
+    }
+
+    /**
+     * Country codes present in countries/*.yaml but not yet in the database.
+     *
+     * @return list<string>
+     */
+    private function unseededCountryCodes(): array
+    {
+        $directory = (string) config('qeema.countries_path');
+
+        if (! is_dir($directory)) {
+            return [];
+        }
+
+        $configured = [];
+
+        foreach (glob($directory.'/*.yaml') ?: [] as $path) {
+            // The filename is the ISO code by convention, which is enough to
+            // decide whether to run the seeder. The loader does the real
+            // parsing and validation immediately afterwards.
+            $configured[] = strtoupper(pathinfo($path, PATHINFO_FILENAME));
+        }
+
+        if ($configured === []) {
+            return [];
+        }
+
+        $seeded = DB::table('countries')->pluck('code')->map(strtoupper(...))->all();
+
+        return array_values(array_diff($configured, $seeded));
     }
 
     /**
@@ -177,11 +274,20 @@ final class BootstrapCommand extends Command
             return;
         }
 
-        if (DB::table('submissions')->exists()) {
-            $this->line('Demo data already present; skipping.');
+        // Also per-country: a second country added later needs its own demo
+        // history, and the seeder skips countries that already have one.
+        $withoutDemo = DB::table('countries')
+            ->whereNotIn('id', fn ($q) => $q->select('country_id')->distinct()->from('submissions'))
+            ->pluck('code')
+            ->all();
+
+        if ($withoutDemo === []) {
+            $this->line('Demo data already present for every country; skipping.');
 
             return;
         }
+
+        $this->info('Seeding demo history for: '.implode(', ', $withoutDemo).'.');
 
         $seeder = 'Database\\Seeders\\DemoDataSeeder';
 

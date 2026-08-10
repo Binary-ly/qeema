@@ -716,3 +716,83 @@ but `docker compose up` is needed to see the imputed path. Matching remains
 lexical-only. Nowcast intervals under-cover (74.6% against 80% nominal).
 Chain-linking across basket versions and the Filament review-queue UI still
 outstanding.
+
+### Phase 11 — Self-hosting and a second country — complete
+
+**Venezuela ships alongside Libya**, chosen because it differs along every axis
+the code could plausibly have hardcoded: Spanish not Arabic, **LTR not RTL**,
+Latin script (so the Arabic normalisation path is bypassed rather than
+exercised), two-decimal currency against the dinar's three, western hemisphere
+(negative longitudes), and a different staple — the basket is built on precooked
+maize flour, because a wheat-centred basket would be measuring the wrong thing
+there.
+
+A second country resembling the first would have proved very little.
+
+`CountryAgnosticismTest` now enforces this structurally rather than by grepping
+for "Libya": baskets must sum to 1.0 and cover all nine categories in every
+country, the shipped set must actually contain more than one locale and more
+than one currency subdivision, longitudes must span both hemispheres, estimator
+settings must differ between countries, and **every configured locale must have
+a complete translation file** — a locale with no translations renders English
+under a `lang` attribute claiming otherwise. Spanish translations were added for
+both the dashboard and the reporter.
+
+**Three bugs found by actually running the clean boot, not by reading code.**
+
+1. *Adding a country to a running deployment did nothing, silently.* The
+   bootstrap guard was `DB::table('countries')->exists()` — any one country
+   short-circuited the whole reference seed. Since the config files themselves
+   promise that adding a country means adding a file and no code change, an
+   operator had no way to distinguish "ignored" from "broken". Both guards are
+   now per-country.
+2. *Adding a second country aborted the bootstrap.* The demo generator
+   plain-inserts FX rates rather than upserting, so re-running it over an
+   already-seeded country died on a unique violation. The demo seeder now skips
+   countries that already have a history.
+3. *`make demo` seeded data but never computed the index.* Every endpoint
+   returned 200 with nothing in it — the most misleading way for a demo to fail,
+   and a direct C2 breach: the constraint asks for a system that *works* after
+   one command, not one that is merely running. Bootstrap now publishes the
+   index over the demo window.
+
+**C2 verified, not assumed.** `make nuke && make demo` from zero volumes:
+
+| | |
+|---|---|
+| Clean boot | 1m31s (cached images); 7m11s first run |
+| Seeded | 2 countries, 22,424 submissions, 21,297 observations |
+| Published | 992 snapshots (2 × 16 locations × 31 days) |
+| Comparable | **992 of 992**, mean imputed share 16.9% |
+| Libya | `lang=ar dir=rtl`, headline 3,202.41 LYD, 16 rows |
+| Venezuela | `lang=es dir=ltr`, headline 34,471.41 VES, 16 rows |
+| CSV export | 497 rows, `X-Qeema-License: CC-BY-4.0` |
+
+That comparability figure also closes out the Phase 10 finding: with the ML
+service actually running, imputation fills the baskets and every location
+becomes comparable at an honest 16.9% estimated share. The local runs that
+showed everything incomparable were correct — they simply had no ML service.
+
+**`docs/deployment.md`** covers requirements, the one-command demo, a full
+configuration reference, adding a country, production hardening, backup and
+restore, upgrade and rollback, and troubleshooting.
+
+Its first draft named **nine environment variables that do not exist**. Every
+one looked plausible. `DeploymentDocsTest` now fails the build if the guide
+names an env var the application never reads, omits one it does read, quotes the
+wrong demo password, or references a Makefile target or artisan command that
+does not exist. Writing that test also turned up a documented knob
+(`QEEMA_EXPORT_RATE_LIMIT`) that was hardcoded — now genuinely configurable.
+
+| Gate | Result |
+|---|---|
+| Pest | 401 passed, 1 skipped, 1,707 assertions |
+| Coverage | 93.9% |
+| PHPStan (level 6) | 0 errors |
+| Pint | passed |
+
+**Carried forward:** the new bootstrap index step is verified by the clean-boot
+run above but has no unit test yet. Lighthouse still unmeasured. Matching
+remains lexical-only. Nowcast intervals under-cover (74.6% against 80%
+nominal). Chain-linking across basket versions and the Filament review-queue UI
+outstanding.

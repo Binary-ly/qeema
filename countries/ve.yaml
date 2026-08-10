@@ -1,0 +1,310 @@
+# SPDX-License-Identifier: Apache-2.0
+#
+# Venezuela — second country configuration.
+#
+# This file exists to prove constraint C3 rather than to assert expertise about
+# Venezuela. It was chosen as the second country because it differs from the
+# default along every axis the code could plausibly have hardcoded:
+#
+#   - Spanish, not Arabic, and **left-to-right**, not RTL.
+#   - Latin script throughout, so the Arabic normalisation path is bypassed
+#     entirely rather than exercised.
+#   - A different staple. The basket is built on precooked maize flour, which is
+#     what arepas are made from; wheat flour is not the centre of the diet here.
+#     A basket that assumed wheat would be measuring the wrong thing.
+#   - Two-decimal currency, against the dinar's three.
+#   - A Western-hemisphere timezone and negative longitudes, which the map
+#     projection and the date bucketing both have to survive.
+#
+# The reference prices and regional premiums below are plausible figures for a
+# demonstration, not measured values, and everything generated from them is
+# marked synthetic. A real deployment replaces the `demo:` block with actual
+# reporting.
+#
+# Seed with:  php artisan qeema:bootstrap --country=VE --force
+
+country:
+  code: VE
+  name: Venezuela
+  name_local: Venezuela
+  currency:
+    code: VES
+    symbol: "Bs."
+    minor_units: 2
+  timezone: America/Caracas
+  locales: [es, en]
+  default_locale: es
+  admin_labels:
+    admin1: Estado
+    admin2: Municipio
+
+# ---------------------------------------------------------------------------
+# Exchange rates
+# ---------------------------------------------------------------------------
+# Same reasoning as the default country, different magnitude. Where the parallel
+# market carries most real transactions, costing a basket at the official rate
+# produces a dollar figure describing a purchase ordinary people cannot make.
+fx:
+  provider: manual
+  base_currency: USD
+  rate_type: parallel
+  max_staleness_days: 7
+  config: {}
+
+# ---------------------------------------------------------------------------
+# Index estimator settings
+# ---------------------------------------------------------------------------
+# A shorter half-life than the default. Under faster price movement, a
+# fortnight-old observation is weaker evidence about today than it would be in a
+# more stable economy, and the estimator should forget it faster.
+index:
+  observation_window_days: 7
+  recency_half_life_days: 2
+  min_observations_for_ci: 3
+  bootstrap_draws: 500
+  base_date: 2026-01-01
+
+# ---------------------------------------------------------------------------
+# Units
+# ---------------------------------------------------------------------------
+units:
+  - { code: kg,    name: Kilogram,   name_local: Kilogramo,  dimension: mass,   base_unit_code: kg,    factor_to_base: 1 }
+  - { code: g,     name: Gram,       name_local: Gramo,      dimension: mass,   base_unit_code: kg,    factor_to_base: 0.001 }
+  - { code: l,     name: Litre,      name_local: Litro,      dimension: volume, base_unit_code: l,     factor_to_base: 1 }
+  - { code: ml,    name: Millilitre, name_local: Mililitro,  dimension: volume, base_unit_code: l,     factor_to_base: 0.001 }
+  - { code: piece, name: Piece,      name_local: Unidad,     dimension: count,  base_unit_code: piece, factor_to_base: 1 }
+  - { code: pack,  name: Pack,       name_local: Paquete,    dimension: count,  base_unit_code: piece, factor_to_base: 1 }
+  - { code: dozen, name: Dozen,      name_local: Docena,     dimension: count,  base_unit_code: piece, factor_to_base: 12 }
+
+# ---------------------------------------------------------------------------
+# Locations
+# ---------------------------------------------------------------------------
+# Spread deliberately beyond the northern urban belt. Amazonas and Delta
+# Amacuro are reached by river and air rather than road, and an index sampling
+# only Caracas and Maracaibo would miss where affordability is worst.
+locations:
+  - { name: Caracas,         name_local: Caracas,         slug: caracas,         admin1_name: Distrito Capital, admin1_code: VE-A, latitude: 10.4806, longitude: -66.9036, population_estimate: 2100000 }
+  - { name: Maracaibo,       name_local: Maracaibo,       slug: maracaibo,       admin1_name: Zulia,            admin1_code: VE-V, latitude: 10.6427, longitude: -71.6125, population_estimate: 1650000 }
+  - { name: Valencia,        name_local: Valencia,        slug: valencia,        admin1_name: Carabobo,         admin1_code: VE-G, latitude: 10.1620, longitude: -68.0077, population_estimate: 1400000 }
+  - { name: Barquisimeto,    name_local: Barquisimeto,    slug: barquisimeto,    admin1_name: Lara,             admin1_code: VE-K, latitude: 10.0678, longitude: -69.3467, population_estimate: 1000000 }
+  - { name: Maracay,         name_local: Maracay,         slug: maracay,         admin1_name: Aragua,           admin1_code: VE-D, latitude: 10.2469, longitude: -67.5958, population_estimate: 1050000 }
+  - { name: Ciudad Guayana,  name_local: Ciudad Guayana,  slug: ciudad-guayana,  admin1_name: Bolívar,          admin1_code: VE-F, latitude: 8.3533,  longitude: -62.6528, population_estimate: 950000 }
+  - { name: San Cristóbal,   name_local: San Cristóbal,   slug: san-cristobal,   admin1_name: Táchira,          admin1_code: VE-S, latitude: 7.7669,  longitude: -72.2250, population_estimate: 640000 }
+  - { name: Maturín,         name_local: Maturín,         slug: maturin,         admin1_name: Monagas,          admin1_code: VE-N, latitude: 9.7457,  longitude: -63.1832, population_estimate: 540000 }
+  - { name: Barcelona,       name_local: Barcelona,       slug: barcelona,       admin1_name: Anzoátegui,       admin1_code: VE-B, latitude: 10.1333, longitude: -64.7000, population_estimate: 490000 }
+  - { name: Cumaná,          name_local: Cumaná,          slug: cumana,          admin1_name: Sucre,            admin1_code: VE-R, latitude: 10.4500, longitude: -64.1667, population_estimate: 400000 }
+  - { name: Mérida,          name_local: Mérida,          slug: merida,          admin1_name: Mérida,           admin1_code: VE-L, latitude: 8.5897,  longitude: -71.1561, population_estimate: 330000 }
+  - { name: Punto Fijo,      name_local: Punto Fijo,      slug: punto-fijo,      admin1_name: Falcón,           admin1_code: VE-I, latitude: 11.6947, longitude: -70.1997, population_estimate: 280000 }
+  - { name: El Tigre,        name_local: El Tigre,        slug: el-tigre,        admin1_name: Anzoátegui,       admin1_code: VE-B, latitude: 8.8892,  longitude: -64.2531, population_estimate: 170000 }
+  - { name: Guasdualito,     name_local: Guasdualito,     slug: guasdualito,     admin1_name: Apure,            admin1_code: VE-C, latitude: 7.2453,  longitude: -70.7322, population_estimate: 60000 }
+  - { name: Tucupita,        name_local: Tucupita,        slug: tucupita,        admin1_name: Delta Amacuro,    admin1_code: VE-Y, latitude: 9.0575,  longitude: -62.0511, population_estimate: 90000 }
+  - { name: Puerto Ayacucho, name_local: Puerto Ayacucho, slug: puerto-ayacucho, admin1_name: Amazonas,         admin1_code: VE-Z, latitude: 5.6639,  longitude: -67.6236, population_estimate: 90000 }
+
+# ---------------------------------------------------------------------------
+# Canonical items
+# ---------------------------------------------------------------------------
+# Variants are what reporters and shop shelves actually write, including brand
+# names used generically and the misspellings that follow from typing fast on a
+# phone. The matcher is only as good as this list.
+canonical_items:
+  - code: infant_formula_400g
+    name_en: Infant formula (400g tin)
+    name_local: Fórmula infantil (lata 400g)
+    category: infant_nutrition
+    default_unit_code: pack
+    default_quantity: 1
+    variants: [formula infantil, fórmula infantil, leche de formula, leche en polvo, leche maternizada, nan, nido, similac, infant formula, formula]
+
+  - code: baby_cereal_400g
+    name_en: Baby cereal (400g)
+    name_local: Cereal infantil (400g)
+    category: infant_nutrition
+    default_unit_code: pack
+    default_quantity: 1
+    variants: [cereal infantil, papilla, compota de cereal, nestum, cerelac, baby cereal]
+
+  # The staple. Precooked maize flour, not wheat — this is the single most
+  # important difference from the default country's basket.
+  - code: maize_flour_1kg
+    name_en: Precooked maize flour
+    name_local: Harina de maíz precocida
+    category: staples
+    default_unit_code: kg
+    default_quantity: 1
+    variants: [harina pan, harina p.a.n., harina de maiz, harina de maíz, harina precocida, harina juana, pan harina, maize flour, arepa flour]
+
+  - code: rice_1kg
+    name_en: Rice
+    name_local: Arroz
+    category: staples
+    default_unit_code: kg
+    default_quantity: 1
+    variants: [arroz, arroz blanco, arroz mary, arroz primor, rice]
+
+  - code: cooking_oil_1l
+    name_en: Cooking oil
+    name_local: Aceite comestible
+    category: staples
+    default_unit_code: l
+    default_quantity: 1
+    variants: [aceite, aceite vegetal, aceite de maiz, aceite de maíz, aceite girasol, aceite mazeite, vatel, cooking oil]
+
+  - code: eggs_30
+    name_en: Eggs (carton of 30)
+    name_local: Huevos (cartón de 30)
+    category: protein
+    default_unit_code: piece
+    default_quantity: 30
+    variants: [huevos, carton de huevos, cartón de huevos, huevos de gallina, panal de huevos, eggs]
+
+  - code: chicken_1kg
+    name_en: Chicken
+    name_local: Pollo
+    category: protein
+    default_unit_code: kg
+    default_quantity: 1
+    variants: [pollo, pollo entero, muslo de pollo, pechuga, pollo beneficiado, chicken]
+
+  - code: tomatoes_1kg
+    name_en: Tomatoes
+    name_local: Tomates
+    category: produce
+    default_unit_code: kg
+    default_quantity: 1
+    variants: [tomate, tomates, tomate perita, tomato, tomatoes]
+
+  - code: ors_sachet
+    name_en: Oral rehydration salts (sachet)
+    name_local: Sales de rehidratación oral (sobre)
+    category: medicine
+    default_unit_code: piece
+    default_quantity: 1
+    variants: [suero oral, sales de rehidratacion, sales de rehidratación, rehidratante oral, pedialyte, sro, ors]
+
+  - code: paracetamol_suspension_60ml
+    name_en: Paracetamol suspension (60ml)
+    name_local: Acetaminofén suspensión (60ml)
+    category: medicine
+    default_unit_code: ml
+    default_quantity: 60
+    variants: [acetaminofen, acetaminofén, acetaminofen jarabe, atamel, tachipirin, paracetamol, panadol]
+
+  - code: amoxicillin_suspension_60ml
+    name_en: Amoxicillin suspension (60ml)
+    name_local: Amoxicilina suspensión (60ml)
+    category: medicine
+    default_unit_code: ml
+    default_quantity: 60
+    variants: [amoxicilina, amoxicilina jarabe, amoxicilina suspension, amoxil, amoxicillin]
+
+  - code: school_notebook_80p
+    name_en: School notebook (80 pages)
+    name_local: Cuaderno escolar (80 hojas)
+    category: school
+    default_unit_code: piece
+    default_quantity: 1
+    variants: [cuaderno, cuaderno escolar, cuaderno rayado, libreta, notebook]
+
+  - code: sanitary_pads_10
+    name_en: Sanitary pads (pack of 10)
+    name_local: Toallas sanitarias (paquete de 10)
+    category: hygiene
+    default_unit_code: pack
+    default_quantity: 1
+    variants: [toallas sanitarias, toallas femeninas, toallitas, kotex, always, sanitary pads]
+
+  - code: cooking_gas_10kg
+    name_en: Cooking gas cylinder (10kg)
+    name_local: Bombona de gas (10kg)
+    category: fuel
+    default_unit_code: piece
+    default_quantity: 1
+    variants: [bombona, bombona de gas, gas domestico, gas doméstico, cilindro de gas, glp, cooking gas]
+
+  - code: drinking_water_20l
+    name_en: Drinking water (20l)
+    name_local: Agua potable (20l)
+    category: water
+    default_unit_code: l
+    default_quantity: 20
+    variants: [agua potable, botellon de agua, botellón de agua, agua mineral, garrafon, bidon de agua, drinking water]
+
+# ---------------------------------------------------------------------------
+# Basket
+# ---------------------------------------------------------------------------
+# Same nine categories as the default country, different composition. Maize
+# flour carries the weight wheat carries there, and cooking gas somewhat less,
+# because bottled water is a larger and less avoidable share of household
+# spending where the piped supply is unreliable.
+#
+# Weights must sum to exactly 1.000000; the loader rejects the file otherwise.
+basket:
+  name: Cesta de Asequibilidad Infantil
+  version: 1
+  effective_from: 2026-01-01
+  items:
+    - { item: infant_formula_400g,          weight: 0.13, quantity: 1,  unit: pack,  category: infant_nutrition }
+    - { item: baby_cereal_400g,             weight: 0.05, quantity: 1,  unit: pack,  category: infant_nutrition }
+    - { item: maize_flour_1kg,              weight: 0.11, quantity: 6,  unit: kg,    category: staples }
+    - { item: rice_1kg,                     weight: 0.08, quantity: 3,  unit: kg,    category: staples }
+    - { item: cooking_oil_1l,               weight: 0.08, quantity: 2,  unit: l,     category: staples }
+    - { item: eggs_30,                      weight: 0.07, quantity: 30, unit: piece, category: protein }
+    - { item: chicken_1kg,                  weight: 0.08, quantity: 2,  unit: kg,    category: protein }
+    - { item: tomatoes_1kg,                 weight: 0.05, quantity: 3,  unit: kg,    category: produce }
+    - { item: ors_sachet,                   weight: 0.04, quantity: 6,  unit: piece, category: medicine }
+    - { item: paracetamol_suspension_60ml,  weight: 0.04, quantity: 60, unit: ml,    category: medicine }
+    - { item: amoxicillin_suspension_60ml,  weight: 0.03, quantity: 60, unit: ml,    category: medicine }
+    - { item: school_notebook_80p,          weight: 0.03, quantity: 4,  unit: piece, category: school }
+    - { item: sanitary_pads_10,             weight: 0.06, quantity: 2,  unit: pack,  category: hygiene }
+    - { item: cooking_gas_10kg,             weight: 0.08, quantity: 1,  unit: piece, category: fuel }
+    - { item: drinking_water_20l,           weight: 0.07, quantity: 80, unit: l,     category: water }
+
+# ---------------------------------------------------------------------------
+# Sources
+# ---------------------------------------------------------------------------
+sources:
+  - { type: reporter,       slug: community-reporters, name: Reporteros comunitarios, license: CC-BY-4.0 }
+  - { type: partner_upload, slug: partner-uploads,     name: Organizaciones asociadas, license: CC-BY-4.0 }
+
+# ---------------------------------------------------------------------------
+# Synthetic demo data
+# ---------------------------------------------------------------------------
+# Reference prices in VES at the base date, used only to seed the generator.
+# Plausible starting points for a demonstration, not measured values.
+demo:
+  seed: 20260101
+  months: 6
+  reporters_per_location: 4
+  # Places reached by river or air rather than road run far dearer. The spread
+  # here is wider than the default country's on purpose: it gives the imputation
+  # model a harder problem than a gentle gradient would.
+  regional_premium:
+    puerto-ayacucho: 1.52
+    tucupita: 1.41
+    guasdualito: 1.33
+    el-tigre: 1.12
+    san-cristobal: 1.09
+    merida: 1.07
+    punto-fijo: 1.11
+  # Materially faster than the default country. The estimator's shorter
+  # half-life above is the response to it, and the pair together exercise
+  # settings that would otherwise be constants.
+  monthly_inflation: 0.045
+  fx_start_parallel: 52.0
+  fx_start_official: 44.5
+  reference_prices:
+    infant_formula_400g: 310.0
+    baby_cereal_400g: 168.0
+    maize_flour_1kg: 32.0
+    rice_1kg: 41.0
+    cooking_oil_1l: 78.0
+    eggs_30: 195.0
+    chicken_1kg: 118.0
+    tomatoes_1kg: 36.0
+    ors_sachet: 22.0
+    paracetamol_suspension_60ml: 95.0
+    amoxicillin_suspension_60ml: 165.0
+    school_notebook_80p: 28.0
+    sanitary_pads_10: 74.0
+    cooking_gas_10kg: 240.0
+    drinking_water_20l: 3.4

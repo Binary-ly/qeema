@@ -68,6 +68,11 @@ return [
         */
         'submission_rate_limit_per_minute' => (int) env('QEEMA_SUBMISSION_RATE_LIMIT', 60),
         'max_page_size' => (int) env('QEEMA_API_MAX_PAGE_SIZE', 500),
+
+        // Far tighter than ordinary reads: an export streams the whole
+        // published history, so a retry loop against it costs vastly more than
+        // one against a single snapshot.
+        'export_rate_limit_per_minute' => (int) env('QEEMA_EXPORT_RATE_LIMIT', 5),
         'export_chunk_size' => (int) env('QEEMA_API_EXPORT_CHUNK', 1000),
     ],
 

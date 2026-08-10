@@ -34,6 +34,11 @@ Everything is Apache-2.0.
 
 ---
 
+## Deploying
+
+See [docs/deployment.md](docs/deployment.md) — requirements, configuration
+reference, adding a country, backup and restore, and upgrades.
+
 ## Run it
 
 You need Docker. That is the entire list.
