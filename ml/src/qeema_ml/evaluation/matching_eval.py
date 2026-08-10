@@ -176,10 +176,67 @@ def _typo(text: str, rng: random.Random) -> str:
     return text[:i] + text[i + 1 :]
 
 
+def build_semantic_index(catalogue: list[dict], embedder: object) -> object:
+    """Embed a catalogue for evaluation.
+
+    One embedding per *variant*, not per item, so a query lands near whichever
+    spelling it actually resembles. Averaging an item's variants into a single
+    vector would blur exactly the distinctions the matcher is being asked to
+    make.
+    """
+    import numpy as np
+
+    from qeema_ml.matching.semantic import SemanticIndex
+
+    texts: list[str] = []
+    ids: list[int] = []
+    codes: list[str] = []
+
+    for item in catalogue:
+        for variant in item["variants"]:
+            texts.append(normalise(variant) or variant)
+            ids.append(int(item["canonical_item_id"]))
+            codes.append(str(item["canonical_item_code"]))
+
+    vectors = embedder.encode_passages(texts)  # type: ignore[attr-defined]
+
+    return SemanticIndex(
+        item_ids=ids,
+        item_codes=codes,
+        embeddings=np.asarray(vectors, dtype=np.float32),
+    )
+
+
+def load_embedder() -> object | None:
+    """The real sentence-transformer, or None if the weights are unavailable.
+
+    Returning None rather than raising lets the harness report a lexical-only
+    result honestly instead of failing, which is what happens on a machine
+    without the model.
+    """
+    try:
+        from sentence_transformers import SentenceTransformer
+
+        from qeema_ml.config import get_settings
+        from qeema_ml.matching.semantic import SentenceTransformerEmbedder
+
+        settings = get_settings()
+
+        return SentenceTransformerEmbedder(
+            model=SentenceTransformer(settings.embedding_model),
+            query_prefix=settings.embedding_query_prefix,
+            passage_prefix=settings.embedding_passage_prefix,
+            batch_size=settings.embedding_batch_size,
+        )
+    except Exception:
+        return None
+
+
 def evaluate(
     catalogue: list[dict],
     queries: list[LabelledQuery],
     config: MatcherConfig | None = None,
+    embedder: object | None = None,
 ) -> EvaluationReport:
     rows = [
         {
@@ -199,8 +256,18 @@ def evaluate(
         if normalise(variant)
     }
 
-    indexes = CatalogueIndexes(lexical=LexicalIndex.from_rows(rows), semantic=None, exact=exact)
-    matcher = HybridMatcher(config or MatcherConfig(), embedder=None)
+    # With no embedder the harness measures the lexical path alone, which is
+    # what it did for every figure published before the semantic path was
+    # wired up. Both numbers are reported side by side in the model card so the
+    # difference the model makes is visible rather than asserted.
+    semantic = build_semantic_index(catalogue, embedder) if embedder is not None else None
+
+    indexes = CatalogueIndexes(
+        lexical=LexicalIndex.from_rows(rows),
+        semantic=semantic,  # type: ignore[arg-type]
+        exact=exact,
+    )
+    matcher = HybridMatcher(config or MatcherConfig(), embedder=embedder)  # type: ignore[arg-type]
 
     hits = {1: 0, 3: 0, 5: 0}
     reciprocal_ranks: list[float] = []
@@ -264,6 +331,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out-markdown", type=Path, default=Path("artifacts/matching-eval.md"))
     parser.add_argument("--seed", type=int, default=20260101)
     parser.add_argument(
+        "--semantic",
+        action="store_true",
+        help="Load the embedding model and evaluate the full hybrid matcher.",
+    )
+    parser.add_argument(
         "--min-top1",
         type=float,
         default=0.0,
@@ -276,7 +348,19 @@ def main(argv: list[str] | None = None) -> int:
         catalogue = json.load(handle)
 
     queries = build_labelled_set(catalogue, seed=args.seed)
-    report = evaluate(catalogue, queries)
+
+    embedder = None
+
+    if args.semantic:
+        embedder = load_embedder()
+
+        if embedder is None:
+            print(
+                "WARNING: embedding model unavailable; reporting a lexical-only result.",
+                file=sys.stderr,
+            )
+
+    report = evaluate(catalogue, queries, embedder=embedder)
 
     args.out_json.parent.mkdir(parents=True, exist_ok=True)
     args.out_json.write_text(json.dumps(asdict(report), indent=2, ensure_ascii=False), "utf-8")

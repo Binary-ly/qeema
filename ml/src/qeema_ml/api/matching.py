@@ -10,6 +10,12 @@ opinion about which entry a piece of text refers to.
 
 from __future__ import annotations
 
+import hashlib
+import logging
+import threading
+from collections import OrderedDict
+
+import numpy as np
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
@@ -24,11 +30,146 @@ from qeema_ml.matching.matcher import (
     MatcherConfig,
 )
 from qeema_ml.matching.normalise import normalise
+from qeema_ml.matching.semantic import SemanticIndex, SentenceTransformerEmbedder
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/v1", tags=["matching"])
 
 #: Process-wide calibrator, refitted as human review decisions accumulate.
 _calibrator = ConfidenceCalibrator()
+
+#: How many distinct catalogues to keep embedded at once.
+#:
+#: One per country, and a deployment serves a handful. The bound exists so a
+#: caller that varies its catalogue per request cannot grow this without limit.
+_INDEX_CACHE_SIZE = 8
+
+_embedder: SentenceTransformerEmbedder | None = None
+_embedder_failed = False
+_embedder_lock = threading.Lock()
+
+_index_cache: OrderedDict[str, SemanticIndex] = OrderedDict()
+_index_lock = threading.Lock()
+
+
+def _get_embedder() -> SentenceTransformerEmbedder | None:
+    """The sentence-transformer, loaded once and shared.
+
+    Loading takes ~20s and about a gigabyte, so it happens on first use behind a
+    lock rather than per request. A failure is remembered: if the weights are
+    missing or the model cannot be constructed, every later call returns None
+    immediately instead of retrying a 20-second failure on every request.
+
+    Returning None is a supported state, not an error path. The matcher scores
+    lexically and — importantly — renormalises its fusion weights over the
+    signals that actually ran, so an absent semantic score is treated as absent
+    evidence rather than as evidence of a poor match.
+    """
+    global _embedder, _embedder_failed
+
+    if _embedder is not None or _embedder_failed:
+        return _embedder
+
+    with _embedder_lock:
+        # Re-check: another thread may have loaded it while this one waited.
+        if _embedder is not None or _embedder_failed:
+            return _embedder
+
+        settings = get_settings()
+
+        if not settings.load_models_on_startup:
+            # Unit tests must not pull a 1.1 GB model.
+            _embedder_failed = True
+
+            return None
+
+        try:
+            # Imported here, not at module scope: importing sentence_transformers
+            # pulls in torch, and the unit test run deliberately never loads
+            # weights. A top-level import would cost every test process a
+            # gigabyte to reach code that does not use it.
+            from sentence_transformers import SentenceTransformer
+
+            _embedder = SentenceTransformerEmbedder(
+                model=SentenceTransformer(settings.embedding_model),
+                query_prefix=settings.embedding_query_prefix,
+                passage_prefix=settings.embedding_passage_prefix,
+                batch_size=settings.embedding_batch_size,
+            )
+        except Exception:  # pragma: no cover - depends on the deployed image
+            logger.exception("Embedding model unavailable; matching stays lexical.")
+            _embedder_failed = True
+
+    return _embedder
+
+
+def _catalogue_fingerprint(catalogue: CatalogueIn) -> str:
+    """A stable key for one exact catalogue.
+
+    Hashed over the text and item id of every variant in order, so any edit —
+    an added variant, a corrected spelling — produces a different key and the
+    stale index is never served. Cheap next to embedding the catalogue.
+    """
+    digest = hashlib.blake2b(digest_size=16)
+
+    for variant in catalogue.variants:
+        digest.update(str(variant.canonical_item_id).encode())
+        digest.update(b"\x00")
+        digest.update((variant.normalized_text or variant.text).encode())
+        digest.update(b"\x01")
+
+    return digest.hexdigest()
+
+
+def _semantic_index(catalogue: CatalogueIn) -> SemanticIndex | None:
+    """Embed a catalogue, or return the cached embedding of it.
+
+    Embedding is the expensive part of matching — hundreds of milliseconds for a
+    typical catalogue — and the catalogue changes far less often than requests
+    arrive. Without this cache every single match would pay the full cost, which
+    is why the semantic path was originally left switched off.
+    """
+    embedder = _get_embedder()
+
+    if embedder is None or not catalogue.variants:
+        return None
+
+    key = _catalogue_fingerprint(catalogue)
+
+    with _index_lock:
+        cached = _index_cache.get(key)
+
+        if cached is not None:
+            _index_cache.move_to_end(key)
+
+            return cached
+
+    # Deliberately outside the lock: embedding is slow, and holding the lock
+    # would serialise every request behind the first one.
+    texts = [v.normalized_text or v.text for v in catalogue.variants]
+
+    try:
+        vectors = embedder.encode_passages(texts)
+    except Exception:  # pragma: no cover - depends on the deployed image
+        logger.exception("Embedding the catalogue failed; matching stays lexical.")
+
+        return None
+
+    index = SemanticIndex(
+        item_ids=[v.canonical_item_id for v in catalogue.variants],
+        item_codes=[v.canonical_item_code for v in catalogue.variants],
+        embeddings=np.asarray(vectors, dtype=np.float32),
+    )
+
+    with _index_lock:
+        _index_cache[key] = index
+        _index_cache.move_to_end(key)
+
+        while len(_index_cache) > _INDEX_CACHE_SIZE:
+            _index_cache.popitem(last=False)
+
+    return index
 
 
 class VariantIn(BaseModel):
@@ -109,7 +250,7 @@ def _matcher() -> HybridMatcher:
             top_k=settings.match_top_k,
         ),
         calibrator=_calibrator,
-        embedder=None,
+        embedder=_get_embedder(),
     )
 
 
@@ -122,7 +263,11 @@ def _build_catalogue(catalogue: CatalogueIn) -> CatalogueIndexes:
         if key:
             exact.setdefault(key, (variant.canonical_item_id, variant.canonical_item_code))
 
-    return CatalogueIndexes(lexical=LexicalIndex.from_rows(rows), semantic=None, exact=exact)
+    return CatalogueIndexes(
+        lexical=LexicalIndex.from_rows(rows),
+        semantic=_semantic_index(catalogue),
+        exact=exact,
+    )
 
 
 def _to_response(text: str, decision: MatchDecision, top_k: int | None) -> MatchResponse:
