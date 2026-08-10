@@ -1076,3 +1076,16 @@ public API. A test of a stage cannot see a missing wire, so it walks the wire.
 `tests/Feature/Console/ScheduleTest.php` is the companion guard — it asserts the
 schedule itself, because the absence of a scheduled task is invisible to a test
 of the task.
+
+### The compliance job caught a C3 violation the local check had missed
+
+CI failed on a timezone name — `Africa/Tripoli` — used as an *example inside a
+doc comment* explaining why dates must be per-country. The irony is the point:
+the comment argued against hardcoding a country and hardcoded one to do it.
+
+The interesting part is why `make check-country-agnostic` passed locally
+moments earlier. The script uses `git grep`, which searches **tracked files
+only**, and the file was still untracked. So the guard was lenient about
+exactly the code most likely to break the rule: code that has just been
+written. `--untracked` added, and verified by planting a violation in an
+uncommitted file and watching the check fail.

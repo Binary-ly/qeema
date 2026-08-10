@@ -23,12 +23,14 @@ use Illuminate\Console\Command;
  * new calendar day at all. This command is the other half: it creates the
  * snapshots that do not exist yet.
  *
- * **There is no such thing as "today" on this platform.** One deployment runs
- * in `Africa/Tripoli` and another in `America/Caracas`, eleven hours apart, and
- * a server-local date would publish tomorrow's snapshot early in one country
- * and yesterday's late in the other. Every date here is therefore computed in
- * the country's own timezone. Constraint C3 is not only about literals in code;
- * a hardcoded notion of *when* is the same mistake in a different dimension.
+ * **There is no such thing as "today" on this platform.** Two deployments can
+ * sit half a day apart, and a server-local date would publish tomorrow's
+ * snapshot early in the country to the east and yesterday's late in the country
+ * to the west. Every date here is therefore computed in the country's own
+ * timezone, read from configuration like every other country fact. Constraint
+ * C3 is not only about literals in code; a hardcoded notion of *when* is the
+ * same mistake in a different dimension — and naming a real timezone even in a
+ * comment is how the first one gets in.
  *
  * Existing snapshots are left alone unless `--force` is given. Recomputing them
  * would duplicate the drain's work and, worse, would republish a figure inside

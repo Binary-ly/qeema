@@ -46,7 +46,13 @@ failed=0
 report=""
 
 for pattern in "${PATTERNS[@]}"; do
-    if ! matches=$(git grep -n -I -E "$pattern" -- \
+    # --untracked matters more than it looks. Without it this searches only
+    # committed files, so a brand-new file passes locally and fails in CI the
+    # moment it is committed — which is exactly how a country name reached the
+    # published contract once already, and a timezone reached a doc comment the
+    # second time. A guard that is lenient about new code is lenient about
+    # precisely the code most likely to break the rule.
+    if ! matches=$(git grep -n -I -E --untracked "$pattern" -- \
             'api/app' 'api/config' 'api/routes' 'api/database/migrations' \
             'ml/src' 'infra/docker' \
             "${EXCLUDE_PATHS[@]}" 2>/dev/null); then
