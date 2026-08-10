@@ -893,3 +893,34 @@ against a 9.0% baseline, +61%).
 - Chain-linking across basket versions, and the Filament review-queue UI (the
   actions are built and tested; the screen is not).
 - The bootstrap index step is verified by clean-boot runs but has no unit test.
+
+### First real CI run — four latent failures
+
+The repository had no remote until it was pushed, so the workflow had never
+executed. Every gate had only ever been run locally, where a `.env` and built
+assets happen to exist. Four failures surfaced at once, none of them caused by
+the code they were testing:
+
+1. **The workflow file did not parse**, so no job ran at all (0s, no
+   annotations). A readiness check ended
+   `grep -q '"models_loaded": *true'` as a plain scalar; the `: ` inside it made
+   YAML read a nested mapping, and the inner quotes were part of the string
+   rather than quoting it. Now a block scalar.
+2. **57 tests failed with `MissingAppKeyException`.** There is no `.env` in CI,
+   so encryption was unconfigured and anything rendering a page died. Fixed in
+   `phpunit.xml` with a fixed 32-byte test key rather than in the workflow, so a
+   fresh clone can run the suite without any setup — the same failure a new
+   contributor would have hit.
+3. **35 tests failed on `Vite manifest not found`.** `public/build` is generated
+   and gitignored, and the PHP job never built it, but Blade calls `@vite()`.
+   The job now runs `npm ci && npm run build`.
+4. **The C2 demo job ran out of disk.** The ML image bakes ~1.1 GB of weights on
+   top of CPU torch (D-09) and does not fit beside the runner's preinstalled
+   toolchains. The job now reclaims ~20 GB first, rather than weakening the
+   constraint that the model ships in the image.
+
+Also caught by the constraint job: a `'LYD'` example had leaked into the
+OpenAPI definition — a C3 violation in the *published contract*, which is the
+worst place for one. Now `XTS`, the ISO reserved-for-testing code.
+
+All four jobs green.
