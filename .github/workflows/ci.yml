@@ -230,7 +230,11 @@ jobs:
           grep -q '"pg_trgm":true' /tmp/health.json
 
       - name: Assert the ML service is ready
-        run: curl -fsS http://localhost:8000/ready | grep -q '"models_loaded": *true'
+        # Block scalar: the pattern contains a colon-space, which YAML reads as
+        # a nested mapping when the value is a plain scalar. The inner quotes
+        # are part of the string, so they quote nothing.
+        run: |
+          curl -fsS http://localhost:8000/ready | grep -q '"models_loaded": *true'
 
       - name: Dump logs on failure
         if: failure()
