@@ -62,7 +62,10 @@ use OpenApi\Attributes as OA;
     required: ['local', 'currency'],
     properties: [
         new OA\Property(property: 'local', type: 'number', format: 'float'),
-        new OA\Property(property: 'currency', type: 'string', example: 'LYD'),
+        // ISO 4217, whichever the deployment configures. Deliberately not a
+        // real shipped currency: an example naming one country's money would
+        // be a C3 violation in the published contract.
+        new OA\Property(property: 'currency', type: 'string', example: 'XTS'),
         new OA\Property(property: 'usd', type: 'number', format: 'float', nullable: true, description: 'Null when no usable exchange rate existed.'),
         new OA\Property(property: 'confidence_low', type: 'number', format: 'float', nullable: true),
         new OA\Property(property: 'confidence_high', type: 'number', format: 'float', nullable: true),

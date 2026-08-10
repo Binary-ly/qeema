@@ -203,6 +203,18 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
+      # The ML image bakes the embedding weights on top of a CPU torch install
+      # (D-09), which does not fit alongside the runner's preinstalled
+      # toolchains. Reclaiming ~20 GB is cheaper than weakening the constraint
+      # that the model ships in the image.
+      - name: Reclaim runner disk
+        run: |
+          df -h / | tail -1
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+                      /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          sudo docker image prune --all --force
+          df -h / | tail -1
+
       - name: Build images
         run: docker compose build
 

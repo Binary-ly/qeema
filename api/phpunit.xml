@@ -22,6 +22,17 @@
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <!--
+            A fixed key so the suite boots without a .env file. Not a secret:
+            it encrypts nothing but throwaway test sessions, and it is the same
+            on every machine by design.
+
+            Without it, anything that renders a page dies with
+            MissingAppKeyException — which is how a freshly cloned checkout and
+            the first real CI run both behaved. The key must decode to exactly
+            32 bytes for AES-256.
+        -->
+        <env name="APP_KEY" value="base64:AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8="/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
