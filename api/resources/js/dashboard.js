@@ -20,6 +20,18 @@
  *   target reachable on a throttled mid-tier phone.
  */
 
+// Country switching. Lives here rather than in an onchange attribute so the
+// page can be served under a Content-Security-Policy that forbids inline
+// script — which is the policy worth having.
+const picker = document.getElementById('country-picker')
+
+if (picker) {
+    picker.addEventListener('change', () => {
+        const locale = picker.dataset.locale ?? ''
+        window.location.search = `?country=${encodeURIComponent(picker.value)}&locale=${encodeURIComponent(locale)}`
+    })
+}
+
 const chartsEl = document.getElementById('dash-charts')
 const labelsEl = document.getElementById('dash-labels')
 

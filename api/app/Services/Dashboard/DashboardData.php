@@ -43,20 +43,18 @@ final readonly class DashboardData
      */
     public function currentSnapshots(Country $country): Collection
     {
-        $latest = DB::table('index_snapshots')
-            ->selectRaw('location_id, MAX(snapshot_date) AS snapshot_date')
-            ->where('country_id', $country->id)
-            ->groupBy('location_id');
-
+        // DISTINCT ON: one ordered index walk rather than a grouped subquery
+        // joined back against the table. See IndexController::current for the
+        // measurement.
         return IndexSnapshot::query()
-            ->joinSub($latest, 'latest', function ($join): void {
-                $join->on('index_snapshots.location_id', '=', 'latest.location_id')
-                    ->on('index_snapshots.snapshot_date', '=', 'latest.snapshot_date');
-            })
+            // Laravel has no distinctOn() helper; DISTINCT ON is Postgres
+            // syntax that must lead the select list, and its expression has to
+            // match the leading ORDER BY column exactly.
+            ->selectRaw('DISTINCT ON (index_snapshots.location_id) index_snapshots.*')
             ->where('index_snapshots.country_id', $country->id)
             ->with(['location', 'items.canonicalItem'])
-            ->select('index_snapshots.*')
             ->orderBy('index_snapshots.location_id')
+            ->orderByDesc('index_snapshots.snapshot_date')
             ->get();
     }
 

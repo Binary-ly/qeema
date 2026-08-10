@@ -14,7 +14,6 @@ use App\Models\Location;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -35,22 +34,22 @@ final class IndexController extends Controller
         // The most recent snapshot per location, not the most recent overall:
         // locations report at different rates, and taking a single global date
         // would silently drop every location that had not reported that day.
+        //
+        // DISTINCT ON rather than a join against a grouped subquery. Both are
+        // correct; this one is a single ordered walk of
+        // (country_id, location_id, snapshot_date DESC) instead of a sequential
+        // scan, a hash aggregate and then one index probe per location.
+        // Measured on 35,712 rows: 3.35 ms against 4.32 ms, and the gap widens
+        // with history because the aggregate side has to read every row.
         $latest = IndexSnapshot::query()
-            ->select('index_snapshots.*')
-            ->join(
-                DB::raw('(
-                    SELECT location_id, MAX(snapshot_date) AS latest
-                    FROM index_snapshots WHERE country_id = '.(int) $country->id.'
-                    GROUP BY location_id
-                ) newest'),
-                function ($join): void {
-                    $join->on('index_snapshots.location_id', '=', 'newest.location_id')
-                        ->on('index_snapshots.snapshot_date', '=', 'newest.latest');
-                },
-            )
+            // Laravel has no distinctOn() helper; DISTINCT ON is Postgres
+            // syntax that must lead the select list, and its expression has to
+            // match the leading ORDER BY column exactly.
+            ->selectRaw('DISTINCT ON (index_snapshots.location_id) index_snapshots.*')
             ->where('index_snapshots.country_id', $country->id)
             ->with(['location', 'country', 'items.canonicalItem'])
             ->orderBy('index_snapshots.location_id')
+            ->orderByDesc('index_snapshots.snapshot_date')
             ->get();
 
         return IndexSnapshotResource::collection($latest);

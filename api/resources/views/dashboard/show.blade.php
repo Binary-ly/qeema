@@ -40,7 +40,10 @@
             @if (count($countries) > 1)
                 <label class="dash__field">
                     <span class="dash__field-label">{{ $country->name }}</span>
-                    <select class="dash__select" onchange="location.search = '?country=' + this.value + '&locale={{ $locale }}'">
+                    {{-- No inline handler: an onchange attribute would force
+                         'unsafe-inline' into the script-src policy, which is
+                         most of what a CSP is for. Wired up in dashboard.js. --}}
+                    <select class="dash__select" id="country-picker" data-locale="{{ $locale }}">
                         @foreach ($countries as $option)
                             <option value="{{ $option->code }}" @selected($option->code === $country->code)>
                                 {{ $option->name }}

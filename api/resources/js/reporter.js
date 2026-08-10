@@ -8,3 +8,11 @@ Alpine.data('reporter', reporter);
 
 window.Alpine = Alpine;
 Alpine.start();
+
+// Service worker registration. Bundled rather than inline so the reporter can
+// be served under a Content-Security-Policy that forbids inline script.
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+    })
+}

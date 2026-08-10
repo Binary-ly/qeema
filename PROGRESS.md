@@ -796,3 +796,100 @@ run above but has no unit test yet. Lighthouse still unmeasured. Matching
 remains lexical-only. Nowcast intervals under-cover (74.6% against 80%
 nominal). Chain-linking across basket versions and the Filament review-queue UI
 outstanding.
+
+### Phase 12 — Hardening — complete
+
+**Lighthouse, finally measured.** Deferred from Phase 10 rather than claimed;
+run here on throttled mobile (4× CPU, slow 4G), not the generous desktop preset:
+
+| Page | Performance | Accessibility | Best practices | SEO | LCP |
+|---|---|---|---|---|---|
+| Dashboard (LY, RTL) | 99 | 100 | 100 | 100 | 1.0 s |
+| Dashboard (VE, LTR) | 97 | 100 | 100 | 100 | 2.3 s |
+| Reporter | 100 | 100 | 100 | 100 | 1.2 s |
+| API docs | 100 | 100 | 100 | 100 | 0.9 s |
+
+Target was >90 on performance and accessibility; the lowest of either across
+all four pages is 97. Two pages initially scored 91 on SEO for a missing meta
+description, now added.
+
+**Coverage, both services:** PHP 94.0% (409 passed, 1 skipped, 1,726
+assertions), Python 86.0% (190 passed). C5 met on both sides.
+
+**End-to-end: 23 Playwright tests** against the composed stack. The eight
+existing reporter tests are joined by fifteen covering the public surface —
+what a reviewer opens and a consumer builds on. They assert properties rather
+than markup: that the API needs no credentials, that `is_imputed` is a boolean
+on every item and imputed items carry a method and zero observations, that
+coverage plus imputed share never exceeds the basket, that `cost.usd` is a real
+number or explicitly null and never a silent conversion, that the CSV carries
+its licence, that the map is keyboard-reachable, and that **no request leaves
+localhost** on any page.
+
+**Security pass.** Findings on the running stack: headers present, admin gated
+(302), Horizon 403, no debug leak, SQL-injection probes returned clean 404s, no
+XSS reflection, rate limiting enforced (429 after 5 exports/min). Two gaps
+closed — a Content-Security-Policy and a Permissions-Policy, neither of which
+existed.
+
+**The CSP broke the reporter, and that is how the real problem was found.**
+Adding a strict `script-src 'self'` made all eight reporter end-to-end tests
+fail at once. Two distinct causes, and only one was unavoidable:
+
+1. Alpine compiles its `x-` expressions with `new Function()`, so it genuinely
+   requires `'unsafe-eval'`. Rather than weaken the policy everywhere, the
+   exception is scoped to the routes that run Alpine — the reporter, admin and
+   Horizon. The public dashboard, API, docs and CSV export keep the strict
+   policy, which is what a passer-by and a data consumer actually touch.
+2. An inline `<script>` block registered the service worker. That one *was*
+   avoidable: it moved into the bundled entry point, so the reporter now needs
+   no `'unsafe-inline'` at all. A test asserts the absence of any inline block,
+   because re-adding one would silently force the keyword back.
+
+The dashboard's country picker lost its inline `onchange` for the same reason.
+
+**Performance pass on the index query path.** Warm p50 is 28–50 ms across the
+index endpoints and both dashboards. The plan was the more interesting result:
+`GET /index/current` resolves a per-location maximum date, which the existing
+`(country_id, snapshot_date)` index does not serve, so Postgres sequentially
+scanned every snapshot in the country to compute the aggregate. Harmless at
+992 rows and linear in history.
+
+Two changes, both measured on a 35,712-row table (three years, two countries):
+
+- A `(country_id, location_id, snapshot_date DESC)` index.
+- `DISTINCT ON` in place of a join against a grouped subquery, at both call
+  sites. **3.35 ms against 4.32 ms** — a single ordered index walk rather than a
+  sequential scan, a hash aggregate and one index probe per location. Postgres
+  has no loose index scan, so the index alone did not help the aggregate; the
+  query had to change with it. Simpler code, too.
+
+| Gate | Result |
+|---|---|
+| Pest | 409 passed, 1 skipped, 1,726 assertions, 94.0% |
+| pytest | 190 passed, 86.0% |
+| Playwright | 23 passed against the composed stack |
+| PHPStan level 6 | 0 errors |
+| Pint / ruff / mypy | clean |
+
+**Model cards** published for all three ML components under `docs/model-cards/`:
+matching (98.4% top-1, 99.3% auto-resolve precision), anomaly detection (100%
+recall on unit confusion and decimal slip, 99.3% wrong currency, 12.8% stale
+copy, 100% manipulation recall at 80% precision), and nowcasting (MAPE 3.5%
+against a 9.0% baseline, +61%).
+
+**Still open, and stated rather than buried:**
+
+- **Matching is lexical-only.** pgvector is wired and the semantic path is
+  implemented, but embeddings are not being generated, so the published 98.4%
+  top-1 is a lexical-only result. This is the largest gap between what the
+  architecture claims and what runs.
+- **Nowcast intervals under-cover:** 74.6% empirical against 80% nominal. Two
+  remedies are documented in the model card; neither is applied because both
+  need re-measurement.
+- **Alpine still needs `'unsafe-eval'`** on three routes. Alpine's CSP build
+  would remove the exception at the cost of rewriting every inline expression
+  as a component method.
+- Chain-linking across basket versions, and the Filament review-queue UI (the
+  actions are built and tested; the screen is not).
+- The bootstrap index step is verified by clean-boot runs but has no unit test.

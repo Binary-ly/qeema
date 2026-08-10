@@ -192,7 +192,7 @@ class TestReporterBias:
 
         # Only a fifth of this reporter's submissions are falsified — which is
         # what made the median useless.
-        records += self._records("bad", ([0.70] + [1.0, 0.99, 1.01, 1.02]) * 4)
+        records += self._records("bad", ([0.7, 1.0, 0.99, 1.01, 1.02]) * 4)
 
         flagged = suspicious_reporter_ids(detect_bias(records))
 
@@ -226,7 +226,7 @@ class TestReporterBias:
         records: list[dict] = []
         for reporter in ("a", "b", "c", "d"):
             records += self._records(reporter, [1.0, 0.99, 1.01] * 7)
-        records += self._records("bad", ([0.70] + [1.0, 0.99, 1.01]) * 6)
+        records += self._records("bad", ([0.7, 1.0, 0.99, 1.01]) * 6)
 
         result = next(r for r in detect_bias(records) if r.reporter_id == "bad")
 

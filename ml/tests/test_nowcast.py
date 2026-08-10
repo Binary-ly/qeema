@@ -23,19 +23,19 @@ from qeema_ml.nowcast.model import (
 
 
 def features(**overrides) -> NowcastFeatures:
-    base = dict(
-        national_median=10.0,
-        neighbour_median=10.5,
-        neighbour_weighted=10.4,
-        neighbour_count=3.0,
-        nearest_neighbour_km=40.0,
-        last_local_price=10.2,
-        days_since_local=3.0,
-        national_trend=1.01,
-        fx_change_30d=1.02,
-        location_price_level=1.05,
-        day_of_week=2.0,
-    )
+    base = {
+        "national_median": 10.0,
+        "neighbour_median": 10.5,
+        "neighbour_weighted": 10.4,
+        "neighbour_count": 3.0,
+        "nearest_neighbour_km": 40.0,
+        "last_local_price": 10.2,
+        "days_since_local": 3.0,
+        "national_trend": 1.01,
+        "fx_change_30d": 1.02,
+        "location_price_level": 1.05,
+        "day_of_week": 2.0,
+    }
     base.update(overrides)
     return NowcastFeatures(**base)
 

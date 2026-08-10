@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#0f172a">
     <title>{{ __('reporter.title') }}</title>
+    <meta name="description" content="{{ __('reporter.subtitle') }}">
 
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
@@ -145,12 +146,9 @@
     <p class="reporter__id" x-text="@js(__('reporter.reporter_id')).replace(':id', reporterId)"></p>
 </main>
 
-<script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js', { scope: '/' });
-        });
-    }
-</script>
+{{-- Service worker registration lives in resources/js/reporter.js, not in an
+     inline block. An inline <script> would force 'unsafe-inline' into the
+     script-src policy for this route, which is most of what the policy is
+     worth — and unlike Alpine's need for eval, this one is avoidable. --}}
 </body>
 </html>

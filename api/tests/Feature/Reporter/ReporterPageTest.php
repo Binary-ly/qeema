@@ -46,8 +46,21 @@ describe('serving the app', function () {
             ->assertSee('/manifest.webmanifest', false);
     });
 
-    it('registers the service worker', function () {
-        $this->get('/report')->assertSee('serviceWorker.register', false);
+    it('registers the service worker from the bundle, not an inline script', function () {
+        $html = $this->get('/report')->getContent();
+
+        // The registration moved out of the view so the page can be served
+        // under a policy that forbids inline script. Asserting the *absence* of
+        // an inline block is the part worth keeping: an inline <script> here
+        // would silently force 'unsafe-inline' back into the CSP.
+        expect($html)->not->toMatch('/<script(?![^>]*\ssrc=)(?![^>]*type="application\/json")[^>]*>/i');
+
+        // The bundled entry point is still loaded.
+        expect($html)->toContain('reporter');
+
+        $registration = (string) file_get_contents(resource_path('js/reporter.js'));
+
+        expect($registration)->toContain('serviceWorker.register');
     });
 
     it('hands the client the endpoints it needs', function () {

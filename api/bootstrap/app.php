@@ -4,6 +4,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -17,6 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Applied to every response, including the API and the CSV export.
+        $middleware->append(SecurityHeaders::class);
+
         // The public API is read-only and unauthenticated by design (C6). The
         // api group is stateless out of the box and Sanctum is deliberately not
         // installed, so no session or CSRF state can attach to a response that

@@ -10,6 +10,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $spec['info']['title'] ?? 'API' }} — API</title>
+    {{-- First line of the spec's own description, so the two cannot drift. --}}
+    <meta name="description" content="{{ Str::limit(strtok($spec['info']['description'] ?? 'Public API documentation.', "\n"), 155) }}">
     @vite(['resources/css/reporter.css'])
     <style>
         .docs { max-width: 60rem; margin-inline: auto; }
