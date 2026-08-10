@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Support\Ingestion;
 
+use App\Jobs\ResolveIngestionBatchJob;
 use App\Models\Country;
 use App\Models\IngestionBatch;
 use App\Models\Location;
@@ -199,6 +200,13 @@ final class PartnerFileImporter
             ],
             'finished_at' => CarbonImmutable::now(),
         ])->save();
+
+        // The rows above were written with the query builder, so no model event
+        // fired for any of them. Without this hand-off an imported file would
+        // sit at `pending` exactly as an API submission used to.
+        if ($accepted > 0) {
+            ResolveIngestionBatchJob::dispatch($batch->id)->afterCommit();
+        }
 
         return $batch;
     }

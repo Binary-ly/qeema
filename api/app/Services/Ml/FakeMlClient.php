@@ -126,12 +126,16 @@ final class FakeMlClient implements MlClientInterface
 
         // Default: everything clean, one verdict per observation and in order,
         // which is the contract callers rely on to zip results back to rows.
+        // `model_version` is present because the real client merges it onto
+        // every verdict from the response envelope; a fake without it would let
+        // a caller depend on a field that is only ever set in production.
         return array_map(static fn (array $o): array => [
             'submission_id' => $o['submission_id'],
             'score' => 0.0,
             'verdict' => 'clean',
             'reasons' => [],
             'layer_scores' => ['bounds' => 0.0, 'robust' => 0.0, 'isolation_forest' => 0.0],
+            'model_version' => 'fake-anomaly-0.1.0',
         ], $observations);
     }
 

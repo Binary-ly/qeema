@@ -7,6 +7,8 @@ the observations, this service owns the opinion about which are suspicious.
 
 from __future__ import annotations
 
+from dataclasses import asdict
+
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 
@@ -84,7 +86,13 @@ def score(request: ScoreRequest) -> ScoreResponse:
     verdicts = detector.score_many([Observation(**o.model_dump()) for o in request.observations])
 
     return ScoreResponse(
-        results=[VerdictOut(**v.__dict__) for v in verdicts],
+        # asdict(), not __dict__: AnomalyVerdict is a slotted dataclass and has
+        # no instance dictionary at all, so __dict__ raised AttributeError and
+        # every call to this endpoint returned a 500. Nothing noticed, because
+        # every anomaly test exercised the detector directly and none of them
+        # went through HTTP — the same shape of gap as a pipeline stage with no
+        # caller.
+        results=[VerdictOut(**asdict(v)) for v in verdicts],
         model_version=f"anomaly-{__version__}",
         forest_trained=detector.forest_is_trained,
     )

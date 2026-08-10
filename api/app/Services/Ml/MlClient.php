@@ -145,7 +145,17 @@ final class MlClient implements MlClientInterface
                 /** @var list<array<string, mixed>> $results */
                 $results = $body['results'] ?? [];
 
-                return $results;
+                // The service reports its version once, on the envelope; the
+                // caller stores it per verdict. Without this every screened
+                // observation is recorded against an unknown model version,
+                // which makes a past verdict impossible to attribute when the
+                // detector changes.
+                $version = $body['model_version'] ?? null;
+
+                return array_map(
+                    static fn (array $verdict): array => $verdict + ['model_version' => $version],
+                    $results,
+                );
             },
         );
     }

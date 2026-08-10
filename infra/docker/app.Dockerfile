@@ -86,7 +86,9 @@ COPY --from=assets /build/public/build ./public/build
 
 COPY infra/docker/entrypoint-app.sh /usr/local/bin/entrypoint-app
 COPY infra/docker/entrypoint-worker.sh /usr/local/bin/entrypoint-worker
-RUN chmod +x /usr/local/bin/entrypoint-app /usr/local/bin/entrypoint-worker
+COPY infra/docker/entrypoint-scheduler.sh /usr/local/bin/entrypoint-scheduler
+RUN chmod +x /usr/local/bin/entrypoint-app /usr/local/bin/entrypoint-worker \
+    /usr/local/bin/entrypoint-scheduler
 
 RUN mkdir -p storage/framework/{cache/data,sessions,views} storage/logs bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache \

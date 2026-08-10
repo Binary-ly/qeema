@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\Jobs\ResolveSubmissionJob;
 use App\Models\CanonicalItem;
 use App\Models\Country;
 use App\Models\Location;
@@ -110,7 +111,19 @@ final class RecordSubmission
             return SubmissionResult::duplicate($submission);
         }
 
-        return SubmissionResult::accepted($submission);
+        $result = SubmissionResult::accepted($submission);
+
+        // Hand it to the pipeline, last, so nothing about the response depends
+        // on when the job runs. Only on a genuine accept: a phone flushing its
+        // offline queue replays submissions that are already resolved, and
+        // re-entering those would put work behind the ones still waiting.
+        //
+        // After commit, because a worker is entitled to pick the job up the
+        // instant it is queued, and a job that reads the submission before the
+        // transaction lands finds nothing there.
+        ResolveSubmissionJob::dispatch($submission->id)->afterCommit();
+
+        return $result;
     }
 
     /**

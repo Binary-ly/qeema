@@ -30,6 +30,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property CarbonInterface|null $collected_at
  * @property CarbonInterface|null $ingested_at
  * @property array<string, mixed>|null $device_metadata
+ * @property int $pipeline_attempts
+ * @property CarbonInterface|null $pipeline_attempted_at
+ * @property string|null $pipeline_last_error
  */
 final class Submission extends Model
 {
@@ -51,6 +54,7 @@ final class Submission extends Model
         'raw_text', 'raw_price', 'currency_code', 'raw_unit', 'raw_quantity',
         'photo_path', 'observed_at', 'collected_at', 'ingested_at',
         'device_metadata', 'client_idempotency_key', 'status',
+        'pipeline_attempts', 'pipeline_attempted_at', 'pipeline_last_error',
     ];
 
     protected function casts(): array
@@ -62,6 +66,8 @@ final class Submission extends Model
             'collected_at' => 'datetime',
             'ingested_at' => 'datetime',
             'device_metadata' => 'array',
+            'pipeline_attempts' => 'integer',
+            'pipeline_attempted_at' => 'datetime',
         ];
     }
 
@@ -141,5 +147,40 @@ final class Submission extends Model
     public function scopeAwaitingReview(Builder $query): void
     {
         $query->where('status', self::STATUS_NEEDS_REVIEW);
+    }
+
+    /**
+     * Submissions the pipeline has not finished with.
+     *
+     * @param  Builder<self>  $query
+     */
+    public function scopeAwaitingPipeline(Builder $query): void
+    {
+        $query->where('status', self::STATUS_PENDING);
+    }
+
+    /**
+     * Count one attempt at automatic resolution, recording why it failed.
+     *
+     * Written outside any transaction the caller may own: the whole purpose of
+     * the counter is to survive the failure being recorded, and a rollback that
+     * also erased the evidence would produce a submission that retries forever
+     * while claiming it has never been tried.
+     */
+    public function recordPipelineAttempt(?string $error = null): void
+    {
+        $this->forceFill([
+            'pipeline_attempts' => $this->pipeline_attempts + 1,
+            'pipeline_attempted_at' => now(),
+            'pipeline_last_error' => $error,
+        ])->save();
+    }
+
+    /**
+     * Has automatic resolution used up its budget?
+     */
+    public function pipelineBudgetExhausted(): bool
+    {
+        return $this->pipeline_attempts >= (int) config('qeema.pipeline.max_attempts');
     }
 }

@@ -924,3 +924,155 @@ OpenAPI definition — a C3 violation in the *published contract*, which is the
 worst place for one. Now `XTS`, the ISO reserved-for-testing code.
 
 All four jobs green.
+
+---
+
+## Phase 13.1 & 13.2 — closing the loop — complete
+
+Plan: `docs/plan-close-the-loop.md`. Sub-phases 13.3–13.6 (review queue, FX
+ingestion, observability, end-to-end proof) remain open.
+
+### What was actually broken
+
+Every stage of the ingestion pipeline was built, unit-tested — and unreachable.
+A price posted to the public API was written with status `pending` and stayed
+there permanently. Verified on the running stack before any change:
+
+```
+POST /api/v1/submissions  → 200 {"submission_status":"pending"}
+submissions.status        → pending (unchanged after ten minutes)
+resolutions               → 0 rows
+price_observations        → 0 rows
+redis queue               → 0 pending, 0 delayed
+```
+
+Three actions had no production caller at all: `ResolveSubmission`,
+`ScoreSubmissionAnomaly`, `ApplyReviewDecision`. There was no scheduler —
+`routes/console.php` held only Laravel's stock `inspire` — so `qeema:index`
+was a command nobody ran, and nothing created a snapshot for a new calendar day
+in the first place. The demo was convincing because `SyntheticDataGenerator`
+bulk-inserts the pipeline's *outputs*: submissions, resolutions, observations
+and anomaly scores, all written directly.
+
+The invariant this establishes: **every submission reaches a terminal state,
+and every valid observation reaches a published snapshot, within a bounded and
+monitored time — or an operator is told why not.**
+
+### Decisions
+
+**D-11 — a fast path *and* a reconciler.** Dispatch-on-write gives the latency
+"live" implies; `qeema:pipeline:sweep` every minute is the guarantee.
+`RecordSubmission` is not the only writer: `PartnerFileImporter` inserts with
+the query builder, so no model event fires, and any future importer will be
+written by someone who has not read this file. The sweeper is also why the
+eleven stranded submissions needed no migration script — they were simply the
+first tick's work.
+
+**D-12 — the job waits out an ML outage rather than converting it into human
+work.** `ResolveSubmission` routes to review when the matcher has no opinion,
+which is right for a direct call and a bad trade as the automatic response to a
+container restart: a thousand submissions that would each have resolved in
+milliseconds become a thousand items of human work. The deferral therefore
+lives in the job, on a `[10, 30, 120, 300]` ladder, leaving the action's tested
+semantics untouched. The final attempt falls through deliberately — waiting for
+ever is not an option either.
+
+**D-13 — the scheduler is its own container.** A scheduler that dies inside the
+worker leaves `docker compose ps` reporting a healthy worker while the index
+quietly stops updating, which is exactly the invisible failure it exists to
+prevent. It reuses the app image, writes a heartbeat every minute, and its
+healthcheck reads that heartbeat back.
+
+**D-14 — "today" is a per-country question.** One deployment runs in
+`Africa/Tripoli` and another in `America/Caracas`, eleven hours apart. A
+server-local date publishes tomorrow's snapshot early in one country and
+yesterday's late in the other, so `qeema:index:publish` computes the date in
+each country's own timezone and normalises the instant to UTC midnight so
+recency weights stay reproducible. C3 is not only about literals in code; a
+hardcoded notion of *when* is the same mistake in a different dimension.
+
+**D-15 — a publish grace window.** An observation marks its snapshots stale
+inside the transaction that creates it; screening lands a moment later. A drain
+in that gap publishes a figure containing an unscreened price and corrects it
+seconds afterwards. Self-correcting, and briefly wrong in public. `qeema:index`
+now takes `--grace` (default 60s), backed by a new `stale_marked_at` column
+that also gives backlog *age* — the signal that actually distinguishes a
+backlog being worked through from a pipeline that has stopped.
+
+**D-17 — bounded retries end in the review queue, never in silence.** The retry
+budget lives on the submission row (`pipeline_attempts`), not on the queue
+message, so it survives re-dispatch: five attempts means five however many
+times the work was queued. After that the submission is handed to a human with
+the error attached.
+
+### Changed
+
+Jobs `ResolveSubmissionJob`, `ScoreSubmissionAnomalyJob`,
+`ResolveIngestionBatchJob`; commands `qeema:pipeline:sweep`,
+`qeema:index:publish`, `qeema:scheduler:heartbeat`; the schedule itself; a
+`scheduler` compose service; two migrations; `--grace` on `qeema:index`.
+
+**Horizon was running on vendor defaults** — there was no `config/horizon.php`,
+so a single supervisor served only the `default` queue. Published and tuned:
+`pipeline-live` and `pipeline-bulk` supervisors, so a fifty-thousand-row
+partner spreadsheet cannot decide how long a reporter waits. `retry_after`
+raised to 300s, above every job and supervisor timeout.
+
+**The test suite no longer runs queued work by default.** Under `sync`, every
+test that created a submission silently executed the whole resolution path,
+attempted real HTTP to an unreachable host, and left circuit-breaker state in
+the shared array cache for whatever test ran next. `QUEUE_CONNECTION=null`;
+tests that want the pipeline opt in with `Queue::fake()` or `dispatchSync`.
+
+### A latent defect the loop exposed
+
+Wiring the pipeline made the first ever production call to the anomaly
+endpoint, which returned **HTTP 500**:
+
+```
+AttributeError: 'AnomalyVerdict' object has no attribute '__dict__'
+```
+
+`AnomalyVerdict` is `@dataclass(frozen=True, slots=True)` and has no instance
+dictionary; the endpoint built its response with `v.__dict__`. It had never
+worked. A hundred anomaly tests passed throughout, because every one of them
+exercised the detector directly and **not one went through HTTP** — the same
+shape of gap as a pipeline stage with no caller. Fixed with `asdict()`, plus
+six tests that cross the boundary.
+
+The same pass found that `anomaly_scores.model_version` was always null: the
+service reports its version once on the envelope and the caller stored it per
+verdict. A past verdict that cannot be attributed to a model version is most of
+an audit trail missing.
+
+### Verified on the running stack
+
+Not argued — run. `docker compose up -d`, six containers healthy including the
+new scheduler:
+
+| | |
+|---|---|
+| Stranded backlog | 11 pending adopted by the first sweep: 10 auto-resolved, 1 matched at 0.80 confidence and routed to review rather than guessed |
+| Submitted | 20:42:56 — `cooking_oil_1l`, 13.75 LYD, Tripoli, through the public API |
+| Resolved | automatically, method `fused`, confidence 0.99 |
+| Published | **20:44:10 — 74 seconds, no command run by anyone** |
+| Screened | verdict `clean` |
+| Public API | `observation_count` 3 → 4, `is_imputed` false |
+
+### Gates
+
+| Gate | Before | After |
+|---|---|---|
+| Pest | 409 passed, 94.0% | **479 passed, 1 skipped, 1,913 assertions, 94.3%** |
+| pytest | 190 passed, 86.0% | **196 passed, 83.1%** |
+| PHPStan level 6 | 0 errors | 0 errors |
+| Pint / ruff / mypy | clean | clean |
+| C3 country-agnostic | pass | pass |
+
+The test that would have caught the original gap is
+`tests/Feature/Pipeline/ClosedLoopTest.php`: published snapshot → POST a price →
+resolved → observed → screened → marked stale → recomputed → visible on the
+public API. A test of a stage cannot see a missing wire, so it walks the wire.
+`tests/Feature/Console/ScheduleTest.php` is the companion guard — it asserts the
+schedule itself, because the absence of a scheduled task is invisible to a test
+of the task.

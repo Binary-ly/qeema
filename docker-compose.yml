@@ -38,6 +38,21 @@ x-app-env: &app-env
   CACHE_STORE: redis
   QUEUE_CONNECTION: redis
   SESSION_DRIVER: redis
+  # Must exceed every job timeout and every Horizon supervisor timeout, or a
+  # slow job is handed to a second worker while the first is still running.
+  REDIS_QUEUE_RETRY_AFTER: ${REDIS_QUEUE_RETRY_AFTER:-300}
+
+  # The ingestion pipeline and the publication clock. Defaults are sensible for
+  # a pilot; see docs/deployment.md before changing any of them.
+  QEEMA_PIPELINE_QUEUE_LIVE: ${QEEMA_PIPELINE_QUEUE_LIVE:-pipeline-live}
+  QEEMA_PIPELINE_QUEUE_BULK: ${QEEMA_PIPELINE_QUEUE_BULK:-pipeline-bulk}
+  QEEMA_PIPELINE_MAX_ATTEMPTS: ${QEEMA_PIPELINE_MAX_ATTEMPTS:-5}
+  QEEMA_PIPELINE_SWEEP_AGE: ${QEEMA_PIPELINE_SWEEP_AGE:-120}
+  QEEMA_PIPELINE_SWEEP_LIMIT: ${QEEMA_PIPELINE_SWEEP_LIMIT:-500}
+  QEEMA_PIPELINE_SCORE_WINDOW_HOURS: ${QEEMA_PIPELINE_SCORE_WINDOW_HOURS:-24}
+  QEEMA_INDEX_DRAIN_LIMIT: ${QEEMA_INDEX_DRAIN_LIMIT:-500}
+  QEEMA_INDEX_PUBLISH_GRACE: ${QEEMA_INDEX_PUBLISH_GRACE:-60}
+  QEEMA_INDEX_BACKFILL_DAYS: ${QEEMA_INDEX_BACKFILL_DAYS:-3}
 
   QEEMA_ML_URL: http://ml:8000
   QEEMA_COUNTRIES_PATH: /countries
@@ -148,6 +163,39 @@ services:
       timeout: 10s
       retries: 10
       start_period: 60s
+    restart: unless-stopped
+
+  # The clock. Without it the pipeline still resolves submissions as they
+  # arrive, but corrections never reach published figures and no new calendar
+  # day is ever published — the index freezes on the day of deployment while
+  # every container reports healthy.
+  #
+  # Its own service rather than a second process in the worker: a scheduler that
+  # dies inside a healthy-looking worker is the silent failure it exists to
+  # prevent. Reuses the app image, so this costs a container and no build time.
+  scheduler:
+    build:
+      context: .
+      dockerfile: infra/docker/app.Dockerfile
+    entrypoint: ["/usr/local/bin/entrypoint-scheduler"]
+    environment: *app-env
+    volumes:
+      - ./countries:/countries:ro
+      - app-storage:/app/storage/app
+    depends_on:
+      app:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      # Reads back the heartbeat the schedule writes every minute. A stopped
+      # clock becomes an unhealthy container within a few minutes rather than an
+      # index nobody noticed had stalled.
+      test: ["CMD-SHELL", "php artisan qeema:scheduler:heartbeat --check"]
+      interval: 60s
+      timeout: 15s
+      retries: 3
+      start_period: 120s
     restart: unless-stopped
 
 volumes:

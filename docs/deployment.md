@@ -102,7 +102,25 @@ make psql      # psql against the running database
 | `redis` | `redis:8-alpine` | Queues, cache, rate limiting |
 | `ml` | built from `ml/` | FastAPI: matching, anomaly scoring, nowcasting |
 | `app` | built from `api/` | Laravel: API, dashboard, reporter, admin |
-| `worker` | same image as `app` | Horizon queue workers and the scheduler |
+| `worker` | same image as `app` | Horizon queue workers: resolution and anomaly screening |
+| `scheduler` | same image as `app` | The clock: reconciliation, index drain, roll-forward |
+
+**The `scheduler` service is load-bearing.** It runs the tasks that turn stored
+data into published data: reconciling anything the fast path missed, draining
+stale snapshots so corrections reach published figures, and rolling the index
+forward so new calendar days appear at all. If it stops, the API keeps
+answering, the dashboard keeps rendering, every other container stays healthy,
+and the index quietly stops moving. That is why it is a separate service with
+its own healthcheck rather than a second process inside `worker`: its own
+heartbeat is read back every minute, so a stopped clock shows up in
+`docker compose ps` instead of going unnoticed.
+
+To check it by hand:
+
+```bash
+docker compose exec scheduler php artisan qeema:scheduler:heartbeat --check
+docker compose exec app php artisan schedule:list
+```
 
 `redis:8-alpine` is pinned deliberately. Redis 7.4 through 7.x are RSALv2/SSPL,
 which are **not** OSI-approved and would breach constraint C1. Redis 8.0
@@ -179,6 +197,34 @@ for the demo; the ones you **must** change for a real deployment are marked.
 | `QEEMA_EXPORT_RATE_LIMIT` | `5` | Bulk CSV exports per minute per IP. |
 | `QEEMA_API_MAX_PAGE_SIZE` | `500` | |
 | `QEEMA_API_EXPORT_CHUNK` | `1000` | Rows read per chunk while streaming an export. |
+
+### The ingestion pipeline
+
+These control how an inbound submission becomes a published figure. The
+defaults suit a pilot; the two worth understanding before changing are
+`QEEMA_PIPELINE_MAX_ATTEMPTS` and `QEEMA_INDEX_PUBLISH_GRACE`.
+
+| Variable | Default | Notes |
+|---|---|---|
+| `QEEMA_PIPELINE_QUEUE_LIVE` | `pipeline-live` | Queue for submissions arriving through the API. Kept separate so a bulk import cannot decide how long a reporter waits. Renaming it means renaming the matching Horizon supervisor in `api/config/horizon.php`. |
+| `QEEMA_PIPELINE_QUEUE_BULK` | `pipeline-bulk` | Queue for partner imports and sweeper catch-up. |
+| `QEEMA_PIPELINE_MAX_ATTEMPTS` | `5` | Attempts before a submission is handed to a human with the error attached. Counted on the submission row, so it survives re-dispatch: five means five, however many times the work was queued. |
+| `QEEMA_PIPELINE_SWEEP_AGE` | `120` | Seconds a submission must have been pending before the reconciler adopts it. Stops the sweeper racing the dispatch that already happened. |
+| `QEEMA_PIPELINE_SWEEP_LIMIT` | `500` | Dispatches of each kind per sweep. A backlog is worked through over several ticks rather than dumped on the queue at once. |
+| `QEEMA_PIPELINE_SCORE_WINDOW_HOURS` | `24` | How far back the sweeper looks for observations nobody screened. Bounded on purpose: a seeded deployment holds tens of thousands of observations written wholesale rather than through the pipeline, and an unbounded sweep would re-dispatch them every minute forever. |
+
+### Index publication
+
+| Variable | Default | Notes |
+|---|---|---|
+| `QEEMA_INDEX_DRAIN_LIMIT` | `500` | Stale snapshots recomputed per minute. |
+| `QEEMA_INDEX_PUBLISH_GRACE` | `60` | Seconds a snapshot must have been stale before it is recomputed. An observation marks its snapshots stale the instant it is written, but anomaly screening lands a moment later; without this window a figure containing an unscreened price is briefly published and then corrected. Lower it for a livelier index, at the cost of that window. |
+| `QEEMA_INDEX_BACKFILL_DAYS` | `3` | How many days back the hourly roll-forward looks for dates that never got a snapshot. |
+
+Two queue settings are not Qeema's own but matter here:
+`REDIS_QUEUE_RETRY_AFTER` (default `300`) must exceed every job timeout and
+every Horizon supervisor timeout, or a slow job is handed to a second worker
+while the first is still running.
 
 ## Adding a country
 

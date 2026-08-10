@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property CarbonInterface $snapshot_date
  * @property CarbonInterface|null $fx_rate_date
  * @property CarbonInterface|null $computed_at
+ * @property CarbonInterface|null $stale_marked_at
  */
 final class IndexSnapshot extends Model
 {
@@ -46,7 +47,7 @@ final class IndexSnapshot extends Model
         'coverage_pct', 'imputed_share', 'ci_low_local', 'ci_high_local',
         'fx_rate_used', 'fx_rate_type', 'fx_rate_date', 'fx_is_stale',
         'observed_item_count', 'total_item_count',
-        'is_stale', 'computed_at', 'model_version',
+        'is_stale', 'stale_marked_at', 'computed_at', 'model_version',
     ];
 
     protected function casts(): array
@@ -66,6 +67,7 @@ final class IndexSnapshot extends Model
             'observed_item_count' => 'integer',
             'total_item_count' => 'integer',
             'is_stale' => 'boolean',
+            'stale_marked_at' => 'datetime',
             'computed_at' => 'datetime',
         ];
     }

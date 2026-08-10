@@ -213,6 +213,10 @@ final class IndexCalculator
                     'observed_item_count' => $observedCount,
                     'total_item_count' => $items->count(),
                     'is_stale' => false,
+                    // Cleared with the flag it belongs to. Leaving the stamp
+                    // behind would make a freshly computed snapshot look like
+                    // the oldest thing in the backlog.
+                    'stale_marked_at' => null,
                     'computed_at' => CarbonImmutable::now(),
                     'model_version' => 'index-'.config('qeema.version'),
                 ],

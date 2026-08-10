@@ -54,7 +54,15 @@
         <env name="DB_PASSWORD" value="qeema"/>
 
         <env name="MAIL_MAILER" value="array"/>
-        <env name="QUEUE_CONNECTION" value="sync"/>
+        <!--
+            Queued work is discarded, not run inline. A test that wants the
+            pipeline says so: Queue::fake() to assert dispatch, dispatchSync()
+            to assert behaviour. Under `sync`, every test that created a
+            submission silently ran the whole resolution path, attempted real
+            HTTP to an unreachable host, and left circuit-breaker state in the
+            shared array cache for the next test to inherit.
+        -->
+        <env name="QUEUE_CONNECTION" value="null"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>

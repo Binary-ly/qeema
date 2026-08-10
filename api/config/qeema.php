@@ -77,6 +77,75 @@ return [
     ],
 
     /*
+    | The ingestion pipeline: how an inbound submission becomes a published
+    | figure without anyone typing a command.
+    |
+    | Two queues rather than one. A partner spreadsheet with fifty thousand rows
+    | and a reporter standing in a market with one price are both legitimate
+    | work, but only one of them is waiting; putting them on the same queue lets
+    | the import decide how long the reporter waits.
+    */
+    'pipeline' => [
+        'queue_live' => env('QEEMA_PIPELINE_QUEUE_LIVE', 'pipeline-live'),
+        'queue_bulk' => env('QEEMA_PIPELINE_QUEUE_BULK', 'pipeline-bulk'),
+
+        /*
+        | Attempts before a submission the pipeline cannot process is handed to
+        | a human with the error attached. The budget is counted on the
+        | submission row, not on the queue message, so it survives a job being
+        | lost and re-adopted by the sweeper — five attempts means five, however
+        | many times the work was dispatched.
+        */
+        'max_attempts' => (int) env('QEEMA_PIPELINE_MAX_ATTEMPTS', 5),
+
+        /*
+        | The reconciler. Dispatch-on-write is the fast path; this is the
+        | guarantee. Anything still pending after this many seconds is adopted
+        | regardless of how it was written, which covers bulk inserts that fire
+        | no model events and jobs lost to a killed container.
+        */
+        'sweep_age_seconds' => (int) env('QEEMA_PIPELINE_SWEEP_AGE', 120),
+        'sweep_limit' => (int) env('QEEMA_PIPELINE_SWEEP_LIMIT', 500),
+
+        /*
+        | How far back the sweeper looks for observations nobody screened.
+        |
+        | Bounded on purpose. The sweeper exists to catch work the fast path
+        | missed, not to retro-screen history: a seeded deployment holds tens of
+        | thousands of observations that were written wholesale rather than
+        | through the pipeline, and an unbounded sweep would re-dispatch them
+        | every minute forever. An observation still unscreened after this
+        | window is a signal that something is wrong, not a job to retry.
+        */
+        'sweep_scoring_window_hours' => (int) env('QEEMA_PIPELINE_SCORE_WINDOW_HOURS', 24),
+    ],
+
+    /*
+    | Index publication.
+    */
+    'index' => [
+        'drain_limit' => (int) env('QEEMA_INDEX_DRAIN_LIMIT', 500),
+
+        /*
+        | A snapshot is not recomputed until it has been stale this long.
+        |
+        | An observation marks its snapshots stale the instant it is created,
+        | but anomaly screening happens a moment later in the next job. Without
+        | a grace window a recompute landing in that gap publishes a figure
+        | containing a price nobody has screened, and corrects it seconds later.
+        | Briefly wrong in public is the one thing this platform must not be.
+        */
+        'publish_grace_seconds' => (int) env('QEEMA_INDEX_PUBLISH_GRACE', 60),
+
+        /*
+        | How many days back the roll-forward looks for snapshots that were
+        | never created — a location with no reports for two days still needs a
+        | published figure once one arrives.
+        */
+        'backfill_days' => (int) env('QEEMA_INDEX_BACKFILL_DAYS', 3),
+    ],
+
+    /*
     | Initial admin account, created on first boot so the panel is reachable
     | without exec-ing into a container.
     |

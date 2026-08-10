@@ -32,7 +32,8 @@ final class RecomputeIndexCommand extends Command
                             {--from= : Start date (YYYY-MM-DD) for a full rebuild}
                             {--to= : End date (YYYY-MM-DD) for a full rebuild}
                             {--location= : Restrict a rebuild to one location slug}
-                            {--limit=1000 : Maximum stale snapshots to drain in one run}';
+                            {--limit= : Maximum stale snapshots to drain in one run}
+                            {--grace= : Seconds a snapshot must have been stale before it is recomputed}';
 
     protected $description = 'Recompute stale index snapshots, or rebuild a date range';
 
@@ -45,7 +46,14 @@ final class RecomputeIndexCommand extends Command
 
     private function drain(IndexCalculator $calculator, IndexStaleness $staleness): int
     {
-        $pending = $staleness->pending((int) $this->option('limit'));
+        $limit = (int) ($this->option('limit') ?? config('qeema.index.drain_limit'));
+
+        // Defaults from configuration rather than the signature so the
+        // scheduled run and an operator's manual run behave identically without
+        // the schedule having to repeat every flag.
+        $grace = (int) ($this->option('grace') ?? config('qeema.index.publish_grace_seconds'));
+
+        $pending = $staleness->pending($limit, $grace);
 
         if ($pending->isEmpty()) {
             $this->info('No stale snapshots.');

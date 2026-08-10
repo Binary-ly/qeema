@@ -447,3 +447,40 @@ describe('the circuit breaker', function () {
         expect(Cache::get('qeema:ml:failures'))->toBeNull();
     });
 });
+
+describe('anomaly verdicts carry their provenance', function () {
+    it('stamps each verdict with the version that produced it', function () {
+        // The service reports its version once, on the envelope, and the caller
+        // stores it per verdict. Before this was merged, every screened
+        // observation was recorded against an unknown model version — which
+        // makes a past verdict impossible to attribute after the detector
+        // changes, and attribution is most of what an audit trail is for.
+        Http::fake(['*' => Http::response([
+            'results' => [
+                ['submission_id' => 'a', 'score' => 0.1, 'verdict' => 'clean', 'reasons' => [], 'layer_scores' => []],
+                ['submission_id' => 'b', 'score' => 0.9, 'verdict' => 'rejected', 'reasons' => [], 'layer_scores' => []],
+            ],
+            'model_version' => 'anomaly-0.1.0',
+            'forest_trained' => true,
+        ], 200)]);
+
+        $verdicts = (new MlClient)->scoreAnomalies([['submission_id' => 'a'], ['submission_id' => 'b']]);
+
+        expect($verdicts)->toHaveCount(2)
+            ->and($verdicts[0]['model_version'])->toBe('anomaly-0.1.0')
+            ->and($verdicts[1]['model_version'])->toBe('anomaly-0.1.0');
+    });
+
+    it('does not overwrite a version the service put on the verdict itself', function () {
+        Http::fake(['*' => Http::response([
+            'results' => [
+                ['submission_id' => 'a', 'score' => 0.1, 'verdict' => 'clean', 'model_version' => 'per-verdict'],
+            ],
+            'model_version' => 'envelope',
+        ], 200)]);
+
+        $verdicts = (new MlClient)->scoreAnomalies([['submission_id' => 'a']]);
+
+        expect($verdicts[0]['model_version'])->toBe('per-verdict');
+    });
+});

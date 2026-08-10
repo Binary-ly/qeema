@@ -31,6 +31,20 @@ return [
 
     'connections' => [
 
+        /*
+        | Used by the test suite. Queued work is discarded rather than run
+        | inline, so a test exercises the pipeline only when it says so —
+        | with Queue::fake() for dispatch, or dispatchSync() for behaviour.
+        |
+        | The alternative, `sync`, ran the whole resolution path inside every
+        | test that happened to create a submission: real HTTP attempts against
+        | an unreachable host, and circuit-breaker state accumulating in the
+        | shared array cache to be inherited by whatever test ran next.
+        */
+        'null' => [
+            'driver' => 'null',
+        ],
+
         'sync' => [
             'driver' => 'sync',
         ],
@@ -68,7 +82,13 @@ return [
             'driver' => 'redis',
             'connection' => env('REDIS_QUEUE_CONNECTION', 'default'),
             'queue' => env('REDIS_QUEUE', 'default'),
-            'retry_after' => (int) env('REDIS_QUEUE_RETRY_AFTER', 90),
+            // Raised from Laravel's 90s default because the bulk fan-out job
+            // may legitimately run for two minutes on a large partner file.
+            // This value must exceed every job timeout and every Horizon
+            // supervisor timeout: a job that outlives it is handed to a second
+            // worker while the first is still running, which turns a slow
+            // import into duplicated work.
+            'retry_after' => (int) env('REDIS_QUEUE_RETRY_AFTER', 300),
             'block_for' => null,
             'after_commit' => false,
         ],

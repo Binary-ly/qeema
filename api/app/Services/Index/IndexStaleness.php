@@ -53,8 +53,12 @@ final class IndexStaleness
         return IndexSnapshot::query()
             ->where('location_id', $locationId)
             ->whereBetween('snapshot_date', [$from->toDateString(), $to->toDateString()])
+            // Only rows that are not already stale, so `stale_marked_at` keeps
+            // the *first* reason a snapshot needed recomputing. Refreshing the
+            // stamp on every subsequent observation would let a busy location
+            // sit permanently inside the grace window and never republish.
             ->where('is_stale', false)
-            ->update(['is_stale' => true]);
+            ->update(['is_stale' => true, 'stale_marked_at' => CarbonImmutable::now()]);
     }
 
     /**
@@ -65,10 +69,23 @@ final class IndexStaleness
      *
      * @return Collection<int, IndexSnapshot>
      */
-    public function pending(int $limit = 500)
+    public function pending(int $limit = 500, int $graceSeconds = 0)
     {
+        $cutoff = CarbonImmutable::now()->subSeconds($graceSeconds);
+
         return IndexSnapshot::query()
             ->stale()
+            // The grace window. An observation marks its snapshots stale the
+            // instant it is written, but anomaly screening happens a moment
+            // later in the next job; recomputing inside that gap publishes a
+            // figure containing a price nobody has screened, then corrects it
+            // seconds afterwards. A null stamp predates this column and is
+            // treated as old enough — refusing to recompute because nobody
+            // recorded when it went stale would be the wrong way round.
+            ->where(function ($query) use ($cutoff): void {
+                $query->whereNull('stale_marked_at')
+                    ->orWhere('stale_marked_at', '<=', $cutoff);
+            })
             ->with(['location', 'basket', 'country'])
             ->orderBy('snapshot_date')
             ->limit($limit)
@@ -81,6 +98,23 @@ final class IndexStaleness
     }
 
     /**
+     * When the oldest outstanding snapshot went stale.
+     *
+     * Backlog *age* rather than backlog size is the signal that matters: a
+     * hundred stale snapshots being worked through is healthy, and one stale
+     * since this morning means recomputation has stopped.
+     */
+    public function oldestStaleAt(): ?CarbonImmutable
+    {
+        $oldest = IndexSnapshot::query()
+            ->stale()
+            ->whereNotNull('stale_marked_at')
+            ->min('stale_marked_at');
+
+        return $oldest === null ? null : CarbonImmutable::parse((string) $oldest);
+    }
+
+    /**
      * Mark every snapshot for a country, e.g. after a basket definition change.
      */
     public function markAllForCountry(int $countryId): int
@@ -88,6 +122,6 @@ final class IndexStaleness
         return DB::table('index_snapshots')
             ->where('country_id', $countryId)
             ->where('is_stale', false)
-            ->update(['is_stale' => true]);
+            ->update(['is_stale' => true, 'stale_marked_at' => CarbonImmutable::now()]);
     }
 }
