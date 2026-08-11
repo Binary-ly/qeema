@@ -112,13 +112,19 @@ jobs:
           DB_USERNAME: qeema
           DB_PASSWORD: qeema
           REDIS_HOST: 127.0.0.1
-        run: ./vendor/bin/pest --coverage --min=80 --coverage-clover=coverage.xml
+        # JUnit output as well as coverage: the compact reporter truncates a
+        # test's warnings to fit a terminal, so a suite that emits one warning
+        # per test — which this one does, and has since before anyone noticed —
+        # is unreadable from the log alone. The XML carries the full message.
+        run: ./vendor/bin/pest --coverage --min=80 --coverage-clover=coverage.xml --log-junit junit.xml
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: php-coverage
-          path: api/coverage.xml
+          name: php-test-results
+          path: |
+            api/coverage.xml
+            api/junit.xml
           if-no-files-found: ignore
 
   # ----------------------------------------------------------------- ML -----
