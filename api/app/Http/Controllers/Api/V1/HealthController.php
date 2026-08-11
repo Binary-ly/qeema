@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Services\Pipeline\PipelineHealth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -21,7 +22,7 @@ use Throwable;
  */
 final class HealthController extends Controller
 {
-    public function show(): JsonResponse
+    public function show(PipelineHealth $pipeline): JsonResponse
     {
         $database = $this->checkDatabase();
 
@@ -36,7 +37,41 @@ final class HealthController extends Controller
             'checks' => [
                 'database' => $database,
             ],
+            'pipeline' => $this->pipelineBlock($pipeline),
         ], $healthy ? 200 : 503);
+    }
+
+    /**
+     * Whether the platform is still publishing, in public.
+     *
+     * States and ages, never counts. A consumer building on this data has a
+     * legitimate interest in knowing the index has stopped moving — publishing
+     * the *size* of the review backlog would additionally tell somebody probing
+     * for a manipulation window how thin the screening currently is.
+     *
+     * Deliberately does not affect the HTTP status. This endpoint backs the
+     * container healthcheck, and a pipeline that is merely behind must not get
+     * the web container restarted underneath it.
+     *
+     * @return array<string, mixed>
+     */
+    private function pipelineBlock(PipelineHealth $pipeline): array
+    {
+        try {
+            $checks = $pipeline->cachedChecks();
+        } catch (Throwable) {
+            // Health reporting must never be the thing that takes health
+            // reporting down.
+            return ['status' => 'unknown'];
+        }
+
+        $block = ['status' => $pipeline->overallStatus($checks)];
+
+        foreach ($checks as $check) {
+            $block[$check->key] = $check->toPublicArray();
+        }
+
+        return $block;
     }
 
     /**

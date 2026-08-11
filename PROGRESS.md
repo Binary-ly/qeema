@@ -1165,3 +1165,86 @@ worse than none, since it looks complete.
 
 **Still open:** 13.4 FX ingestion, 13.5 observability and the runbook, 13.6 the
 Playwright loop test against the composed stack.
+
+---
+
+## Phase 13.5 — observability and the runbook — complete
+
+**Every way this platform fails looks like silence.** There is no error page when
+the index stops updating: the API answers, the dashboard renders, the containers
+report healthy, and the published figures quietly stop moving. That is the right
+behaviour for the people reading the data and it means somebody has to go
+looking — so now something does.
+
+Eight checks, each phrased as an invariant the pipeline promises and each with an
+operational answer to *if this is not ok, what does an operator do?* A signal
+nobody can act on is noise that trains people to ignore the ones they can.
+
+| Check | Degrades when | What it means |
+|---|---|---|
+| `scheduler` | heartbeat older than 3 min | **stalled**, not degraded — the clock stopped and everything else is downstream |
+| `resolution` | oldest pending submission past the alert window | dispatch *and* the sweeper are both failing |
+| `recomputation` | oldest stale snapshot past the window | corrections are not reaching published figures |
+| `publication` | a country has no figure for its own today | the roll-forward is not running |
+| `exchange_rates` | newest rate past the country's horizon | dollar figures are being withheld |
+| `review_queue` | oldest waiting submission past 7 days | the queue has an owner in theory only |
+| `matching` | circuit open | everything is routing to human review |
+| `failed_jobs` | any in 24h | something is broken rather than behind |
+
+**D-18 in practice.** `/api/v1/health` gains a `pipeline` block of states and
+ages; the counts stay behind the admin login. "1,412 awaiting review" tells an
+honest observer very little and tells someone probing for a manipulation window
+how thin the screening currently is. The block deliberately does not affect the
+HTTP status — this endpoint backs the container healthcheck, and a pipeline that
+is merely behind must not get the web container restarted underneath it.
+
+Also shipped: a dashboard widget carrying the numbers, `qeema:pipeline:health`
+on the schedule every five minutes with structured warnings into the log, and
+`docs/operations.md` — the runbook, one section per signal, with the commands.
+
+### It found something on its first real request
+
+The endpoint 500'd on the live stack immediately after deploy:
+
+```
+__PHP_Incomplete_Class — App\Services\Pipeline\HealthCheck
+```
+
+`Cache::remember` was storing the check objects themselves. Redis is shared
+across every container and across a deploy, so a serialised domain object
+outlives the code that defined it: one version wrote it, another read it. Only
+primitives go in now, and the objects are rebuilt on the way out. Two tests
+cover it — one asserts the cached shape is arrays, the other feeds a
+hand-written cache entry through and expects real objects back.
+
+Worth recording as a class of bug rather than an incident: anything cached in a
+shared store is part of the deployment contract, whether or not it was designed
+that way.
+
+### And a second one, quieter
+
+`PipelineHealthWidget` came out of the first full run at **0.0% coverage** —
+registered on the panel, rendered by nothing, covered by nothing. Exactly the
+shape of gap that made the whole pipeline dead a week ago, in miniature. It now
+has five tests that render it through Livewire, including one asserting it is
+actually registered on the panel rather than merely written.
+
+A name collision surfaced in the same run: two test files declared
+`snapshotFor()`, which Pest shares in one global namespace. Fine in isolation,
+fatal together, so both are now specific.
+
+### Gates
+
+| Gate | Result |
+|---|---|
+| Pest | **535 passed**, 1 skipped, 2,063 assertions, **94.4%** |
+| PHPStan level 6 | 0 errors |
+| Pint | clean |
+| OpenAPI drift | up to date |
+
+On the running stack the report is honest rather than flattering: everything
+`ok` except `review_queue`, degraded because the demo's seeded backlog of 1,137
+submissions has never been worked and its oldest entry is 183 days old. That is
+the check doing its job on the first day it existed.
+
+**Still open:** 13.4 FX ingestion, 13.6 the Playwright loop test.

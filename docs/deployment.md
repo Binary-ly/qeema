@@ -213,6 +213,8 @@ defaults suit a pilot; the two worth understanding before changing are
 | `QEEMA_PIPELINE_SWEEP_AGE` | `120` | Seconds a submission must have been pending before the reconciler adopts it. Stops the sweeper racing the dispatch that already happened. |
 | `QEEMA_PIPELINE_SWEEP_LIMIT` | `500` | Dispatches of each kind per sweep. A backlog is worked through over several ticks rather than dumped on the queue at once. |
 | `QEEMA_PIPELINE_SCORE_WINDOW_HOURS` | `24` | How far back the sweeper looks for observations nobody screened. Bounded on purpose: a seeded deployment holds tens of thousands of observations written wholesale rather than through the pipeline, and an unbounded sweep would re-dispatch them every minute forever. |
+| `QEEMA_PIPELINE_ALERT_MINUTES` | `15` | How late the pipeline may be before health reports it degraded. Generous relative to the one-minute cadence of the sweeper and the drain: an alert that fires on ordinary conditions is one people learn to close. |
+| `QEEMA_REVIEW_ALERT_DAYS` | `7` | How long a submission may wait for a human before the review queue is reported as unworked. Age is the signal, not size — a large queue being drained is healthy. |
 
 ### Index publication
 
@@ -299,6 +301,10 @@ Two things are worth knowing before you start:
 Approved prices are not published instantly. The observation marks the affected
 snapshots stale and the scheduled drain republishes them within a couple of
 minutes — the same path an automatic resolution takes.
+
+For what to check when something is not working, see
+[operations.md](operations.md) — the runbook for a platform whose every failure
+mode looks like silence.
 
 ## Production notes
 

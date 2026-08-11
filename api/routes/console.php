@@ -4,6 +4,7 @@
 
 declare(strict_types=1);
 
+use App\Console\Commands\PipelineHealthCommand;
 use App\Console\Commands\PipelineSweepCommand;
 use App\Console\Commands\PublishIndexCommand;
 use App\Console\Commands\RecomputeIndexCommand;
@@ -66,6 +67,14 @@ Schedule::command(RecomputeIndexCommand::class)
 Schedule::command(PublishIndexCommand::class)
     ->hourly()
     ->withoutOverlapping(55)
+    ->onOneServer()
+    ->runInBackground();
+
+// Says out loud whether the platform is still publishing. Every failure here
+// looks like silence from the outside, so something has to do the looking.
+Schedule::command(PipelineHealthCommand::class)
+    ->everyFiveMinutes()
+    ->withoutOverlapping(10)
     ->onOneServer()
     ->runInBackground();
 

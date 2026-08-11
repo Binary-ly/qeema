@@ -61,6 +61,12 @@ it('records a heartbeat every minute', function (): void {
     expect(scheduled('qeema:scheduler:heartbeat')->expression)->toBe('* * * * *');
 });
 
+it('checks its own health every five minutes', function (): void {
+    // Without this, the platform's failures stay silent by construction:
+    // nothing else in the system notices that it has stopped publishing.
+    expect(scheduled('qeema:pipeline:health')->expression)->toBe('*/5 * * * *');
+});
+
 it('keeps queue metrics and prunes failed jobs', function (): void {
     expect(scheduled('horizon:snapshot')->expression)->toBe('*/5 * * * *')
         ->and(scheduled('queue:prune-failed')->expression)->toBe('0 0 * * *');

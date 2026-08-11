@@ -118,6 +118,22 @@ return [
         | window is a signal that something is wrong, not a job to retry.
         */
         'sweep_scoring_window_hours' => (int) env('QEEMA_PIPELINE_SCORE_WINDOW_HOURS', 24),
+
+        /*
+        | How late the pipeline may be before it is reported as degraded.
+        |
+        | Generous relative to the one-minute cadence of the sweeper and the
+        | drain: a single slow tick is ordinary, and an alert that fires on
+        | ordinary conditions is an alert people learn to close.
+        */
+        'alert_minutes' => (int) env('QEEMA_PIPELINE_ALERT_MINUTES', 15),
+
+        /*
+        | How long a submission may wait for a human before the queue is
+        | reported as unworked. Size is not the signal — a large queue being
+        | drained is healthy — age is.
+        */
+        'review_alert_days' => (int) env('QEEMA_REVIEW_ALERT_DAYS', 7),
     ],
 
     /*
