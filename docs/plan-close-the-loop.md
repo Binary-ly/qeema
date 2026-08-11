@@ -2,7 +2,8 @@
 
 # Phase 13 — Closing the loop
 
-**Status:** 13.1 and 13.2 complete and verified on a running stack; 13.3–13.6 open
+**Status:** 13.1, 13.2, 13.3, 13.5 and 13.6 complete and verified on a running
+stack; **13.4 (FX ingestion) is the only part still open**
 **Prerequisite:** Phases 0–12 complete (`PROGRESS.md`)
 
 > **Update, 2026-08-10.** The pipeline and the clock are built. A price posted

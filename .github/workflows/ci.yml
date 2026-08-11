@@ -210,8 +210,9 @@ jobs:
 
   # ------------------------------------------------------- images/compose ---
   compose:
-    name: One-command demo boots clean (C2)
+    name: One-command demo boots clean, and the loop closes (C2)
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     # This is the headline requirement, so it runs on every PR despite costing
     # a full image build.
     steps:
@@ -263,6 +264,38 @@ jobs:
         # are part of the string, so they quote nothing.
         run: |
           curl -fsS http://localhost:8000/ready | grep -q '"models_loaded": *true'
+
+      # The stack is already up, so the end-to-end suite rides along rather than
+      # paying for a second image build. This is where the headline claim gets
+      # proved on every push instead of being demonstrated by hand: a price
+      # posted to the public API reaches the published index on its own, with
+      # the shipped defaults and nobody running a command.
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: e2e/package-lock.json
+
+      - name: Install Playwright
+        working-directory: e2e
+        run: |
+          npm ci
+          npx playwright install chromium --with-deps
+
+      - name: End-to-end, against the composed stack
+        working-directory: e2e
+        # The loop test waits out the publish grace window and a drain cycle,
+        # so it is minutes rather than seconds by design — it is measuring the
+        # real cadence, not a shortened one.
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: e2e/playwright-report
+          if-no-files-found: ignore
 
       - name: Dump logs on failure
         if: failure()

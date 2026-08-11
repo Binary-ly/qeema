@@ -1248,3 +1248,50 @@ submissions has never been worked and its oldest entry is 183 days old. That is
 the check doing its job on the first day it existed.
 
 **Still open:** 13.4 FX ingestion, 13.6 the Playwright loop test.
+
+---
+
+## Phase 13.6 — the proof, on every push — complete
+
+Four end-to-end tests against the composed stack, and a CI step that runs the
+whole suite there. The headline claim stops being something demonstrated by
+hand and starts being something a build fails without.
+
+**`e2e/tests/loop.spec.ts`** walks the wire the platform spent a week without:
+read the published snapshot, post a price to the public API, and wait — for the
+real matcher, the real screening service, the real scheduler, the shipped
+defaults — until the figure changes. It takes about ninety seconds, which is the
+publish grace window plus a drain cycle, and that is the point: it measures the
+cadence a reviewer would actually experience rather than a shortened one.
+
+It names no country. The fixture is discovered from `/api/v1/countries` and
+whatever basket comes back, because a proof that only works for the default
+deployment proves the wrong thing.
+
+Three more assertions worth having: that a published snapshot mentions no
+reporter, no submission id and no device — the reporter is the person taking
+the risk of standing in a market writing prices down, and nothing about them
+belongs in a public payload; that the public health block reports the scheduler
+as recently alive; and that it exposes no counts.
+
+**CI now runs all 27 end-to-end tests** in the existing compose job, so they
+ride on a stack that is already up rather than paying for a second image build.
+The job is renamed to what it now checks: *One-command demo boots clean, and the
+loop closes.*
+
+Two small things caught in passing. The basket endpoint returns its payload
+unwrapped, unlike the collection endpoints — the first version of the fixture
+guessed `data.items[].item.code` and failed against the first real response,
+which is a small argument for reading payloads rather than assuming them. And
+the workflow YAML was parsed locally before pushing, because the first CI run
+this project ever attempted failed on a YAML error that produced no jobs and no
+annotations.
+
+| Gate | Result |
+|---|---|
+| Playwright, against the composed stack | **27 passed** in 1.9 min |
+| Pest | 535 passed, 1 skipped, 94.4% |
+| pytest | 196 passed, 83.1% |
+
+**Still open:** 13.4, FX ingestion — the last piece of the plan, and the one
+whose hard part is sourcing rather than code.
