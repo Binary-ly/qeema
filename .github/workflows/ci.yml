@@ -91,6 +91,19 @@ jobs:
           npm ci
           npm run build
 
+      # The suite is designed to run without a .env — phpunit.xml carries the
+      # test key and the test database on purpose, so a fresh clone works. But
+      # the framework still *reads* one, and a missing file emitted a PHP
+      # warning on every single test: 536 of them, hiding any warning that
+      # actually mattered.
+      #
+      # Empty rather than a copy of .env.example, which sets a different
+      # database and an empty APP_KEY. The values belong to phpunit.xml; this
+      # only gives the framework something to open.
+      - name: Provide an empty env file
+        working-directory: api
+        run: touch .env
+
       - name: Check formatting
         working-directory: api
         run: ./vendor/bin/pint --test
