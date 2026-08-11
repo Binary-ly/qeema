@@ -1089,3 +1089,79 @@ only**, and the file was still untracked. So the guard was lenient about
 exactly the code most likely to break the rule: code that has just been
 written. `--untracked` added, and verified by planting a violation in an
 uncommitted file and watching the check fail.
+
+---
+
+## Phase 13.3 — the review queue — complete
+
+The last place the loop was still open. Everything the matcher resolves
+confidently now reaches the published index on its own; everything it declined
+to decide landed in `needs_review`, and `ApplyReviewDecision` had **zero
+production callers** — the same condition that made the whole pipeline dead two
+days ago. The actions were written and tested. The queue had no door.
+
+**Admin → Ingestion → Review queue**, with the backlog size on the navigation
+item. List-only by design: reviewing is repetitive triage, so everything needed
+to decide is in the row — the text as typed, the matcher's suggestion and its
+confidence, the screening verdict and reasons, the reporter's history, and the
+basket weight of the item — and the modals are confirmation rather than a
+second screen to read.
+
+Three things the design turns on:
+
+- **Approving teaches the matcher.** Already true in `ApplyReviewDecision`;
+  what was missing was anyone able to trigger it. This is the mechanism by
+  which the queue shrinks instead of refilling.
+- **Bulk approve the suggestion.** The dominant case is the matcher having been
+  right and merely unsure. Without a bulk path the queue is not drainable by
+  one person, which is the same as not being drainable. Skipped and unusable
+  rows are counted back to the reviewer rather than silently dropped.
+- **Sort by basket weight.** An hour spent on heavy items corrects more of the
+  published figure than an hour spent on light ones, so the impact ordering is
+  a column rather than a doctrine.
+
+### A defect the screen exposed before anyone used it
+
+`ApplyReviewDecision::approve()` called `createObservation()`, ignored a null
+return, and marked the submission `resolved` regardless. A submission that
+could not be normalised to a price per base unit therefore came out of review
+looking published, with no observation behind it and nothing reaching the
+index — and the reviewer had every reason to believe they had published it.
+
+Now it throws `SubmissionNotObservable`, the whole decision rolls back, and the
+screen says so in words the reviewer can act on. Worth recording precisely
+because the obvious guess about the trigger was wrong: an *unknown unit* does
+not reach it, since resolution falls back to the item's default unit. The
+reachable cases are a quantity that yields no price per base unit and a
+misconfigured base unit — narrow, and silent exactly when it happens.
+
+### Measured, not assumed
+
+The queue's page query at the demo stack's real backlog of 1,137 rows:
+
+| | Plan | Warm |
+|---|---|---|
+| Before | bitmap heap scan over every matching row, then top-N sort | 2.24 ms |
+| After `(status, observed_at)` | index scan that stops after one page | 0.40 ms |
+
+Both are fast. The plan is the point: one is proportional to the page and the
+other to the backlog, and a review queue that gets slower the more it has to
+review is a review queue that stops being used. A cold-cache first run measured
+126 ms, which is the number an operator would actually have met.
+
+### Gates
+
+| Gate | Result |
+|---|---|
+| Pest | **499 passed**, 1 skipped, 1,973 assertions, **94.2%** |
+| PHPStan level 6 | 0 errors |
+| Pint | clean |
+
+Twenty of those tests are the queue itself, and they assert the loop through a
+human rather than the markup: that a decision produces a published observation,
+teaches the matcher, moves the reporter's standing, and marks the affected
+snapshot for recomputation — because a decision that does only some of those is
+worse than none, since it looks complete.
+
+**Still open:** 13.4 FX ingestion, 13.5 observability and the runbook, 13.6 the
+Playwright loop test against the composed stack.

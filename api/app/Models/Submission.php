@@ -120,6 +120,20 @@ final class Submission extends Model
     }
 
     /**
+     * The verdict that currently stands.
+     *
+     * A submission can be scored more than once — a rejection overruled, a
+     * detector retrained — and the review queue must show what the screening
+     * layer thinks *now*, not what it thought first.
+     *
+     * @return HasOne<AnomalyScore, $this>
+     */
+    public function latestAnomalyScore(): HasOne
+    {
+        return $this->hasOne(AnomalyScore::class)->latestOfMany();
+    }
+
+    /**
      * How long this submission sat on a device before reaching the server.
      *
      * Useful for spotting a reporter whose queue never drains, and for judging

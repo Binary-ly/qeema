@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
+use App\Exceptions\SubmissionNotObservable;
 use App\Models\CanonicalItem;
 use App\Models\CanonicalItemVariant;
 use App\Models\Resolution;
@@ -59,8 +60,17 @@ final class ApplyReviewDecision
 
             // Only now does the observation exist. Creating it earlier would
             // have meant an unreviewed guess reaching the index.
-            if ($submission->priceObservation === null) {
-                $this->resolver->createObservation($submission, $item);
+            //
+            // A null here means the price cannot be normalised — an unknown
+            // unit, almost always. That must not pass quietly: marking the
+            // submission resolved without an observation would tell the
+            // reviewer they had published a price that never reached the index.
+            // Throwing rolls the whole decision back, so the submission stays
+            // in the queue where a human can reject it or an operator can add
+            // the missing unit.
+            if ($submission->priceObservation === null
+                && $this->resolver->createObservation($submission, $item) === null) {
+                throw new SubmissionNotObservable($submission);
             }
 
             $submission->forceFill(['status' => Submission::STATUS_RESOLVED])->save();

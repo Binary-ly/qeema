@@ -15,6 +15,7 @@ the thing most likely to fail.
 - [What comes up](#what-comes-up)
 - [Configuration reference](#configuration-reference)
 - [Adding a country](#adding-a-country)
+- [Reviewing what the pipeline could not decide](#reviewing-what-the-pipeline-could-not-decide)
 - [Production notes](#production-notes)
 - [Backup and restore](#backup-and-restore)
 - [Upgrading](#upgrading)
@@ -264,6 +265,40 @@ docker compose exec app php artisan qeema:index --country=<ISO2> \
 The shipped pair is deliberately dissimilar — Arabic/RTL/three-decimal against
 Spanish/LTR/two-decimal, opposite hemispheres, different staple foods — because
 a second country resembling the first would prove very little.
+
+## Reviewing what the pipeline could not decide
+
+**Admin → Ingestion → Review queue**, at `/admin/review-queue`. The navigation
+item carries the size of the backlog.
+
+The pipeline refuses to guess. When the matcher is unsure which item a phrase
+means, when the matching service was unreachable, or when screening distrusts a
+price, the submission goes here instead of into the published index. Somebody
+has to work this queue, and a deployment where nobody does is a deployment that
+publishes only what a machine was confident about.
+
+Each row carries what a decision needs: the text exactly as it was typed, the
+matcher's suggestion and how strongly it holds it, the screening verdict and
+its reasons, the reporter's history, and the basket weight of the item in
+question — sort by that last column when you have an hour rather than a day,
+because it is what decides how much of the published figure your hour actually
+corrects.
+
+Two things are worth knowing before you start:
+
+- **Approving teaches the matcher.** Every confirmed decision becomes a known
+  variant, so the phrase that defeated it today resolves automatically
+  tomorrow. This is the mechanism by which the queue shrinks rather than
+  refilling; a reviewer who rejects everything ambiguous instead of confirming
+  it will be doing the same work next week.
+- **Use the bulk action for the common case.** Most of the queue is the matcher
+  having been right and merely unsure. Select those rows and approve the
+  suggested match in one go; anything without a suggestion is left alone and
+  the count is reported back to you.
+
+Approved prices are not published instantly. The observation marks the affected
+snapshots stale and the scheduled drain republishes them within a couple of
+minutes — the same path an automatic resolution takes.
 
 ## Production notes
 

@@ -11,6 +11,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * One screening verdict on one submission.
+ *
+ * The cast attributes are declared here because Larastan reads the column type
+ * rather than `casts()`, and would otherwise treat these JSON columns as
+ * strings — which is how the only place that reads `reasons` ended up needing
+ * an inline annotation to work at all.
+ *
+ * @property list<array<string, mixed>|string>|null $reasons
+ * @property array<string, float>|null $layer_scores
+ */
 final class AnomalyScore extends Model
 {
     /** @use HasFactory<AnomalyScoreFactory> */

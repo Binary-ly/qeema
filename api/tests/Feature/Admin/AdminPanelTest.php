@@ -47,8 +47,9 @@ function panelResources(): array
 describe('panel structure', function () {
     it('registers a resource for every domain entity', function () {
         // The brief asks for admin coverage of every entity; this fails loudly
-        // if one is dropped.
-        expect(panelResources())->toHaveCount(17);
+        // if one is dropped. Seventeen entities plus the review queue, which is
+        // a second resource over Submission scoped to what needs a human.
+        expect(panelResources())->toHaveCount(18);
     });
 
     it('serves the dashboard', function () {
