@@ -1295,3 +1295,35 @@ annotations.
 
 **Still open:** 13.4, FX ingestion — the last piece of the plan, and the one
 whose hard part is sourcing rather than code.
+
+### 536 warnings nobody could read
+
+Adding the end-to-end step meant reading a CI log properly for the first time in
+a while, which surfaced something that had been true since well before this
+phase: **every test in CI emitted a PHP warning**, and the summary line said
+`536 warnings` rather than `535 passed`. It failed nothing, so it had never been
+noticed — and it meant a genuinely new warning would have been invisible in the
+noise, which is the part that mattered.
+
+Diagnosing it took two wrong turns worth recording:
+
+- The message was truncated to `file_get_contents(/home/r…` because the
+  reporter trims each line to the terminal width and CI has none. Fixed by
+  giving the step a `COLUMNS`, which makes every future truncated message
+  readable rather than just this one.
+- JUnit output was added on the assumption it would carry the full message. It
+  does not — these are PHP notices Pest displays per test and the JUnit logger
+  does not record, so the artifact reported zero warnings. That also invalidated
+  an earlier local experiment which had "ruled out" the cause using exactly that
+  blind instrument. The artifact is worth keeping regardless; the conclusion
+  drawn from it was not.
+
+The cause was `file_get_contents(.../api/.env)`. The suite is deliberately
+runnable without one — `phpunit.xml` carries the test key and test database so a
+fresh clone works — but the framework still opens the file, and a missing one
+warns once per test. CI now creates an empty `.env`: empty rather than a copy of
+`.env.example`, which sets a different database and a blank `APP_KEY`, and the
+values are phpunit.xml's job.
+
+CI now reports `1 skipped, 535 passed (2,063 assertions)` with no warnings at
+all, which is what a clean signal looks like.
