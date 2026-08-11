@@ -31,6 +31,15 @@ type Fixture = {
     country: string;
     locationSlug: string;
     itemCode: string;
+    /**
+     * The date the platform publishes for, taken from the platform.
+     *
+     * Not computed here. Snapshots are dated in each country's own timezone, so
+     * a UTC date computed in the test disagrees with the published one for
+     * however many hours the two are apart — a failure that appears at a
+     * particular time of day and nowhere else.
+     */
+    date: string;
 };
 
 /**
@@ -40,16 +49,17 @@ async function discoverFixture(request: APIRequestContext): Promise<Fixture> {
     const countries = await (await request.get('/api/v1/countries')).json();
     const country = countries.data[0].code;
 
-    const locations = await (await request.get(`/api/v1/countries/${country}/locations`)).json();
     const basket = await (await request.get(`/api/v1/countries/${country}/basket`)).json();
+    const current = await (await request.get(`/api/v1/countries/${country}/index/current`)).json();
 
     // The basket is returned unwrapped, unlike the collection endpoints. Worth
     // reading rather than assuming: guessing produced a passing-looking test
     // that failed on the first real payload.
     return {
         country,
-        locationSlug: locations.data[0].slug,
+        locationSlug: current.data[0].location.slug,
         itemCode: basket.items[0].code,
+        date: current.data[0].date,
     };
 }
 
@@ -81,7 +91,7 @@ test.describe('the closed loop', () => {
         test.setTimeout(PUBLISH_TIMEOUT_MS + 60_000);
 
         const fixture = await discoverFixture(request);
-        const date = new Date().toISOString().slice(0, 10);
+        const date = fixture.date;
 
         // 1. What the world looks like before.
         const before = await observationCount(request, fixture, date);
@@ -139,7 +149,7 @@ test.describe('the closed loop', () => {
         // The reporter is the person taking the risk of standing in a market
         // writing prices down. Nothing about them belongs in a public payload.
         const fixture = await discoverFixture(request);
-        const date = new Date().toISOString().slice(0, 10);
+        const date = fixture.date;
 
         const body = await (
             await request.get(`/api/v1/locations/${fixture.locationSlug}/index/${date}`)

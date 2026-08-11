@@ -5,10 +5,10 @@ Model trained: **yes**
 
 | Metric | Value |
 |---|---|
-| MAE | 0.4934 |
+| MAE | 0.4930 |
 | MAPE | 3.5% |
 | Median APE | 2.7% |
-| Pinball loss | 0.1663 |
+| Pinball loss | 0.1354 |
 | Fallback share | 0.0% |
 
 ## Interval honesty
@@ -16,12 +16,16 @@ Model trained: **yes**
 | Metric | Value |
 |---|---|
 | Nominal coverage | 80% |
-| **Empirical coverage** | **74.6%** |
-| Mean relative width | 10.9% |
+| **Empirical coverage** | **85.6%** |
+| Mean relative width | 14.3% |
 
 Empirical coverage is the number that decides whether the interval
 can be trusted. An interval claiming 80% and delivering 55% invites
 exactly the false confidence this platform exists to avoid.
+
+The band is drawn at the outer quantiles in QUANTILES and
+published as the nominal coverage above — deliberately wider than
+it claims, so that it over-covers rather than under-covers.
 
 ## Against the obvious baseline
 

@@ -15,6 +15,8 @@ from qeema_ml.nowcast.model import (
     METHOD_FALLBACK_NATIONAL,
     METHOD_MODEL,
     MIN_TRAINING_ROWS,
+    NOMINAL_COVERAGE,
+    QUANTILES,
     NowcastFeatures,
     NowcastModel,
     fallback,
@@ -157,3 +159,35 @@ class TestImpute:
 
     def test_returns_nothing_when_nothing_can_be_said(self) -> None:
         assert impute(None, features(neighbour_median=0.0, national_median=0.0)) is None
+
+
+class TestIntervalHonesty:
+    """The interval must be at least as wide as it claims to be.
+
+    Published as an 80% band and measured at 74.6%, this model was telling
+    readers its estimate was more precise than it was — roughly one true value
+    in twenty falling outside a band advertised to hold four in five. For a
+    platform whose whole argument is honesty about uncertainty, that is the
+    worst-shaped defect available.
+
+    The fix was to draw the band at wider quantiles than the coverage published,
+    which measured 85.6% on the same backtest for no loss of accuracy. These
+    tests are what stop the margin being tidied away by someone who notices the
+    quantiles do not match the claim and "corrects" them.
+    """
+
+    def test_the_band_is_drawn_wider_than_it_is_published(self) -> None:
+        drawn = QUANTILES[-1] - QUANTILES[0]
+
+        assert drawn > NOMINAL_COVERAGE, (
+            "The published interval must be drawn from quantiles spanning more "
+            "than it claims. Equal spans measured 74.6% against a nominal 80%."
+        )
+
+    def test_the_claim_is_a_deliberate_number_not_a_derived_one(self) -> None:
+        # If this ever equals the drawn span again, the margin has been removed.
+        assert NOMINAL_COVERAGE == 0.80
+
+    def test_quantiles_are_ordered_and_centred(self) -> None:
+        assert list(QUANTILES) == sorted(QUANTILES)
+        assert QUANTILES[len(QUANTILES) // 2] == 0.5

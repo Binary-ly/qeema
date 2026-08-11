@@ -1414,3 +1414,102 @@ loopback address, a private network address, the cloud metadata service, a URL
 with credentials, a non-http scheme, and a rate that is not a positive number.
 
 **The plan is complete.** All six sub-phases of Phase 13 are done.
+
+---
+
+## Phase 14.1 — the interval now covers what it claims
+
+The published interval under-covered: an 80% band holding **74.6%** of true
+values, so roughly one value in twenty fell outside a band advertised to contain
+four in five. Not catastrophic, and the wrong direction for a platform whose
+argument is honesty about uncertainty to be wrong in.
+
+Both documented remedies were measured on the same backtest rather than argued
+about. The full table is in `docs/model-cards/nowcast-evaluation.md`; the two
+lines that decided it:
+
+| Quantiles drawn | Conformal | Coverage | Width | MAPE |
+|---|---|---|---|---|
+| 0.1 / 0.9 | none *(was)* | 74.6% | 10.9% | 3.49% |
+| **0.05 / 0.95** | **none** *(now)* | **85.6%** | **14.3%** | **3.49%** |
+
+The band is drawn wider than it is published, so `QUANTILES` and
+`NOMINAL_COVERAGE` are now separate constants and a test asserts the first spans
+more than the second — the mismatch is the margin, and it would read as an
+inconsistency to anyone tidying up.
+
+**Conformalised quantile regression was built, measured and deleted.** It was
+the a-priori favourite: its guarantee is distribution-free, which should matter
+most for a model destined to meet markets unlike its training data. It bought
+**+0.2 points** — 74.6% to 74.8% — for a quarter of the training data.
+
+The reason is not a defect in the method. Split conformal guarantees coverage
+under exchangeability, and a temporal backtest breaks exchangeability by
+construction: calibration rows come from the training period, test rows are
+weeks later with prices drifted by inflation and FX pass-through. Calibrating on
+the most *recent* slice instead of a random one recovered part of the gap —
+74.8% to 77.1% — which confirms the diagnosis and still fell short. The simpler
+remedy won outright and carries no machinery.
+
+Also fixed while in there: `predict()` hardcoded `0.1` and `0.9` while a
+`QUANTILES` constant above it claimed to be authoritative, so changing the band
+produced a `KeyError` at prediction time rather than a different band. The
+evaluation's pinball loss was scored against the same literals.
+
+### What this fix cannot currently reach
+
+Verified on the running stack, and worth stating plainly because it changes how
+the nowcasting model card should be read:
+
+```
+imputation_method | count
+------------------+-------
+fallback_local_median | 2653
+```
+
+**Every imputed value in the live index comes from the fallback heuristic. None
+comes from the model.** Three findings behind that:
+
+1. **Nothing calls `/v1/nowcast/train`.** The Laravel client implements
+   `nowcast()` against `/v1/nowcast/impute` only, so the LightGBM models are
+   never fitted in a running deployment and `impute` always declines to the
+   heuristic. The same shape as the pipeline that had no caller, and the review
+   queue that had no screen.
+2. **Three of eleven features are hardcoded** in `ItemImputer`:
+   `nearest_neighbour_km => 50.0`, `fx_change_30d => 1.0`,
+   `location_price_level => 1.0`. Even once trained, the model would be scored
+   on a feature distribution its evaluation never saw.
+3. Therefore the model card's headline — 3.5% MAPE, +61% against baseline,
+   and now 85.6% coverage — describes a model **no deployment has ever run**.
+
+The interval fix is still right and will matter the moment training is wired.
+But the published index today is imputed by a ±30% heuristic, and the model card
+should be read as describing a component that is measured, not one that is in
+service.
+
+**Next, and not attempted here:** a training path — assembling point-in-time
+features from observations and posting them to `/v1/nowcast/train` on a
+schedule, plus computing the three placeholder features for real. The hard part
+is not the plumbing but lookahead bias: features assembled with any knowledge
+after the target date would inflate the model's apparent quality exactly the way
+this project keeps finding things inflated.
+
+### A test that only failed after dark
+
+The closed-loop tests failed during this work, and not because of it. At
+22:29 UTC the machine was in 11 August and Tripoli was already in 12 August.
+`qeema:index:publish` correctly publishes for the country's calendar day; the
+tests asked the API for the *server's*. Two hours of every day, they 404.
+
+The same assumption was in `e2e/tests/loop.spec.ts`, which computed a UTC date
+locally — so CI would have failed nightly for the same two hours, on a schedule
+nobody would have connected to a timezone.
+
+Both fixed by taking the date from the platform rather than computing one: the
+PHP test derives it from the country's timezone, and the end-to-end spec now
+reads it out of `/index/current`, which is the authoritative answer and needs no
+timezone reasoning at all.
+
+Worth noting because D-14 was written carefully to get exactly this right in the
+*command*, and then the tests written against it assumed a server-local today.
+The care did not transfer across the boundary on its own.

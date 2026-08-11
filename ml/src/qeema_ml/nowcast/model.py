@@ -11,10 +11,16 @@ So imputation is not a nicety here. It is what makes two locations comparable.
 
 Three commitments shape the design.
 
-**Quantile regression, not point prediction.** Three separate models at τ = 0.1,
-0.5 and 0.9. A point estimate with no interval invites a reader to treat a guess
-as a measurement; the spread between the outer quantiles is the honest statement
-of how much is actually known.
+**Quantile regression, not point prediction.** Three separate models, at the
+quantiles in ``QUANTILES``. A point estimate with no interval invites a reader
+to treat a guess as a measurement; the spread between the outer quantiles is the
+honest statement of how much is actually known.
+
+**The band is drawn wider than it is published.** Models at τ = 0.05/0.95, an
+interval published as 80%. Trained at 0.1/0.9 this model covered 74.6% of true
+values — an interval narrower than its own claim, which is the wrong direction
+to be wrong in. The margin costs width and no accuracy. See the model card for
+the measurements, including the two remedies that were compared.
 
 **Every imputed value is flagged, always.** The model returns its method and its
 interval, and those travel into the snapshot, the API and the UI. An imputed
@@ -37,8 +43,22 @@ try:  # pragma: no cover - exercised implicitly by the training tests
 except ImportError:  # pragma: no cover
     lgb = None  # type: ignore[assignment]
 
-#: Quantiles trained. The outer pair forms an 80% interval.
-QUANTILES: tuple[float, ...] = (0.1, 0.5, 0.9)
+#: Quantiles trained.
+#:
+#: Deliberately *wider* than the coverage published below. Trained at 0.1/0.9
+#: and published as an 80% band, this model measured 74.6% empirical coverage —
+#: narrower than it claimed, which is the wrong direction for an interval to be
+#: wrong in. Drawn at 0.05/0.95 and still published as 80%, it measures 85.6%.
+#: The margin is bought with width (10.9% to 14.3% of the estimate) and costs
+#: nothing in accuracy.
+QUANTILES: tuple[float, ...] = (0.05, 0.5, 0.95)
+
+#: What the published interval claims, which is not the span of the quantiles
+#: above and is not meant to be. An interval should over-cover: a reader who
+#: trusts an 80% band is entitled to have it hold at least that often, and the
+#: gap between 0.90 and 0.80 is the margin that makes that true on data the
+#: model has not seen.
+NOMINAL_COVERAGE = 0.80
 
 #: Below this many training rows a fitted model would be memorising noise.
 MIN_TRAINING_ROWS = 200
@@ -208,9 +228,13 @@ class NowcastModel:
             for q, model in self._models.items()
         }
 
-        lower = predictions[0.1] * anchor
-        median = predictions[0.5] * anchor
-        upper = predictions[0.9] * anchor
+        # Indexed through QUANTILES rather than written as literals: the
+        # constant is meant to be the single place the band is defined, and
+        # hardcoding 0.1/0.9 here meant changing it silently produced a
+        # KeyError at prediction time instead of a different band.
+        lower = predictions[QUANTILES[0]] * anchor
+        median = predictions[QUANTILES[len(QUANTILES) // 2]] * anchor
+        upper = predictions[QUANTILES[-1]] * anchor
 
         # Quantile models are fitted independently and can cross on sparse
         # data, producing a "lower" bound above the "upper" one. Sorting is the
@@ -220,7 +244,9 @@ class NowcastModel:
 
         return Imputation(
             value=round(median, 6),
-            lower=round(lower, 6),
+            # A negative price is not a lower bound on anything. Free is the
+            # floor.
+            lower=round(max(lower, 0.0), 6),
             upper=round(upper, 6),
             method=METHOD_MODEL,
         )

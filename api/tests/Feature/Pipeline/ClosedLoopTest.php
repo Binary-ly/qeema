@@ -17,6 +17,7 @@ use App\Services\Ml\FakeMlClient;
 use App\Services\Ml\MlClientInterface;
 use App\Support\CountryConfig\CountryConfigImporter;
 use App\Support\CountryConfig\CountryConfigLoader;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Str;
 
 /*
@@ -59,12 +60,24 @@ beforeEach(function (): void {
     );
 });
 
+/**
+ * Today, where the country is — which is the date the platform publishes for.
+ */
+function publishedDate(): string
+{
+    return CarbonImmutable::now(test()->country->timezone)->toDateString();
+}
+
 it('carries a submitted price all the way to the published index', function (): void {
     // 1. The state of the world before: today is published, and nobody has
     //    reported this item here.
     $this->artisan('qeema:index:publish', ['--days' => 0])->assertSuccessful();
 
-    $date = now()->toDateString();
+    // The country's calendar day, not the server's. `qeema:index:publish`
+    // deliberately works in each country's own timezone, so asking for
+    // `now()` here fails for the hours when the two disagree — which is how
+    // this test failed at 22:29 UTC, when Tripoli was already tomorrow.
+    $date = publishedDate();
     $before = $this->getJson("/api/v1/locations/{$this->location->slug}/index/{$date}");
     $before->assertOk();
 
@@ -152,7 +165,7 @@ it('publishes a price nobody dispatched, because the sweeper finds it', function
 
     $this->artisan('qeema:index', ['--grace' => 0])->assertSuccessful();
 
-    $date = now()->toDateString();
+    $date = publishedDate();
     $rice = collect($this->getJson("/api/v1/locations/{$this->location->slug}/index/{$date}")->json('data.items'))
         ->firstWhere('item.code', 'rice_1kg');
 
@@ -203,7 +216,7 @@ it('never publishes a price the detector rejected', function (): void {
 
     $this->artisan('qeema:index', ['--grace' => 0])->assertSuccessful();
 
-    $date = now()->toDateString();
+    $date = publishedDate();
     $rice = collect($this->getJson("/api/v1/locations/{$this->location->slug}/index/{$date}")->json('data.items'))
         ->firstWhere('item.code', 'rice_1kg');
 

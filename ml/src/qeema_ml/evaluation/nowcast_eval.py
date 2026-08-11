@@ -27,6 +27,7 @@ from pathlib import Path
 import numpy as np
 
 from qeema_ml.nowcast.model import (
+    NOMINAL_COVERAGE,
     QUANTILES,
     Imputation,
     NowcastFeatures,
@@ -84,6 +85,10 @@ class NowcastReport:
                 "Empirical coverage is the number that decides whether the interval",
                 "can be trusted. An interval claiming 80% and delivering 55% invites",
                 "exactly the false confidence this platform exists to avoid.",
+                "",
+                "The band is drawn at the outer quantiles in QUANTILES and",
+                "published as the nominal coverage above — deliberately wider than",
+                "it claims, so that it over-covers rather than under-covers.",
                 "",
                 "## Against the obvious baseline",
                 "",
@@ -170,9 +175,9 @@ def evaluate(rows: list[dict], test_fraction: float = 0.2) -> NowcastReport:
             inside += 1
 
         for quantile, predicted in (
-            (0.1, prediction.lower),
-            (0.5, prediction.value),
-            (0.9, prediction.upper),
+            (QUANTILES[0], prediction.lower),
+            (QUANTILES[len(QUANTILES) // 2], prediction.value),
+            (QUANTILES[-1], prediction.upper),
         ):
             pinballs.append(_pinball(actual, predicted, quantile))
 
@@ -191,7 +196,7 @@ def evaluate(rows: list[dict], test_fraction: float = 0.2) -> NowcastReport:
         median_ape=float(np.median(apes)) if apes else 0.0,
         pinball_loss=float(np.mean(pinballs)) if pinballs else 0.0,
         interval_coverage=inside / n,
-        nominal_coverage=QUANTILES[-1] - QUANTILES[0],
+        nominal_coverage=NOMINAL_COVERAGE,
         mean_relative_width=float(np.mean(widths)) if widths else 0.0,
         fallback_share=fallbacks / n,
         baseline_mape=float(np.mean(baseline_apes)) if baseline_apes else 0.0,
