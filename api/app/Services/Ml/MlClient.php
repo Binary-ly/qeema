@@ -161,6 +161,30 @@ final class MlClient implements MlClientInterface
     }
 
     /**
+     * Fit the nowcast models on observed history.
+     *
+     * @param  list<array<string, float>>  $features
+     * @param  list<float>  $targets
+     * @return array{trained: bool, n_samples: int, reason: string}|null
+     */
+    public function trainNowcast(array $features, array $targets): ?array
+    {
+        if ($features === [] || ! $this->isAvailable()) {
+            return null;
+        }
+
+        return $this->post(
+            '/v1/nowcast/train',
+            ['features' => $features, 'targets' => $targets],
+            static fn (array $body): array => [
+                'trained' => (bool) ($body['trained'] ?? false),
+                'n_samples' => (int) ($body['n_samples'] ?? 0),
+                'reason' => (string) ($body['reason'] ?? ''),
+            ],
+        );
+    }
+
+    /**
      * Impute prices for cells with no observation.
      *
      * @param  list<array<string, mixed>>  $requests

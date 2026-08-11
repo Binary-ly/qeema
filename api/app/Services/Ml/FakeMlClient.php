@@ -152,6 +152,21 @@ final class FakeMlClient implements MlClientInterface
         return $this;
     }
 
+    public function trainNowcast(array $features, array $targets): ?array
+    {
+        $this->calls[] = ['method' => 'trainNowcast', 'count' => count($features), 'targets' => $targets];
+
+        if (! $this->available) {
+            return null;
+        }
+
+        return [
+            'trained' => count($features) >= 200,
+            'n_samples' => count($features),
+            'reason' => 'Stubbed by FakeMlClient.',
+        ];
+    }
+
     public function nowcast(array $requests): ?array
     {
         $this->calls[] = ['method' => 'nowcast', 'count' => count($requests)];

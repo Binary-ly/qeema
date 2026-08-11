@@ -93,6 +93,7 @@ final class PipelineHealthWidget extends StatsOverviewWidget
             'exchange_rates' => 'Exchange rates',
             'review_queue' => 'Awaiting review',
             'matching' => 'Matching service',
+            'imputation' => 'Imputation source',
             'failed_jobs' => 'Failed jobs (24h)',
             default => ucfirst(str_replace('_', ' ', $key)),
         };

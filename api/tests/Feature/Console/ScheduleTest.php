@@ -114,3 +114,9 @@ it('fetches exchange rates every hour', function (): void {
     // next one rather than publishing without a conversion until tomorrow.
     expect(scheduled('qeema:fx:fetch')->expression)->toBe('0 * * * *');
 });
+
+it('retrains the nowcast model every six hours', function (): void {
+    // The ML service holds the fitted model in memory, so a restart reverts
+    // every imputed price to the fallback heuristic until this runs again.
+    expect(scheduled('qeema:nowcast:train')->expression)->toBe('0 */6 * * *');
+});

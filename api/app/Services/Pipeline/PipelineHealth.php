@@ -10,6 +10,7 @@ use App\Console\Commands\SchedulerHeartbeatCommand;
 use App\Models\Country;
 use App\Models\FxRate;
 use App\Models\IndexSnapshot;
+use App\Models\IndexSnapshotItem;
 use App\Models\Submission;
 use App\Services\Index\IndexStaleness;
 use Carbon\CarbonImmutable;
@@ -58,6 +59,7 @@ final class PipelineHealth
             $this->exchangeRates(),
             $this->reviewBacklog(),
             $this->matching(),
+            $this->imputation(),
             $this->failedJobs(),
         ];
     }
@@ -312,6 +314,43 @@ final class PipelineHealth
                 'The matching service is unreachable; submissions are queueing for human review.',
             )
             : HealthCheck::ok('matching', 'The matching service is answering.');
+    }
+
+    /**
+     * Are estimates coming from the model, or from the fallback?
+     *
+     * The nowcast model lives in the ML service's memory, so a container
+     * restart unfits it and every imputed price silently reverts to a ±30%
+     * heuristic until the next training run. The figures still publish, still
+     * carry an interval and are still labelled imputed — they are simply much
+     * cruder than the model card describes, and nothing else would say so.
+     */
+    private function imputation(): HealthCheck
+    {
+        $recent = IndexSnapshotItem::query()
+            ->where('is_imputed', true)
+            ->whereNotNull('imputation_method')
+            ->orderByDesc('id')
+            ->limit(200)
+            ->pluck('imputation_method');
+
+        if ($recent->isEmpty()) {
+            return HealthCheck::ok('imputation', 'Nothing has needed imputing.');
+        }
+
+        $modelled = $recent->filter(fn (string $method): bool => $method === 'lightgbm_quantile')->count();
+
+        return $modelled === 0
+            ? HealthCheck::degraded(
+                'imputation',
+                'Estimates are coming from the fallback heuristic, not the trained model.',
+                detail: ['modelled_share' => 0.0, 'sampled' => $recent->count()],
+            )
+            : HealthCheck::ok(
+                'imputation',
+                'Estimates are coming from the trained model.',
+                detail: ['modelled_share' => round($modelled / $recent->count(), 3), 'sampled' => $recent->count()],
+            );
     }
 
     /**

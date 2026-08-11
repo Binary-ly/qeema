@@ -49,6 +49,15 @@ interface MlClientInterface
     public function scoreAnomalies(array $observations): ?array;
 
     /**
+     * Fit the nowcast models on observed history.
+     *
+     * @param  list<array<string, float>>  $features
+     * @param  list<float>  $targets  each target is a ratio to the national median
+     * @return array{trained: bool, n_samples: int, reason: string}|null
+     */
+    public function trainNowcast(array $features, array $targets): ?array;
+
+    /**
      * Impute prices for cells with no observation.
      *
      * Every result is labelled imputed. There is no shape this can return that

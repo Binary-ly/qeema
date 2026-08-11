@@ -41,6 +41,8 @@ The `scheduler` container runs these. If it is not running, none of them are.
 | `qeema:pipeline:sweep` | every minute | Submissions written by anything other than the API are never processed |
 | `qeema:index` | every minute | Corrections never reach published figures |
 | `qeema:index:publish` | hourly | No new calendar day is ever published |
+| `qeema:fx:fetch` | hourly | Dollar figures go stale, then null, for countries with a configured source |
+| `qeema:nowcast:train` | every 6 hours | Estimates revert to a crude fallback heuristic |
 | `qeema:pipeline:health` | every 5 minutes | Nothing tells you any of the above stopped |
 | `horizon:snapshot` | every 5 minutes | Queue metrics in the Horizon dashboard |
 | `queue:prune-failed` | daily | Failed-job history grows without bound |
@@ -176,6 +178,27 @@ docker compose restart ml
 
 The breaker closes on its own after the cooldown. To close it immediately after
 fixing the cause, restart the `app` container.
+
+### `imputation` — degraded
+
+Estimates for unobserved basket items are coming from the fallback heuristic
+(±30%) rather than the trained model. The figures still publish, still carry an
+interval and are still labelled imputed — they are simply much cruder than the
+model card describes, and nothing else in the system would tell you.
+
+The usual cause is an ML container restart: the fitted model lives in that
+process's memory, so restarting it unfits the model until the next scheduled
+training run.
+
+```bash
+docker compose exec app php artisan qeema:nowcast:train
+docker compose exec app php artisan qeema:index --grace=0   # republish with model estimates
+```
+
+If training reports "declined", there is not yet enough history — the model
+needs a few hundred usable rows and refuses rather than fitting noise. That is
+the correct state for a new deployment, and the fallback is doing its job in the
+meantime.
 
 ### `failed_jobs` — degraded
 

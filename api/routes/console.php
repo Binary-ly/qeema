@@ -10,6 +10,7 @@ use App\Console\Commands\PipelineSweepCommand;
 use App\Console\Commands\PublishIndexCommand;
 use App\Console\Commands\RecomputeIndexCommand;
 use App\Console\Commands\SchedulerHeartbeatCommand;
+use App\Console\Commands\TrainNowcastCommand;
 use Illuminate\Support\Facades\Schedule;
 
 /*
@@ -79,6 +80,17 @@ Schedule::command(PublishIndexCommand::class)
 Schedule::command(FetchFxRatesCommand::class)
     ->hourly()
     ->withoutOverlapping(55)
+    ->onOneServer()
+    ->runInBackground();
+
+// Fits the nowcast models on observed history. Every six hours rather than
+// daily because the ML service holds the fitted model in memory: a container
+// restart loses it, and until the next run every imputed price falls back to a
+// labelled heuristic. The health check reports that state rather than leaving
+// it to be discovered.
+Schedule::command(TrainNowcastCommand::class)
+    ->everySixHours()
+    ->withoutOverlapping(120)
     ->onOneServer()
     ->runInBackground();
 

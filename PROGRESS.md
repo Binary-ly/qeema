@@ -1513,3 +1513,91 @@ timezone reasoning at all.
 Worth noting because D-14 was written carefully to get exactly this right in the
 *command*, and then the tests written against it assumed a server-local today.
 The care did not transfer across the boundary on its own.
+
+---
+
+## Phase 14.2 — the nowcast model is now actually trained
+
+The previous entry recorded that nothing in the platform ever called the
+training endpoint, so the LightGBM models were never fitted in a deployment and
+every imputed price came from a ±30% heuristic. This closes that, and turned out
+to be larger than "add a command".
+
+### The features were not the features
+
+`ItemImputer` sent eleven named features. **Four were constants** —
+`nearest_neighbour_km` at 50.0, and `national_trend`, `fx_change_30d` and
+`location_price_level` at 1.0 — and two more, `national_median` and
+`neighbour_median`, were computed over identical rows, because the "k nearest
+neighbours" the docstring described was implemented as "every other location".
+
+So a model evaluated on eleven signals would have been served seven, one of them
+duplicated. `fx_change_30d` pinned at 1.0 is the one worth naming: it told the
+model the currency never moves, in countries this platform exists for *because*
+it does.
+
+`NowcastFeatureBuilder` now computes all eleven, and both the imputer and the
+trainer call it — one assembly, because two would drift and the drift would look
+like the model simply being bad.
+
+### The rule that makes training honest
+
+**No observation of this item at this location dated on or after the target date
+is ever read.** At serving time that costs nothing: the cell is unobserved,
+which is why it is being imputed. At training time it is the whole game, since
+the target *is* such an observation.
+
+The guard is a test that builds the features, then adds every kind of future
+evidence — a later price at the same location, a later price elsewhere, a later
+exchange rate — rebuilds, and requires the result to be byte-identical. A
+lookahead path anywhere shows up as a difference. Lookahead does not announce
+itself; it shows up as a model that evaluates beautifully and fails in service.
+
+`national_median` also excludes the target location entirely, so the price being
+predicted cannot sit inside the number it is divided by.
+
+### Verified on the running stack
+
+```
+before   fallback_local_median   2653      lightgbm_quantile      0
+after    fallback_local_median    171      lightgbm_quantile    127
+```
+
+Trained on 3,000 rows, republished, and 43% of imputations now come from the
+model. The remainder legitimately fall back — no national reference exists to
+anchor a ratio against, and the model declines rather than guessing.
+
+### A new health signal, for a failure that would otherwise be silent
+
+The fitted model lives in the ML service's process memory, so restarting that
+container unfits it and every estimate reverts to the heuristic. The figures
+keep publishing, keep their intervals, stay labelled imputed — and become much
+cruder than the model card describes, with nothing saying so.
+
+`imputation` is now a pipeline health check: it samples recent imputed items and
+reports degraded when none came from the model. Training runs every six hours
+rather than daily for the same reason.
+
+### Known, and not fixed here
+
+**The ML service holds one model for all countries.** `_model` is a module-level
+global, so training Libya and then Venezuela leaves only Venezuela's fit serving
+both. Because targets are ratios to a national median the model is scale-free
+and this is not nonsense — but it is "whichever country ran last", not a
+deliberate cross-country model. Fixing it means keying models by country through
+the ML API, the client and the registry.
+
+**And the model card still describes synthetic data.** 3.5% MAPE and 85.6%
+coverage are measured against a generator whose price process is known. What
+changed here is that the model is now reachable at all; how well it does on real
+markets remains unmeasured, and will stay so until a pilot produces real
+history.
+
+| Gate | Result |
+|---|---|
+| Pest | **577 passed**, 1 skipped, 2,154 assertions, 93.9% |
+| pytest | 199 passed, 83.1% |
+| PHPStan level 6 | 0 errors |
+| Pint / ruff / mypy | clean |
+| OpenAPI drift | up to date |
+| C3 | pass |
