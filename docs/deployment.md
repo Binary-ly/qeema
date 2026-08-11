@@ -224,6 +224,54 @@ defaults suit a pilot; the two worth understanding before changing are
 | `QEEMA_INDEX_PUBLISH_GRACE` | `60` | Seconds a snapshot must have been stale before it is recomputed. An observation marks its snapshots stale the instant it is written, but anomaly screening lands a moment later; without this window a figure containing an unscreened price is briefly published and then corrected. Lower it for a livelier index, at the cost of that window. |
 | `QEEMA_INDEX_BACKFILL_DAYS` | `3` | How many days back the hourly roll-forward looks for dates that never got a snapshot. |
 
+### Exchange rates
+
+| Variable | Default | Notes |
+|---|---|---|
+| `QEEMA_FX_FETCH_ENABLED` | `true` | Master switch for automatic fetching. A no-op for any country on manual entry, which is every country by default. |
+| `QEEMA_FX_HTTP_TIMEOUT` | `10` | Seconds to wait on a configured rate source. |
+
+**The platform ships with no rate source for any currency, and that is
+deliberate.** Constraint C1 is that no proprietary or paid third-party API sits
+in the runtime path, and the parallel-market feeds that exist for these
+currencies are behind an API key. Shipping an integration with one would give
+every deployment an account to create and a secret to keep.
+
+So the default everywhere is `manual`: an operator enters rates under **Admin →
+FX rates**, and the health check warns before the last one goes stale enough for
+`cost_usd` to be withheld. **A rate you typed is never overwritten by a fetched
+one** — both are stored, and the resolver prefers the human.
+
+If you have a source, describe it in your country file. The application knows
+how to read *a* JSON endpoint and nothing about which one:
+
+```yaml
+fx:
+  provider: generic_http
+  rate_type: parallel
+  max_staleness_days: 7
+  config:
+    url: https://example.org/api/rates
+    parallel_path: data.parallel.sell   # dot path into the response
+    official_path: data.official.sell
+    date_path: data.updated_at          # optional; defaults to today
+    auth_header: Authorization          # optional
+    auth_token_env: FX_API_TOKEN      # the token is read from this
+                                        # environment variable, so it never
+                                        # goes into the country file
+```
+
+Then set `FX_API_TOKEN` in your environment and check it with:
+
+```bash
+docker compose exec app php artisan qeema:fx:fetch --country=<ISO2>
+```
+
+The fetch runs hourly. It refuses any URL that is not http/https, that carries
+credentials, or that resolves to a private, loopback or link-local address —
+which is what stops a configuration file being turned into a way to read the
+host's cloud metadata service.
+
 Two queue settings are not Qeema's own but matter here:
 `REDIS_QUEUE_RETRY_AFTER` (default `300`) must exceed every job timeout and
 every Horizon supervisor timeout, or a slow job is handed to a second worker

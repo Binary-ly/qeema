@@ -107,3 +107,10 @@ it('does not let a slow drain delay the heartbeat behind it', function (): void 
     // be queued behind it.
     expect(scheduled('qeema:index')->runInBackground)->toBeTrue();
 });
+
+it('fetches exchange rates every hour', function (): void {
+    // Hourly rather than daily: these currencies move within a day, and a
+    // deployment that was down at the scheduled hour should catch up at the
+    // next one rather than publishing without a conversion until tomorrow.
+    expect(scheduled('qeema:fx:fetch')->expression)->toBe('0 * * * *');
+});

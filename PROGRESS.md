@@ -1327,3 +1327,90 @@ values are phpunit.xml's job.
 
 CI now reports `1 skipped, 535 passed (2,063 assertions)` with no warnings at
 all, which is what a clean signal looks like.
+
+---
+
+## Phase 13.4 — exchange rate ingestion — complete
+
+The last part of the plan, and the one whose answer turned out to be "no, and
+here is why".
+
+### The source question, settled
+
+A parallel-rate source for the dinar was suggested: **fulus.ly**. Checking it
+rather than assuming:
+
+```
+GET https://fulus.ly/api/v1/rates/current  →  401 {"message":"Unauthenticated."}
+```
+
+It needs an API key, which makes it a proprietary third-party API. Wiring it in
+as the shipped default would breach **C1** — no proprietary or paid service in
+the runtime path — and would falsify SECURITY.md's claim that a correct
+deployment has no third-party keys to leak. Every deployment of this repository
+would inherit an account to create and a secret to keep.
+
+So the platform ships knowing how to read *a* JSON endpoint and nothing about
+which one:
+
+- **`manual`** is the default for every country. An operator enters rates in the
+  admin panel and the health check warns before the last one goes stale enough
+  to withdraw dollar figures. Not a defeat — for most of these currencies there
+  is no free machine-readable parallel rate anyone would stake a figure on.
+- **`generic_http`** reads whatever endpoint a country file names, with dot
+  paths into the response and an optional auth header whose token is read from a
+  **named environment variable** — so a country file under version control never
+  contains the credential.
+
+`countries/ly.yaml` carries the fulus.ly configuration as a commented, opt-in
+example with the two things an operator must settle first: that the terms permit
+automated access, and that the paths match what the endpoint actually returns.
+The paths there are a guess made without a key, and are labelled as one — a
+wrong path yields no rate rather than a wrong one, and the health check says so.
+
+Nothing in `api/app` mentions the service. The C3 check would fail the build if
+it did.
+
+### D-16, made real
+
+`FxRateResolver` broke ties by recency alone, which was harmless while one
+source existed and would have meant tonight's scheduled fetch silently
+overruling the correction an operator typed that afternoon after speaking to a
+trader. Precedence is now `is_manual DESC, fetched_at DESC` on both the
+same-day lookup and the fallback to an earlier day. Two tests hold it.
+
+### The SSRF hole named in SECURITY.md, closed
+
+`SECURITY.md` has listed server-side request forgery through the FX and scraper
+configuration as in scope since Phase 12, and nothing enforced it: the scraper
+would fetch any URL a source named, including `http://169.254.169.254`, and hand
+the cloud instance's credentials back inside an ingestion batch's error report.
+
+`OutboundUrl` refuses non-http schemes, URLs carrying credentials, and any host
+resolving to a private, loopback or link-local address. Both call sites use it.
+The DNS-rebinding gap is documented rather than papered over — closing it needs
+the resolved address pinned into the connection, which the HTTP client does not
+expose.
+
+**A design error caught by the existing suite.** The first version treated an
+unresolvable host as a refusal, which broke nine scraper tests that fake
+fictitious hostnames. That was not merely a test problem: it conflated a
+transient resolver failure with an attack, and would have told an operator who
+typo'd a hostname that their configuration had been rejected on security
+grounds. A name with no address points nowhere, so it is allowed through and
+fails at connection with a message about the host.
+
+### Gates
+
+| Gate | Result |
+|---|---|
+| Pest | **557 passed**, 1 skipped, 2,101 assertions, **94.3%** |
+| PHPStan level 6 | 0 errors |
+| Pint | clean |
+| C3 country-agnostic | pass |
+
+Twenty-one of those tests are this phase, and six of them are refusals: a
+loopback address, a private network address, the cloud metadata service, a URL
+with credentials, a non-http scheme, and a rate that is not a positive number.
+
+**The plan is complete.** All six sub-phases of Phase 13 are done.

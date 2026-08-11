@@ -33,20 +33,38 @@ country:
 # number for this index. Costing a basket at the official rate would produce a
 # USD figure describing a transaction ordinary people cannot make.
 fx:
-  provider: manual          # manual | generic_http | fulus_ly
+  provider: manual          # manual | generic_http
   base_currency: USD
   rate_type: parallel
   max_staleness_days: 7
   config: {}
-  # The Fulus.ly adapter is deliberately NOT the default: its terms of use have
-  # not been reviewed, and shipping a scraper enabled-by-default against a third
-  # party's site would be inconsiderate at best. See PLAN.md §11 open question 2.
+  #
+  # Manual entry is the shipped default, and that is a constraint rather than an
+  # oversight. The platform depends on no proprietary or paid third-party API
+  # (C1), and the parallel-rate sources that exist for the dinar are behind an
+  # API key — including fulus.ly, whose /api/v1/rates/current answers 401
+  # without one. Enabling any of them here would give every deployment of this
+  # repository an account to create and a secret to keep, and would make the
+  # "no third-party keys, by construction" claim in SECURITY.md untrue.
+  #
+  # An operator who has their own key can use it. Nothing in the application
+  # knows the service exists; it reads whatever JSON endpoint this names:
   #
   # provider: generic_http
   # config:
-  #   url: https://example.org/rates.json
-  #   official_path: "$.rates.official"
-  #   parallel_path: "$.rates.parallel"
+  #   url: https://fulus.ly/api/v1/rates/current
+  #   parallel_path: data.parallel.sell     # confirm against the live payload
+  #   official_path: data.official.sell
+  #   date_path: data.updated_at
+  #   auth_header: Authorization
+  #   auth_token_env: FX_API_TOKEN        # the token itself lives in the
+  #                                         # environment, never in this file,
+  #                                         # which is in version control
+  #
+  # Two things to settle before switching it on: that the terms of use permit
+  # automated access for this purpose, and that the paths above match what the
+  # endpoint actually returns — they are a guess made without a key, and a wrong
+  # path yields no rate rather than a wrong one, which the health check reports.
 
 # ---------------------------------------------------------------------------
 # Index estimator settings

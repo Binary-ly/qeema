@@ -61,3 +61,19 @@ Qeema depends on no paid or proprietary service, so a correct deployment has no
 third-party API keys to leak. If you find a credential committed to this
 repository, treat it as a vulnerability and report it — CI scans for
 secret-shaped values, but scanners miss things.
+
+One deliberate exception exists, and it is opt-in. An operator may configure an
+exchange-rate source of their own, and some of those require a key. When they
+do, the country file names the *environment variable* holding the token and
+never the token itself, precisely so that a configuration file under version
+control cannot become a published credential. Nothing in this repository is
+configured with such a source; the shipped default for every country is manual
+entry.
+
+Outbound requests made on operator instruction — the rate source and the
+open-data scraper — are restricted to public http/https addresses. A URL that
+resolves to a private, loopback or link-local address is refused, which is what
+stops configuration being turned into a way to read the host's cloud metadata
+service. The residual gap is DNS rebinding, since the address is checked and
+then resolved again when connecting; closing it would require pinning the
+resolved address into the connection, which the HTTP client does not expose.

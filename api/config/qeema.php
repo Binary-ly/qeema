@@ -137,6 +137,20 @@ return [
     ],
 
     /*
+    | Exchange rates.
+    |
+    | The platform ships with no source for any currency: every provider is
+    | selected per country in countries/*.yaml, and the default everywhere is
+    | manual entry. That is constraint C1 in practice — a rate feed worth
+    | trusting for these currencies is behind an API key, and depending on one
+    | would give every deployment an account to create and a secret to keep.
+    */
+    'fx' => [
+        'fetch_enabled' => filter_var(env('QEEMA_FX_FETCH_ENABLED', true), FILTER_VALIDATE_BOOL),
+        'http_timeout' => (float) env('QEEMA_FX_HTTP_TIMEOUT', 10.0),
+    ],
+
+    /*
     | Index publication.
     */
     'index' => [

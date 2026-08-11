@@ -4,6 +4,7 @@
 
 declare(strict_types=1);
 
+use App\Console\Commands\FetchFxRatesCommand;
 use App\Console\Commands\PipelineHealthCommand;
 use App\Console\Commands\PipelineSweepCommand;
 use App\Console\Commands\PublishIndexCommand;
@@ -65,6 +66,17 @@ Schedule::command(RecomputeIndexCommand::class)
 // down at midnight catches up within the hour, and so a late arrival for a date
 // that never had a snapshot still gets one.
 Schedule::command(PublishIndexCommand::class)
+    ->hourly()
+    ->withoutOverlapping(55)
+    ->onOneServer()
+    ->runInBackground();
+
+// Exchange rates, for the countries that have an automatic source. Hourly
+// rather than daily because these currencies move within a day, and because a
+// deployment that was down at the scheduled hour should catch up at the next
+// one rather than publishing without a conversion until tomorrow. A country on
+// manual entry makes this a no-op.
+Schedule::command(FetchFxRatesCommand::class)
     ->hourly()
     ->withoutOverlapping(55)
     ->onOneServer()

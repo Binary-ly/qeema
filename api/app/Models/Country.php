@@ -17,6 +17,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Everything that differs between deployments hangs off this model. Code that
  * needs a currency, a locale or an FX provider asks a Country; it never assumes
  * one (constraint C3).
+ *
+ * The JSON columns are declared here because Larastan reads the column type
+ * rather than `casts()`, and would otherwise treat them as strings — which
+ * turns every read of a nested key into an error nobody can act on.
+ *
+ * @property array<string, mixed>|null $fx_config
+ * @property array<string, mixed>|null $index_config
+ * @property list<string> $locales
  */
 final class Country extends Model
 {

@@ -7,8 +7,10 @@ declare(strict_types=1);
 namespace App\Support\Scraping;
 
 use App\Models\Source;
+use App\Support\Http\OutboundUrl;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -116,6 +118,17 @@ final class OpenDataCsvScraper implements PriceScraper
 
     private function download(string $url): string
     {
+        // The URL comes from a source's configuration, not from code, and
+        // SECURITY.md names server-side request forgery through exactly that as
+        // in scope. Without this an operator — or anyone who can edit a source
+        // — can point the scraper at the cloud metadata service and read the
+        // instance's credentials out of an ingestion batch's error report.
+        try {
+            OutboundUrl::guard($url);
+        } catch (InvalidArgumentException $e) {
+            throw new RuntimeException($e->getMessage(), previous: $e);
+        }
+
         try {
             $response = Http::withHeaders([
                 // Identify the client honestly, with a contact route. An

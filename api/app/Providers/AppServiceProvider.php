@@ -6,6 +6,9 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Services\Fx\FxProviderRegistry;
+use App\Services\Fx\Providers\GenericHttpFxProvider;
+use App\Services\Fx\Providers\ManualFxProvider;
 use App\Services\Index\IndexCalculator;
 use App\Services\Index\ItemImputer;
 use App\Services\Ml\MlClient;
@@ -34,6 +37,20 @@ final class AppServiceProvider extends ServiceProvider
         $this->app->bind(IndexCalculator::class, fn ($app): IndexCalculator => new IndexCalculator(
             imputer: new ItemImputer($app->make(MlClientInterface::class)),
         ));
+
+        // Exchange rate sources. The platform ships knowing how to read *a*
+        // JSON endpoint and nothing about which one: every source worth having
+        // for these currencies is behind an API key, and depending on one would
+        // breach C1 and make the "no third-party keys, by construction" claim
+        // in SECURITY.md untrue. An operator with a source describes it in
+        // their own country file.
+        $this->app->singleton(FxProviderRegistry::class, function (): FxProviderRegistry {
+            $registry = new FxProviderRegistry;
+            $registry->register(new ManualFxProvider);
+            $registry->register(new GenericHttpFxProvider);
+
+            return $registry;
+        });
 
         $this->app->singleton(ScraperRegistry::class, function (): ScraperRegistry {
             $registry = new ScraperRegistry;

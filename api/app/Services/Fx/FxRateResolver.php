@@ -61,6 +61,10 @@ final class FxRateResolver
             ->where('country_id', $country->id)
             ->where('rate_date', '<=', $on->toDateString())
             ->orderByDesc('rate_date')
+            // Same precedence as above, so falling back to an older day does
+            // not quietly switch which source is trusted.
+            ->orderByDesc('is_manual')
+            ->orderByDesc('fetched_at')
             ->first();
 
         if ($previous === null) {
@@ -91,11 +95,22 @@ final class FxRateResolver
         );
     }
 
+    /**
+     * The rate for a day, when several sources have one.
+     *
+     * `fx_rates` is keyed `(country_id, rate_date, source)`, so an automatic
+     * fetch and an operator's correction can both exist for the same day. The
+     * human wins. Ordering by recency alone — which is what this did before any
+     * provider existed — would mean tonight's scheduled fetch silently
+     * overruling the correction somebody typed this afternoon after speaking to
+     * a trader, and nobody would see it happen.
+     */
     private function rateOn(Country $country, CarbonImmutable $date): ?FxRate
     {
         return FxRate::query()
             ->where('country_id', $country->id)
             ->whereDate('rate_date', $date->toDateString())
+            ->orderByDesc('is_manual')
             ->orderByDesc('fetched_at')
             ->first();
     }
