@@ -2054,3 +2054,25 @@ document exists, every `make` target and artisan command it names is real — an
 one test asserting the sentence about what its numbers are worth is still there,
 because that sentence is what stops a reader taking a stale figure for a current
 one.
+
+### Two commits where CI ran nothing at all
+
+The `if: always()` change to the Playwright artifact step left `if-no-files-found`
+in the mapping twice. GitHub Actions rejects a duplicate key outright, so both
+that commit and the next one ran **zero jobs** — no suites, no coverage gates, no
+compliance check. The runs are recorded as failures, but nothing in them had been
+tested and failed; nothing had been tested.
+
+That is worse than a red build. A red build tells you what broke. This tells you
+only that the thing which tells you is broken, and it does so in the same place
+you would normally look for reassurance.
+
+It survived a YAML validation I ran at the time, because Ruby's Psych, PyYAML and
+js-yaml all accept a duplicate key and keep the last value. Validating the file
+loads proves nothing about whether Actions will take it.
+
+`infra/scripts/check-workflows.sh` walks the parse tree instead of trusting the
+load, and is in `make verify` rather than in CI — a check for "the workflow is
+invalid" cannot live inside the workflow it is checking, because an invalid one
+never starts it. Verified by reintroducing the exact duplicate and watching it
+name the line.

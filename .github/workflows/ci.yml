@@ -327,7 +327,6 @@ jobs:
             e2e/test-results
           if-no-files-found: ignore
           retention-days: 14
-          if-no-files-found: ignore
 
       - name: Dump logs on failure
         if: failure()

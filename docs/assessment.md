@@ -216,7 +216,7 @@ rather than asserted.
 | **C2** | Self-hostable in one command | CI builds and boots the whole stack from scratch on every push, then runs the browser suite against it |
 | **C3** | Country-agnostic | A CI job greps application source for country literals and fails the build on one — it has caught three, including a currency code that reached the published API contract and a timezone in a comment |
 | **C4** | Apache-2.0 end to end | LICENSE, NOTICE, CONTRIBUTING, CODE_OF_CONDUCT; SPDX header on every file |
-| **C5** | ≥80% unit coverage, enforced in CI from the first phase | 93.7% and 85.4%, both gated |
+| **C5** | ≥80% unit coverage, enforced in CI from the first phase | 93.6% and 85.4%, both gated |
 | **C6** | The public data is the product | Every read route unauthenticated, OpenAPI documented and drift-checked in CI, bulk CSV export carrying its licence; a browser test asserts no endpoint requires credentials |
 
 ## How to check all of this in half an hour

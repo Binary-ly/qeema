@@ -101,8 +101,12 @@ licenses: ## Regenerate the dependency licence inventory (constraint C1)
 check-country-agnostic: ## Fail if country-specific literals leaked into code (constraint C3)
 	@bash infra/scripts/check-country-agnostic.sh
 
+.PHONY: check-workflows
+check-workflows: ## Fail on duplicate keys that would make a CI workflow invalid
+	@bash infra/scripts/check-workflows.sh
+
 .PHONY: verify
-verify: lint test check-country-agnostic ## Everything CI runs, locally
+verify: lint test check-country-agnostic check-workflows ## Everything CI runs, locally
 
 # ----------------------------------------------------------------- data ----
 
