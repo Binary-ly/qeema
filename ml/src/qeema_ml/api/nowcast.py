@@ -13,11 +13,11 @@ router = APIRouter(prefix="/v1/nowcast", tags=["nowcast"])
 
 #: One fitted model per country, rather than one for everybody.
 #:
-#: This was a single module-level model, which meant training Libya and then
-#: Venezuela left only Venezuela's fit answering for both. Targets are ratios to
-#: a national median, so the model is scale-free and the result was not
-#: nonsense — it was simply whichever country had been trained most recently,
-#: which is not a decision anybody made.
+#: This was a single module-level model, so training one country and then a
+#: second left only the second country's fit answering for both. Targets are
+#: ratios to a national median, so the model is scale-free and the result was
+#: not nonsense — it was simply whichever country had been trained most
+#: recently, which is not a decision anybody made.
 #:
 #: Countries are a small, operator-defined set, so a plain dictionary is the
 #: right size of solution. It is keyed on the code Laravel sends and nothing
