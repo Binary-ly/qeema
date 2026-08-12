@@ -1917,3 +1917,52 @@ is still false after the most extreme possible finding.
 | PHPStan level 6 | 0 errors |
 | Pint / ruff / mypy | clean |
 | C3 | pass |
+
+---
+
+## Phase 14.8 — a systematic sweep, and the fifth unreachable component
+
+Four components have been found built-and-unreachable by accident this week —
+the resolution pipeline, the review queue, nowcast training, and the
+manipulation detector. Four is not bad luck, so this time the codebase was
+searched deliberately: every class under `app/Services`, `app/Support`,
+`app/Actions` and `app/Jobs`, and every ML module, checked for references
+outside its own file.
+
+The first attempt produced a list of about fifty "unreachable" classes,
+including `RecordSubmission`, which is called on every submission. An unquoted
+`--include=*.php` had failed in zsh, so every grep matched nothing and the sweep
+reported everything as dead. A sweep whose answer is "all of it" is not a
+finding, it is a broken tool — worth recording because it took a second look to
+notice rather than a first.
+
+Quoted properly, the sweep returned four results, three of them expected:
+`FakeMlClient` is a test double, and the two OpenApi classes hold attributes
+that swagger-php scans rather than code anything calls.
+
+### The fifth: nothing ever ran a scraper
+
+`ScraperRunner` was referenced only by its own tests. Everything beneath it
+worked — pagination, rate limiting, robots.txt, resumable cursors, deterministic
+idempotency keys, all covered — and nothing ran any of it. A source of type
+`scraper` configured in the admin panel sat there and was never fetched.
+
+`qeema:scrape` now runs the active scraper sources daily.
+
+**A stock deployment fetches nothing.** The platform ships with no scraper
+source configured, so the scheduled task does nothing at all until an operator
+sets one up — which is what makes having it on a schedule safe, and the first
+test asserts exactly that with `Http::assertNothingSent()`. The demo seeds only
+reporter and partner-upload sources, so `docker compose up` still reaches no
+third party (C1).
+
+What it fetches becomes ordinary pending submissions, resolved and screened by
+the pipeline that already exists. There is deliberately no second path into the
+index.
+
+| Gate | Result |
+|---|---|
+| Pest | **606 passed**, 1 skipped, 2,228 assertions, 93.7% |
+| PHPStan level 6 | 0 errors |
+| Pint | clean |
+| C3 | pass |

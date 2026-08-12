@@ -43,6 +43,7 @@ The `scheduler` container runs these. If it is not running, none of them are.
 | `qeema:index:publish` | hourly | No new calendar day is ever published |
 | `qeema:fx:fetch` | hourly | Dollar figures go stale, then null, for countries with a configured source |
 | `qeema:nowcast:train` | every 6 hours | Estimates revert to a crude fallback heuristic |
+| `qeema:scrape` | daily, 02:40 | Configured open datasets are never fetched |
 | `qeema:reporters:bias` | daily, 03:20 | Nobody looks for coordinated price manipulation |
 | `qeema:pipeline:health` | every 5 minutes | Nothing tells you any of the above stopped |
 | `horizon:snapshot` | every 5 minutes | Queue metrics in the Horizon dashboard |

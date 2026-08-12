@@ -10,6 +10,7 @@ use App\Console\Commands\PipelineHealthCommand;
 use App\Console\Commands\PipelineSweepCommand;
 use App\Console\Commands\PublishIndexCommand;
 use App\Console\Commands\RecomputeIndexCommand;
+use App\Console\Commands\RunScrapersCommand;
 use App\Console\Commands\SchedulerHeartbeatCommand;
 use App\Console\Commands\TrainNowcastCommand;
 use Illuminate\Support\Facades\Schedule;
@@ -92,6 +93,16 @@ Schedule::command(FetchFxRatesCommand::class)
 Schedule::command(TrainNowcastCommand::class)
     ->everySixHours()
     ->withoutOverlapping(120)
+    ->onOneServer()
+    ->runInBackground();
+
+// Fetches whatever open datasets an operator has configured. A stock
+// deployment has none, so this does nothing until somebody sets one up —
+// which is why it is safe on a schedule. Daily, because an open dataset that
+// updates more often than that is unusual and politeness costs nothing.
+Schedule::command(RunScrapersCommand::class)
+    ->dailyAt('02:40')
+    ->withoutOverlapping(180)
     ->onOneServer()
     ->runInBackground();
 

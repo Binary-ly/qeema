@@ -126,3 +126,10 @@ it('looks for coordinated manipulation daily', function (): void {
     // only defence against a coordinated cluster was a module nothing ran.
     expect(scheduled('qeema:reporters:bias')->expression)->toBe('20 3 * * *');
 });
+
+it('fetches configured open datasets daily', function (): void {
+    // The runner existed with no caller at all, so a scraper source configured
+    // in the admin panel was never fetched. A stock deployment configures none,
+    // which is what makes a scheduled fetch safe.
+    expect(scheduled('qeema:scrape')->expression)->toBe('40 2 * * *');
+});
