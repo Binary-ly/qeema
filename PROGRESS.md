@@ -1715,3 +1715,76 @@ readable in the diff.
 | Pint | clean |
 | OpenAPI drift | up to date |
 | C3 | pass |
+
+---
+
+## Phase 14.5 — fitted models survive a restart
+
+The models lived in the ML service's process memory. A restart — a deploy, a
+crash, `docker compose up -d` — dropped every country back to a ±30% fallback
+heuristic until the next scheduled training run, up to six hours later, with
+figures that kept publishing and were quietly much cruder than the model card
+describes. They are now written to a volume and read back at startup.
+
+### The manifest is the point, not the model files
+
+Persisting introduces a failure mode that not persisting does not have: a model
+fitted on one set of features, loaded by code that now sends a different set.
+Features are positional, so **nothing raises** — the model reads one feature out
+of another's slot and returns a number indistinguishable from any other.
+
+Every saved model therefore carries the ordered feature names, the quantiles it
+was fitted at, and the coverage those were meant to deliver. A model whose
+manifest disagrees with the running code is refused, logged, and left on disk so
+an operator can see what was rejected rather than wonder where it went. Six of
+the twelve tests are refusals, including a model relabelled to the old 0.1/0.9
+quantiles — loading that would silently reinstate the interval that covered
+74.6% of what it claimed.
+
+Boosters are saved in LightGBM's own text format rather than pickled: a pickled
+estimator does not survive a library upgrade, and this file has to be readable
+by whatever version is running six months from now.
+
+### Caught by checking rather than by trusting
+
+Training reported success on the live stack and **nothing was written**. The
+volume had been created before the image had a `/models` directory, so it was
+owned by root while the service runs as uid 10001 — and `save()` is deliberately
+non-raising, because a training run must not fail over a read-only disk. The
+whole failure was one log line:
+
+```
+Could not persist the LY nowcast model: [Errno 13] Permission denied: '/models/LY'
+```
+
+The image now creates the directory owned by the service user, so a volume
+initialised against it inherits that ownership and a clean deployment is correct
+without intervention.
+
+Verified the only way that means anything — trained, then `docker compose
+restart ml`, then asked the service:
+
+```json
+{"method": "lightgbm_quantile", "model_trained": true}
+```
+
+Before this, that same request immediately after a restart returned a fallback.
+
+### Two smaller things, while in there
+
+`nowcast_quantiles`, `nowcast_neighbours` and `artifact_dir` were settings read
+by nothing. The first also **lied**: it advertised 0.1/0.9 while the model has
+shipped 0.05/0.95 since the interval was recalibrated, so an operator "tuning"
+it would have changed nothing at all. Removed, with a note in its place
+explaining that the band is a calibration decision measured against a backtest
+rather than an operator knob.
+
+The runbook's `imputation` section previously blamed container restarts. That is
+no longer the cause, so it now names the three real ones — never trained, a
+refused model, or training failing — and says how to tell them apart.
+
+| Gate | Result |
+|---|---|
+| pytest | **218 passed**, 85.0% |
+| ruff / mypy | clean |
+| C3 | pass |

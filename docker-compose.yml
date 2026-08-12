@@ -110,6 +110,12 @@ services:
       QEEMA_ML_EMBEDDING_MODEL: ${QEEMA_EMBEDDING_MODEL:-intfloat/multilingual-e5-base}
       QEEMA_ML_DATABASE_URL: postgresql://${POSTGRES_USER:-qeema}:${POSTGRES_PASSWORD:-qeema}@postgres:5432/${POSTGRES_DB:-qeema}
       QEEMA_ML_LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      QEEMA_ML_NOWCAST_MODEL_DIR: ${QEEMA_ML_NOWCAST_MODEL_DIR:-/models}
+    volumes:
+      # Fitted nowcast models. Without a volume they live only in the
+      # container's memory, so every restart drops each country back to a
+      # fallback heuristic until the next scheduled training run.
+      - ml-models:/models
     depends_on:
       postgres:
         condition: service_healthy
@@ -202,3 +208,4 @@ volumes:
   postgres-data:
   redis-data:
   app-storage:
+  ml-models:

@@ -83,8 +83,14 @@ COPY ml/pyproject.toml ml/README.md ./
 COPY ml/src ./src
 COPY ml/artifacts ./artifacts
 
+# /models is where fitted nowcast models are persisted between restarts. It is
+# created here, owned by the service user, so the named volume mounted over it
+# inherits that ownership — a volume initialised against a root-owned path
+# leaves the service unable to write, and the failure is a log line rather than
+# an error, because a training run must not fail over a read-only disk.
 RUN useradd --system --uid 10001 --create-home qeema \
-    && chown -R qeema:qeema /srv /opt/models
+    && mkdir -p /models \
+    && chown -R qeema:qeema /srv /opt/models /models
 USER qeema
 
 ENV PYTHONPATH=/srv/src

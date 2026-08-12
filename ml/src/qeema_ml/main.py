@@ -19,6 +19,7 @@ from pydantic import BaseModel, Field
 from qeema_ml import __version__
 from qeema_ml.api.anomaly import router as anomaly_router
 from qeema_ml.api.matching import router as matching_router
+from qeema_ml.api.nowcast import restore_models
 from qeema_ml.api.nowcast import router as nowcast_router
 from qeema_ml.config import Settings, get_settings
 
@@ -91,6 +92,13 @@ registry = ModelRegistry()
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Load models at boot when configured to do so."""
     settings = get_settings()
+    # Fitted nowcast models come back before the service reports ready, so a
+    # restart does not silently serve heuristic estimates for six hours.
+    restored = restore_models()
+
+    if restored:
+        logger.info("Restored %d persisted nowcast model(s).", restored)
+
     if settings.load_models_on_startup:
         registry.load(settings)
     else:

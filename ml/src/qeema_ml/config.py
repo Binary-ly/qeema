@@ -57,9 +57,17 @@ class Settings(BaseSettings):
     anomaly_isolation_contamination: float = Field(default=0.05, gt=0.0, lt=0.5)
 
     # --- nowcasting ------------------------------------------------------
-    nowcast_quantiles: tuple[float, ...] = (0.1, 0.5, 0.9)
-    nowcast_neighbours: int = Field(default=3, ge=1)
-    artifact_dir: str = "artifacts"
+    # Where fitted nowcast models are kept between restarts. Without this the
+    # models live only in memory, and every container restart drops each
+    # country back to a fallback heuristic until the next training run.
+    nowcast_model_dir: str = "/models"
+
+    # The quantiles the band is drawn at are deliberately *not* configurable.
+    # They are a calibration decision measured against a backtest — drawn at
+    # 0.05/0.95 and published as 80% so the interval over-covers — and an
+    # operator setting them back to 0.1/0.9 would silently restore an interval
+    # that covers 74.6% of what it claims. A setting that existed here and was
+    # read nowhere is worse still, which is what it was.
 
     # --- database (read-only access to the public schema) ----------------
     database_url: str = "postgresql://qeema:qeema@postgres:5432/qeema"

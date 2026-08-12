@@ -34,7 +34,9 @@ heuristic. A confidently-wrong price is worse than an obviously-approximate one.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass, field
+from typing import Any
 
 import numpy as np
 
@@ -206,6 +208,28 @@ class NowcastModel:
         self._trained_rows = len(features)
 
         return True
+
+    def boosters(self) -> dict[float, Any]:
+        """The fitted boosters, for persistence.
+
+        A booster rather than the scikit-learn wrapper: LightGBM's own text
+        format survives a library upgrade, and a pickled estimator does not.
+
+        Typed ``Any`` because LightGBM ships no type information, so this is
+        where the checked part of the codebase ends. Narrowing it to ``object``
+        would be more precise and less true: callers do need to reach for
+        ``save_model``.
+        """
+        return {q: getattr(model, "booster_", model) for q, model in self._models.items()}
+
+    @classmethod
+    def from_boosters(cls, boosters: Mapping[float, Any], trained_rows: int) -> NowcastModel:
+        """Rebuild a model that was fitted in an earlier process."""
+        model = cls()
+        model._models = dict(boosters)
+        model._trained_rows = trained_rows
+
+        return model
 
     def predict(self, features: NowcastFeatures) -> Imputation | None:
         """Impute a price, or None if the model cannot.

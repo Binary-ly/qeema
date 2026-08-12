@@ -188,6 +188,7 @@ for the demo; the ones you **must** change for a real deployment are marked.
 | `QEEMA_ML_CB_COOLDOWN` | `60` | Seconds the breaker stays open. |
 | `QEEMA_ML_RETRY_DELAY_MS` | `200` | Delay between retries. |
 | `QEEMA_EMBEDDING_MODEL` | `intfloat/multilingual-e5-base` | Baked into the image at build time. Changing it requires a rebuild — it is not fetched at runtime. |
+| `QEEMA_ML_NOWCAST_MODEL_DIR` | `/models` | Where fitted nowcast models are kept between restarts, backed by the `ml-models` volume. Without it the models live only in memory and every restart drops each country to a fallback heuristic until the next training run. |
 
 ### Rate limits
 

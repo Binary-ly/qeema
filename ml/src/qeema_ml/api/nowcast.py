@@ -7,7 +7,9 @@ from fastapi import APIRouter
 from pydantic import BaseModel, Field
 
 from qeema_ml import __version__
+from qeema_ml.config import get_settings
 from qeema_ml.nowcast.model import MIN_TRAINING_ROWS, NowcastFeatures, NowcastModel, impute
+from qeema_ml.nowcast.store import NowcastModelStore
 
 router = APIRouter(prefix="/v1/nowcast", tags=["nowcast"])
 
@@ -33,6 +35,23 @@ def model_for(country: str) -> NowcastModel:
 def reset_models() -> None:
     """Forget every fitted model. For tests, and for an operator starting over."""
     _models.clear()
+
+
+def _store() -> NowcastModelStore:
+    return NowcastModelStore(get_settings().nowcast_model_dir)
+
+
+def restore_models() -> int:
+    """Read persisted models back at startup.
+
+    Without this the models live only in this process, so a restart drops every
+    country to a fallback heuristic until the next scheduled training run — up
+    to six hours of visibly cruder estimates that nothing else would explain.
+    """
+    restored = _store().load_all()
+    _models.update(restored)
+
+    return len(restored)
 
 
 class FeaturesIn(BaseModel):
@@ -129,6 +148,12 @@ def train(request: TrainRequest) -> TrainResponse:
         )
 
     trained = model.fit([f.to_features() for f in request.features], request.targets)
+
+    if trained:
+        # Persisted here rather than on a timer: this is the only moment the
+        # model changes, and a model that exists only in memory is one restart
+        # from being gone.
+        _store().save(request.country, model)
 
     return TrainResponse(
         trained=trained,
