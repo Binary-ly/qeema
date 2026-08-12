@@ -140,6 +140,8 @@ drift from what the real Python service returns.
 
 | | |
 |---|---|
+| [docs/assessment.md](docs/assessment.md) | **What is proven, what is measured only against a simulation, and what is not built** |
+| [docs/operations.md](docs/operations.md) | Running it: what happens on its own, and what to do when it stops |
 | [PLAN.md](PLAN.md) | Technical plan, schema, formulas, decision log |
 | [PROGRESS.md](PROGRESS.md) | Current build state, honestly reported |
 | [docs/adr/](docs/adr/) | Architecture decision records |
