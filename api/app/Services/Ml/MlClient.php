@@ -161,6 +161,30 @@ final class MlClient implements MlClientInterface
     }
 
     /**
+     * Judge reporters on whether their prices sit away from their neighbours.
+     *
+     * @param  list<array{reporter_id: string, price: float, reference: float}>  $records
+     * @return list<array<string, mixed>>|null
+     */
+    public function detectReporterBias(array $records): ?array
+    {
+        if ($records === [] || ! $this->isAvailable()) {
+            return null;
+        }
+
+        return $this->post(
+            '/v1/anomaly/reporter-bias',
+            ['records' => $records],
+            static function (array $body): array {
+                /** @var list<array<string, mixed>> $results */
+                $results = $body['results'] ?? [];
+
+                return $results;
+            },
+        );
+    }
+
+    /**
      * Fit the nowcast models on observed history.
      *
      * @param  list<array<string, float>>  $features

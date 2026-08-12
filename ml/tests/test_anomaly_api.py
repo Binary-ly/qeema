@@ -113,3 +113,96 @@ class TestScoreEndpoint:
         )
 
         assert response.status_code == 422
+
+
+class TestReporterBias:
+    """Judging a reporter on their whole history rather than one price.
+
+    This endpoint exposes a detector that existed for months with no caller, so
+    the platform's only defence against coordinated manipulation was a module
+    nothing ran.
+
+    The fixtures below respect what the detector actually needs: a reporter is
+    only profiled after fifteen observations, and at least three reporters must
+    qualify before there is a population to be out of step with. Both floors
+    exist so that one unlucky week cannot cost somebody their standing.
+    """
+
+    def population(self, ratios: dict[str, float], each: int = 20) -> list[dict[str, Any]]:
+        """One reporter per ratio, each with enough history to be judged."""
+        return [
+            {"reporter_id": reporter, "price": 10.0 * ratio, "reference": 10.0}
+            for reporter, ratio in ratios.items()
+            for _ in range(each)
+        ]
+
+    def test_it_flags_a_reporter_who_is_consistently_low(self, client: TestClient) -> None:
+        # The case the detector exists for: each individual price is plausible,
+        # and only the pattern across a history is visible.
+        records = self.population(
+            {
+                "honest-a": 0.98,
+                "honest-b": 1.00,
+                "honest-c": 1.01,
+                "honest-d": 1.02,
+                "suspect": 0.70,
+            }
+        )
+
+        response = client.post("/v1/anomaly/reporter-bias", json={"records": records})
+
+        assert response.status_code == 200
+        assert response.json()["suspicious"] == ["suspect"]
+
+    def test_it_explains_itself(self, client: TestClient) -> None:
+        # A flag a human has to act on has to say why, in words. "Score -10.1"
+        # is not something anybody can weigh against a person's work.
+        records = self.population(
+            {
+                "honest-a": 0.98,
+                "honest-b": 1.00,
+                "honest-c": 1.01,
+                "honest-d": 1.02,
+                "suspect": 0.70,
+            }
+        )
+
+        results = client.post("/v1/anomaly/reporter-bias", json={"records": records}).json()
+        flagged = next(r for r in results["results"] if r["reporter_id"] == "suspect")
+
+        assert "70%" in flagged["reason"]
+        assert flagged["n_observations"] == 20
+        assert flagged["modified_z"] < 0
+
+    def test_it_leaves_ordinary_variation_alone(self, client: TestClient) -> None:
+        # A false positive costs a real person their standing, so the bar is not
+        # "differs from the median".
+        records = self.population({"a": 0.98, "b": 1.00, "c": 1.01, "d": 1.02, "e": 0.99})
+
+        response = client.post("/v1/anomaly/reporter-bias", json={"records": records})
+
+        assert response.json()["suspicious"] == []
+
+    def test_it_says_nothing_about_a_reporter_with_too_little_history(
+        self, client: TestClient
+    ) -> None:
+        # Three observations is a bad week, not a pattern.
+        records = self.population({"a": 0.5, "b": 1.0, "c": 1.0}, each=3)
+
+        response = client.post("/v1/anomaly/reporter-bias", json={"records": records})
+
+        assert response.json()["results"] == []
+        assert response.json()["suspicious"] == []
+
+    def test_it_needs_a_population_before_judging_anyone(self, client: TestClient) -> None:
+        # Two reporters cannot tell you which of them is unusual.
+        records = self.population({"a": 0.5, "b": 1.0})
+
+        response = client.post("/v1/anomaly/reporter-bias", json={"records": records})
+
+        assert response.json()["results"] == []
+
+    def test_it_refuses_an_empty_request(self, client: TestClient) -> None:
+        response = client.post("/v1/anomaly/reporter-bias", json={"records": []})
+
+        assert response.status_code == 422

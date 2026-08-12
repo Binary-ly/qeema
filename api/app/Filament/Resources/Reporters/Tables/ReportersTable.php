@@ -47,6 +47,21 @@ class ReportersTable
                 TextColumn::make('last_seen_at')
                     ->dateTime()
                     ->sortable(),
+                TextColumn::make('bias_reason')
+                    ->label('Flagged')
+                    ->badge()
+                    ->color('danger')
+                    ->placeholder('—')
+                    ->wrap()
+                    ->limit(80)
+                    // Surfaced next to the block toggle on purpose: the
+                    // detector says "look at this one", and the decision that
+                    // follows is the operator's, made with the reason in front
+                    // of them rather than a score alone.
+                    ->description(fn ($record): ?string => $record->bias_checked_at === null
+                        ? null
+                        : 'checked '.$record->bias_checked_at->diffForHumans()),
+
                 IconColumn::make('is_blocked')
                     ->boolean(),
                 TextColumn::make('blocked_reason')

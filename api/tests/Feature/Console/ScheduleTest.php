@@ -120,3 +120,9 @@ it('retrains the nowcast model every six hours', function (): void {
     // every imputed price to the fallback heuristic until this runs again.
     expect(scheduled('qeema:nowcast:train')->expression)->toBe('0 */6 * * *');
 });
+
+it('looks for coordinated manipulation daily', function (): void {
+    // The detector existed from Phase 6 and had no caller, so the platform's
+    // only defence against a coordinated cluster was a module nothing ran.
+    expect(scheduled('qeema:reporters:bias')->expression)->toBe('20 3 * * *');
+});

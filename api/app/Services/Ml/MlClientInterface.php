@@ -49,6 +49,17 @@ interface MlClientInterface
     public function scoreAnomalies(array $observations): ?array;
 
     /**
+     * Judge reporters on whether their prices sit away from their neighbours.
+     *
+     * Each record needs a `reference` computed **excluding that reporter**: a
+     * cluster large enough to move a local median otherwise hides inside it.
+     *
+     * @param  list<array{reporter_id: string, price: float, reference: float}>  $records
+     * @return list<array<string, mixed>>|null
+     */
+    public function detectReporterBias(array $records): ?array;
+
+    /**
      * Fit the nowcast models on observed history.
      *
      * The country is required, not inferred: the service keeps one fitted model

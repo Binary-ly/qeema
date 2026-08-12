@@ -14,6 +14,12 @@ from pydantic import BaseModel, Field
 
 from qeema_ml import __version__
 from qeema_ml.anomaly.detector import AnomalyDetector, DetectorConfig, Observation
+from qeema_ml.anomaly.reporter_bias import (
+    DEFAULT_THRESHOLD,
+    MIN_OBSERVATIONS,
+    detect,
+    suspicious_reporter_ids,
+)
 from qeema_ml.config import get_settings
 
 router = APIRouter(prefix="/v1/anomaly", tags=["anomaly"])
@@ -122,4 +128,64 @@ def train(request: TrainRequest) -> TrainResponse:
             else f"Need at least {DetectorConfig().min_samples_for_forest} submissions, "
             f"got {len(features)}."
         ),
+    )
+
+
+class BiasRecordIn(BaseModel):
+    reporter_id: str
+    price: float
+    #: The local median for this item and place, computed **excluding this
+    #: reporter**. The caller owns that exclusion because the caller owns the
+    #: observations; getting it wrong is the difference between catching a
+    #: coordinated cluster and measuring it against itself.
+    reference: float
+
+
+class BiasRequest(BaseModel):
+    records: list[BiasRecordIn] = Field(min_length=1, max_length=100_000)
+    threshold: float | None = None
+    min_observations: int | None = None
+
+
+class BiasOut(BaseModel):
+    reporter_id: str
+    n_observations: int
+    lower_decile_ratio: float
+    modified_z: float
+    is_suspicious: bool
+    reason: str
+
+
+class BiasResponse(BaseModel):
+    results: list[BiasOut]
+    suspicious: list[str]
+    model_version: str
+
+
+@router.post("/reporter-bias", response_model=BiasResponse)
+def reporter_bias(request: BiasRequest) -> BiasResponse:
+    """Find reporters whose prices are systematically off.
+
+    Distinct from scoring one submission, and it is the distinction that
+    matters: a coordinated cluster reports prices that are each individually
+    plausible, so nothing looking at a single observation can see them. Only the
+    pattern across a reporter's whole history is visible.
+
+    This returns an opinion and nothing more. Acting on it — blocking somebody —
+    stays a human decision, for the same reason a low-confidence match goes to a
+    review queue rather than being guessed at. The cost of being wrong here is
+    borne by a real person who is doing the work.
+    """
+    results = detect(
+        [record.model_dump() for record in request.records],
+        threshold=request.threshold if request.threshold is not None else DEFAULT_THRESHOLD,
+        min_observations=(
+            request.min_observations if request.min_observations is not None else MIN_OBSERVATIONS
+        ),
+    )
+
+    return BiasResponse(
+        results=[BiasOut(**asdict(result)) for result in results],
+        suspicious=sorted(suspicious_reporter_ids(results)),
+        model_version=f"reporter-bias-{__version__}",
     )

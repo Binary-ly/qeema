@@ -1853,3 +1853,67 @@ were tested and both were wrong: `navigator.onLine` flips reliably after
 across a full repeated run). It may simply be slower under a contended runner
 than its 20-second poll allows. If it recurs, the next step is the trace CI
 already uploads on failure, rather than another guess.
+
+---
+
+## Phase 14.7 — somebody is now looking for manipulation
+
+`reporter_bias` has existed since Phase 6, is covered by its own tests, and had
+**no caller in either service**. The platform's only defence against coordinated
+price manipulation was a module nothing ran — while the synthetic generator has
+been seeding a bad-actor cluster into the demo data since Phase 2, and nothing
+had ever looked for it. `is_blocked` was likewise only ever set by a hand-toggle
+in the admin: `RecordSubmission` enforces it, so the gate worked; nothing fed it.
+
+Now wired: an endpoint on the ML service, a daily command that assembles the
+evidence, a column recording what was found, and the finding shown against the
+reporter in the admin panel.
+
+### The property the whole thing rests on
+
+**The reference excludes the reporter being judged.** A cluster large enough to
+shift a local median otherwise hides inside it: measured against a median it
+helped set, a coordinated group looks unremarkable. The command computes, per
+observation, the median for that item in that place across *other reporters*,
+and a test asserts the suspect's own price is nowhere in the number they are
+judged against.
+
+A reporter who is simply the only one working a place produces no record at all.
+Judging them against themselves would flag whoever works alone in a remote town
+— exactly the places this platform exists for.
+
+### Measured against the manipulators actually planted in the data
+
+Not "it flagged some people". Run end to end on the demo stack and checked
+against `qeema_eval`, which knows who was manipulating:
+
+| | reporters | actually manipulating |
+|---|---|---|
+| Flagged | 9 | 6 |
+| Not flagged | 119 | 2 |
+
+**Recall 6/8. Precision 6/9.** It catches three-quarters of them, and one flag
+in three is a person doing nothing wrong.
+
+### Which is exactly why it blocks nobody
+
+That precision figure is the argument. An automatic rule acting on this signal
+would have silenced three honest reporters — people doing real work in a
+difficult place — to catch six manipulators. So the detector records a score, a
+reason in words, and the date it looked; a human decides what follows, the same
+way an unconfident match goes to a review queue rather than being guessed at.
+
+A reporter somebody has already cleared is not raised again unless their
+behaviour changes, so the queue stays small enough to be worth reading. A test
+holds each of those properties, including one that simply asserts `is_blocked`
+is still false after the most extreme possible finding.
+
+### Gates
+
+| Gate | Result |
+|---|---|
+| Pest | **598 passed**, 1 skipped, 2,209 assertions, 93.7% |
+| pytest | 230 passed |
+| PHPStan level 6 | 0 errors |
+| Pint / ruff / mypy | clean |
+| C3 | pass |

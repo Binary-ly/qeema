@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Database\Factories\ReporterFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,6 +43,7 @@ final class Reporter extends Model
         'reputation', 'reputation_alpha', 'reputation_beta',
         'submissions_total', 'submissions_accepted', 'submissions_rejected',
         'first_seen_at', 'last_seen_at', 'is_blocked', 'blocked_reason',
+        'bias_score', 'bias_flagged', 'bias_reason', 'bias_checked_at', 'bias_cleared_at',
     ];
 
     protected function casts(): array
@@ -56,6 +58,10 @@ final class Reporter extends Model
             'first_seen_at' => 'datetime',
             'last_seen_at' => 'datetime',
             'is_blocked' => 'boolean',
+            'bias_score' => 'float',
+            'bias_flagged' => 'boolean',
+            'bias_checked_at' => 'datetime',
+            'bias_cleared_at' => 'datetime',
         ];
     }
 
@@ -75,6 +81,38 @@ final class Reporter extends Model
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Flagged by the detector and not yet looked at by a person.
+     *
+     * A queue an operator works, and deliberately not something the platform
+     * acts on by itself: what the detector produces is a reason to look, not a
+     * verdict. `is_blocked` is set by a human or not at all.
+     *
+     * @param  Builder<self>  $query
+     */
+    public function scopeAwaitingBiasReview(Builder $query): void
+    {
+        $query->where('bias_flagged', true)->whereNull('bias_cleared_at');
+    }
+
+    /**
+     * Record what the detector found, without acting on it.
+     */
+    public function recordBias(?float $score, bool $flagged, ?string $reason): void
+    {
+        $this->forceFill([
+            'bias_score' => $score,
+            'bias_flagged' => $flagged,
+            'bias_reason' => $reason,
+            'bias_checked_at' => now(),
+            // A reporter who stops looking suspicious is cleared automatically;
+            // one who still does keeps whatever a human already decided, so a
+            // reporter somebody has already cleared is not re-raised nightly
+            // until the flag means nothing.
+            'bias_cleared_at' => $flagged ? $this->bias_cleared_at : null,
+        ])->save();
     }
 
     /**

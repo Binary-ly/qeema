@@ -4,6 +4,7 @@
 
 declare(strict_types=1);
 
+use App\Console\Commands\DetectReporterBiasCommand;
 use App\Console\Commands\FetchFxRatesCommand;
 use App\Console\Commands\PipelineHealthCommand;
 use App\Console\Commands\PipelineSweepCommand;
@@ -90,6 +91,16 @@ Schedule::command(FetchFxRatesCommand::class)
 // it to be discovered.
 Schedule::command(TrainNowcastCommand::class)
     ->everySixHours()
+    ->withoutOverlapping(120)
+    ->onOneServer()
+    ->runInBackground();
+
+// Looks for reporters whose prices sit consistently away from their
+// neighbours. Daily rather than hourly: the signal is a pattern across weeks of
+// somebody's history, and running it more often would only produce the same
+// answer at greater cost. It flags for a human and blocks nobody.
+Schedule::command(DetectReporterBiasCommand::class)
+    ->dailyAt('03:20')
     ->withoutOverlapping(120)
     ->onOneServer()
     ->runInBackground();

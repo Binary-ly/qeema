@@ -152,6 +152,30 @@ final class FakeMlClient implements MlClientInterface
         return $this;
     }
 
+    /** @var list<array<string, mixed>>|null */
+    private ?array $nextBias = null;
+
+    /**
+     * @param  list<array<string, mixed>>  $results
+     */
+    public function willDetectBias(array $results): self
+    {
+        $this->nextBias = $results;
+
+        return $this;
+    }
+
+    public function detectReporterBias(array $records): ?array
+    {
+        $this->calls[] = ['method' => 'detectReporterBias', 'records' => $records];
+
+        if (! $this->available) {
+            return null;
+        }
+
+        return $this->nextBias ?? [];
+    }
+
     public function trainNowcast(Country $country, array $features, array $targets): ?array
     {
         $this->calls[] = [
