@@ -1788,3 +1788,68 @@ refused model, or training failing — and says how to tell them apart.
 | pytest | **218 passed**, 85.0% |
 | ruff / mypy | clean |
 | C3 | pass |
+
+---
+
+## Phase 14.6 — one flaky test fixed, one speculative fix backed out
+
+CI reported two flaky end-to-end tests in the reporter's offline path: one
+failed outright, one passed on retry. A suite that cries wolf is one people stop
+reading, and a real regression in the offline path could hide behind a shrug.
+
+### The one that was genuinely racing
+
+`replaying the queue does not send the same price twice` enters a price offline,
+reads the queued payload out of IndexedDB, restores the network, and posts that
+payload twice to prove the server treats the replay as a duplicate.
+
+The problem is the third sender. Restoring the network fires the app's own
+`online` handler, which flushes the outbox and posts **that very payload**. When
+the app wins the race, the test's "first" send comes back `200 duplicate`
+instead of `201 accepted` and the assertion fails. The flake was in the test's
+assumption that it was the only sender, not in the platform.
+
+The item is now removed from the outbox before the network is restored, so the
+app has nothing to send and the test measures what it claims to: the server's
+handling of a replay.
+
+### The one I got wrong
+
+The other test, `a price entered offline is kept and sent on reconnect`, had no
+proven cause. Reading the queue implementation turned up what looked like one:
+`flush()` has no re-entrancy guard, five separate things call `sync()`, and
+`pending()` deliberately includes items already marked `syncing` — so two
+concurrent flushes would post the same item twice and write its status from
+stale copies.
+
+I added a guard that collapsed concurrent callers onto the in-flight flush.
+**It broke a different test**, and measuring showed why rather than leaving it
+to argument:
+
+| | `several offline entries all survive and sync together` |
+|---|---|
+| Without the guard | 24/24 passed, 17s |
+| With the guard | 2 of 3 repeats failed — 1 of 3 items synced |
+
+Collapsing is the wrong shape. A caller that arrives while a flush is running
+gets that flush's promise, and that flush already read its work list — so items
+enqueued afterwards are never sent and nothing re-triggers. Precisely the
+"Received: 1" the failure reported.
+
+Serialising rather than collapsing would fix that. I have not shipped it,
+because the concurrency it guards against is **still unproven**: two overlapping
+flushes are possible by construction but I never demonstrated one occurring, and
+I have just watched an unproven fix cause a real regression. The observation is
+recorded here instead of being acted on speculatively.
+
+So the application code is unchanged and only the test moved. Locally the suite
+now passes 27/27, and the offline file passes 16/16 across repeated runs.
+
+### What is still open
+
+The first test's flakiness under CI load remains **undiagnosed**. Two hypotheses
+were tested and both were wrong: `navigator.onLine` flips reliably after
+`setOffline(false)` (8/8 in a probe), and no request was rate limited (zero 429s
+across a full repeated run). It may simply be slower under a contended runner
+than its 20-second poll allows. If it recurs, the next step is the trace CI
+already uploads on failure, rather than another guess.

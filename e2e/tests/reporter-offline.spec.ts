@@ -146,7 +146,30 @@ test('replaying the queue does not send the same price twice', async ({ page, co
     const item = (await outbox(page))[0];
     const payload = item.payload as Record<string, unknown>;
 
+    // Take the item out of the queue before restoring the network. What is
+    // under test is the *server's* handling of a replay, and leaving the item
+    // queued makes the app a third sender racing the two below: regaining
+    // connectivity triggers its own flush, which posts this very payload, so
+    // the "first" send here would sometimes come back 200 duplicate instead of
+    // 201 accepted. That is the flake, and it was in the test rather than in
+    // the platform.
+    await page.evaluate(async () => {
+        const db: IDBDatabase = await new Promise((resolve, reject) => {
+            const request = indexedDB.open('qeema-reporter', 1);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+
+        await new Promise((resolve, reject) => {
+            const tx = db.transaction('outbox', 'readwrite');
+            tx.objectStore('outbox').clear();
+            tx.oncomplete = () => resolve(null);
+            tx.onerror = () => reject(tx.error);
+        });
+    });
+
     await context.setOffline(false);
+    await expect.poll(async () => (await outbox(page)).length).toBe(0);
 
     // Send the very same payload twice, exactly as a retry would.
     const results = await page.evaluate(async (body) => {
