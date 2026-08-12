@@ -69,7 +69,11 @@ final class StoreSubmissionRequest extends FormRequest
             'device.app_version' => ['nullable', 'string', 'max:32'],
             'device.queued_offline' => ['nullable', 'boolean'],
 
-            'photo' => ['nullable', 'image', 'max:8192'],
+            // JPEG and PNG only, rather than Laravel's `image` rule, which
+            // also admits SVG — a format that is a document, can carry script,
+            // and has no picture data to separate metadata from. These two are
+            // also the two whose metadata the platform knows how to remove.
+            'photo' => ['nullable', 'file', 'mimes:jpeg,png', 'max:8192'],
         ];
     }
 

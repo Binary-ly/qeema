@@ -50,10 +50,36 @@ Qeema is self-hosted, so some of the security posture is yours:
 - Put TLS in front of the stack. The compose file serves plain HTTP.
 - Change the default `qeema` / `qeema` database credentials.
 - Do not expose the Postgres or Redis ports publicly.
-- Decide a retention and redaction policy for reporter photographs before you
-  expose any of them, and strip EXIF on ingest.
+- Decide a retention policy for reporter photographs before you expose any of
+  them. Location metadata is already removed for you — see below — but a
+  photograph can still show a face, a shopfront or a number plate, and no
+  software decides how long that should be kept.
 - Keep base images current; `docker compose build --pull` picks up upstream
   security fixes.
+
+## Photographs are stripped on ingest
+
+A reporter photographing a price tag is usually holding a phone that writes the
+coordinates, the timestamp to the second and often a device identifier into the
+file. That is a record of where a particular person stood on a particular
+afternoon.
+
+The platform removes it before the file is written to disk, rather than asking
+the operator to remember: EXIF, XMP, IPTC and comment blocks from JPEG, and the
+`eXIf`, `tEXt`, `iTXt`, `zTXt` and `tIME` chunks from PNG. The picture data
+itself is passed through untouched — no re-encoding, because a reviewer is
+reading small print off a price tag.
+
+A photograph whose metadata cannot be removed is not stored at all; the
+submission is still accepted, because the price is the contribution and the
+picture is corroboration. Uploads are restricted to JPEG and PNG: SVG is a
+document that can carry script, and has no picture data to separate metadata
+from.
+
+This narrows but does not close the exposure. A photograph can still show a
+face, a shopfront, or a licence plate, and stripping metadata does nothing about
+that. Retention and access remain an operator decision, and reporter photographs
+stay behind the admin login.
 
 ## No secrets, by construction
 

@@ -10,7 +10,11 @@ use App\Actions\RecordSubmission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\StoreSubmissionRequest;
 use App\Models\Country;
+use App\Support\Media\ImageMetadataStripper;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * Inbound price submissions from the reporter app.
@@ -28,15 +32,50 @@ final class SubmissionController extends Controller
         $input = $request->validated();
 
         if ($request->hasFile('photo')) {
-            // Kept private. Reporter photographs can carry EXIF location and
-            // identifiable people, so they are admin-only until a retention and
-            // redaction policy exists (SECURITY.md).
-            $input['photo_path'] = $request->file('photo')->store('submissions', 'local');
+            $input['photo_path'] = $this->storePhoto($request);
         }
 
         $result = $action->handle($input);
 
         return response()->json($result->toArray(), $result->httpStatus());
+    }
+
+    /**
+     * Store a photograph with its metadata removed.
+     *
+     * Stripped before it is written, never after: a file that reaches disk
+     * carrying coordinates has already been backed up, and the window in which
+     * it was exposed cannot be closed retrospectively.
+     *
+     * A photograph whose metadata cannot be removed is not stored at all. The
+     * submission still counts — the price is the point, and the picture is
+     * corroboration — so refusing the file costs a little evidence and refusing
+     * to guess costs nothing.
+     */
+    private function storePhoto(StoreSubmissionRequest $request): ?string
+    {
+        $file = $request->file('photo');
+        $binary = @file_get_contents($file->getRealPath());
+
+        if ($binary === false) {
+            return null;
+        }
+
+        $clean = (new ImageMetadataStripper)->strip($binary);
+
+        if ($clean === null) {
+            Log::warning('Rejected a photograph whose metadata could not be removed', [
+                'mime' => $file->getMimeType(),
+            ]);
+
+            return null;
+        }
+
+        $path = 'submissions/'.Str::uuid()->toString().'.'.($file->guessExtension() ?? 'jpg');
+
+        Storage::disk('local')->put($path, $clean);
+
+        return $path;
     }
 
     /**

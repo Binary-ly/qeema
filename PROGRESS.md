@@ -1651,3 +1651,67 @@ reports and the six-hourly retraining repairs. And every number in the
 nowcasting model card is still measured against synthetic data. The model is now
 reachable, per-country, and trained on point-in-time features — how well it does
 on a real market remains unmeasured.
+
+---
+
+## Phase 14.4 — photographs stop carrying the photographer
+
+A reporter photographs a price tag in a market. Their phone writes the
+coordinates, the timestamp to the second and often a device identifier into the
+file. Attached to a submission that already names the location, that is a record
+of where a particular person stood on a particular afternoon — and in the
+economies this platform exists for, the people it would expose are not the ones
+who would think to check.
+
+`SECURITY.md` had listed "strip EXIF on ingest" as an **operator
+responsibility** since Phase 12. An operator who forgets has no way to discover
+the omission. It is now the platform's job, done before the file reaches disk,
+and the operator cannot forget.
+
+### Lossless, not re-encoded
+
+Neither GD nor Imagick is in the runtime image, and adding one to decode and
+re-encode would have solved it — while softening the photograph, which is the
+one thing a reviewer needs, because they are reading small print off a price
+tag.
+
+Both formats are containers of discrete segments, so the metadata is lifted out
+and the compressed picture data passed through byte for byte: JPEG APP1 through
+APP15 (EXIF, XMP, ICC, IPTC) and COM, and the PNG `eXIf`, `tEXt`, `iTXt`,
+`zTXt` and `tIME` chunks. APP0/JFIF is kept — it describes pixel density, not a
+person.
+
+Three deliberate refusals:
+
+- **A format it cannot clean is not stored.** Returning the original would be
+  the quiet failure the class exists to prevent: a file whose metadata survived,
+  written as though it had not.
+- **A malformed file is not guessed at**, for the same reason.
+- **The submission is still accepted** when the photograph is dropped. The price
+  is the contribution and the picture is corroboration; a reporter on a bad
+  connection has already spent their data sending it.
+
+Uploads are now restricted to JPEG and PNG rather than Laravel's `image` rule,
+which also admits SVG — a document that can carry script and has no picture data
+to separate metadata from.
+
+### What this does not fix, stated in the policy
+
+Stripping metadata does nothing about a face, a shopfront or a licence plate in
+the frame. Retention and access remain an operator decision, and reporter
+photographs stay behind the admin login. `SECURITY.md` now says that rather than
+implying the problem is solved.
+
+The test builds a JPEG byte by byte with a GPS payload in an APP1 segment and a
+name in a comment, posts it through the public API, reads the file back off the
+disk, and requires the payload to be absent and the picture data present. The
+fixture is constructed rather than committed so that what is being stripped is
+readable in the diff.
+
+| Gate | Result |
+|---|---|
+| Pest | **588 passed**, 1 skipped, 2,179 assertions, 93.8% |
+| PHPStan level 6 | 0 errors |
+| Pint | clean |
+| OpenAPI drift | up to date |
+| C3 | pass |
