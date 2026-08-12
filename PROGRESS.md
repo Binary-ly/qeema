@@ -1913,7 +1913,7 @@ is still false after the most extreme possible finding.
 | Gate | Result |
 |---|---|
 | Pest | **598 passed**, 1 skipped, 2,209 assertions, 93.7% |
-| pytest | 230 passed |
+| pytest | **224 passed** |
 | PHPStan level 6 | 0 errors |
 | Pint / ruff / mypy | clean |
 | C3 | pass |
