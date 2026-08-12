@@ -173,9 +173,57 @@ describe('reporter reputation', function () {
         expect($reporter->weight())->toBe(Reporter::WEIGHT_FLOOR);
     });
 
-    it('uses the real reputation as the weight when it exceeds the floor', function () {
+    it('weighs a trusted reporter close to, but below, their reputation', function () {
+        // The weight is the posterior's lower bound rather than its mean, so a
+        // long record costs almost nothing — the spread is small when a lot is
+        // known — while an unproven one is discounted sharply.
         $reporter = Reporter::factory()->trusted()->make();
 
-        expect($reporter->weight())->toBe($reporter->reputation);
+        expect($reporter->weight())->toBeLessThan($reporter->posteriorMean())
+            ->and($reporter->weight())->toBeGreaterThan($reporter->posteriorMean() - 0.05);
+    });
+
+    it('discounts a reporter nobody knows anything about', function () {
+        // Two reporters can both sit at 0.5: one has submitted nothing, the
+        // other has a hundred accepted and a hundred rejected. The mean cannot
+        // tell them apart, and how much their prices should count differs.
+        $unknown = Reporter::factory()->make([
+            'reputation_alpha' => Reporter::PRIOR_ALPHA,
+            'reputation_beta' => Reporter::PRIOR_BETA,
+        ]);
+
+        $mixed = Reporter::factory()->make([
+            'reputation_alpha' => 100.0,
+            'reputation_beta' => 100.0,
+        ]);
+
+        expect($unknown->posteriorMean())->toBe($mixed->posteriorMean())
+            ->and($unknown->weight())->toBeLessThan($mixed->weight());
+    });
+
+    it('makes discarding a poor identity barely worth the trouble', function () {
+        // Identity here is a UUID the client generates, so a reporter whose
+        // submissions keep being rejected can throw it away and start again.
+        // Under the posterior mean that reset was worth doubling their weight,
+        // from the floor back to 0.5. It is now worth a few percent.
+        $suppressed = Reporter::factory()->unreliable()->make();
+
+        $fresh = Reporter::factory()->make([
+            'reputation_alpha' => Reporter::PRIOR_ALPHA,
+            'reputation_beta' => Reporter::PRIOR_BETA,
+        ]);
+
+        expect($fresh->weight())->toBeLessThan($suppressed->weight() * 1.25);
+    });
+
+    it('still lets a reporter climb back', function () {
+        // The floor is not a formality: a reporter who was wrong early must be
+        // able to recover, or their first bad week is permanent.
+        $recovering = Reporter::factory()->make([
+            'reputation_alpha' => 40.0,
+            'reputation_beta' => 8.0,
+        ]);
+
+        expect($recovering->weight())->toBeGreaterThan(Reporter::WEIGHT_FLOOR);
     });
 });

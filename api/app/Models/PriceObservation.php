@@ -35,7 +35,7 @@ final class PriceObservation extends Model
         'submission_id', 'country_id', 'location_id', 'canonical_item_id',
         'price', 'currency_code', 'unit_code', 'quantity',
         'normalized_price_per_base_unit', 'observed_on', 'observed_at',
-        'reporter_id', 'source_id', 'reputation_at_time',
+        'reporter_id', 'source_id', 'reputation_at_time', 'weight_at_time',
         'is_valid', 'superseded_by_id',
     ];
 
@@ -48,6 +48,7 @@ final class PriceObservation extends Model
             'observed_on' => 'date',
             'observed_at' => 'datetime',
             'reputation_at_time' => 'float',
+            'weight_at_time' => 'float',
             'is_valid' => 'boolean',
         ];
     }
@@ -105,7 +106,7 @@ final class PriceObservation extends Model
      * Recency-and-reputation weight used by the estimator.
      *
      * Exponential decay with a configurable half-life, multiplied by the
-     * reporter's reputation as frozen at ingestion. Frozen, not current, so that
+     * reporter's weight as frozen at ingestion. Frozen, not current, so that
      * recomputing an old snapshot is deterministic.
      */
     public function estimatorWeight(\DateTimeInterface $asOf, float $halfLifeDays): float
@@ -113,7 +114,13 @@ final class PriceObservation extends Model
         $ageDays = max(0.0, (float) $this->observed_on->diffInDays($asOf, absolute: true));
         $recency = $halfLifeDays > 0 ? 2 ** (-$ageDays / $halfLifeDays) : 1.0;
 
-        return $recency * max(Reporter::WEIGHT_FLOOR, $this->reputation_at_time);
+        // The frozen weight when there is one. Rows written before the
+        // estimator moved from the posterior mean to its lower bound fall back
+        // to the mean, because recomputing March's snapshot must reproduce
+        // March's figure rather than restate it under later rules.
+        $weight = $this->weight_at_time ?? $this->reputation_at_time;
+
+        return $recency * max(Reporter::WEIGHT_FLOOR, (float) $weight);
     }
 
     /** @param Builder<self> $query */

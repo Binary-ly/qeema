@@ -156,12 +156,21 @@ Stated plainly, because a reviewer finding these themselves is worse than
 reading them here.
 
 **Reporter identity is a client-supplied UUID.** There is no signup, by design —
-requiring one would suppress the participation the platform runs on. But a
-reporter who rotates their identifier gets a fresh reputation, so the
-reputation weighting is bypassable by anyone who reads the public API docs. The
-reporter-level manipulation detector narrows this considerably, because prices
-out of step with a neighbourhood remain out of step whatever identity they wear.
-It does not close it.
+requiring one would suppress the participation the platform runs on. A reporter
+who rotates their identifier still gets a fresh reputation.
+
+Two things narrow this without adding friction, and neither closes it. The
+reporter-level manipulation detector works on prices rather than identities, so
+a cluster out of step with its neighbourhood stays out of step whatever
+identifier it wears. And the estimator now weights an observation by the
+*lower bound* of the reporter's reputation posterior rather than its mean, so a
+brand-new identity is worth 0.28 against a floor of 0.25 — where under the mean
+it was worth 0.5, and discarding a suppressed identity doubled its weight.
+
+What remains is that a patient attacker with many identities and plausible
+prices is still not individually detectable. Closing that needs an identity
+decision — invite-scoped cohorts, phone verification, device attestation — each
+of which trades away some of the openness the design is protecting.
 
 **Real-data validation.** As above.
 

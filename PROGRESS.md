@@ -1966,3 +1966,72 @@ index.
 | PHPStan level 6 | 0 errors |
 | Pint | clean |
 | C3 | pass |
+
+---
+
+## Phase 14.9 — an estimate nobody has tested counts for less
+
+Two changes, one to CI and one to the estimator.
+
+### The flake was undiagnosable by construction
+
+CI uploaded the Playwright report `if: failure()`. A *flaky* test fails and then
+passes on retry, so the job succeeds and the trace of the failure was discarded
+— which is why the one flaky test here has survived several occurrences with no
+evidence to look at. Now uploaded on `always()`, along with `test-results`.
+Traces are only written when something failed, so a clean run uploads nothing.
+
+### Weighting by what is known, not just what is believed
+
+The estimator weighted each observation by its reporter's reputation: the mean
+of a Beta posterior, floored at 0.25 so a reporter who was wrong early can climb
+back.
+
+The mean cannot distinguish two very different reporters. One has submitted
+nothing and sits at 0.5 because that is where the uninformative prior puts them.
+The other has a hundred accepted and a hundred rejected and sits at 0.5 because
+that is genuinely what they are worth. Their prices counted the same.
+
+It also made identity rotation profitable. Identity here is a UUID the client
+generates — deliberately, because requiring a signup would suppress the
+participation the platform runs on — so a reporter whose submissions keep being
+rejected can discard it and start again. Under the mean, that reset took them
+from the 0.25 floor back to 0.5: **doubling their weight**.
+
+The weight is now the posterior's **lower bound** — one standard deviation below
+the mean, a plain choice because it has to be explainable to somebody deciding
+whether to trust a published figure. Measured on the running stack, a fresh
+identity records:
+
+```
+reputation 0.5000    weight 0.2764
+```
+
+Barely more than the floor it was trying to escape. A long honest record is
+almost unaffected, because the spread is small when a lot is known.
+
+This does not solve identity. A patient attacker with many identifiers and
+plausible prices is still not individually detectable, and closing that needs a
+decision about onboarding friction that belongs to whoever runs the pilot. It
+removes most of what rotating an identity was worth.
+
+### No published figure changed
+
+`weight_at_time` is frozen onto the observation, beside `reputation_at_time`
+rather than replacing it — reputation is a statement about a person, shown in
+the admin and fed to the anomaly detector as a feature, while the weight is what
+the estimator did with their price. Both belong on the provenance record.
+
+All 21,393 existing observations carry a null weight and fall back to the old
+behaviour. Recomputing March's snapshot must reproduce March's figure rather
+than restate it under rules introduced in August.
+
+**A rebuild caught in the act:** the first live test showed no weight recorded,
+because only the `app` image had been rebuilt and resolution runs in the
+`worker`.
+
+| Gate | Result |
+|---|---|
+| Pest | **609 passed**, 1 skipped, 2,233 assertions, 93.6% |
+| PHPStan level 6 | 0 errors |
+| Pint | clean |

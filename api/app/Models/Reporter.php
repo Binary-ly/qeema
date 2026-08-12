@@ -143,9 +143,63 @@ final class Reporter extends Model
         return $total > 0 ? $this->reputation_alpha / $total : 0.5;
     }
 
-    /** Reputation as the estimator should use it, floored to allow recovery. */
+    /**
+     * How certain the posterior is, as a standard deviation.
+     *
+     * Two reporters can share a reputation of 0.5 while meaning entirely
+     * different things: one has submitted nothing, the other has a hundred
+     * accepted and a hundred rejected. The mean cannot tell them apart and the
+     * spread can.
+     */
+    public function posteriorDeviation(): float
+    {
+        $alpha = $this->reputation_alpha;
+        $beta = $this->reputation_beta;
+        $total = $alpha + $beta;
+
+        if ($total <= 0.0) {
+            return 0.0;
+        }
+
+        return sqrt(($alpha * $beta) / ($total ** 2 * ($total + 1)));
+    }
+
+    /**
+     * Reputation discounted by how little is known about it.
+     *
+     * One standard deviation below the posterior mean, which is a deliberately
+     * plain choice: it needs to be explainable to somebody deciding whether to
+     * trust a published figure, and a tunable percentile would invite exactly
+     * the argument that nobody can settle.
+     */
+    public function posteriorLowerBound(): float
+    {
+        return max(0.0, $this->posteriorMean() - $this->posteriorDeviation());
+    }
+
+    /**
+     * Reputation as the estimator should use it.
+     *
+     * The lower bound rather than the mean, for two reasons that happen to
+     * point the same way.
+     *
+     * Statistically, an estimate backed by four observations should not carry
+     * the weight of one backed by four hundred, and the mean says nothing about
+     * which it is.
+     *
+     * And practically: identity here is a UUID the client generates, so a
+     * reporter whose submissions keep being rejected can discard it and start
+     * again. Under the mean that reset was worth doubling their weight, from
+     * the 0.25 floor back to 0.5. Under the lower bound a brand-new identity is
+     * worth about 0.28 — barely more than the floor it was trying to escape —
+     * because nothing is known about it yet. That does not solve identity, but
+     * it removes most of what rotating one was worth.
+     *
+     * The floor stays: a reporter who was wrong early must be able to climb
+     * back, or the first bad week is permanent.
+     */
     public function weight(): float
     {
-        return max(self::WEIGHT_FLOOR, $this->reputation);
+        return max(self::WEIGHT_FLOOR, $this->posteriorLowerBound());
     }
 }

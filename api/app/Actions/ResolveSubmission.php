@@ -8,6 +8,7 @@ namespace App\Actions;
 
 use App\Models\CanonicalItem;
 use App\Models\PriceObservation;
+use App\Models\Reporter;
 use App\Models\Resolution;
 use App\Models\Submission;
 use App\Models\Unit;
@@ -154,6 +155,12 @@ final class ResolveSubmission
             // Frozen at ingestion so recomputing an old snapshot is
             // deterministic rather than drifting with the reporter's score.
             'reputation_at_time' => $submission->reporter === null ? 0.5 : $submission->reporter->reputation,
+            // What this price actually counted for, which is the posterior's
+            // lower bound rather than its mean — an estimate backed by four
+            // observations should not weigh as much as one backed by four
+            // hundred, and a freshly minted identity should not be worth twice
+            // the floor its predecessor was sitting on.
+            'weight_at_time' => $submission->reporter?->weight() ?? Reporter::WEIGHT_FLOOR,
             'is_valid' => true,
         ]);
     }
