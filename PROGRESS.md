@@ -2035,3 +2035,22 @@ because only the `app` image had been rebuilt and resolution runs in the
 | Pest | **609 passed**, 1 skipped, 2,233 assertions, 93.6% |
 | PHPStan level 6 | 0 errors |
 | Pint | clean |
+
+### An overclaim in the honesty document, caught immediately
+
+The first draft of `docs/assessment.md` said its figures "are re-checked by CI on
+every push, so a stale one shows up as a failing build". That is not true. CI
+enforces that the suites pass and the coverage floors hold; nothing compares the
+numbers written in that file against reality, so a stale figure would sit there
+indefinitely looking authoritative.
+
+Writing an unchecked claim about checking, in the document whose entire purpose
+is to separate the verified from the assumed, is the exact failure the document
+exists to prevent. It now says the figures are a snapshot with a date and how to
+regenerate them.
+
+`AssessmentDocsTest` holds the parts that *can* rot silently — every linked
+document exists, every `make` target and artisan command it names is real — and
+one test asserting the sentence about what its numbers are worth is still there,
+because that sentence is what stops a reader taking a stale figure for a current
+one.

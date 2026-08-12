@@ -10,7 +10,14 @@ a number comes from a simulation rather than a market, it says so in the same
 sentence — because the difference between those two is most of what matters
 here, and it is the difference a reader is least able to see for themselves.
 
-**Last verified:** 13 August 2026, against commit `3fd611f`.
+**Last verified:** 13 August 2026.
+
+The gate figures below are a snapshot taken on that date, not a live readout —
+CI enforces that the suites pass and the coverage floors hold, but nothing
+checks that the numbers written here are still the current ones. Regenerate
+them with `make verify`. Treat any figure in this document as "true when
+written and worth re-running", which is the honest status of every number in
+any document of this kind.
 
 ## Contents
 
@@ -103,7 +110,7 @@ endpoint, and shown with counts behind the admin login.
 
 | Gate | Result |
 |---|---|
-| PHP suite (Pest) | 606 passed, 1 skipped, 2,228 assertions, **93.7%** coverage |
+| PHP suite (Pest) | 609 passed, 1 skipped, 2,233 assertions, **93.6%** coverage |
 | Python suite (pytest) | 224 passed, **85.4%** coverage |
 | Browser suite (Playwright) | 27 passed against the composed stack |
 | Static analysis (PHPStan level 6) | 0 errors |
