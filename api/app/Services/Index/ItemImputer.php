@@ -51,7 +51,7 @@ final class ItemImputer
             $order[] = $entry->canonical_item_id;
         }
 
-        $results = $this->ml->nowcast($requests);
+        $results = $this->ml->nowcast($country, $requests);
 
         if ($results === null) {
             return [];

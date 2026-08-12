@@ -11,7 +11,28 @@ from qeema_ml.nowcast.model import MIN_TRAINING_ROWS, NowcastFeatures, NowcastMo
 
 router = APIRouter(prefix="/v1/nowcast", tags=["nowcast"])
 
-_model = NowcastModel()
+#: One fitted model per country, rather than one for everybody.
+#:
+#: This was a single module-level model, which meant training Libya and then
+#: Venezuela left only Venezuela's fit answering for both. Targets are ratios to
+#: a national median, so the model is scale-free and the result was not
+#: nonsense — it was simply whichever country had been trained most recently,
+#: which is not a decision anybody made.
+#:
+#: Countries are a small, operator-defined set, so a plain dictionary is the
+#: right size of solution. It is keyed on the code Laravel sends and nothing
+#: else creates entries.
+_models: dict[str, NowcastModel] = {}
+
+
+def model_for(country: str) -> NowcastModel:
+    """The model serving a country, created unfitted on first use."""
+    return _models.setdefault(country.upper(), NowcastModel())
+
+
+def reset_models() -> None:
+    """Forget every fitted model. For tests, and for an operator starting over."""
+    _models.clear()
 
 
 class FeaturesIn(BaseModel):
@@ -32,6 +53,10 @@ class FeaturesIn(BaseModel):
 
 
 class ImputeRequest(BaseModel):
+    #: Which country's model to use. Required: serving one country's prices
+    #: from another country's model is the bug this field exists to prevent,
+    #: and a default would let it happen silently.
+    country: str = Field(min_length=2, max_length=8)
     requests: list[FeaturesIn] = Field(min_length=1, max_length=2000)
 
 
@@ -50,6 +75,7 @@ class ImputeResponse(BaseModel):
 
 
 class TrainRequest(BaseModel):
+    country: str = Field(min_length=2, max_length=8)
     features: list[FeaturesIn] = Field(min_length=1)
     targets: list[float] = Field(min_length=1)
 
@@ -69,10 +95,11 @@ def impute_prices(request: ImputeRequest) -> ImputeResponse:
     that forgot to check a flag would silently publish an estimate as a
     measurement.
     """
+    model = model_for(request.country)
     results = []
 
     for item in request.requests:
-        prediction = impute(_model if _model.is_trained else None, item.to_features())
+        prediction = impute(model if model.is_trained else None, item.to_features())
 
         results.append(
             ImputationOut(
@@ -86,26 +113,28 @@ def impute_prices(request: ImputeRequest) -> ImputeResponse:
     return ImputeResponse(
         results=results,
         model_version=f"nowcast-{__version__}",
-        model_trained=_model.is_trained,
+        model_trained=model.is_trained,
     )
 
 
 @router.post("/train", response_model=TrainResponse)
 def train(request: TrainRequest) -> TrainResponse:
+    model = model_for(request.country)
+
     if len(request.features) != len(request.targets):
         return TrainResponse(
             trained=False,
-            n_samples=_model.trained_rows,
+            n_samples=model.trained_rows,
             reason="features and targets must be the same length.",
         )
 
-    trained = _model.fit([f.to_features() for f in request.features], request.targets)
+    trained = model.fit([f.to_features() for f in request.features], request.targets)
 
     return TrainResponse(
         trained=trained,
-        n_samples=_model.trained_rows,
+        n_samples=model.trained_rows,
         reason=(
-            f"Trained on {_model.trained_rows} rows."
+            f"Trained on {model.trained_rows} rows for {request.country.upper()}."
             if trained
             else f"Need at least {MIN_TRAINING_ROWS} rows, got {len(request.features)}."
         ),

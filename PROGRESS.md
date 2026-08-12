@@ -1601,3 +1601,53 @@ history.
 | Pint / ruff / mypy | clean |
 | OpenAPI drift | up to date |
 | C3 | pass |
+
+---
+
+## Phase 14.3 — one model per country
+
+The previous entry recorded that `_model` was a single module-level global in
+the ML service, so training Libya and then Venezuela left only Venezuela's fit
+answering for both. Fixed.
+
+Models are now keyed by country, and **the country is a required field on both
+nowcast endpoints** rather than an optional one with a default. A default is
+precisely how one country's prices end up being served from another country's
+model without anyone choosing that — the same shape as every other silent
+failure this project has turned up.
+
+### Why it was invisible
+
+Targets are ratios to a national median, so the model is scale-free by design.
+A Venezuelan fit imputing Libyan items therefore returned *plausible* numbers:
+a ratio multiplied by Libya's own anchor. Nothing looked wrong, no test could
+fail, and the figures published. The tests that now hold the boundary assert
+that two countries trained to opposite ratios return different values for
+identical context, and that an untrained country still falls back rather than
+quietly borrowing a neighbour's model.
+
+### On the running stack
+
+```
+LY   lightgbm_quantile   68     fallback_local_median   61
+VE   lightgbm_quantile  127     fallback_local_median    0
+```
+
+Both countries trained, each from its own history, each imputing from its own
+fit. Libya's remaining fallbacks are the cells with no national reference to
+anchor a ratio against, where the model declines rather than guessing.
+
+| Gate | Result |
+|---|---|
+| Pest | **578 passed**, 1 skipped, 2,156 assertions, 93.9% |
+| pytest | **206 passed**, 84.2% |
+| PHPStan level 6 | 0 errors |
+| Pint / ruff / mypy | clean |
+| C3 | pass |
+
+**Still true, and still the honest headline:** the fitted models live in the ML
+service's memory and are lost on restart, which the `imputation` health check
+reports and the six-hourly retraining repairs. And every number in the
+nowcasting model card is still measured against synthetic data. The model is now
+reachable, per-country, and trained on point-in-time features — how well it does
+on a real market remains unmeasured.

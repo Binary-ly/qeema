@@ -154,3 +154,30 @@ it('can be restricted to one country', function (): void {
     // The country under test has observations; the one asked for does not.
     expect(lastTrainingCall($this->ml))->toBeNull();
 });
+
+it('trains each country against its own model', function (): void {
+    // The service keeps one fitted model per country. Before it did not, and
+    // training two countries left the second one answering for both — with
+    // plausible numbers, which is why nothing caught it.
+    $other = Country::factory()->create(['is_active' => true, 'code' => 'ZY', 'timezone' => 'UTC']);
+    $otherLocation = Location::factory()->create(['country_id' => $other->id, 'latitude' => 10.0, 'longitude' => 10.0]);
+    $otherElsewhere = Location::factory()->create(['country_id' => $other->id, 'latitude' => 10.5, 'longitude' => 10.5]);
+    $otherItem = CanonicalItem::factory()->create(['country_id' => $other->id]);
+
+    $today = CarbonImmutable::now()->toDateString();
+    trainingObservation($this->elsewhere, $this->item, $today, 10.0);
+    trainingObservation($this->location, $this->item, $today, 15.0);
+    trainingObservation($otherElsewhere, $otherItem, $today, 10.0);
+    trainingObservation($otherLocation, $otherItem, $today, 15.0);
+
+    $this->artisan('qeema:nowcast:train')->assertSuccessful();
+
+    $countries = collect($this->ml->calls)
+        ->where('method', 'trainNowcast')
+        ->pluck('country')
+        ->sort()
+        ->values()
+        ->all();
+
+    expect($countries)->toBe(collect([$this->country->code, $other->code])->sort()->values()->all());
+});

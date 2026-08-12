@@ -51,11 +51,15 @@ interface MlClientInterface
     /**
      * Fit the nowcast models on observed history.
      *
+     * The country is required, not inferred: the service keeps one fitted model
+     * per country, and serving one country's prices from another's model is the
+     * mistake this parameter exists to make impossible.
+     *
      * @param  list<array<string, float>>  $features
      * @param  list<float>  $targets  each target is a ratio to the national median
      * @return array{trained: bool, n_samples: int, reason: string}|null
      */
-    public function trainNowcast(array $features, array $targets): ?array;
+    public function trainNowcast(Country $country, array $features, array $targets): ?array;
 
     /**
      * Impute prices for cells with no observation.
@@ -66,7 +70,7 @@ interface MlClientInterface
      * @param  list<array<string, mixed>>  $requests
      * @return list<array<string, mixed>>|null one result per request, in order
      */
-    public function nowcast(array $requests): ?array;
+    public function nowcast(Country $country, array $requests): ?array;
 
     /**
      * @return list<array<string, mixed>>

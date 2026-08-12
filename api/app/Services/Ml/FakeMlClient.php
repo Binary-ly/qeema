@@ -152,9 +152,14 @@ final class FakeMlClient implements MlClientInterface
         return $this;
     }
 
-    public function trainNowcast(array $features, array $targets): ?array
+    public function trainNowcast(Country $country, array $features, array $targets): ?array
     {
-        $this->calls[] = ['method' => 'trainNowcast', 'count' => count($features), 'targets' => $targets];
+        $this->calls[] = [
+            'method' => 'trainNowcast',
+            'country' => $country->code,
+            'count' => count($features),
+            'targets' => $targets,
+        ];
 
         if (! $this->available) {
             return null;
@@ -167,9 +172,9 @@ final class FakeMlClient implements MlClientInterface
         ];
     }
 
-    public function nowcast(array $requests): ?array
+    public function nowcast(Country $country, array $requests): ?array
     {
-        $this->calls[] = ['method' => 'nowcast', 'count' => count($requests)];
+        $this->calls[] = ['method' => 'nowcast', 'country' => $country->code, 'count' => count($requests)];
 
         if (! $this->available) {
             return null;

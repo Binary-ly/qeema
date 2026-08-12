@@ -167,7 +167,7 @@ final class MlClient implements MlClientInterface
      * @param  list<float>  $targets
      * @return array{trained: bool, n_samples: int, reason: string}|null
      */
-    public function trainNowcast(array $features, array $targets): ?array
+    public function trainNowcast(Country $country, array $features, array $targets): ?array
     {
         if ($features === [] || ! $this->isAvailable()) {
             return null;
@@ -175,7 +175,7 @@ final class MlClient implements MlClientInterface
 
         return $this->post(
             '/v1/nowcast/train',
-            ['features' => $features, 'targets' => $targets],
+            ['country' => $country->code, 'features' => $features, 'targets' => $targets],
             static fn (array $body): array => [
                 'trained' => (bool) ($body['trained'] ?? false),
                 'n_samples' => (int) ($body['n_samples'] ?? 0),
@@ -190,13 +190,15 @@ final class MlClient implements MlClientInterface
      * @param  list<array<string, mixed>>  $requests
      * @return list<array<string, mixed>>|null
      */
-    public function nowcast(array $requests): ?array
+    public function nowcast(Country $country, array $requests): ?array
     {
         if ($requests === [] || ! $this->isAvailable()) {
             return null;
         }
 
-        return $this->post('/v1/nowcast/impute', ['requests' => $requests], static function (array $body): array {
+        $payload = ['country' => $country->code, 'requests' => $requests];
+
+        return $this->post('/v1/nowcast/impute', $payload, static function (array $body): array {
             /** @var list<array<string, mixed>> $results */
             $results = $body['results'] ?? [];
 

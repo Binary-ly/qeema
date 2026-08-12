@@ -78,7 +78,7 @@ final class TrainNowcastCommand extends Command
             return;
         }
 
-        $result = $ml->trainNowcast($rows['features'], $rows['targets']);
+        $result = $ml->trainNowcast($country, $rows['features'], $rows['targets']);
 
         if ($result === null) {
             $this->warn("{$country->code}: the ML service declined to train.");
