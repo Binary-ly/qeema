@@ -40,6 +40,7 @@ The `scheduler` container runs these. If it is not running, none of them are.
 | `qeema:scheduler:heartbeat` | every minute | The healthcheck that tells you the rest of this list has stopped |
 | `qeema:pipeline:sweep` | every minute | Submissions written by anything other than the API are never processed |
 | `qeema:index` | every minute | Corrections never reach published figures |
+| `qeema:index:link` | daily, 00:20 | A newly-effective basket version publishes no index level |
 | `qeema:index:publish` | hourly | No new calendar day is ever published |
 | `qeema:fx:fetch` | hourly | Dollar figures go stale, then null, for countries with a configured source |
 | `qeema:nowcast:train` | every 6 hours | Estimates revert to a crude fallback heuristic |
@@ -253,6 +254,54 @@ path that broke. Look at what actually failed rather than restarting anything:
 docker compose exec app php artisan queue:failed
 docker compose exec app php artisan queue:retry all   # after fixing the cause
 ```
+
+## Revising a basket
+
+Baskets change: an item stops being sold, a new one becomes essential, a weight
+no longer reflects what households spend. The platform is built to survive this,
+but the order matters.
+
+Add the new version to `countries/<code>.yaml` — a fresh `version`, an
+`effective_from`, and weights that sum to 1.0. **Set the previous version's
+`effective_to` to the day before**, or two baskets are in force at once and the
+publisher will pick whichever sorts highest.
+
+```bash
+docker compose exec app php artisan qeema:config:import --country=<ISO2>
+docker compose exec app php artisan qeema:index:link --country=<ISO2>
+```
+
+The importer closes the previous version on the day before the new one starts,
+so exactly one basket is in force on any date. Snapshots that were published
+before the new anchor existed are marked for recomputation and picked up by the
+task that already runs every minute — so the level appears on its own, without a
+republish, within a minute or two. Watch it happen:
+
+```bash
+docker compose exec app php artisan qeema:index --limit=500
+```
+
+The linker costs both baskets on the last day the old one was in force and
+carries the anchor forward by the ratio. Read what it prints:
+
+- **`N location(s) anchored via chained`** — what you want.
+- **`used the country median factor`** — those locations could not price both
+  baskets on the link date and borrowed the national figure. Acceptable, but if
+  it is most of them, the new items are not being reported widely enough yet and
+  the revision is early.
+- **`skipped … could not be fully priced`** — those locations publish no level
+  under the new basket at all. The usual cause is a new item nobody has reported
+  yet. Fix by getting the item reported, then re-run.
+
+The safest sequence is to catalogue new items **before** the revision takes
+effect, so reporters are already submitting prices for them when the link date
+arrives. `countries/ly.yaml` ships three items catalogued but unbasketed for
+exactly this reason.
+
+Anchors are not rewritten. A second run reports `already anchored` and changes
+nothing, because moving an anchor silently restates every figure published
+behind it. `--force` exists and should be used only when you intend that, and
+only alongside a republish of the affected range.
 
 ## Daily and weekly
 

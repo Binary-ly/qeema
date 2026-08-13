@@ -8,6 +8,7 @@ namespace App\Services\Index;
 
 use App\Models\Basket;
 use App\Models\BasketItem;
+use App\Models\BasketLink;
 use App\Models\Country;
 use App\Models\IndexSnapshot;
 use App\Models\Location;
@@ -46,12 +47,31 @@ final class IndexCalculator
         private readonly ?ItemImputer $imputer = null,
     ) {}
 
-    public function calculate(
+    /**
+     * Anchors already looked up, keyed basket:location.
+     *
+     * Publishing walks every location across a backfill window, so without this
+     * the anchor is re-fetched once per location per day for a value that cannot
+     * change during a run.
+     *
+     * @var array<string, BasketLink|null>
+     */
+    private array $anchors = [];
+
+    /**
+     * Cost the basket without storing anything.
+     *
+     * Split out from `calculate()` so chain-linking can cost a basket on a date
+     * when a *different* basket was in force, which is what establishing a link
+     * requires. Persisting that would put a snapshot in the series for a basket
+     * that was not in force on the day (D-22).
+     */
+    public function cost(
         Country $country,
         Location $location,
         Basket $basket,
         CarbonImmutable $date,
-    ): IndexSnapshot {
+    ): BasketCost {
         $settings = $country->indexSettings();
         $windowDays = (int) $settings['observation_window_days'];
         $halfLife = (float) $settings['recency_half_life_days'];
@@ -183,12 +203,37 @@ final class IndexCalculator
 
         [$ciLow, $ciHigh] = $this->basketInterval($components, $draws);
 
+        return new BasketCost(
+            costLocal: round($costLocal, 4),
+            coveragePct: $totalWeight > 0 ? round($observedWeight / $totalWeight, 4) : 0.0,
+            imputedShare: $totalWeight > 0 ? round($imputedWeight / $totalWeight, 4) : 0.0,
+            ciLow: $ciLow === null ? null : round($ciLow, 4),
+            ciHigh: $ciHigh === null ? null : round($ciHigh, 4),
+            observedItemCount: $observedCount,
+            totalItemCount: $items->count(),
+            itemRows: $itemRows,
+        );
+    }
+
+    public function calculate(
+        Country $country,
+        Location $location,
+        Basket $basket,
+        CarbonImmutable $date,
+    ): IndexSnapshot {
+        $cost = $this->cost($country, $location, $basket, $date);
+
         $rate = $this->fx->resolve($country, $date);
 
+        // Null unless this basket has an anchor at this location. A level
+        // computed from a missing anchor would be a number with no reference
+        // period behind it, which is worse than no number.
+        $level = $this->levelFor($basket, $location, $cost);
+
         $snapshot = DB::transaction(function () use (
-            $country, $location, $basket, $date, $costLocal, $observedWeight,
-            $imputedWeight, $totalWeight, $observedCount, $items, $ciLow, $ciHigh, $rate, $itemRows
+            $country, $location, $basket, $date, $cost, $rate, $level
         ): IndexSnapshot {
+            $itemRows = $cost->itemRows;
             $snapshot = IndexSnapshot::query()->updateOrCreate(
                 [
                     'location_id' => $location->id,
@@ -197,21 +242,26 @@ final class IndexCalculator
                 ],
                 [
                     'country_id' => $country->id,
-                    'cost_local' => round($costLocal, 4),
+                    'cost_local' => $cost->costLocal,
                     // Null rather than an invented conversion when no usable
                     // rate exists. A missing number is honest; a wrong one is
                     // indistinguishable from a right one.
-                    'cost_usd' => $rate === null ? null : round($costLocal / $rate->rate, 4),
-                    'coverage_pct' => $totalWeight > 0 ? round($observedWeight / $totalWeight, 4) : 0.0,
-                    'imputed_share' => $totalWeight > 0 ? round($imputedWeight / $totalWeight, 4) : 0.0,
-                    'ci_low_local' => $ciLow === null ? null : round($ciLow, 4),
-                    'ci_high_local' => $ciHigh === null ? null : round($ciHigh, 4),
+                    'cost_usd' => $rate === null ? null : round($cost->costLocal / $rate->rate, 4),
+                    // The chain-linked level. Comparable across a basket
+                    // revision, which `cost_local` is not: revise the basket and
+                    // the cost steps because the bundle changed, not because
+                    // prices did.
+                    'index_level' => $level,
+                    'coverage_pct' => $cost->coveragePct,
+                    'imputed_share' => $cost->imputedShare,
+                    'ci_low_local' => $cost->ciLow,
+                    'ci_high_local' => $cost->ciHigh,
                     'fx_rate_used' => $rate?->rate,
                     'fx_rate_type' => $rate?->type,
                     'fx_rate_date' => $rate?->rateDate->toDateString(),
                     'fx_is_stale' => $rate === null ? true : $rate->isStale,
-                    'observed_item_count' => $observedCount,
-                    'total_item_count' => $items->count(),
+                    'observed_item_count' => $cost->observedItemCount,
+                    'total_item_count' => $cost->totalItemCount,
                     'is_stale' => false,
                     // Cleared with the flag it belongs to. Leaving the stamp
                     // behind would make a freshly computed snapshot look like
@@ -235,6 +285,35 @@ final class IndexCalculator
         });
 
         return $snapshot->fresh(['items']) ?? $snapshot;
+    }
+
+    /**
+     * The chain-linked level, or null when this basket has no anchor here.
+     *
+     * Null rather than a fallback. A level is a ratio to a reference period, so
+     * without an anchor there is no reference period and therefore no level —
+     * inventing one by treating today as the base would produce a series that
+     * reads as 100 everywhere and moves for no reason.
+     */
+    private function levelFor(Basket $basket, Location $location, BasketCost $cost): ?float
+    {
+        if ($cost->isEmpty()) {
+            return null;
+        }
+
+        $key = $basket->id.':'.$location->id;
+
+        if (! array_key_exists($key, $this->anchors)) {
+            $this->anchors[$key] = BasketLink::anchorFor($basket, $location);
+        }
+
+        $anchor = $this->anchors[$key];
+
+        if ($anchor === null || $anchor->reference_cost <= 0.0) {
+            return null;
+        }
+
+        return round(100.0 * $cost->costLocal / $anchor->reference_cost, 4);
     }
 
     /**

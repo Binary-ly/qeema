@@ -15,6 +15,7 @@ use App\Models\Location;
 use App\Models\Source;
 use App\Models\Unit;
 use App\Support\Text\TextNormalizer;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -41,7 +42,11 @@ final class CountryConfigImporter
     public function import(array $config): ImportSummary
     {
         return DB::transaction(function () use ($config): ImportSummary {
-            $country = $this->importCountry($config['country']);
+            $country = $this->importCountry(
+                $config['country'],
+                $config['index'] ?? [],
+                $config['fx'] ?? [],
+            );
 
             $units = $this->importUnits($country, $config['units']);
             $locations = $this->importLocations($country, $config['locations']);
@@ -63,8 +68,10 @@ final class CountryConfigImporter
 
     /**
      * @param  array<string, mixed>  $data
+     * @param  array<string, mixed>  $index
+     * @param  array<string, mixed>  $fx
      */
-    private function importCountry(array $data): Country
+    private function importCountry(array $data, array $index, array $fx): Country
     {
         /** @var array<string, mixed> $currency */
         $currency = $data['currency'];
@@ -75,6 +82,17 @@ final class CountryConfigImporter
         return Country::query()->updateOrCreate(
             ['code' => strtoupper((string) $data['code'])],
             [
+                // Neither of these was ever written. Both country files carry an
+                // `index:` and an `fx:` block, both are parsed and validated, and
+                // the columns behind them stayed null on every deployment — so
+                // every setting in them was decorative and the code silently used
+                // its own defaults. An operator widening the observation window
+                // for their country would have seen no effect at all.
+                //
+                // Stored raw. `Country::indexSettings()` merges over its defaults
+                // on read, so a file that sets only some keys still gets the rest.
+                'index_config' => $this->normalizeIndexConfig($index),
+                'fx_config' => $fx === [] ? null : $fx,
                 'name' => (string) $data['name'],
                 'name_local' => $data['name_local'] ?? null,
                 'currency_code' => strtoupper((string) $currency['code']),
@@ -88,6 +106,35 @@ final class CountryConfigImporter
                 'is_active' => true,
             ],
         );
+    }
+
+    /**
+     * The base date needs to survive a round trip through JSON.
+     *
+     * The YAML parser turns `base_date: 2026-01-01` into a Unix timestamp, and
+     * an integer stored in a JSON column comes back as an integer that
+     * `Carbon::parse` rejects — so the chain-linker would fail on a value that
+     * looks perfectly correct in the file. Normalised once, here, rather than
+     * defended against at every read.
+     *
+     * @param  array<string, mixed>  $index
+     * @return array<string, mixed>|null
+     */
+    private function normalizeIndexConfig(array $index): ?array
+    {
+        if ($index === []) {
+            return null;
+        }
+
+        $baseDate = $index['base_date'] ?? null;
+
+        if (is_int($baseDate) || (is_string($baseDate) && ctype_digit($baseDate))) {
+            $index['base_date'] = CarbonImmutable::createFromTimestamp((int) $baseDate)->toDateString();
+        } elseif ($baseDate instanceof \DateTimeInterface) {
+            $index['base_date'] = CarbonImmutable::instance($baseDate)->toDateString();
+        }
+
+        return $index;
     }
 
     /**
@@ -211,6 +258,34 @@ final class CountryConfigImporter
     }
 
     /**
+     * An earlier version stops being in force the day the new one starts.
+     *
+     * The config file describes one basket — the current one — so a revision is
+     * expressed by bumping `version` and `effective_from`. Nothing in that file
+     * can say when the *previous* version ended, and without closing it two
+     * baskets are in force at once: `basketOn()` would then pick whichever sorts
+     * highest and the older one would never stop being selectable.
+     *
+     * Only versions left open are touched. An operator who set an explicit
+     * `effective_to` meant it.
+     */
+    private function closePreviousVersions(Country $country, Basket $basket): void
+    {
+        // Read back off the model rather than re-parsing the config value. The
+        // loader hands dates over as Unix timestamps, which Eloquent's date cast
+        // understands and `Carbon::parse` does not — so parsing the raw value
+        // here would mean keeping a second copy of that rule in step with the
+        // first.
+        $endsOn = $basket->effective_from->copy()->subDay();
+
+        Basket::query()
+            ->where('country_id', $country->id)
+            ->where('version', '<', $basket->version)
+            ->whereNull('effective_to')
+            ->update(['effective_to' => $endsOn->toDateString()]);
+    }
+
+    /**
      * @param  array<string, mixed>  $data
      */
     private function importBasket(Country $country, array $data): int
@@ -225,6 +300,8 @@ final class CountryConfigImporter
                 'is_active' => true,
             ],
         );
+
+        $this->closePreviousVersions($country, $basket);
 
         /** @var list<array<string, mixed>> $entries */
         $entries = $data['items'];

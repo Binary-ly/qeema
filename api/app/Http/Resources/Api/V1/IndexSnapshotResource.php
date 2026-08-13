@@ -46,6 +46,22 @@ final class IndexSnapshotResource extends JsonResource
                 'confidence_low' => $this->ci_low_local === null ? null : (float) $this->ci_low_local,
                 'confidence_high' => $this->ci_high_local === null ? null : (float) $this->ci_high_local,
             ],
+            // The chain-linked level: 100 at the country's base period, and
+            // comparable across a basket revision in a way `cost` is not.
+            // Revise the basket and the cost steps because the bundle changed;
+            // the level does not, because the revision is linked out of it.
+            //
+            // Null when this basket has no anchor at this location, which is the
+            // honest answer — a level without a reference period is not a
+            // smaller number, it is a meaningless one.
+            'index' => [
+                'level' => $this->index_level === null ? null : (float) $this->index_level,
+                // Which bundle produced the figure. A consumer comparing two
+                // dates across different versions is comparing levels, not
+                // costs, and this is how they can tell that is what happened.
+                'basket_version' => $this->basket->version,
+                'basket_name' => $this->basket->name,
+            ],
             'quality' => [
                 'coverage' => (float) $this->coverage_pct,
                 'imputed_share' => (float) $this->imputed_share,

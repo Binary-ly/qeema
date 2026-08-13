@@ -25,7 +25,7 @@ class IndexSnapshotInfolist
                 TextEntry::make('cost_usd')
                     ->numeric()
                     ->placeholder('-'),
-                TextEntry::make('normalized_index')
+                TextEntry::make('index_level')
                     ->numeric()
                     ->placeholder('-'),
                 TextEntry::make('coverage_pct')

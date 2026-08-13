@@ -43,7 +43,7 @@ final class IndexSnapshot extends Model
 
     protected $fillable = [
         'country_id', 'location_id', 'basket_id', 'snapshot_date',
-        'cost_local', 'cost_usd', 'normalized_index',
+        'cost_local', 'cost_usd', 'index_level',
         'coverage_pct', 'imputed_share', 'ci_low_local', 'ci_high_local',
         'fx_rate_used', 'fx_rate_type', 'fx_rate_date', 'fx_is_stale',
         'observed_item_count', 'total_item_count',
@@ -56,7 +56,7 @@ final class IndexSnapshot extends Model
             'snapshot_date' => 'date',
             'cost_local' => 'float',
             'cost_usd' => 'float',
-            'normalized_index' => 'float',
+            'index_level' => 'float',
             'coverage_pct' => 'float',
             'imputed_share' => 'float',
             'ci_low_local' => 'float',

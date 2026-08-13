@@ -221,6 +221,12 @@ final class BootstrapCommand extends Command
                 continue;
             }
 
+            // Anchors first: the calculator reads them to produce a level, so a
+            // snapshot computed before its basket is anchored publishes a null
+            // level and would need recomputing.
+            $this->info("Anchoring baskets for {$code}...");
+            $this->call('qeema:index:link', ['--country' => $code]);
+
             $this->info("Computing the index for {$code}...");
 
             $this->call('qeema:index', [

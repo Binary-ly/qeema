@@ -106,11 +106,30 @@ rates, the review queue, matching, imputation source, failed jobs — are
 evaluated every five minutes, published as states and ages on the public health
 endpoint, and shown with counts behind the admin login.
 
+### A basket revision does not break the series
+
+`cost` is the cost of one specific basket, so revising the basket steps the
+series for a reason that is not a price. Every snapshot now also carries a
+chain-linked `index.level`: each basket version is anchored by a per-location
+reference cost, and a new version is carried forward by costing **both** baskets
+on the last day the old one was in force and multiplying by the ratio.
+
+Continuity at the link is exact by construction rather than approximate — the two
+levels agree to 5×10⁻⁸ per cent, which is float rounding. Proven three ways: unit
+tests holding every price constant across a revision, where the correct index
+must not move at all while the cost must jump; a mutation check confirming that
+removing the link factor makes the level jump by exactly the bundle ratio; and a
+staged revision run against the live demo's 21,395 observations, where the cost
+moved 2.56% and the level did not move.
+
+Anchors are immutable once written, because recomputing one would silently
+restate every figure already published behind it.
+
 ### Quality gates
 
 | Gate | Result |
 |---|---|
-| PHP suite (Pest) | 609 passed, 1 skipped, 2,233 assertions, **93.6%** coverage |
+| PHP suite (Pest) | 652 passed, 1 skipped, 2,343 assertions, **93.7%** coverage |
 | Python suite (pytest) | 224 passed, **85.4%** coverage |
 | Browser suite (Playwright) | 27 passed against the composed stack |
 | Static analysis (PHPStan level 6) | 0 errors |
@@ -181,9 +200,18 @@ of which trades away some of the openness the design is protecting.
 
 **Real-data validation.** As above.
 
-**Chain-linking across basket versions.** Revising a country's basket breaks
-comparability of the series across the revision. Fine for a pilot; not fine for
-a multi-year index.
+**No shipped country has actually had a basket revision.** The mechanism is
+tested and was exercised end to end against the live demo, but that revision was
+staged and reverted. The first real one will be the first time the operator
+runbook is followed by somebody who did not write it.
+
+**A link factor is a single day's measurement.** It permanently scales
+everything after it, and it is only accepted when both baskets can be priced in
+full — but "in full" counts imputed items as priced. On a day when part of the
+basket is estimated rather than observed, the factor carries that estimate's
+error into the anchor. Both costs and the factor are recorded on the anchor so a
+suspicious step can be traced, but choosing the link date for high *observed*
+coverage is left to the operator rather than enforced.
 
 **Automated exchange-rate sourcing for most currencies.** The platform reads any
 JSON endpoint an operator configures, and ships configured with none. The
@@ -216,7 +244,7 @@ rather than asserted.
 | **C2** | Self-hostable in one command | CI builds and boots the whole stack from scratch on every push, then runs the browser suite against it |
 | **C3** | Country-agnostic | A CI job greps application source for country literals and fails the build on one — it has caught three, including a currency code that reached the published API contract and a timezone in a comment |
 | **C4** | Apache-2.0 end to end | LICENSE, NOTICE, CONTRIBUTING, CODE_OF_CONDUCT; SPDX header on every file |
-| **C5** | ≥80% unit coverage, enforced in CI from the first phase | 93.6% and 85.4%, both gated |
+| **C5** | ≥80% unit coverage, enforced in CI from the first phase | 93.7% and 85.4%, both gated |
 | **C6** | The public data is the product | Every read route unauthenticated, OpenAPI documented and drift-checked in CI, bulk CSV export carrying its licence; a browser test asserts no endpoint requires credentials |
 
 ## How to check all of this in half an hour

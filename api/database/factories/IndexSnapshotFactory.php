@@ -34,7 +34,11 @@ final class IndexSnapshotFactory extends Factory
             'snapshot_date' => now()->toDateString(),
             'cost_local' => $costLocal,
             'cost_usd' => round($costLocal / $fxRate, 2),
-            'normalized_index' => 100.0,
+            // Null, not a plausible-looking 100.0. A snapshot has a level only
+            // when its basket is anchored at its location, and a factory that
+            // invents one is why this column sat dead and unnoticed: every test
+            // saw a number, production saw null.
+            'index_level' => null,
             'coverage_pct' => 1.0,
             'imputed_share' => 0.0,
             'ci_low_local' => $costLocal * 0.95,

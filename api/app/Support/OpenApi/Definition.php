@@ -87,11 +87,28 @@ use OpenApi\Attributes as OA;
     ],
 )]
 #[OA\Schema(
+    schema: 'IndexLevel',
+    required: ['level', 'basket_version'],
+    description: 'The chain-linked index level. Use this, not `cost`, to compare dates: revising the basket changes what is priced, so `cost` steps at a revision for reasons that are not price movements. The level has that step linked out of it. The date at which the level is 100 is the base period recorded on the basket anchor; it is shared by every version, which is what chaining preserves.',
+    properties: [
+        new OA\Property(
+            property: 'level',
+            type: 'number',
+            format: 'float',
+            nullable: true,
+            description: '100 at the base period. Null when this basket version has no anchor at this location, in which case there is no reference period and therefore no meaningful level.',
+        ),
+        new OA\Property(property: 'basket_version', type: 'integer', description: 'Which basket produced the figure. Two dates with different versions have comparable levels but not comparable costs.'),
+        new OA\Property(property: 'basket_name', type: 'string'),
+    ],
+)]
+#[OA\Schema(
     schema: 'IndexSnapshot',
-    required: ['date', 'cost', 'quality', 'exchange_rate'],
+    required: ['date', 'cost', 'index', 'quality', 'exchange_rate'],
     properties: [
         new OA\Property(property: 'date', type: 'string', format: 'date'),
         new OA\Property(property: 'cost', ref: '#/components/schemas/Cost'),
+        new OA\Property(property: 'index', ref: '#/components/schemas/IndexLevel'),
         new OA\Property(property: 'quality', ref: '#/components/schemas/Quality'),
         new OA\Property(
             property: 'exchange_rate',

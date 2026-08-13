@@ -74,7 +74,20 @@ index:
   recency_half_life_days: 3
   min_observations_for_ci: 3
   bootstrap_draws: 500
-  base_date: 2026-01-01
+  # Unset on purpose. The base period is the date at which the index reads 100,
+  # and a fixed date here only stays meaningful while the deployment holds data
+  # covering it — the demo's history window always ends today and rolls forward,
+  # so any date written here drifts out of range and every location would be left
+  # with no anchor and no published level.
+  #
+  # Left null, the base period becomes the first day the basket could be priced in
+  # full. That is measured rather than asserted, it is recorded on the anchor, and
+  # it is immutable once written.
+  #
+  # A real deployment should set the month collection genuinely began, and will
+  # then be told loudly if there is no data there rather than being quietly
+  # anchored somewhere else.
+  base_date: null
 
 # ---------------------------------------------------------------------------
 # Units

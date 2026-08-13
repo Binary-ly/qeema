@@ -46,10 +46,16 @@ final class IndexController extends Controller
             // syntax that must lead the select list, and its expression has to
             // match the leading ORDER BY column exactly.
             ->selectRaw('DISTINCT ON (index_snapshots.location_id) index_snapshots.*')
+            ->join('baskets', 'baskets.id', '=', 'index_snapshots.basket_id')
             ->where('index_snapshots.country_id', $country->id)
-            ->with(['location', 'country', 'items.canonicalItem'])
+            ->with(['location', 'country', 'basket', 'items.canonicalItem'])
             ->orderBy('index_snapshots.location_id')
             ->orderByDesc('index_snapshots.snapshot_date')
+            // A revision leaves snapshots for both versions on the dates either
+            // side of it, so a date is no longer unique per location. Highest
+            // version wins, which is the basket actually in force — without this
+            // the API can serve a figure from the superseded basket.
+            ->orderByDesc('baskets.version')
             ->get();
 
         return IndexSnapshotResource::collection($latest);
@@ -66,10 +72,17 @@ final class IndexController extends Controller
         $to = $request->date('to') ?? now();
 
         $snapshots = IndexSnapshot::query()
-            ->where('location_id', $location->id)
-            ->whereBetween('snapshot_date', [$from->toDateString(), $to->toDateString()])
-            ->with(['location', 'country'])
-            ->orderBy('snapshot_date')
+            // One row per date. A basket revision leaves snapshots under both
+            // versions for the dates around it, and a series that repeated a
+            // date — once under each basket — would plot as a step that is not
+            // in the data.
+            ->selectRaw('DISTINCT ON (index_snapshots.snapshot_date) index_snapshots.*')
+            ->join('baskets', 'baskets.id', '=', 'index_snapshots.basket_id')
+            ->where('index_snapshots.location_id', $location->id)
+            ->whereBetween('index_snapshots.snapshot_date', [$from->toDateString(), $to->toDateString()])
+            ->with(['location', 'country', 'basket'])
+            ->orderBy('index_snapshots.snapshot_date')
+            ->orderByDesc('baskets.version')
             ->limit((int) config('qeema.api.max_page_size'))
             ->get();
 
@@ -84,9 +97,15 @@ final class IndexController extends Controller
         $location = Location::query()->where('slug', $locationSlug)->firstOrFail();
 
         $snapshot = IndexSnapshot::query()
-            ->where('location_id', $location->id)
-            ->whereDate('snapshot_date', $date)
-            ->with(['location', 'country', 'items.canonicalItem'])
+            ->select('index_snapshots.*')
+            ->join('baskets', 'baskets.id', '=', 'index_snapshots.basket_id')
+            ->where('index_snapshots.location_id', $location->id)
+            ->whereDate('index_snapshots.snapshot_date', $date)
+            ->with(['location', 'country', 'basket', 'items.canonicalItem'])
+            // The basket in force on that date, not whichever row was written
+            // first. After a revision both exist, and the older one would win on
+            // insertion order alone.
+            ->orderByDesc('baskets.version')
             ->firstOrFail();
 
         return new IndexSnapshotResource($snapshot);
@@ -146,15 +165,28 @@ final class IndexController extends Controller
             fputcsv($handle, [
                 'date', 'location_slug', 'location_name', 'cost_local', 'currency',
                 'cost_usd', 'confidence_low', 'confidence_high',
+                // The comparable series. `cost_local` steps whenever the basket
+                // is revised, so anyone computing inflation from this file needs
+                // the level and the version that produced it.
+                'index_level', 'basket_version',
                 'coverage', 'imputed_share', 'comparable', 'quality',
                 'fx_rate', 'fx_type', 'fx_is_stale',
             ]);
 
             IndexSnapshot::query()
-                ->where('country_id', $country->id)
-                ->whereBetween('snapshot_date', [$from->toDateString(), $to->toDateString()])
-                ->with('location')
-                ->orderBy('snapshot_date')
+                // One row per location per date. A revision leaves snapshots
+                // under both versions around the changeover, and a bulk file
+                // that repeated a date would be read as two observations of the
+                // same day. Ordered by location then date so each location's
+                // series is contiguous in the file.
+                ->selectRaw('DISTINCT ON (index_snapshots.location_id, index_snapshots.snapshot_date) index_snapshots.*')
+                ->join('baskets', 'baskets.id', '=', 'index_snapshots.basket_id')
+                ->where('index_snapshots.country_id', $country->id)
+                ->whereBetween('index_snapshots.snapshot_date', [$from->toDateString(), $to->toDateString()])
+                ->with(['location', 'basket'])
+                ->orderBy('index_snapshots.location_id')
+                ->orderBy('index_snapshots.snapshot_date')
+                ->orderByDesc('baskets.version')
                 ->chunk((int) config('qeema.api.export_chunk_size'), function ($chunk) use ($handle, $country): void {
                     foreach ($chunk as $snapshot) {
                         fputcsv($handle, [
@@ -166,6 +198,8 @@ final class IndexController extends Controller
                             $snapshot->cost_usd,
                             $snapshot->ci_low_local,
                             $snapshot->ci_high_local,
+                            $snapshot->index_level,
+                            $snapshot->basket->version,
                             $snapshot->coverage_pct,
                             $snapshot->imputed_share,
                             $snapshot->isComparable() ? 'yes' : 'no',

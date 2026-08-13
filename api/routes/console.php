@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 use App\Console\Commands\DetectReporterBiasCommand;
 use App\Console\Commands\FetchFxRatesCommand;
+use App\Console\Commands\LinkIndexCommand;
 use App\Console\Commands\PipelineHealthCommand;
 use App\Console\Commands\PipelineSweepCommand;
 use App\Console\Commands\PublishIndexCommand;
@@ -62,6 +63,20 @@ Schedule::command(PipelineSweepCommand::class)
 Schedule::command(RecomputeIndexCommand::class)
     ->everyMinute()
     ->withoutOverlapping(10)
+    ->onOneServer()
+    ->runInBackground();
+
+// A basket revision takes effect on a date, and from that morning the new
+// version needs an anchor or it publishes no level at all. Daily and idempotent:
+// on almost every day it finds every basket already anchored and does nothing,
+// and it will not overwrite an existing anchor without --force, so running it
+// unattended cannot restate published history.
+//
+// Before the publisher, so a newly-effective basket is anchored in the same
+// cycle that first publishes under it.
+Schedule::command(LinkIndexCommand::class)
+    ->dailyAt('00:20')
+    ->withoutOverlapping(30)
     ->onOneServer()
     ->runInBackground();
 

@@ -2076,3 +2076,161 @@ load, and is in `make verify` rather than in CI — a check for "the workflow is
 invalid" cannot live inside the workflow it is checking, because an invalid one
 never starts it. Verified by reintroducing the exact duplicate and watching it
 name the line.
+
+## Phase 15 — the index survives a basket revision
+
+`cost_local` is the cost of one specific basket. Revise the basket — an item
+stops being sold, a new one becomes essential, a weight stops reflecting what
+households spend — and the series steps for a reason that has nothing to do with
+prices. Anyone plotting it reads that step as inflation. It was the last
+methodological gap listed in `docs/assessment.md`, and the one a statistician
+would find first.
+
+### What was already there, and what it was doing
+
+More was in place than expected, and none of it was connected:
+
+- `baskets.version`, `effective_from`, `effective_to`, `isEffectiveOn()` — built
+  and used; `Country::basketOn($date)` already picked the right basket per date
+- `index_snapshots.normalized_index` — a column with a Filament table column, an
+  infolist entry and a form field bound to it, which **nothing had ever written**
+- `index.base_date` in every country file — parsed, validated, and **read by
+  nothing**
+- three items in `ly.yaml` catalogued but deliberately left out of basket v1,
+  commented as being there to exercise "the basket-versioning and chain-linking
+  path"
+
+So the shape had been designed and the mechanism never built. The factory filled
+`normalized_index` with `100.0`, which is why no test ever noticed: every test
+saw a plausible number and every deployment had null.
+
+That is the sixth component found built-but-unreachable, and the pattern is now
+consistent enough to be worth naming — a column with UI attached and no writer
+looks exactly like a working feature from every angle except the database.
+
+### The construction
+
+Every basket version gets a per-location reference cost, after which the level is
+uniform across versions and nothing downstream needs to know a link happened:
+
+```
+level(L, t) = 100 × cost_v(L, t) / reference_cost_v(L)
+```
+
+The first version is anchored at the base period. Each later version is carried
+forward by costing **both** baskets on the last day the old one was in force —
+the only day they are directly comparable — and multiplying by the ratio:
+
+```
+link_factor(L)   = cost_new(L, d) / cost_old(L, d)
+reference_new(L) = reference_old(L) × link_factor(L)
+```
+
+which makes the level continuous at `d` by construction.
+
+Decisions are recorded as D-19…D-23 in `docs/plan-chain-linking.md`: link per
+location with a country-median fallback; never anchor on a basket that could not
+be fully priced; anchors immutable once written; costing must not persist; and
+`normalized_index` renamed to `index_level`, which is safe precisely because
+nothing had ever written it.
+
+### The test that matters
+
+Every price is held constant across the revision. Under those conditions the
+correct index does not move at all while the cost must jump, so the two
+assertions together prove the link is working rather than the numbers merely
+looking plausible. Values are hand-computed: v1 = 18, v2 = 24, factor = 4/3,
+level = 100 on both sides.
+
+Verified by mutation — removing the link factor makes the level jump to
+**133.3333**, exactly 24/18 × 100, which is the artefact being removed.
+
+### Three more dead seams found on the way
+
+Trying to run this against the live demo turned up more of the same:
+
+**`index_config` and `fx_config` were never imported.** Every country file
+carries an `index:` and an `fx:` block; both are parsed and validated; the
+importer wrote neither. Both columns were null on every deployment, so every
+setting in them was decorative and the code silently used its own defaults. An
+operator widening `observation_window_days` for their country would have seen no
+effect whatsoever. This also made chain-linking impossible, since `base_date`
+lives there.
+
+**There was no way to apply a country-file edit.** `qeema:bootstrap` seeds a
+country only when it is absent — a deliberate guard to keep restarts cheap — so
+editing `countries/*.yaml` on a running deployment printed "already seeded;
+skipping" and changed nothing. The importer underneath has always been idempotent
+and says so in its own docblock; nothing exposed it. `qeema:config:import` now
+does, which matters most for basket revisions, since that is how one is
+expressed: without it the feature could not be reached by anyone following the
+runbook.
+
+**A basket revision left both versions in force.** A country file describes one
+basket, so nothing in it can say when the *previous* version ended. The importer
+now closes an open earlier version the day before the new one starts, and leaves
+alone any version whose end date was set deliberately.
+
+### The base period is measured, not asserted
+
+`base_date: 2026-01-01` in the shipped files was outside the demo's own data,
+which runs from roughly six months ago to today and rolls forward — so any fixed
+date drifts out of range and every location ends up unanchored.
+
+A configured base date is now honoured exactly and reports loudly when there is
+no data there, because it is an operator's assertion about when their series
+starts and quietly anchoring elsewhere would publish a series whose 100 is not
+the date they documented. With none configured, the base period becomes the first
+day the basket could be priced in full — a fact about the data — recorded on the
+anchor and immutable from then on. The shipped files now leave it unset, with the
+reasoning written where an operator will read it.
+
+`base_period` was dropped from the API response rather than published from the
+country config, because after this change the config value and the effective base
+period can differ, and a field that is right only sometimes is worse than one
+that is absent.
+
+### A fourth defect, found only by running it
+
+Every index endpoint had been written assuming one snapshot per location per
+date. A revision makes that false — snapshots under both versions exist for the
+dates around the changeover — and `firstOrFail()` with no ordering returned
+whichever row was written first, which is the *older* basket. Live, the API
+served basket v1 for a date basket v2 governed, and a history series would have
+repeated each date once per version and plotted as a step that is not in the
+data.
+
+Fixed in all four places (`current`, `history`, `show`, `export.csv`) by ordering
+on basket version and taking the highest. The bulk export now also carries
+`index_level` and `basket_version`, since anyone computing inflation from that
+file needs the comparable series rather than the cost.
+
+This is the second time this session that a defect survived a green suite and
+appeared within minutes of running the thing against real data. Both were
+absences rather than errors — a column nobody wrote, a row nobody expected to
+exist twice — and neither is the kind of thing a test written from the same
+assumptions would catch.
+
+### What the live run proved
+
+A staged revision against the demo's 21,395 observations, since reverted:
+
+- the importer closed v1 on 2026-08-09, the day before v2 began, leaving exactly
+  one basket in force on every date
+- the linker chained all 16 locations, country factor 1.0894, each with its own
+  per-location factor recorded alongside what both baskets cost that day
+- at the link date the cost differed by **2.5629%** and the level by
+  **0.00000005%** — continuity is by construction, not by tuning
+- anchoring marked the already-published snapshots stale, and the recompute task
+  that runs every minute filled in their levels without a republish
+
+Anchors landed at different base periods per location — most at 2026-02-09, Derna
+at 2026-02-16 — because that is the first day each could price the whole basket.
+That is the base-period policy working as intended rather than a defect.
+
+Re-costing the same day twice moved the total by ~0.02%, because items that were
+imputed are re-estimated on each call. The anchor is frozen, so published levels
+do not drift; but it does mean a link factor measured on a day with imputed items
+carries that estimate's error permanently. Recorded in `docs/assessment.md` under
+what is not built, since choosing a well-observed link date is left to the
+operator rather than enforced.

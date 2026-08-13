@@ -31,7 +31,7 @@ class IndexSnapshotForm
                     ->numeric(),
                 TextInput::make('cost_usd')
                     ->numeric(),
-                TextInput::make('normalized_index')
+                TextInput::make('index_level')
                     ->numeric(),
                 TextInput::make('coverage_pct')
                     ->required()

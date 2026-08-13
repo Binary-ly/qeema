@@ -441,10 +441,34 @@
                 },
                 "type": "object"
             },
+            "IndexLevel": {
+                "description": "The chain-linked index level. Use this, not `cost`, to compare dates: revising the basket changes what is priced, so `cost` steps at a revision for reasons that are not price movements. The level has that step linked out of it. The date at which the level is 100 is the base period recorded on the basket anchor; it is shared by every version, which is what chaining preserves.",
+                "required": [
+                    "level",
+                    "basket_version"
+                ],
+                "properties": {
+                    "level": {
+                        "description": "100 at the base period. Null when this basket version has no anchor at this location, in which case there is no reference period and therefore no meaningful level.",
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "basket_version": {
+                        "description": "Which basket produced the figure. Two dates with different versions have comparable levels but not comparable costs.",
+                        "type": "integer"
+                    },
+                    "basket_name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "IndexSnapshot": {
                 "required": [
                     "date",
                     "cost",
+                    "index",
                     "quality",
                     "exchange_rate"
                 ],
@@ -455,6 +479,9 @@
                     },
                     "cost": {
                         "$ref": "#/components/schemas/Cost"
+                    },
+                    "index": {
+                        "$ref": "#/components/schemas/IndexLevel"
                     },
                     "quality": {
                         "$ref": "#/components/schemas/Quality"

@@ -31,7 +31,7 @@ class IndexSnapshotsTable
                 TextColumn::make('cost_usd')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('normalized_index')
+                TextColumn::make('index_level')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('coverage_pct')
