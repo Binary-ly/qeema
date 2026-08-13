@@ -35,21 +35,25 @@ final class SecurityHeaders
     /**
      * Routes whose scripts need `eval`.
      *
-     * Alpine compiles its `x-` expressions with `new Function()`, which a
-     * strict `script-src` forbids outright. The reporter is built on Alpine, so
-     * a policy without `'unsafe-eval'` does not merely degrade it — the app
-     * does not start at all.
+     * Alpine compiles its `x-` expressions with `new Function()`, which a strict
+     * `script-src` forbids outright, so anything built on the standard build
+     * does not merely degrade without `'unsafe-eval'` — it does not start.
      *
-     * The relaxation is scoped to those routes rather than applied globally.
-     * The public dashboard, the API, the docs and the CSV export — everything a
-     * data consumer or a passer-by touches — keep the strict policy. Alpine
-     * ships a CSP-safe build that would remove the exception entirely, at the
-     * cost of rewriting every inline expression as a component method; that is
-     * recorded as follow-up work rather than done hastily here.
+     * **The reporter no longer needs it.** It runs on Alpine's CSP build, which
+     * evaluates no expressions: a template may name a property or a method and
+     * nothing else, so every derived value lives in the component instead of the
+     * markup. That is the whole of the cost, and it bought the strict policy for
+     * the three routes a reporter actually touches — the ones that accept input
+     * from the public.
+     *
+     * What is left is the admin panel and Horizon, which are Filament and its
+     * own dependencies rather than code written here. Both sit behind
+     * authentication, which is the opposite of the reporter's position, and
+     * neither can be changed without replacing the framework that renders them.
      *
      * @var list<string>
      */
-    private const EVAL_ROUTES = ['report', 'offline', 'admin', 'admin/*', 'horizon', 'horizon/*'];
+    private const EVAL_ROUTES = ['admin', 'admin/*', 'horizon', 'horizon/*'];
 
     public function handle(Request $request, Closure $next): Response
     {

@@ -23,7 +23,13 @@
     directions. A mirrored stylesheet would drift out of sync the first time
     someone edited only one of them.
 --}}
-<body class="reporter" x-data="reporter(@js($config))" x-cloak>
+{{-- Configuration as inert data rather than as an x-data argument. Alpine's
+     CSP build evaluates no expressions, so it cannot call `reporter({...})` —
+     and a JSON block is not script, so carrying the values this way needs no
+     widening of the content-security policy. --}}
+<script type="application/json" id="reporter-config">@json($config + ['strings' => __('reporter')])</script>
+
+<body class="reporter" x-data="reporter" x-cloak>
 
 <header class="reporter__header">
     <div>
@@ -42,27 +48,22 @@
 
 {{-- Connectivity is stated plainly and permanently. A reporter needs to know
      their work is safe, not discover later that it vanished. --}}
-<div class="reporter__status"
-     :class="online ? 'is-online' : 'is-offline'"
+<div :class="statusClass"
      role="status"
      aria-live="polite">
-    <span x-text="online
-        ? @js(__('reporter.status_online'))
-        : @js(__('reporter.status_offline'))"></span>
+    <span x-text="statusLabel"></span>
 
-    <template x-if="queue.pending > 0 || queue.syncing > 0">
-        <span class="reporter__queue"
-              x-text="@js(__('reporter.queue_pending')).replace(':count', queue.pending + queue.syncing)"></span>
+    <template x-if="hasQueued">
+        <span class="reporter__queue" x-text="pendingLabel"></span>
     </template>
 
-    <template x-if="queue.failed > 0">
-        <span class="reporter__queue is-error"
-              x-text="@js(__('reporter.queue_failed')).replace(':count', queue.failed)"></span>
+    <template x-if="hasFailed">
+        <span class="reporter__queue is-error" x-text="failedLabel"></span>
     </template>
 </div>
 
 <template x-if="flashMessage">
-    <p class="reporter__flash" :class="'is-' + flashKind" x-text="flashMessage" role="alert"></p>
+    <p :class="flashClass" x-text="flashMessage" role="alert"></p>
 </template>
 
 <template x-if="loadError">
@@ -75,9 +76,8 @@
         <label class="field__label" for="location">{{ __('reporter.location') }}</label>
         <select id="location" class="field__control" x-model="locationSlug">
             <option value="" disabled>{{ __('reporter.location') }}</option>
-            <template x-for="location in locations" :key="location.slug">
-                <option :value="location.slug"
-                        x-text="location.name_local || location.name"></option>
+            <template x-for="location in locationOptions" :key="location.slug">
+                <option :value="location.slug" x-text="location.label"></option>
             </template>
         </select>
     </section>
@@ -90,18 +90,21 @@
                inputmode="search"
                autocomplete="off"
                x-model="itemQuery"
-               :placeholder="@js(__('reporter.item_search'))">
+               placeholder="{{ __('reporter.item_search') }}">
 
         <p class="field__hint">{{ __('reporter.item_free_text') }}</p>
 
-        <ul class="item-list" x-show="itemQuery.length > 0 || itemCode === ''">
+        <ul class="item-list" x-show="showItemList">
             <template x-for="item in filteredItems" :key="item.code">
                 <li>
+                    {{-- The item travels to the handler as a data attribute:
+                         CSP event bindings are method references, so they take
+                         no arguments. --}}
                     <button type="button"
-                            class="item-list__button"
-                            :class="{ 'is-selected': item.code === itemCode }"
-                            @click="selectItem(item)">
-                        <span x-text="item.name_local || item.name_en"></span>
+                            :class="item.className"
+                            :data-code="item.code"
+                            @click="selectItem">
+                        <span x-text="item.label"></span>
                         <small x-text="item.unit"></small>
                     </button>
                 </li>
@@ -112,7 +115,7 @@
     <section class="field field--price">
         <label class="field__label" for="price">
             {{ __('reporter.price') }}
-            <span x-text="country?.currency?.symbol || country?.currency?.code"></span>
+            <span x-text="currencyLabel"></span>
         </label>
         {{-- inputmode="decimal" gives a numeric keypad without the spinner
              controls and scroll-to-change behaviour of type="number". --}}
@@ -139,11 +142,11 @@
 
     <button type="button"
             class="reporter__submit"
-            :disabled="!canSubmit"
-            @click="submit()"
-            x-text="busy ? @js(__('reporter.saving')) : @js(__('reporter.submit'))"></button>
+            :disabled="submitDisabled"
+            @click="submit"
+            x-text="submitLabel"></button>
 
-    <p class="reporter__id" x-text="@js(__('reporter.reporter_id')).replace(':id', reporterId)"></p>
+    <p class="reporter__id" x-text="reporterLabel"></p>
 </main>
 
 {{-- Service worker registration lives in resources/js/reporter.js, not in an

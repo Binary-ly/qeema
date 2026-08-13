@@ -17,18 +17,21 @@ it('sends a content security policy that forbids inline script', function (): vo
 });
 
 it('keeps the public surface free of unsafe-eval', function (): void {
-    foreach (['/', '/docs', '/api/v1/health'] as $path) {
+    // The reporter routes are on this list now. They run Alpine's CSP build,
+    // which evaluates no expressions at all — so the pages that accept input
+    // from the public get the strict policy rather than the relaxed one.
+    foreach (['/', '/docs', '/api/v1/health', '/report', '/offline'] as $path) {
         $policy = $this->get($path)->headers->get('Content-Security-Policy');
 
         expect($policy)->not->toContain('unsafe-eval', "{$path} should not permit eval");
     }
 });
 
-it('permits eval only where Alpine needs it', function (): void {
-    // Alpine compiles x- expressions with new Function(). Without this the
-    // reporter does not start at all — which is how it was discovered, when
-    // every one of its end-to-end tests failed at once.
-    expect($this->get('/report')->headers->get('Content-Security-Policy'))
+it('permits eval only where a dependency compiles expressions at runtime', function (): void {
+    // What is left is Filament and Horizon: not code written here, both behind
+    // authentication, and neither changeable without replacing the framework
+    // that renders them.
+    expect($this->get('/admin')->headers->get('Content-Security-Policy'))
         ->toContain("script-src 'self' 'unsafe-eval'");
 });
 

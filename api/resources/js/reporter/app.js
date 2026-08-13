@@ -14,7 +14,32 @@
 
 import { counts, enqueue, flush, requestBackgroundSync, reporterRef } from './queue.js';
 
-export default function reporter(config) {
+/**
+ * Configuration and translated strings, read from a JSON block in the page.
+ *
+ * Not passed as an `x-data` argument any more. Alpine's CSP build evaluates no
+ * expressions at all, so `x-data="reporter({...})"` is a call it cannot make —
+ * and the whole point of that build is that the page needs no `unsafe-eval`.
+ * A `<script type="application/json">` element is inert data rather than script,
+ * so it carries the same values without widening the policy.
+ */
+function pageConfig() {
+    const element = document.getElementById('reporter-config');
+
+    return element ? JSON.parse(element.textContent) : {};
+}
+
+export default function reporter() {
+    const config = pageConfig();
+    const strings = config.strings ?? {};
+
+    /** Substitutes `:name` placeholders, the same convention the PHP side uses. */
+    const line = (key, values = {}) =>
+        Object.entries(values).reduce(
+            (text, [name, value]) => text.replace(`:${name}`, value),
+            strings[key] ?? '',
+        );
+
     return {
         // --- catalogue, cached for offline use ---
         country: config.country ?? null,
@@ -116,18 +141,98 @@ export default function reporter(config) {
             }
         },
 
+        /*
+        |----------------------------------------------------------------------
+        | Everything the template used to work out for itself
+        |----------------------------------------------------------------------
+        |
+        | Under the CSP build a template may reference a property or call a
+        | method by name, and nothing else — no ternaries, no `||`, no string
+        | concatenation. So every derived value a view needs is computed here.
+        |
+        | This is more code and better placed: the reasoning is now next to the
+        | state it depends on rather than spread across markup, and it is
+        | reachable from a test.
+        */
+
+        get statusLabel() {
+            return this.online ? line('status_online') : line('status_offline');
+        },
+
+        get statusClass() {
+            return this.online ? 'reporter__status is-online' : 'reporter__status is-offline';
+        },
+
+        get hasQueued() {
+            return this.queue.pending > 0 || this.queue.syncing > 0;
+        },
+
+        get hasFailed() {
+            return this.queue.failed > 0;
+        },
+
+        get pendingLabel() {
+            return line('queue_pending', { count: this.queue.pending + this.queue.syncing });
+        },
+
+        get failedLabel() {
+            return line('queue_failed', { count: this.queue.failed });
+        },
+
+        get flashClass() {
+            return `reporter__flash is-${this.flashKind}`;
+        },
+
+        get currencyLabel() {
+            return this.country?.currency?.symbol || this.country?.currency?.code || '';
+        },
+
+        get submitLabel() {
+            return this.busy ? line('saving') : line('submit');
+        },
+
+        get submitDisabled() {
+            return !this.canSubmit;
+        },
+
+        get reporterLabel() {
+            return line('reporter_id', { id: this.reporterId });
+        },
+
+        get showItemList() {
+            return this.itemQuery.length > 0 || this.itemCode === '';
+        },
+
+        /** Locations carrying the label the template used to derive. */
+        get locationOptions() {
+            return this.locations.map((location) => ({
+                ...location,
+                label: location.name_local || location.name,
+            }));
+        },
+
         get filteredItems() {
             const query = this.itemQuery.trim().toLowerCase();
 
-            if (query === '') {
-                return this.items;
-            }
+            const matches =
+                query === ''
+                    ? this.items
+                    : this.items.filter(
+                          (item) =>
+                              (item.name_local ?? '').toLowerCase().includes(query) ||
+                              (item.name_en ?? '').toLowerCase().includes(query),
+                      );
 
-            return this.items.filter(
-                (item) =>
-                    (item.name_local ?? '').toLowerCase().includes(query) ||
-                    (item.name_en ?? '').toLowerCase().includes(query),
-            );
+            // Selection state is baked in rather than compared in the template,
+            // and recomputes with `itemCode` because this is a getter.
+            return matches.map((item) => ({
+                ...item,
+                label: item.name_local || item.name_en,
+                className:
+                    item.code === this.itemCode
+                        ? 'item-list__button is-selected'
+                        : 'item-list__button',
+            }));
         },
 
         get selectedItem() {
@@ -143,7 +248,19 @@ export default function reporter(config) {
             );
         },
 
-        selectItem(item) {
+        /**
+         * @param {Event} event the click; CSP handlers are method references
+         *                      rather than calls, so the item arrives as a data
+         *                      attribute on the button rather than an argument.
+         */
+        selectItem(event) {
+            const code = event.currentTarget?.dataset?.code;
+            const item = this.items.find((candidate) => candidate.code === code);
+
+            if (! item) {
+                return;
+            }
+
             this.itemCode = item.code;
             this.itemQuery = '';
             this.unit = item.unit;

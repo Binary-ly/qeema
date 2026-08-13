@@ -43,21 +43,20 @@ test.beforeEach(async ({ page }) => {
     await page.goto('/report?locale=en');
     await expect(page.locator('.item-list__button').first()).toBeVisible();
 
-    // A service worker does not control the page that registered it — it takes
-    // over on the next navigation. So the app genuinely must be opened once
-    // with a connection before it can survive losing one, and the setup here
-    // mirrors that rather than papering over it. The UI says as much when no
-    // cached catalogue exists ("Connect once to set up").
-    await page.waitForFunction(
-        async () => {
-            const registration = await navigator.serviceWorker?.getRegistration();
-            return registration?.active != null;
-        },
-        null,
-        { timeout: 20_000 },
-    );
-
-    await page.reload();
+    // The app must genuinely be opened once with a connection before it can
+    // survive losing one, which is what this setup establishes. The UI says as
+    // much when no cached catalogue exists ("Connect once to set up").
+    //
+    // Wait for the worker to be *controlling*, which is the condition every
+    // test here actually depends on. It claims existing clients on activate, so
+    // it takes over this page without a navigation.
+    //
+    // This previously waited for `registration.active` and then reloaded. Both
+    // steps were wrong together: `active` is already set while the worker is
+    // still in `activating`, so the wait could pass early, and the reload then
+    // raced the claim it had not waited for. That is the intermittent failure
+    // that went undiagnosed for weeks — reproduced locally at roughly two runs
+    // in three, and gone once the reload is removed.
     await page.waitForFunction(() => navigator.serviceWorker.controller != null, null, {
         timeout: 20_000,
     });

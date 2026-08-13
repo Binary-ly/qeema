@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-import Alpine from 'alpinejs';
+// Alpine's CSP build: it evaluates no expressions, so the reporter routes need
+// no 'unsafe-eval' in their script-src. The cost is that templates may only
+// reference properties and methods by name, which is why every derived value
+// lives in the component rather than in the markup.
+import Alpine from '@alpinejs/csp';
 import reporter from './reporter/app.js';
 
-// Registered before Alpine starts so x-data="reporter(...)" resolves on the
-// first paint rather than flashing an unbound template.
+// Registered before Alpine starts so x-data="reporter" resolves on the first
+// paint rather than flashing an unbound template.
 Alpine.data('reporter', reporter);
 
 window.Alpine = Alpine;

@@ -2372,3 +2372,56 @@ demo's own published index contains known-bad prices and can show sharp one-week
 spikes. That is the review queue earning its place rather than the model failing,
 and it is now written down in `operations.md` so it is not mistaken for the
 latter by somebody evaluating the platform.
+
+## Phase 17 — the reporter runs under a strict policy, and the flaky test is explained
+
+### `unsafe-eval` is gone from every route the public touches
+
+Alpine compiles `x-` expressions with `new Function()`, so a strict `script-src`
+does not degrade an Alpine app — it stops it starting. The reporter now runs on
+Alpine's CSP build, which evaluates nothing: a template may name a property or a
+method and nothing else.
+
+That meant moving every derived value out of the markup and into the component —
+eleven expressions, including a ternary on connectivity, two `.replace()` calls
+for counts, `||` fallbacks for localised names, an object-literal `:class`, and
+`selectItem(item)` inside an `x-for`, which CSP forbids because event bindings are
+method references rather than calls. The item now travels to the handler as a
+data attribute. Configuration moved from an `x-data` argument — itself a call the
+CSP build cannot make — into a `<script type="application/json">` block, which is
+inert data rather than script and so needs no widening of the policy.
+
+The result is better placed as well as safer: the reasoning now sits next to the
+state it depends on rather than spread across markup, and it is reachable from a
+test.
+
+`/report` and `/offline` now serve `script-src 'self'`, verified live. What is
+left is the admin panel and Horizon — Filament and its dependencies rather than
+code written here, both behind authentication. The security test now walks the
+reporter routes alongside the public ones and fails if any permits `eval`.
+
+### The flaky test was the test, and it is fixed
+
+It reproduced locally at roughly two runs in three, which is the first time it
+has been reproducible at all — for weeks it had only ever appeared under CI load.
+
+The setup waited for `registration.active` and then reloaded. Both steps were
+wrong together. `registration.active` is already set while a worker is still in
+`activating`, so the wait could pass early; the reload then raced the
+`clients.claim()` it had not waited for, and the following wait for
+`navigator.serviceWorker.controller` timed out at 20 seconds.
+
+The reload was also unnecessary. Its comment said a worker "does not control the
+page that registered it", which stopped being true the moment the worker started
+claiming clients on activate — the comment described the default behaviour rather
+than this worker's. Waiting directly for the worker to be *controlling* is both
+the condition every test actually depends on and free of the race.
+
+Eleven consecutive clean runs afterwards, and the file went from 28–32 seconds to
+6–9, because most of that time had been the racing wait. The full browser suite
+is 28 passed with nothing flaky.
+
+Diagnosed first, twice: before touching the test I confirmed the reporter itself
+was sound under the CSP build — no console errors, Alpine loaded, fifteen items
+rendering, worker controlling — because a genuine regression and an old flake
+look identical in a failure list, and I had just changed that exact file.
