@@ -2504,3 +2504,19 @@ year of backfill would be about 2.6 hours — fine nightly, far too slow in fron
 of a user. `index/current` across 117 locations answers in 322 ms.
 
 Those are the first performance figures this platform has ever had.
+
+### A test that could only fail on Linux
+
+`it ships corpora whose item codes all exist in their country file` derived an
+uppercase country code from the corpus filename and then read
+`countries/LY.yaml`. The file on disk is `ly.yaml`.
+
+It passed locally on every run, because macOS resolves that path
+case-insensitively, and failed the moment CI ran it on Linux. The local suite was
+not wrong about the code; it was wrong about the filesystem.
+
+Worth recording because it is the one class of failure a green local run cannot
+rule out, and the fix is not "remember to be careful" — it is to use the name as
+it exists on disk rather than reconstructing it, which the test now does, and to
+assert the file is there so the next such mistake fails with a sentence rather
+than an ErrorException.

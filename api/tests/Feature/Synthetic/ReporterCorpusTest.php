@@ -113,8 +113,16 @@ it('ships corpora whose item codes all exist in their country file', function ()
     $normalizer = new TextNormalizer;
 
     foreach (glob(base_path('../countries/corpus/*.json')) ?: [] as $path) {
-        $code = strtoupper(pathinfo($path, PATHINFO_FILENAME));
-        $yaml = (string) file_get_contents(base_path("../countries/{$code}.yaml"));
+        // The country file is lowercase on disk. Deriving an uppercase code and
+        // reading it back passed on a case-insensitive macOS filesystem and
+        // failed on Linux, which is where CI runs.
+        $slug = pathinfo($path, PATHINFO_FILENAME);
+        $code = strtoupper($slug);
+        $yamlPath = base_path("../countries/{$slug}.yaml");
+
+        expect(is_file($yamlPath))->toBeTrue("no country file for corpus {$slug}");
+
+        $yaml = (string) file_get_contents($yamlPath);
 
         $corpus = ReporterCorpus::forCountry($code, dirname($path));
 
