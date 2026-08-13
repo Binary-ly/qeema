@@ -2234,3 +2234,34 @@ do not drift; but it does mean a link factor measured on a day with imputed item
 carries that estimate's error permanently. Recorded in `docs/assessment.md` under
 what is not built, since choosing a well-observed link date is left to the
 operator rather than enforced.
+
+### The level is now asserted on a fresh install
+
+CI going green on the chain-linking commit did not actually prove chain-linking
+works on a new deployment. The compose job boots the whole stack from scratch,
+but nothing in the browser suite looked at `index.level` — so if anchoring
+stopped happening during bootstrap, the API would keep answering, the dashboard
+would keep rendering, every gate would stay green, and every published figure
+would quietly lose the one number that survives a basket revision.
+
+That is the same failure this phase existed to remove, one level up: a feature
+reachable in principle and unwatched in practice. `public-surface.spec.ts` now
+asserts a non-null, finite, positive level for every location in a country's
+current index, with a failure message naming the command that was missed.
+
+Verified by mutation rather than assumed: with `index_level` nulled across all
+992 snapshots the test fails, and passes again once they are recomputed.
+
+A fresh `qeema:bootstrap --force --fresh` was run end to end to confirm the
+ordering holds on a first install — anchors before computation, both countries:
+
+```
+Anchoring baskets for LY...  16 location(s) anchored via base_period.
+Computing the index for LY...  Computed 496 snapshot(s).
+Anchoring baskets for VE...  16 location(s) anchored via base_period.
+Computing the index for VE...  Computed 496 snapshot(s).
+```
+
+992 of 992 snapshots carried a level afterwards. Draining those same 992 through
+the stale queue also confirmed the route `ChainLinker` relies on: marking a
+snapshot for recomputation does lead to a level appearing, without a republish.

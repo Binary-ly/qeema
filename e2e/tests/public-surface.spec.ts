@@ -137,6 +137,28 @@ test.describe('the public API', () => {
         }
     });
 
+    test('publishes a chain-linked level, not only a basket cost', async ({ request }) => {
+        // A fresh install has to anchor its baskets during bootstrap for this to
+        // be non-null. Nothing else in this suite would notice if that step
+        // stopped running: the API would keep answering, the dashboard would
+        // keep rendering, and every published figure would quietly lose the one
+        // number that is comparable across a basket revision.
+        const current = await (await request.get('/api/v1/countries/LY/index/current')).json();
+
+        expect(current.data.length).toBeGreaterThan(0);
+
+        for (const snapshot of current.data) {
+            expect(
+                snapshot.index.level,
+                `${snapshot.location.slug} has no index level; was qeema:index:link run?`,
+            ).not.toBeNull();
+
+            expect(snapshot.index.level).toBeGreaterThan(0);
+            expect(Number.isFinite(snapshot.index.level)).toBe(true);
+            expect(snapshot.index.basket_version).toBeGreaterThanOrEqual(1);
+        }
+    });
+
     test('tells a consumer when a figure may not be compared', async ({ request }) => {
         const body = await (await request.get('/api/v1/countries/LY/index/current')).json();
 
