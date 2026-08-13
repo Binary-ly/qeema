@@ -129,7 +129,7 @@ restate every figure already published behind it.
 
 | Gate | Result |
 |---|---|
-| PHP suite (Pest) | 652 passed, 1 skipped, 2,343 assertions, **93.7%** coverage |
+| PHP suite (Pest) | 655 passed, 1 skipped, 2,349 assertions, **93.7%** coverage |
 | Python suite (pytest) | 224 passed, **85.4%** coverage |
 | Browser suite (Playwright) | 27 passed against the composed stack |
 | Static analysis (PHPStan level 6) | 0 errors |

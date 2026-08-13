@@ -2265,3 +2265,64 @@ Computing the index for VE...  Computed 496 snapshot(s).
 992 of 992 snapshots carried a level afterwards. Draining those same 992 through
 the stale queue also confirmed the route `ChainLinker` relies on: marking a
 snapshot for recomputation does lead to a level appearing, without a republish.
+
+## Phase 16 — pilot readiness
+
+### The exchange rate question, answered against C1
+
+`fulus.ly` was raised as a parallel-rate source for Libya. Its own OpenAPI spec
+settles whether it can be one: every endpoint is `bearerAuth`, `403 No active
+subscription` is a documented global error, and the tiers are Free (USD only),
+Basic and Pro. A keyed, subscription-gated commercial service in the runtime path
+is exactly what C1 forbids, so Qeema cannot depend on it — and it is operated by
+Binary Tech Ltd, who also wrote this platform, which is a second reason to be
+careful rather than casual about how it appears here.
+
+The platform already had the right shape for this and `assessment.md` already
+said so: it reads any JSON endpoint an operator configures and ships with none
+configured. So `deployment.md` now carries it as a **worked example** — labelled
+as commercial, keyed, third-party, with the authorship relationship disclosed in
+the same paragraph — while manual entry stays the default and nothing depends on
+it. No code was needed; the existing `GenericHttpFxProvider` consumes it as-is.
+
+Three tests hold the documented configuration to the response shape the service
+publishes, because a configuration that is documented but does not parse is worse
+than none — it is followed confidently. They assert the dot paths resolve, that
+the token is sent verbatim (so a bearer scheme lives in the environment variable,
+which is what the document tells an operator to do), and that a 403 withholds a
+rate rather than inventing one. No network call and no key: the point is that the
+configuration is right, not that the service is up.
+
+### The Arabic surface
+
+Reviewed rather than assumed. Key parity is exact across `en`, `ar` and `es` —
+24 reporter strings and 51 dashboard strings, none missing, none orphaned. Text
+direction is derived from the language subtag rather than a per-country flag, so
+the locale toggle flips it correctly, and Libya defaults to `ar`.
+
+One genuine defect. Counts are interpolated in the browser
+(`.replace(':count', …)`), so `trans_choice` never runs and **the app has no
+plural mechanism in any language** — English hides this behind `price(s)`. Two of
+the four count strings attach a counted noun, which Arabic inflects by count:
+`تم إرسال 3 سعر` should be `أسعار`, and `3 إدخال يحتاج` should be `إدخالات
+تحتاج`. The other two were written to avoid attaching a noun to the number, which
+is the robust strategy and appears deliberate.
+
+Not fixed unilaterally: the repair is a wording decision in a language whose
+register — Modern Standard against Libyan colloquial — is the project owner's
+call, not a translator's.
+
+### A pilot runbook
+
+`docs/pilot.md`. Deployment covers installing it and operations covers keeping it
+running; neither covers the first weeks with real reporters, which is where the
+project's largest gap actually closes.
+
+The section that matters most is the one on turning a pilot into evidence. Every
+ML figure the project claims was measured against a simulation, and a pilot
+replaces those numbers only if somebody deliberately captures the ground truth:
+review-queue decisions are a labelled matching test set; flagged prices that turn
+out genuine are real anomaly precision; a location held out of training for a
+fortnight is a real nowcast backtest. It also says plainly that the manipulation
+figures cannot be validated by a pilot unless somebody actually attempts
+manipulation, and must not be claimed otherwise.

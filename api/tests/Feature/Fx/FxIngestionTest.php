@@ -317,3 +317,95 @@ describe('who wins when two sources disagree', function (): void {
             ->and($resolved->isStale)->toBeTrue();
     });
 });
+
+describe('the worked example in the deployment guide', function (): void {
+    /*
+    | `docs/deployment.md` writes out one real endpoint in full, because
+    | "find a parallel-rate source" is the hardest part of deploying this and
+    | `example.org` helps nobody. A documented configuration that does not
+    | actually parse is worse than none — it is followed confidently — so the
+    | dot paths in that document are checked against the response shape the
+    | service publishes in its own OpenAPI spec.
+    |
+    | No network call and no key: the point is that the *configuration* is
+    | right, not that the service is up.
+    */
+
+    it('parses the response shape the documented config describes', function (): void {
+        CarbonImmutable::setTestNow('2026-08-13 09:00:00');
+
+        Http::fake([
+            '*' => Http::response([
+                'data' => [
+                    'currency' => 'USD',
+                    'rate' => 6.85,
+                    'timestamp' => '2026-08-12T14:23:45+02:00',
+                ],
+            ], 200),
+        ]);
+
+        $country = countryWithFx([
+            'provider' => 'generic_http',
+            'base_currency' => 'USD',
+            'rate_type' => 'parallel',
+            'max_staleness_days' => 7,
+            'config' => [
+                'url' => 'https://fulus.ly/api/v1/rates/current?currency=USD',
+                'parallel_path' => 'data.rate',
+                'date_path' => 'data.timestamp',
+                'auth_header' => 'Authorization',
+                'auth_token_env' => 'QEEMA_FX_TOKEN',
+            ],
+        ]);
+
+        $quote = app(FxProviderRegistry::class)->for($country)->fetch($country, CarbonImmutable::now());
+
+        expect($quote)->not->toBeNull()
+            ->and($quote->parallelRate)->toBe(6.85)
+            // Dated by the source, not by the day it was fetched. A rate that
+            // silently claims today's date is how a stale figure escapes the
+            // staleness check.
+            ->and($quote->date->toDateString())->toBe('2026-08-12')
+            ->and($quote->baseCurrency)->toBe('USD');
+    });
+
+    it('sends the token verbatim, so a bearer scheme lives in the environment', function (): void {
+        putenv('QEEMA_FX_TOKEN=Bearer test-token');
+
+        Http::fake(['*' => Http::response(['data' => ['rate' => 6.85]], 200)]);
+
+        $country = countryWithFx([
+            'provider' => 'generic_http',
+            'config' => [
+                'url' => 'https://fulus.ly/api/v1/rates/current?currency=USD',
+                'parallel_path' => 'data.rate',
+                'auth_header' => 'Authorization',
+                'auth_token_env' => 'QEEMA_FX_TOKEN',
+            ],
+        ]);
+
+        app(FxProviderRegistry::class)->for($country)->fetch($country, CarbonImmutable::now());
+
+        // The documented `QEEMA_FX_TOKEN="Bearer …"` is what makes this work:
+        // the provider does not add a scheme of its own.
+        Http::assertSent(fn ($request) => $request->hasHeader('Authorization', 'Bearer test-token'));
+
+        putenv('QEEMA_FX_TOKEN');
+    });
+
+    it('withholds a rate rather than inventing one when the source refuses', function (): void {
+        // 403 is this service's documented answer to an expired subscription.
+        // An operator whose billing lapsed must not get a silently wrong figure.
+        Http::fake(['*' => Http::response(['message' => 'No active subscription'], 403)]);
+
+        $country = countryWithFx([
+            'provider' => 'generic_http',
+            'config' => [
+                'url' => 'https://fulus.ly/api/v1/rates/current?currency=USD',
+                'parallel_path' => 'data.rate',
+            ],
+        ]);
+
+        expect(app(FxProviderRegistry::class)->for($country)->fetch($country, CarbonImmutable::now()))->toBeNull();
+    });
+});

@@ -268,6 +268,48 @@ Then set `FX_API_TOKEN` in your environment and check it with:
 docker compose exec app php artisan qeema:fx:fetch --country=<ISO2>
 ```
 
+#### A worked example
+
+Finding a parallel-rate source is the hardest part of deploying this, so here is
+one written out in full. It is an example of the shape, not a recommendation and
+not a dependency.
+
+[Fulus](https://fulus.ly) publishes Libyan dinar parallel-market rates. It is a
+**commercial third-party service**: it requires an account, an API token and an
+active subscription, and its free tier covers USD only. It is operated by Binary
+Tech Ltd, who also wrote this platform — disclosed here so the relationship is
+visible rather than discovered.
+
+Nothing in Qeema ships configured against it, nothing depends on it, and it is
+named here only because a worked example of a real endpoint is more useful than
+`example.org`. Any other JSON source, or manual entry, works identically.
+
+```yaml
+fx:
+  provider: generic_http
+  base_currency: USD
+  rate_type: parallel
+  max_staleness_days: 7
+  config:
+    url: https://fulus.ly/api/v1/rates/current?currency=USD
+    parallel_path: data.rate            # {"data":{"currency":"USD","rate":6.85,…}}
+    date_path: data.timestamp
+    auth_header: Authorization
+    auth_token_env: QEEMA_FX_TOKEN
+```
+
+The token is used verbatim as the header value, so for a bearer scheme the
+environment variable includes the word:
+
+```bash
+QEEMA_FX_TOKEN="Bearer your-token-here"
+```
+
+Using a keyed commercial source is an operator's decision about their own
+deployment and does not change what the platform depends on. Qeema itself must
+keep working with no source at all, which is why manual entry stays the default
+and why the health check warns before a stale rate withdraws dollar figures.
+
 The fetch runs hourly. It refuses any URL that is not http/https, that carries
 credentials, or that resolves to a private, loopback or link-local address —
 which is what stops a configuration file being turned into a way to read the
