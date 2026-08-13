@@ -254,8 +254,13 @@ canonical_items:
     variants: [ماء, مياه, ماء شرب, مياه معدنية, قارورة ماء, water, drinking water, mineral water]
 
   # Not in basket v1. Present so the matcher can resolve them and an operator can
-  # add them to a v2 basket without touching code — which also exercises the
-  # basket-versioning and chain-linking path.
+  # add them to a v2 basket without touching code.
+  #
+  # The demo generator prices every catalogued item, not only basket members, so
+  # these accumulate observations from day one. That is what makes a v2 basket
+  # containing them chain-linkable at all: the linker costs both baskets on the
+  # day before the changeover and refuses to anchor one it cannot price in full,
+  # so without observations for these the link could never be established.
   - code: ballpoint_pen
     name_en: Ballpoint pen
     name_local: قلم جاف
@@ -352,3 +357,10 @@ demo:
     sanitary_pads_10: 12.0
     cooking_gas_11kg: 28.0
     drinking_water_20l: 6.0
+    # Catalogued but outside basket v1 (see the note on those items above).
+    # They carry reference prices because the generator prices every catalogued
+    # item, so that a v2 basket adding them can be chain-linked against days on
+    # which they were already being reported.
+    ballpoint_pen: 1.5
+    school_backpack: 45.0
+    bath_soap_bar: 3.5

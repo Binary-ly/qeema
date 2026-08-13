@@ -85,12 +85,24 @@ final class SyntheticDataGenerator
         $basket = $country->basketOn($startDate) ?? $country->baskets()->orderByDesc('version')->firstOrFail();
         $basketItems = $basket->items()->with('canonicalItem')->get();
 
+        // Every catalogued item, not only the ones in the current basket.
+        //
+        // A country file may catalogue an item deliberately ahead of putting it
+        // in a basket — `ly.yaml` does exactly that, and says so — because a
+        // basket revision can only be chain-linked if the new items were already
+        // being reported on the link date. Generating prices for basket items
+        // alone made that impossible: the reserved items had zero observations,
+        // so a v2 basket containing them could never be priced in full and the
+        // linker would correctly refuse to anchor it.
+        //
+        // The index sums basket items only, so this changes no published figure.
+        // It changes what a revision can be demonstrated against.
         /** @var array<string, CanonicalItem> $itemsByCode */
         $itemsByCode = [];
         /** @var array<string, string> $categories */
         $categories = [];
-        foreach ($basketItems as $entry) {
-            $item = $entry->canonicalItem;
+
+        foreach ($country->canonicalItems()->where('is_active', true)->get() as $item) {
             $itemsByCode[$item->code] = $item;
             $categories[$item->code] = $item->category;
         }
@@ -230,8 +242,11 @@ final class SyntheticDataGenerator
                         item: $item,
                         reporter: $reporter,
                         source: $source,
-                        unit: $units[$quantityByItem[$code]->unit_code] ?? $units->first(),
-                        basketQuantity: (float) $quantityByItem[$code]->quantity,
+                        // A catalogued item outside the basket has no basket
+                        // entry to take a unit or quantity from, so it falls
+                        // back to the catalogue's own defaults.
+                        unit: $units[$quantityByItem[$code]->unit_code ?? $item->default_unit_code] ?? $units->first(),
+                        basketQuantity: (float) ($quantityByItem[$code]->quantity ?? $item->default_quantity),
                         truePrice: $truePrice,
                         observedPrice: $process->observedPrice($truePrice),
                         date: $date,

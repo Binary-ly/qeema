@@ -329,6 +329,15 @@ Not faults, and worth knowing so nobody spends an afternoon on them:
 - **`coverage` below 1.0.** Part of the basket has neither an observation nor a
   usable estimate. The weight counts against coverage rather than the item being
   quietly dropped.
+- **The demo's own index contains prices the detector flagged.** A `suspect`
+  verdict deliberately leaves an observation valid and asks a person to look,
+  because discarding on suspicion alone would silently drop the genuine supply
+  shocks this platform exists to measure. Nobody works the review queue in a
+  demo, so its published figures include flagged prices and a location can show
+  a sharp one-week spike that a reviewer would have caught. That is the queue
+  earning its place rather than the model failing: on the shipped demo data the
+  detector flags roughly 837 of the ~1,110 planted errors, and every one of them
+  waits for a human who never arrives.
 - **Submissions in the review queue at 0.8 confidence.** The matcher was fairly
   sure and not sure enough. Refusing to guess is the design.
 - **A `duplicate` response to a submission.** A reporter's phone replaying its

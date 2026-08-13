@@ -2326,3 +2326,49 @@ out genuine are real anomaly precision; a location held out of training for a
 fortnight is a real nowcast backtest. It also says plainly that the manipulation
 figures cannot be validated by a pilot unless somebody actually attempts
 manipulation, and must not be claimed otherwise.
+
+### The demo can now demonstrate the revision its own config promises
+
+`ly.yaml` catalogues three items outside basket v1 and said they were there so a
+v2 basket could exercise "the basket-versioning and chain-linking path". That was
+not true. The generator priced basket members only, so those items had **zero**
+observations — a v2 basket containing them could never be priced in full, the
+linker would rightly refuse to anchor it, and the sentence described an intention
+rather than a behaviour.
+
+The generator now prices every catalogued item. The index sums basket members
+only, so no published figure changes; what changes is what a revision can be
+demonstrated against. Reference prices were added for the three, or they would
+have defaulted to 1.0 and produced nonsense.
+
+Verified by doing it. On a fresh reseed the three items carried 755, 700 and 688
+observations, and a v2 basket adding all three chain-linked cleanly:
+
+```
+LY: 18 basket item(s).
+1 | 2026-01-01 | 2026-08-09 | 15 items
+2 | 2026-08-10 |            | 18 items
+LY basket v2: 16 location(s) anchored via chained (country factor 1.0275).
+```
+
+Level under v1 and level under v2 agree to four decimal places at every one of
+the 16 locations. The comment in `ly.yaml` now describes what the code does.
+
+### Why the demo index contains prices the detector flagged
+
+Chasing an implausible figure found something worth writing down. One location
+showed a weekly basket cost of 10,610 against ~3,150 either side of it — a level
+of 403 where every other location sat near 120.
+
+It was not a chain-linking artefact and not a modelling failure. It was a planted
+`decimal_slip` — eggs at 276 against a reference of 24 — carrying an anomaly
+score of `suspect`, which **deliberately leaves the observation valid** and asks a
+human to look, because discarding on suspicion alone would silently drop the
+genuine supply shocks this platform exists to measure.
+
+On the shipped demo data the detector flags 837 of roughly 1,110 planted errors.
+Every one of them then waits for a reviewer who does not exist in a demo, so the
+demo's own published index contains known-bad prices and can show sharp one-week
+spikes. That is the review queue earning its place rather than the model failing,
+and it is now written down in `operations.md` so it is not mistaken for the
+latter by somebody evaluating the platform.

@@ -64,7 +64,12 @@ describe('the generated dataset', function () {
         ['country' => $country, 'summary' => $summary] = generateDemo();
 
         $locations = $country->locations()->count();
-        $items = $country->baskets()->orderByDesc('version')->firstOrFail()->items()->count();
+
+        // Every catalogued item, not only the ones in the current basket. A
+        // country may catalogue an item ahead of basketing it — which is the
+        // only way a later basket revision can be chain-linked, since the
+        // linker has to price the new basket on a day before it took effect.
+        $items = $country->canonicalItems()->where('is_active', true)->count();
 
         expect($summary->groundTruthCells)->toBe($locations * $items * $summary->days)
             ->and(DB::table('qeema_eval.gt_prices')->count())->toBe($summary->groundTruthCells)
@@ -371,4 +376,29 @@ describe('the answer key stays private', function () {
             ->and($columns)->not->toContain('is_erroneous')
             ->and($columns)->not->toContain('is_manipulated');
     });
+});
+
+it('prices catalogued items that are not in the basket', function () {
+    // `ly.yaml` catalogues three items outside basket v1 and says they are
+    // there so a v2 basket can be chain-linked. That was not true while the
+    // generator priced basket members only: those items had no observations, a
+    // v2 basket containing them could never be priced in full, and the linker
+    // would rightly refuse to anchor it. The comment described an intention
+    // rather than a behaviour.
+    ['country' => $country] = generateDemo();
+
+    $basketItemIds = $country->baskets()->orderByDesc('version')->firstOrFail()
+        ->items()->pluck('canonical_item_id');
+
+    $unbasketed = $country->canonicalItems()
+        ->where('is_active', true)
+        ->whereNotIn('id', $basketItemIds)
+        ->pluck('id');
+
+    expect($unbasketed)->not->toBeEmpty();
+
+    foreach ($unbasketed as $id) {
+        expect(PriceObservation::query()->where('canonical_item_id', $id)->count())
+            ->toBeGreaterThan(0);
+    }
 });
