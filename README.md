@@ -143,6 +143,7 @@ drift from what the real Python service returns.
 | [docs/assessment.md](docs/assessment.md) | **What is proven, what is measured only against a simulation, and what is not built** |
 | [docs/operations.md](docs/operations.md) | Running it: what happens on its own, and what to do when it stops |
 | [docs/pilot.md](docs/pilot.md) | Running a first pilot: the first weeks with real reporters, and how to turn them into evidence |
+| [docs/scale-testing.md](docs/scale-testing.md) | Testing at millions of rows, and against reporter text the matcher was not tuned on |
 | [PLAN.md](PLAN.md) | Technical plan, schema, formulas, decision log |
 | [PROGRESS.md](PROGRESS.md) | Current build state, honestly reported |
 | [docs/adr/](docs/adr/) | Architecture decision records |

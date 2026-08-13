@@ -24,19 +24,47 @@ final class RawTextGenerator
 
     private const NOISE_SUFFIXES = ['', '', '', ' اليوم', ' بالسوق', ' محلي', ' imported', ''];
 
-    public function __construct(private readonly Randomizer $randomizer) {}
+    /**
+     * How often a wording is taken from the corpus rather than from the
+     * catalogue, when a corpus exists.
+     *
+     * Not 1.0 on purpose. Some people do type something close to the catalogue
+     * name, and a corpus-only stream would be its own kind of unrealistic — the
+     * mirror image of the problem it exists to fix.
+     */
+    private const CORPUS_SHARE = 0.75;
+
+    public function __construct(
+        private readonly Randomizer $randomizer,
+        private readonly ReporterCorpus $corpus = new ReporterCorpus,
+    ) {}
 
     /**
      * Generate one submission's raw text for an item.
      *
      * @param  list<string>  $variants  known spellings from the country config
+     * @param  string  $itemCode  used to look up corpus wordings; optional so
+     *                            existing callers and the shipped demo are
+     *                            unaffected
      */
-    public function generate(string $canonicalName, array $variants): string
+    public function generate(string $canonicalName, array $variants, string $itemCode = ''): string
     {
-        $pool = array_values(array_filter([$canonicalName, ...$variants]));
-        $base = $pool[$this->randomizer->getInt(0, count($pool) - 1)];
+        $catalogue = array_values(array_filter([$canonicalName, ...$variants]));
+        $fromCorpus = $itemCode === '' ? [] : $this->corpus->phrasingsFor($itemCode);
 
-        $text = $base;
+        // The catalogue pool is what the matcher already knows: these are the
+        // variants indexed for lexical search, so a submission drawn from them
+        // is close to a gimme. The corpus pool is not — nothing in it was
+        // derived from the catalogue by a rule the matcher shares.
+        $pool = $fromCorpus !== [] && $this->chance(self::CORPUS_SHARE)
+            ? $fromCorpus
+            : $catalogue;
+
+        if ($pool === []) {
+            return '';
+        }
+
+        $text = $pool[$this->randomizer->getInt(0, count($pool) - 1)];
 
         // Reintroduce hamza on a bare alef: reporters type both ways, and the
         // normaliser has to fold them back together.
@@ -54,11 +82,11 @@ final class RawTextGenerator
         }
 
         if ($this->chance(0.20)) {
-            $text = $this->pick(self::NOISE_PREFIXES).$text;
+            $text = $this->pick($this->prefixPool()).$text;
         }
 
         if ($this->chance(0.20)) {
-            $text .= $this->pick(self::NOISE_SUFFIXES);
+            $text .= $this->pick($this->suffixPool());
         }
 
         // Doubled or missing spaces.
@@ -67,6 +95,26 @@ final class RawTextGenerator
         }
 
         return trim($text);
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function prefixPool(): array
+    {
+        $fromCorpus = $this->corpus->prefixes();
+
+        return $fromCorpus === [] ? self::NOISE_PREFIXES : $fromCorpus;
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function suffixPool(): array
+    {
+        $fromCorpus = $this->corpus->suffixes();
+
+        return $fromCorpus === [] ? self::NOISE_SUFFIXES : $fromCorpus;
     }
 
     /** Replace a bare alef with a hamza-carrying form. */

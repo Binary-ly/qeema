@@ -2425,3 +2425,82 @@ Diagnosed first, twice: before touching the test I confirmed the reporter itself
 was sound under the CSP build — no console errors, Alpine loaded, fifteen items
 rendering, worker controlling — because a genuine regression and an old flake
 look identical in a failure list, and I had just changed that exact file.
+
+## Phase 18 — a harder corpus, and the first measurements above 21,000 rows
+
+Twenty agents authored a reporter-text corpus; the deterministic generator turns
+it into millions of rows. The split matters: generating text at run time would
+put a hosted model in the runtime path, which C1 forbids and which would stop
+`docker compose up` working on a clean machine. So the corpus is committed data
+under `countries/corpus/`, and nothing at run time calls anything.
+
+### What it is for
+
+Not validation. Nothing here converts a figure measured against a simulation into
+a figure measured against a market, and `docs/assessment.md` was not touched. The
+corpus is model-authored, so its realism is asserted rather than measured.
+
+It answers what the demo cannot. **Scale**: nothing had tested this platform above
+~21,000 rows. And **text the matcher was not tuned against** — the subtle one.
+`RawTextGenerator` mutates catalogue names by reintroducing hamza, switching to
+Arabic-Indic digits and inserting typos, which are precisely the transformations
+the matcher's normaliser undoes. Both were written from one list. A score measured
+against that text is substantially a measure of whether the normaliser was
+implemented correctly.
+
+Measured rather than argued: every Libyan phrasing was passed through the
+platform's own `TextNormalizer` and compared by trigram similarity against every
+known variant of the correct item. **85.2% score below 0.2** — unreachable by
+lexical matching at all — while 10.7% are exact matches to a catalogued variant.
+The distribution is bimodal: already known, or nowhere near. That is the property
+that makes it a harder test, and it is a fact about the data.
+
+### The demo is untouched
+
+The corpus is used only when a caller passes one. `qeema:bootstrap` produces
+exactly what it always did, and the synthetic suite still passes with the same
+assertion count.
+
+### What the adversarial review found
+
+Two review agents were given the corpus. One of them, handed an empty sample
+through a mistake in the workflow arguments, **refused to review rather than
+invent findings** — the correct response, and worth recording.
+
+The substantive finding was structural rather than a list of bad rows: the codes
+are category labels but the phrasings under them are SKU phrasings spanning very
+different price points. A new gas cylinder against a refill. Chicken breast
+fillet against whole chicken per kilo. A 10 kg crate against a kilo. A matcher
+scoring well on those has learned to collapse exactly the distinctions a price
+monitor exists to preserve — the corpus would reward the failure mode rather than
+catch it. Twenty-one Libyan and fourteen Venezuelan entries naming a plainly
+different product were deleted; the reviews also caught duplicate locations under
+different slugs, region names that would not group, and one classist phrasing.
+
+The review also caught a flaw in the method: the 80-line sample drawn for it was
+not stratified, holding ten notebook lines and no chicken entries at all — which
+is exactly where the densest cluster of mislabels was. The reviewer read the
+whole file instead and said so.
+
+What could not be fixed by deleting is recorded in the corpus files themselves
+and in `docs/scale-testing.md`: pack and carton wordings still sit against
+single-unit codes because there is no code to move them to; the corpus is
+recall-only, so precision cannot be measured from it at all; the distribution is
+flat where real traffic is Zipfian; there is no Arabizi; and no native speaker
+has read it.
+
+### The numbers
+
+A complete run of 42 locations x 18 items x 1,095 days produced 1,281,120
+submissions, 1,217,159 observations and 827,820 ground-truth rows in 9 min 51 s,
+about 5,700 rows a second. A larger run was interrupted at 101 locations and
+covers 721 of its days, which makes it useless for anything time-dependent and
+fine for measuring queries against a large table: 1,425,760 observations,
+1.9 GB, a 75,110-row review queue.
+
+Against that: index computation takes **26.2 s for one day across 117 locations**,
+roughly 224 ms per snapshot, dominated by the 500-draw bootstrap interval. A full
+year of backfill would be about 2.6 hours — fine nightly, far too slow in front
+of a user. `index/current` across 117 locations answers in 322 ms.
+
+Those are the first performance figures this platform has ever had.

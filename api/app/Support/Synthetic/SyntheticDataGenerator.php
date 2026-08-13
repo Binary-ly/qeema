@@ -77,8 +77,29 @@ final class SyntheticDataGenerator
      */
     public function generate(Country $country, array $demoConfig, ?callable $progress = null): GenerationSummary
     {
+        // Only when a caller passes one. Defaulting to whatever corpus file
+        // happens to exist would silently change what `qeema:bootstrap`
+        // produces, and with it every matching figure measured against the
+        // shipped demo. The corpus is a harder test that is asked for, not one
+        // that arrives by being on disk.
+        if (($demoConfig['corpus'] ?? null) instanceof ReporterCorpus) {
+            $this->textGenerator = new RawTextGenerator($this->randomizer, $demoConfig['corpus']);
+        }
+
         $months = (int) ($demoConfig['months'] ?? 6);
         $days = (int) round($months * 30.44);
+
+        // Scale knobs. All three default to the values the shipped demo has
+        // always used, so a country file that sets none of them generates
+        // exactly what it did before.
+        $days = max(1, (int) ($demoConfig['days'] ?? $days));
+        $observationRate = (float) ($demoConfig['observation_rate'] ?? self::OBSERVATION_RATE);
+
+        // How many different reporters may report the same item, in the same
+        // place, on the same day. One is thin: a real market has several people
+        // watching the same shelf, and it is that overlap the estimator, the
+        // anomaly screen and the reporter-bias detector all work from.
+        $reportsPerCell = max(1, (int) ($demoConfig['reports_per_cell'] ?? 1));
         $startDate = CarbonImmutable::today()->subDays($days - 1);
 
         $locations = $country->locations()->where('is_active', true)->get();
@@ -149,6 +170,8 @@ final class SyntheticDataGenerator
             blindSpots: $blindSpots,
             blackouts: $blackouts,
             manipulators: $manipulators,
+            observationRate: $observationRate,
+            reportsPerCell: $reportsPerCell,
             progress: $progress,
         );
     }
@@ -176,6 +199,8 @@ final class SyntheticDataGenerator
         array $fxPath,
         CarbonImmutable $startDate,
         int $days,
+        float $observationRate,
+        int $reportsPerCell,
         array $blindSpots,
         array $blackouts,
         array $manipulators,
@@ -225,7 +250,7 @@ final class SyntheticDataGenerator
                         continue;
                     }
 
-                    if ($process->randomizer()->getFloat(0.0, 1.0) > self::OBSERVATION_RATE) {
+                    if ($process->randomizer()->getFloat(0.0, 1.0) > $observationRate) {
                         continue;
                     }
 
@@ -234,48 +259,55 @@ final class SyntheticDataGenerator
                         continue;
                     }
 
-                    $reporter = $locationReporters[$this->randomizer->getInt(0, $locationReporters->count() - 1)];
+                    // Several reporters may cover the same cell. Each gets its
+                    // own draw from the observation process, so they disagree
+                    // the way real reporters do rather than echoing one number.
+                    $reportsHere = min($reportsPerCell, $locationReporters->count());
 
-                    $record = $this->buildSubmission(
-                        country: $country,
-                        location: $location,
-                        item: $item,
-                        reporter: $reporter,
-                        source: $source,
-                        // A catalogued item outside the basket has no basket
-                        // entry to take a unit or quantity from, so it falls
-                        // back to the catalogue's own defaults.
-                        unit: $units[$quantityByItem[$code]->unit_code ?? $item->default_unit_code] ?? $units->first(),
-                        basketQuantity: (float) ($quantityByItem[$code]->quantity ?? $item->default_quantity),
-                        truePrice: $truePrice,
-                        observedPrice: $process->observedPrice($truePrice),
-                        date: $date,
-                        fxRate: $fx,
-                        isManipulator: isset($manipulators[$reporter->id]),
-                    );
+                    for ($report = 0; $report < $reportsHere; $report++) {
+                        $reporter = $locationReporters[$this->randomizer->getInt(0, $locationReporters->count() - 1)];
 
-                    $submissions[] = $record['submission'];
-                    $groundTruthSubmissions[] = $record['ground_truth'];
-                    $counts['submissions']++;
+                        $record = $this->buildSubmission(
+                            country: $country,
+                            location: $location,
+                            item: $item,
+                            reporter: $reporter,
+                            source: $source,
+                            // A catalogued item outside the basket has no basket
+                            // entry to take a unit or quantity from, so it falls
+                            // back to the catalogue's own defaults.
+                            unit: $units[$quantityByItem[$code]->unit_code ?? $item->default_unit_code] ?? $units->first(),
+                            basketQuantity: (float) ($quantityByItem[$code]->quantity ?? $item->default_quantity),
+                            truePrice: $truePrice,
+                            observedPrice: $process->observedPrice($truePrice),
+                            date: $date,
+                            fxRate: $fx,
+                            isManipulator: isset($manipulators[$reporter->id]),
+                        );
 
-                    if ($record['ground_truth']['is_erroneous']) {
-                        $counts['erroneous']++;
-                    }
-                    if ($record['ground_truth']['is_manipulated']) {
-                        $counts['manipulated']++;
-                    }
+                        $submissions[] = $record['submission'];
+                        $groundTruthSubmissions[] = $record['ground_truth'];
+                        $counts['submissions']++;
 
-                    if ($record['resolution'] !== null) {
-                        $resolutions[] = $record['resolution'];
-                    }
-                    if ($record['observation'] !== null) {
-                        $observations[] = $record['observation'];
-                        $counts['observations']++;
-                    } else {
-                        $counts['review']++;
-                    }
-                    if ($record['anomaly'] !== null) {
-                        $anomalies[] = $record['anomaly'];
+                        if ($record['ground_truth']['is_erroneous']) {
+                            $counts['erroneous']++;
+                        }
+                        if ($record['ground_truth']['is_manipulated']) {
+                            $counts['manipulated']++;
+                        }
+
+                        if ($record['resolution'] !== null) {
+                            $resolutions[] = $record['resolution'];
+                        }
+                        if ($record['observation'] !== null) {
+                            $observations[] = $record['observation'];
+                            $counts['observations']++;
+                        } else {
+                            $counts['review']++;
+                        }
+                        if ($record['anomaly'] !== null) {
+                            $anomalies[] = $record['anomaly'];
+                        }
                     }
                 }
             }
@@ -369,7 +401,11 @@ final class SyntheticDataGenerator
             'reporter_id' => $reporter->id,
             'source_id' => $source->id,
             'ingestion_batch_id' => null,
-            'raw_text' => $this->textGenerator->generate($item->name_local ?? $item->name_en, $variants),
+            'raw_text' => $this->textGenerator->generate(
+                $item->name_local ?? $item->name_en,
+                $variants,
+                $item->code,
+            ),
             'raw_price' => $rawPrice,
             'currency_code' => $country->currency_code,
             'raw_unit' => $this->textGenerator->unitText($unit->code),
