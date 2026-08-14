@@ -7,6 +7,7 @@ declare(strict_types=1);
 use App\Models\Country;
 use App\Models\PriceObservation;
 use App\Models\Submission;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,4 +119,29 @@ it('produces more observations per cell when asked for more reporters', function
     // VE has fewer items than LY, so this is deliberately a loose check: the
     // claim is that the knob does something substantial, not an exact ratio.
     expect($both - $single)->toBeGreaterThan($single);
+});
+
+it('produces submissions that have no right answer at all', function (): void {
+    $this->artisan('qeema:config:import', ['--country' => 'ly'])->assertSuccessful();
+
+    $this->artisan('qeema:demo:scale', [
+        '--country' => 'LY',
+        '--days' => 20,
+        '--distractor-rate' => 0.9,
+    ])->assertSuccessful();
+
+    // Ground truth with a null item is the record that NO catalogue entry would
+    // have been correct. Without these rows a dataset can only measure recall.
+    $unmatchable = DB::table('qeema_eval.gt_submissions')->whereNull('true_canonical_item_id')->count();
+
+    expect($unmatchable)->toBeGreaterThan(0);
+
+    $ids = DB::table('qeema_eval.gt_submissions')
+        ->whereNull('true_canonical_item_id')->pluck('submission_id');
+
+    // They wait for a human and carry no resolution: nothing matched, which is a
+    // different state from having matched badly.
+    expect(Submission::query()->whereIn('id', $ids)->where('status', '!=', 'needs_review')->count())->toBe(0)
+        ->and(DB::table('resolutions')->whereIn('submission_id', $ids)->count())->toBe(0)
+        ->and(PriceObservation::query()->whereIn('submission_id', $ids)->count())->toBe(0);
 });

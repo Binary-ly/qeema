@@ -35,16 +35,32 @@ namespace App\Support\Synthetic;
 final class ReporterCorpus
 {
     /**
+     * Relative likelihood of the first few wordings of an item, by rank.
+     *
+     * Real reporter traffic is heavily skewed: a handful of wordings account for
+     * most of what arrives, and the long tail is genuinely rare. A corpus
+     * sampled uniformly — which is what this was — tests the tail far harder
+     * than reality does and the head far less, so a matcher can look good on it
+     * while failing on the phrasings that would actually constitute most
+     * traffic. Everything outside the head carries a weight of 1.
+     */
+    private const HEAD_WEIGHTS = [40, 20, 12, 8, 6, 4];
+
+    /**
      * @param  array<string, list<string>>  $phrasings  item code => wordings
      * @param  list<string>  $prefixes
      * @param  list<string>  $suffixes
      * @param  list<array<string, mixed>>  $locations
+     * @param  array<string, list<string>>  $heads  item code => dominant wordings, most common first
+     * @param  list<string>  $distractors  wordings that match no catalogue item at all
      */
     public function __construct(
         private readonly array $phrasings = [],
         private readonly array $prefixes = [],
         private readonly array $suffixes = [],
         private readonly array $locations = [],
+        private readonly array $heads = [],
+        private readonly array $distractors = [],
     ) {}
 
     public static function empty(): self
@@ -82,6 +98,8 @@ final class ReporterCorpus
             prefixes: self::strings($decoded['prefixes'] ?? []),
             suffixes: self::strings($decoded['suffixes'] ?? []),
             locations: is_array($decoded['locations'] ?? null) ? array_values($decoded['locations']) : [],
+            heads: self::phrasingMap($decoded['heads'] ?? null),
+            distractors: self::strings($decoded['distractors'] ?? []),
         );
     }
 
@@ -130,6 +148,68 @@ final class ReporterCorpus
     public function phrasingsFor(string $itemCode): array
     {
         return $this->phrasings[$itemCode] ?? [];
+    }
+
+    /**
+     * Wordings that belong to no catalogue item.
+     *
+     * Without these a dataset can only measure recall: every line is a labelled
+     * positive, so there is no way to see the failure that actually matters —
+     * a matcher confidently matching something it should have refused.
+     *
+     * @return list<string>
+     */
+    public function distractors(): array
+    {
+        return $this->distractors;
+    }
+
+    /**
+     * Weighted lists already built, by item code.
+     *
+     * Built once per item rather than per call. This is read on every generated
+     * submission, and rebuilding a forty-element list of pairs each time cost
+     * roughly a seventeen-fold drop in generation throughput — measured, after
+     * a large run slowed from about two thousand rows a second to a hundred.
+     *
+     * @var array<string, list<array{0: string, 1: int}>>
+     */
+    private array $weightedCache = [];
+
+    /**
+     * An item's wordings paired with how likely each is to be typed.
+     *
+     * @return list<array{0: string, 1: int}>
+     */
+    public function weightedPhrasingsFor(string $itemCode): array
+    {
+        if (isset($this->weightedCache[$itemCode])) {
+            return $this->weightedCache[$itemCode];
+        }
+
+        $all = $this->phrasingsFor($itemCode);
+
+        if ($all === []) {
+            return [];
+        }
+
+        $rankOf = [];
+
+        foreach ($this->heads[$itemCode] ?? [] as $rank => $phrasing) {
+            $rankOf[$phrasing] = $rank;
+        }
+
+        $weighted = [];
+
+        foreach ($all as $phrasing) {
+            $rank = $rankOf[$phrasing] ?? null;
+            $weighted[] = [
+                $phrasing,
+                $rank !== null && isset(self::HEAD_WEIGHTS[$rank]) ? self::HEAD_WEIGHTS[$rank] : 1,
+            ];
+        }
+
+        return $this->weightedCache[$itemCode] = $weighted;
     }
 
     /** @return list<string> */

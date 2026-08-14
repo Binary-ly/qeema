@@ -61,6 +61,7 @@ final class GenerateScaleDatasetCommand extends Command
                             {--reports-per-cell=1 : Reporters who may report the same item, place and day}
                             {--reporters=4 : Reporters per location}
                             {--observation-rate= : Share of cells that get any report at all}
+                            {--distractor-rate=1.5 : Average submissions per location-day that match nothing at all}
                             {--seed= : Override the country demo seed}';
 
     protected $description = 'Generate a large corpus-backed dataset for load and robustness testing';
@@ -232,6 +233,7 @@ final class GenerateScaleDatasetCommand extends Command
         $demo['reports_per_cell'] = (int) $this->option('reports-per-cell');
         $demo['reporters_per_location'] = (int) $this->option('reporters');
         $demo['corpus'] = $corpus;
+        $demo['distractor_rate'] = (float) $this->option('distractor-rate');
 
         if ($this->option('observation-rate') !== null) {
             $demo['observation_rate'] = (float) $this->option('observation-rate');
@@ -246,6 +248,12 @@ final class GenerateScaleDatasetCommand extends Command
             $items,
             $demo['days'],
             $demo['reports_per_cell'],
+        ));
+
+        $this->line(sprintf(
+            '  %d distractor wording(s) available; about %.1f per location-day will match nothing.',
+            count($corpus->distractors()),
+            $demo['distractor_rate'],
         ));
 
         $seed = (int) ($this->option('seed') ?? $demo['seed'] ?? 20260101);
@@ -279,6 +287,8 @@ final class GenerateScaleDatasetCommand extends Command
                 'resolutions' => DB::table('resolutions')->count(),
                 'anomaly_scores' => DB::table('anomaly_scores')->count(),
                 'qeema_eval.gt_prices' => DB::table('qeema_eval.gt_prices')->count(),
+                'unmatchable (no right answer)' => DB::table('qeema_eval.gt_submissions')
+                    ->whereNull('true_canonical_item_id')->count(),
                 'locations (added)' => $addedLocations,
             ])->map(fn ($count, $table): array => [$table, number_format((float) $count)])->values()->all(),
         );

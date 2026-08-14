@@ -124,6 +124,30 @@ Against that second dataset:
 | `GET /countries/LY/coverage` | **220 ms** |
 | `GET /health` | **25 ms** |
 
+### Insert throughput falls as the table grows
+
+Measured during a single run, sampling the observation count every three minutes:
+
+| Rows in `price_observations` | Observations inserted per second |
+|---|---|
+| 286,000 | 2,205 |
+| 543,000 | 1,628 |
+| 866,000 | 1,526 |
+| 1,083,000 | 1,191 |
+| 1,284,000 | 1,110 |
+| 1,480,000 | 1,079 |
+| 1,638,000 | 876 |
+
+Roughly a 60% fall between a quarter-million and one and a half million rows.
+This is index maintenance on a growing table rather than anything specific to
+this code, and the final sample is pessimistic because a test suite was running
+against the same Postgres instance at the time.
+
+It matters for one practical reason: a bulk import or a backfill that is sized
+from a rate measured on an empty database will take considerably longer than
+predicted on a full one. Anyone planning a migration window should measure at
+the size they will actually be at.
+
 The index figure is the operationally important one: **a full year of backfill
 across 117 locations would take roughly 2.6 hours.** That is fine for a nightly
 catch-up and too slow to sit in front of a user, which is worth knowing before
@@ -161,18 +185,39 @@ realistic things to type and still sit against single-unit codes, because there
 is no catalogue code for "a carton of chicken" to move them to. They remain, and
 they are a known distortion rather than a hidden one.
 
-Four further weaknesses bound what the dataset can tell you:
+Three of the review's findings have since been addressed, and it is worth being
+precise about what changed.
 
-**It is recall-only.** Every line is a labelled positive. There are no
-distractors — nothing that belongs to no catalogue item — so **precision cannot
-be measured from it at all.** A matcher's real failure mode is confidently
-matching something it should have refused, and this dataset cannot see that
-happen.
+**Precision can now be measured.** The corpus carries **distractors**: 136 for
+Libya, 105 for Venezuela, wordings that match no catalogue item at all. They are
+tagged by kind — another product entirely, a fragment too vague to resolve, a
+greeting or test message typed into the wrong box, and `near_miss`, which is the
+valuable one: something adjacent to a catalogued product that a careless matcher
+would wrongly match. Semolina against wheat flour. Chicken breast against whole
+chicken. Augmentin against amoxicillin. Those three were previously filed as
+*positives* and deleted as mislabels; they now appear as things that should be
+refused, which is where they belong.
 
-**The distribution is flat.** Roughly thirty phrasings per product, near-uniform.
-Real reporter input is Zipfian: one or two wordings would swamp everything else.
-A matcher that does well here may still do badly on the handful of phrasings that
-would actually constitute most traffic.
+The generator emits them as submissions whose ground-truth row has a **null
+item** — the record that no catalogue entry would have been right. They carry no
+resolution at all, because nothing matched, which is a different state from
+having matched badly. A test asserts no distractor is also a catalogue wording,
+since such a row would be scored as a false positive when matching it was
+correct.
+
+**The distribution is no longer flat.** Each item declares a *head* — the three
+to six wordings that would genuinely dominate real traffic, most common first —
+and the generator samples by weight rather than uniformly. Uniform sampling tests
+the long tail far harder than reality does and the head far less, so a matcher
+could look good on the corpus while failing on the phrasings that would be most
+of the actual traffic.
+
+**Arabizi is present.** 180 franco-arabe wordings were added for Libya —
+`9arora gaz`, `garoura ghaz`, `dabba ma` — digit substitution for Arabic sounds,
+spelled inconsistently the way real people spell it. A large share of Libyans
+type this way and none of it was represented.
+
+Two weaknesses remain, and they still bound what the dataset can tell you:
 
 **A dozen entries are unanswerable.** Categories terminate in a bare noun — "oil",
 "rice", "gas" — which cannot be resolved to a 1 litre bottle rather than a 5
@@ -185,10 +230,6 @@ bug, and the reviews flagged brands in both languages they could not confirm
 against a real shelf. The Libyan dialect itself was judged credible — the
 lexicon, the possessive `متاع`, the real LPG distributor, thumb-typing slips that
 look like slips rather than synthetic noise — but credible is not verified.
-
-**There is no Arabizi.** A large share of Libyans type franco-arabe with digit
-letters (`9anina`, `3`, `7`). None of it is here, so a whole register of real
-input is untested.
 
 ## Reading a number produced against this
 

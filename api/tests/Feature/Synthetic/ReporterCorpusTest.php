@@ -152,3 +152,84 @@ it('ships corpora whose item codes all exist in their country file', function ()
         expect($vanishing)->toBe([], "{$code} corpus has wordings that normalise to nothing");
     }
 });
+
+it('samples the wordings that dominate real traffic far more often', function (): void {
+    // Uniform sampling tests the long tail harder than reality does and the head
+    // far less, so a matcher can look good on a corpus while failing on the
+    // handful of phrasings that would be most of the actual traffic.
+    $corpus = new ReporterCorpus(
+        phrasings: ['rice' => ['DOMINANT', 'second', 'a', 'b', 'c', 'd', 'e', 'f']],
+        heads: ['rice' => ['DOMINANT', 'second']],
+    );
+
+    $generator = new RawTextGenerator(new Randomizer(new Mt19937(5)), $corpus);
+
+    $dominant = 0;
+    $tail = 0;
+
+    for ($i = 0; $i < 600; $i++) {
+        $text = $generator->generate('Rice', [], 'rice');
+
+        if (str_contains($text, 'DOMINANT')) {
+            $dominant++;
+        } elseif (preg_match('/\b[a-f]\b/', $text)) {
+            $tail++;
+        }
+    }
+
+    // Weight 40 against six tail entries at 1 each: the head must clearly win.
+    expect($dominant)->toBeGreaterThan($tail);
+});
+
+it('treats every wording as equally likely when no head is declared', function (): void {
+    $corpus = new ReporterCorpus(phrasings: ['rice' => ['aaa', 'bbb']]);
+
+    expect($corpus->weightedPhrasingsFor('rice'))->toBe([['aaa', 1], ['bbb', 1]]);
+});
+
+it('never files a distractor as a wording of a real item', function (): void {
+    // A distractor that is also a catalogue wording is a mislabelled row: it
+    // would be scored as a false positive when matching it was correct.
+    foreach (glob(base_path('../countries/corpus/*.json')) ?: [] as $path) {
+        /** @var array<string, mixed> $doc */
+        $doc = json_decode((string) file_get_contents($path), true);
+
+        $wordings = [];
+
+        foreach ($doc['items'] as $phrasings) {
+            foreach ($phrasings as $phrasing) {
+                $wordings[trim((string) $phrasing)] = true;
+            }
+        }
+
+        $collisions = array_values(array_filter(
+            $doc['distractors'] ?? [],
+            fn (string $text): bool => isset($wordings[trim($text)]),
+        ));
+
+        expect($collisions)->toBe([], basename($path).' has distractors that are also catalogue wordings');
+    }
+});
+
+it('declares heads that are real wordings of the item they belong to', function (): void {
+    // Heads are matched back by string, so a head that does not appear in the
+    // item's own list is silently ignored and the weighting quietly does nothing.
+    foreach (glob(base_path('../countries/corpus/*.json')) ?: [] as $path) {
+        /** @var array<string, mixed> $doc */
+        $doc = json_decode((string) file_get_contents($path), true);
+
+        $orphans = [];
+
+        foreach ($doc['heads'] ?? [] as $code => $tops) {
+            $pool = array_map('trim', $doc['items'][$code] ?? []);
+
+            foreach ($tops as $top) {
+                if (! in_array(trim((string) $top), $pool, true)) {
+                    $orphans[] = "{$code}: {$top}";
+                }
+            }
+        }
+
+        expect($orphans)->toBe([], basename($path).' declares heads that are not wordings of their item');
+    }
+});

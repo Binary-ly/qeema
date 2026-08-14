@@ -100,6 +100,15 @@ final class SyntheticDataGenerator
         // watching the same shelf, and it is that overlap the estimator, the
         // anomaly screen and the reporter-bias detector all work from.
         $reportsPerCell = max(1, (int) ($demoConfig['reports_per_cell'] ?? 1));
+
+        // Submissions that match nothing in the catalogue. Without them a
+        // dataset measures recall only: every row is a labelled positive, so the
+        // failure that actually matters — matching something confidently that
+        // should have been refused — cannot be observed at all.
+        $distractors = ($demoConfig['corpus'] ?? null) instanceof ReporterCorpus
+            ? $demoConfig['corpus']->distractors()
+            : [];
+        $distractorRate = (float) ($demoConfig['distractor_rate'] ?? 0.0);
         $startDate = CarbonImmutable::today()->subDays($days - 1);
 
         $locations = $country->locations()->where('is_active', true)->get();
@@ -172,6 +181,8 @@ final class SyntheticDataGenerator
             manipulators: $manipulators,
             observationRate: $observationRate,
             reportsPerCell: $reportsPerCell,
+            distractors: $distractors,
+            distractorRate: $distractorRate,
             progress: $progress,
         );
     }
@@ -183,6 +194,7 @@ final class SyntheticDataGenerator
      * @param  Collection<string, Unit>  $units
      * @param  Collection<int, Reporter>  $reporters
      * @param  list<float>  $fxPath
+     * @param  list<string>  $distractors
      * @param  array<string, true>  $blindSpots
      * @param  array<string, true>  $blackouts
      * @param  array<int, true>  $manipulators
@@ -201,6 +213,8 @@ final class SyntheticDataGenerator
         int $days,
         float $observationRate,
         int $reportsPerCell,
+        array $distractors,
+        float $distractorRate,
         array $blindSpots,
         array $blackouts,
         array $manipulators,
@@ -310,6 +324,41 @@ final class SyntheticDataGenerator
                         }
                     }
                 }
+
+                // What arrives that the catalogue has no answer for: another
+                // product entirely, a fragment too vague to resolve, a greeting
+                // typed into the wrong box. It lands in the review queue with
+                // ground truth recording that there IS no right answer, which is
+                // what lets precision be measured rather than only recall.
+                // Expressed as an expected COUNT per location-day rather than a
+                // probability, because a probability caps this at one and a real
+                // public inbox carries several percent junk — a share a coin
+                // flip per location-day cannot reach.
+                $unmatchable = (int) floor($distractorRate);
+
+                if ($this->randomizer->getFloat(0.0, 1.0) < ($distractorRate - $unmatchable)) {
+                    $unmatchable++;
+                }
+
+                for ($n = 0; $distractors !== [] && $n < $unmatchable; $n++) {
+                    $pool = $reportersByLocation[$location->id] ?? collect();
+
+                    if ($pool->isNotEmpty()) {
+                        $record = $this->buildDistractor(
+                            country: $country,
+                            location: $location,
+                            reporter: $pool[$this->randomizer->getInt(0, $pool->count() - 1)],
+                            source: $source,
+                            text: $distractors[$this->randomizer->getInt(0, count($distractors) - 1)],
+                            date: $date,
+                        );
+
+                        $submissions[] = $record['submission'];
+                        $groundTruthSubmissions[] = $record['ground_truth'];
+                        $counts['submissions']++;
+                        $counts['review']++;
+                    }
+                }
             }
 
             // Flush per day so memory stays flat regardless of series length.
@@ -337,6 +386,69 @@ final class SyntheticDataGenerator
             queuedForReview: $counts['review'],
             groundTruthCells: $counts['gt_prices'],
         );
+    }
+
+    /**
+     * A submission with no correct answer.
+     *
+     * Deliberately carries no resolution at all rather than a low-confidence
+     * guess: nothing matched, which is a different state from "matched badly",
+     * and the review queue is where it belongs. Its ground-truth row has a null
+     * item, which is the record that no catalogue entry would have been right.
+     *
+     * @return array{submission: array<string, mixed>, ground_truth: array<string, mixed>}
+     */
+    private function buildDistractor(
+        Country $country,
+        Location $location,
+        Reporter $reporter,
+        Source $source,
+        string $text,
+        CarbonImmutable $date,
+    ): array {
+        $id = Str::uuid()->toString();
+        $collectedAt = $date->setTime($this->randomizer->getInt(7, 20), $this->randomizer->getInt(0, 59));
+
+        return [
+            'submission' => [
+                'id' => $id,
+                'country_id' => $country->id,
+                'location_id' => $location->id,
+                'reporter_id' => $reporter->id,
+                'source_id' => $source->id,
+                'ingestion_batch_id' => null,
+                'raw_text' => $text,
+                // Somebody reporting a price for something uncatalogued still
+                // types a price, so the row looks like every other submission
+                // until you try to resolve it.
+                'raw_price' => round($this->randomizer->getFloat(0.5, 400.0), 2),
+                'currency_code' => $country->currency_code,
+                'raw_unit' => null,
+                'raw_quantity' => 1,
+                'photo_path' => null,
+                'observed_at' => $collectedAt,
+                'collected_at' => $collectedAt,
+                'ingested_at' => $collectedAt->addSeconds($this->randomizer->getInt(1, 90)),
+                'device_metadata' => json_encode([
+                    'app_version' => '0.1.0',
+                    'platform' => $this->randomizer->getInt(0, 1) === 0 ? 'android' : 'ios',
+                    'queued_offline' => false,
+                    'synthetic' => true,
+                ]),
+                'client_idempotency_key' => Str::uuid()->toString(),
+                'status' => Submission::STATUS_NEEDS_REVIEW,
+                'created_at' => $collectedAt,
+                'updated_at' => $collectedAt,
+            ],
+            'ground_truth' => [
+                'submission_id' => $id,
+                'true_canonical_item_id' => null,
+                'true_price_per_base_unit' => null,
+                'is_erroneous' => false,
+                'is_manipulated' => false,
+                'error_type' => null,
+            ],
+        ];
     }
 
     /**

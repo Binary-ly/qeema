@@ -50,21 +50,21 @@ final class RawTextGenerator
     public function generate(string $canonicalName, array $variants, string $itemCode = ''): string
     {
         $catalogue = array_values(array_filter([$canonicalName, ...$variants]));
-        $fromCorpus = $itemCode === '' ? [] : $this->corpus->phrasingsFor($itemCode);
+        $weighted = $itemCode === '' ? [] : $this->corpus->weightedPhrasingsFor($itemCode);
 
         // The catalogue pool is what the matcher already knows: these are the
         // variants indexed for lexical search, so a submission drawn from them
         // is close to a gimme. The corpus pool is not — nothing in it was
         // derived from the catalogue by a rule the matcher shares.
-        $pool = $fromCorpus !== [] && $this->chance(self::CORPUS_SHARE)
-            ? $fromCorpus
-            : $catalogue;
-
-        if ($pool === []) {
+        if ($weighted !== [] && $this->chance(self::CORPUS_SHARE)) {
+            // Sampled by weight rather than uniformly, so the handful of
+            // wordings that dominate real traffic dominate here too.
+            $text = $this->pickWeighted($weighted);
+        } elseif ($catalogue !== []) {
+            $text = $catalogue[$this->randomizer->getInt(0, count($catalogue) - 1)];
+        } else {
             return '';
         }
-
-        $text = $pool[$this->randomizer->getInt(0, count($pool) - 1)];
 
         // Reintroduce hamza on a bare alef: reporters type both ways, and the
         // normaliser has to fold them back together.
@@ -95,6 +95,30 @@ final class RawTextGenerator
         }
 
         return trim($text);
+    }
+
+    /**
+     * @param  list<array{0: string, 1: int}>  $weighted
+     */
+    private function pickWeighted(array $weighted): string
+    {
+        $total = 0;
+
+        foreach ($weighted as [, $weight]) {
+            $total += $weight;
+        }
+
+        $roll = $this->randomizer->getInt(1, max(1, $total));
+
+        foreach ($weighted as [$phrasing, $weight]) {
+            $roll -= $weight;
+
+            if ($roll <= 0) {
+                return $phrasing;
+            }
+        }
+
+        return $weighted[array_key_last($weighted)][0];
     }
 
     /**

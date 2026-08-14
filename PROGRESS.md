@@ -2520,3 +2520,61 @@ rule out, and the fix is not "remember to be careful" — it is to use the name 
 it exists on disk rather than reconstructing it, which the test now does, and to
 assert the file is there so the next such mistake fails with a sentence rather
 than an ErrorException.
+
+## Phase 19 — the corpus answers back
+
+The first corpus could only measure recall. Every line was a labelled positive,
+the distribution was flat where real traffic is Zipfian, and a whole register of
+Libyan typing was missing. Five agents addressed all three.
+
+### Precision is now measurable at all
+
+`countries/corpus/*.json` carries **distractors** — 136 for Libya, 105 for
+Venezuela — wordings that match no catalogue item. Tagged by kind: another
+product entirely, a fragment too vague to resolve, a greeting or test message
+typed into the wrong box, and `near_miss`, which is the valuable one.
+
+The near-misses are pointed. Semolina against wheat flour. Chicken breast against
+whole chicken. Augmentin against amoxicillin. Adult Panadol tablets against
+children's suspension. Quail eggs against hen eggs. A 43 kg cylinder against the
+10 kg one. Those first three had been filed as *positives* in the previous
+corpus and were deleted as mislabels after the adversarial review; they now
+appear as things that should be refused, which is where they always belonged.
+
+The generator emits them as submissions whose ground-truth row carries a **null
+item** — the record that no catalogue entry would have been right — with no
+resolution at all, because nothing matched, which is a different state from
+having matched badly. A test asserts no distractor is also a catalogue wording,
+since such a row would score as a false positive when matching it was correct.
+
+### The distribution is no longer flat, and Arabizi exists
+
+Each item declares a head: the three to six wordings that would dominate real
+traffic, most common first, verified to be wordings the item actually has. The
+generator samples by weight, so the head carries forty times the likelihood of
+the tail rather than the same.
+
+180 franco-arabe wordings were added for Libya — `9arora gaz`, `garoura ghaz`,
+`dabba ma` — with the inconsistent digit substitution real people use. A large
+share of Libyans type this way and none of it was represented.
+
+### Two mistakes worth recording
+
+**The distractor knob could not express a realistic share.** It was written as a
+probability per location-day, which caps unmatchable submissions at one per
+location per day — under 2% of traffic even at certainty, against the several
+percent a public inbox actually carries. Caught by working out what the number
+would produce rather than by running it. It is now an expected count, so 2.0
+means about two a day per location and the share lands near 3%.
+
+**Weighting cost a seventeen-fold slowdown.** `weightedPhrasingsFor()` rebuilt a
+forty-element list of pairs on every generated submission — hundreds of millions
+of allocations across a large run. Generation fell from about 2,000 rows a second
+to 118, which is the only reason it was noticed: a run that should have taken
+half an hour was tracking to most of a day. Memoised per item, throughput went to
+**8,210 rows a second**, better than before the weighting existed.
+
+The second one is the more instructive. It was invisible in every test — the
+suite generates tens of rows, where the cost is nothing — and only appeared at a
+scale the tests never reach. Which is the argument for having a scale dataset at
+all.
