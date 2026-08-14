@@ -2968,3 +2968,87 @@ catalogue coverage, or explicit negatives, or a reviewer.
 
 Which puts a number on what a pilot is for: roughly three hundred human review
 decisions, which only real reporters can generate.
+
+## Phase 24 — what training can and cannot reach
+
+The proposal was to train the ML and loop AI review over it until it is smart.
+Three experiments say which parts of that work.
+
+### Calibration: the loop works, and needs more than sixty
+
+Refitted on **898** labelled pairs rather than 62 — every corpus wording labelled
+with its own item, every distractor labelled as matching nothing.
+
+    nonsense          0.582 review  ->  0.025 reject
+    used Toyota car   0.588 review  ->  0.057 reject
+    rice 1kg (ok)     0.731 review  ->  0.873 auto-resolve
+    flour 1kg (ok)    0.746 review  ->  1.000 auto-resolve
+
+The noise floor is gone and correct matches now auto-resolve. At 62 examples the
+same fit collapsed into steps and auto-resolved olive oil. So the loop is real:
+more labelled outcomes genuinely produce a better calibrator.
+
+### And it can never fix the near-neighbours
+
+Isotonic regression is monotonic. It maps scores to probabilities without
+reordering them. Checked against the actual numbers:
+
+    raw 0.898   زيت زيتون بكر لتر  -> cooking_oil_1l   WRONG
+    raw 0.885   أرز الحبة القصيرة  -> rice_1kg         CORRECT
+
+Olive oil outranks a correct rice match *on the raw score*. No monotonic mapping
+of that score can put rice above olive oil — so no amount of calibration, and no
+number of loops, separates them. Refitted on 898 examples the near-neighbours got
+**worse**: tomato paste, olive oil and the 25 kg bakery sack all moved from review
+to **auto-resolve**, which is a wrong price entering the index unreviewed.
+
+Reverted again.
+
+### The lever nobody had pulled
+
+The matcher matches against `canonical_item_variants`. Libya has **133** of them.
+The corpus has **689** wordings. The matcher has never been given a single one —
+every measurement in the last several phases tested it on vocabulary it does not
+have.
+
+Split the corpus in half, added one half to the catalogue, measured on the other
+half, which it had never seen:
+
+| | top-1 on held-out wordings |
+|---|---|
+| catalogue as shipped (133 variants) | 237/351 — **67.5%** |
+| catalogue grown with 338 corpus wordings | 304/351 — **86.6%** |
+
+**+19.1 points, on text it had not seen.** That is generalisation, not
+memorisation — the test half was held out.
+
+It is also the mechanism the platform was designed around: the review queue adds
+variants, which is why `operations.md` says a queue that is worked shrinks and a
+queue that is ignored grows. Nobody had ever fed it.
+
+### Where AI review is safe to loop, and where it is not
+
+This session produced direct evidence on both sides. Asked whether `قوطه` is
+Egyptian — checkable against sources — the agents were right. Asked which word is
+correct for free-range poultry, they replaced Egyptian `بلدي` with `عربي` and
+were confidently wrong; a speaker had to supply `وطني`.
+
+Calibration labelling asks "is this match correct" — mostly product identity, is
+paste the same as fresh tomatoes, which is checkable and which agents do well.
+That is safe to loop.
+
+Dialect correctness is not, and the failure mode is the dangerous one: a loop
+distils the labeller's judgement into the model, so a confident systematic error
+becomes a systematic model error with no trace of where it came from. Had this
+project looped on that review, it would have trained the matcher to prefer
+`عربي`.
+
+### Why the +19 points has not been taken yet
+
+Importing the corpus into `ly.yaml` as variants is the obvious next move and it
+is not being done blind. The corpus still carries unresolved questions — whether
+`فرينة` is Libyan at all, whether `دبة` is, whether the eighteen constructed
+`دحي` forms are real. Importing wholesale would bake every one of those into the
+matcher's vocabulary, where they would be much harder to find than in a JSON file.
+
+The attested subset can go in now. The rest waits for a speaker.
