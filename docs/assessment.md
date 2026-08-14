@@ -194,6 +194,45 @@ register the matcher was never tuned for, so this understates performance on
 what a reporter would actually type. The near-neighbour confusions, though, are
 not an artefact of register: a reporter is just as able to type "tomato paste".
 
+### Why the confidence numbers are compressed
+
+Chasing the overlap above turned up the cause. `ConfidenceCalibrator` maps a raw
+match score onto a probability of being correct, and **it has never been fitted**
+— not in any deployment, because fitting requires labelled human review outcomes
+and there have never been any. It runs a deliberately conservative fallback that
+shrinks every score toward 0.5.
+
+That is why keyboard mash scores 0.58. `asdasdasd` against the Libyan catalogue
+returns 0.582 and is routed to review as sanitary pads; "used Toyota car" returns
+0.588 as rehydration salts. The floor is not near zero, it is near 0.58, and the
+whole usable range is squeezed into 0.2–0.8.
+
+Fitting it on the 62 real labelled outcomes above — the most this project has
+ever had — fixed that completely and broke something worse:
+
+| | uncalibrated | fitted on 62 |
+|---|---|---|
+| `asdasdasd` | 0.582 review | **0.000 reject** |
+| used Toyota car | 0.588 review | **0.000 reject** |
+| tuna | 0.586 review | **0.000 reject** |
+| tomato paste | 0.739 review | 0.525 reject |
+| **olive oil** | 0.743 review | **1.000 auto-resolve** |
+| rice 1 kg *(correct)* | 0.731 review | 0.524 reject |
+
+Isotonic regression on 62 points collapsed into a two-step function — every score
+landed on 0.524 or 1.000 — so it began auto-resolving olive oil as cooking oil
+with no human in the loop, while rejecting correct matches. A wrong price
+entering the index unreviewed is worse than an uncalibrated one going to a
+person.
+
+The fit was reverted. The guard that permitted it has been raised from 50
+labelled examples to 300, with at least 50 of each outcome, and the reasoning is
+recorded in the code and in a test rather than in someone's memory.
+
+**This is the clearest statement available of what a pilot is for.** The
+calibration is not a modelling problem waiting on a better model; it is waiting
+on a few hundred human review decisions, which only real reporters can produce.
+
 ## What is measured only against a simulation
 
 **This section is the one to read carefully.** The machine-learning components

@@ -90,7 +90,23 @@ class ConfidenceCalibrator:
     """
 
     #: Below this many labelled examples, a fitted curve would be noise.
-    MIN_SAMPLES = 50
+    #:
+    #: Raised from 50 after measuring what 50 actually buys. Fitted on 62 real
+    #: labelled outcomes from a Libyan commodity bulletin — 16 correct, 46 not —
+    #: isotonic collapsed into a two-step function: every score landed on either
+    #: 0.524 or 1.000. It fixed the noise floor beautifully (keyboard mash went
+    #: from 0.582 to 0.000) and simultaneously began auto-resolving olive oil as
+    #: cooking oil at 1.000, where it had previously gone to a human. A wrong
+    #: price entering the index unreviewed is worse than no calibration at all.
+    #:
+    #: Isotonic is non-parametric, so it needs enough points to place its steps
+    #: somewhere other than between the two clusters it happens to see.
+    MIN_SAMPLES = 300
+
+    #: And enough of the rarer outcome to place a boundary at all. 16 positives
+    #: among 62 was the other half of that failure: the curve had almost nothing
+    #: to learn the "correct" side from.
+    MIN_PER_CLASS = 50
 
     def __init__(self) -> None:
         self._model: IsotonicRegression | None = None
@@ -113,8 +129,11 @@ class ConfidenceCalibrator:
             return False
 
         # Isotonic needs both classes present; a set that is all-correct or
-        # all-wrong carries no information about where the boundary lies.
-        if len(set(correct)) < 2:
+        # all-wrong carries no information about where the boundary lies. It
+        # also needs enough of each: a handful of one class places the boundary
+        # wherever those few happen to fall.
+        positives = sum(1 for c in correct if c)
+        if min(positives, len(correct) - positives) < self.MIN_PER_CLASS:
             return False
 
         model = IsotonicRegression(y_min=0.0, y_max=1.0, out_of_bounds="clip")

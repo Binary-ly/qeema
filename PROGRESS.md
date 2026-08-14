@@ -2901,3 +2901,70 @@ The primary source, شبكة ليبيا التجارية, needs its own terms ch
 anything is ingested. That check did not happen: the session's search budget was
 exhausted by the agents. Sixty rows fetched once for a one-off evaluation is a
 different act from a scheduled scrape, and only the first has been done.
+
+## Phase 23 — training on real data, and why it made things worse
+
+Asked why the ML is not simply trained on real data, the honest answer turned out
+to have two halves, and the experiment was worth running for both.
+
+### The calibrator had never been fitted
+
+`ConfidenceCalibrator` turns a raw match score into a probability of being
+correct. It has never run in any deployment, because fitting needs labelled human
+review outcomes and there have never been any. It falls back to a deliberately
+conservative shrink toward 0.5 — and the fallback is why every confidence in this
+project sits in a narrow band.
+
+Probed directly against the Libyan catalogue: `asdasdasd` returns **0.582** and is
+routed to review as sanitary pads. "Used Toyota car" returns 0.588 as rehydration
+salts. The floor is not near zero. It is near 0.58, and everything above it is
+compressed into 0.2–0.8, which is exactly why correct matches (0.726–0.746) and
+wrong ones (0.574–0.741) overlapped in the real-data test.
+
+### Fitting it fixed one thing and broke a worse one
+
+62 labelled outcomes were assembled from the bulletin run — 16 correct, 46 not,
+plus two nonsense probes — and posted to `/v1/match/calibrate`. It fitted.
+
+    asdasdasd        0.582 review  ->  0.000 reject
+    used Toyota car  0.588 review  ->  0.000 reject
+    tuna             0.586 review  ->  0.000 reject
+    tomato paste     0.739 review  ->  0.525 reject
+    OLIVE OIL        0.743 review  ->  1.000 AUTO-RESOLVE
+    rice 1kg  (ok)   0.731 review  ->  0.524 reject
+
+The noise floor was eliminated outright. And in the same move the matcher began
+**auto-resolving olive oil as cooking oil with no human in the loop**, while
+rejecting correct matches for rice and sunflower oil.
+
+Isotonic regression on 62 points has nowhere sensible to put its steps: every
+score landed on 0.524 or 1.000. The curve had 16 positives to learn the correct
+side from.
+
+Reverted by restarting the service, and verified reverted.
+
+### The guard was too permissive, and now says why
+
+`MIN_SAMPLES` was 50. Fifty is enough to produce a confident-looking curve from
+noise, which is precisely what the class's own docstring warned about and what
+its constant then permitted. It is now 300, with a new `MIN_PER_CLASS` of 50, and
+two tests encode the failure — one of them fitting the exact 62-sample shape and
+asserting it is refused.
+
+### Which half of the problem training can solve
+
+The real-data test produced two different failures and they need different fixes.
+
+**The noise floor is a calibration problem.** Unrelated text scoring 0.58 is the
+model being unable to say "I have no idea". Calibration fixes it, and the fix was
+visible immediately — it just needs several hundred labelled outcomes rather than
+sixty.
+
+**The near-neighbours are not.** Tomato paste scores close to tomatoes because it
+*is* close to tomatoes; olive oil is close to cooking oil. The model is not
+wrong. The catalogue simply has no entry for what was typed, so "nearest" is the
+wrong question to be asking. No amount of training changes that — it needs
+catalogue coverage, or explicit negatives, or a reviewer.
+
+Which puts a number on what a pilot is for: roughly three hundred human review
+decisions, which only real reporters can generate.

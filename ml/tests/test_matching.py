@@ -230,16 +230,41 @@ class TestCalibration:
 
     def test_fits_from_enough_labelled_outcomes(self) -> None:
         calibrator = ConfidenceCalibrator()
-        scores = [i / 100 for i in range(100)]
-        correct = [s > 0.6 for s in scores]
+        scores = [i / 600 for i in range(600)]
+        correct = [s > 0.4 for s in scores]
 
         assert calibrator.fit(scores, correct)
         assert calibrator.is_fitted
         assert calibrator.calibrate(0.9) > calibrator.calibrate(0.3)
 
+    def test_refuses_a_sample_too_small_to_place_a_boundary(self) -> None:
+        """Measured, not guessed.
+
+        Sixty-two real labelled outcomes — the most this project has ever had —
+        fitted a two-step curve that put every score on 0.524 or 1.000. It fixed
+        the noise floor and started auto-resolving olive oil as cooking oil in
+        the same move. A wrong price entering the index unreviewed is worse than
+        an uncalibrated one going to a human.
+        """
+        calibrator = ConfidenceCalibrator()
+        scores = [0.62 + i / 1000 for i in range(62)]
+        correct = [i < 16 for i in range(62)]
+
+        assert not calibrator.fit(scores, correct)
+        assert not calibrator.is_fitted
+
+    def test_refuses_when_one_outcome_is_barely_represented(self) -> None:
+        # Plenty of rows, almost all one class: isotonic would place its
+        # boundary wherever the handful of positives happened to fall.
+        calibrator = ConfidenceCalibrator()
+        scores = [i / 400 for i in range(400)]
+        correct = [i < 10 for i in range(400)]
+
+        assert not calibrator.fit(scores, correct)
+
     def test_calibrated_output_stays_in_range(self) -> None:
         calibrator = ConfidenceCalibrator()
-        scores = [i / 100 for i in range(100)]
+        scores = [i / 600 for i in range(600)]
         calibrator.fit(scores, [s > 0.5 for s in scores])
 
         assert 0.0 <= calibrator.calibrate(-5.0) <= 1.0
