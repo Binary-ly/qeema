@@ -54,6 +54,7 @@ final class ReporterCorpus
      * @param  array<string, list<string>>  $heads  item code => dominant wordings, most common first
      * @param  list<string>  $distractors  wordings that match no catalogue item at all
      * @param  list<string>  $hold  item codes whose wordings are not trusted enough to promote
+     * @param  list<string>  $unitWords  words that state a unit or pack size in this language
      */
     public function __construct(
         private readonly array $phrasings = [],
@@ -63,6 +64,7 @@ final class ReporterCorpus
         private readonly array $heads = [],
         private readonly array $distractors = [],
         private readonly array $hold = [],
+        private readonly array $unitWords = [],
     ) {}
 
     public static function empty(): self
@@ -103,6 +105,7 @@ final class ReporterCorpus
             heads: self::phrasingMap($decoded['heads'] ?? null),
             distractors: self::strings($decoded['distractors'] ?? []),
             hold: self::strings($decoded['hold'] ?? []),
+            unitWords: self::strings($decoded['unit_words'] ?? []),
         );
     }
 
@@ -241,6 +244,21 @@ final class ReporterCorpus
     public function hold(): array
     {
         return $this->hold;
+    }
+
+    /**
+     * Words that state a unit or a pack size.
+     *
+     * Used to stop a generated line claiming two of them — "كيلو" in front of
+     * "طبق دحي ٣٠" is a kilo of a tray of eggs, which is not a hard case for the
+     * matcher but a line no reporter wrote. Declared per country because the
+     * words are country facts.
+     *
+     * @return list<string>
+     */
+    public function unitWords(): array
+    {
+        return $this->unitWords;
     }
 
     /** @return list<string> */

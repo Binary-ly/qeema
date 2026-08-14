@@ -81,12 +81,33 @@ final class RawTextGenerator
             $text = $this->introduceTypo($text);
         }
 
+        // A reporter writes "سعر دحي", never "سعردحي". Word boundaries belong to
+        // the generator rather than to the corpus: affixes were previously
+        // concatenated raw, and one corpus happened to bake its own spaces in
+        // ("el ", " en el abasto") while the other did not — so the Libyan
+        // corpus produced a glued prefix on about one line in ten. Trimming
+        // here makes both behave the same and leaves neither with a double
+        // space.
+        $carriesUnit = $this->carriesUnit($text);
+
         if ($this->chance(0.20)) {
-            $text = $this->pick($this->prefixPool()).$text;
+            $prefix = trim($this->pick($this->prefixPool()));
+
+            // "كيلو" in front of "طبق دحي ٣٠" is a kilo of a tray of eggs. A
+            // reporter states a unit once, so the second one is not a hard case
+            // for the matcher, it is a line no human wrote.
+            if ($prefix !== '' && ! ($carriesUnit && $this->carriesUnit($prefix))) {
+                $text = $prefix.' '.$text;
+                $carriesUnit = $carriesUnit || $this->carriesUnit($prefix);
+            }
         }
 
         if ($this->chance(0.20)) {
-            $text .= $this->pick($this->suffixPool());
+            $suffix = trim($this->pick($this->suffixPool()));
+
+            if ($suffix !== '' && ! ($carriesUnit && $this->carriesUnit($suffix))) {
+                $text .= ' '.$suffix;
+            }
         }
 
         // Doubled or missing spaces.
@@ -119,6 +140,24 @@ final class RawTextGenerator
         }
 
         return $weighted[array_key_last($weighted)][0];
+    }
+
+    /**
+     * Does this text already state a unit or a pack size?
+     *
+     * The words are declared by the corpus rather than known here, because
+     * "kilo" and "كيلو" and "طبق" are country facts and this file must not hold
+     * any (C3). A corpus that declares none simply gets the old behaviour.
+     */
+    private function carriesUnit(string $text): bool
+    {
+        foreach ($this->corpus->unitWords() as $unit) {
+            if ($unit !== '' && mb_stripos($text, $unit) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

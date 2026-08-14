@@ -3346,3 +3346,55 @@ ready; Venezuela needs what Libya got, which was a speaker.
 Twelve tests cover it, including the ones about refusing rather than promoting:
 a distractor collision, a wording two items both claim, a held item left
 untouched, idempotency, a dry run writing nothing, and a comment surviving.
+
+## Phase 29 — a tenth of the generated text had a word-boundary error
+
+Two defects in `RawTextGenerator`, both known about and both left alone because
+neither failed anything. They were found the only way this kind of thing is
+found — by printing four hundred lines and reading them.
+
+**Affixes were concatenated without a space.** Measured on Libyan output:
+**42 lines in 400 — one in ten** — came out as `لقيتدحي`, `سعرطبق بيض`,
+`غلادحي`, `شريتدحيغالي شوي`. That is not a plausible typo. It is a word-boundary
+error no Arabic typist makes systematically, and it made a tenth of all affixed
+text unmatchable for a reason that has nothing to do with dialect, spelling or
+the matcher.
+
+The cause is worth stating because it is a good example of a bug that lives
+between code and data: the generator concatenated raw, and the Venezuelan corpus
+had quietly compensated by baking spaces into its own affixes — `"el "`,
+`" en el abasto"` — while the Libyan one had not. One corpus worked, the other
+was broken, and nothing in either file said which convention was in force.
+
+Word boundaries now belong to the generator. Affixes are trimmed and joined with
+a single space, so both corpora behave identically and neither gets a double
+space.
+
+**Units were stated twice.** 13 lines in 400 read like `كيلوبيض ٣٠٠ حبة` — a
+kilo of thirty eggs — or `طبق دحيالكيلو`, a tray of eggs per kilo. Prefixes and
+suffixes were drawn independently from pools that both contain unit words, with
+nothing checking the wording already carried one.
+
+A corpus now declares its own `unit_words`, including the Arabizi spellings —
+`kartouna` is the same claim as `كرتونة` — and the generator will not add a unit
+affix to text that already states a unit. The words are country facts, so they
+live in the country's file rather than in this class (C3). A corpus that
+declares none behaves exactly as before, which is asserted.
+
+| | before | after |
+|---|---|---|
+| glued affix | 42 / 400 | **0 / 600** |
+| two unit words on one line | 13 / 400 | **0 / 600** |
+
+Output now reads like something typed: `جبت بيض`, `بيض ٣٠ حبة تونسي`, `طبق دحي`.
+
+One of the three apparent survivors after the first fix was the measuring
+script's fault rather than the generator's — it counted `الكرتونة` as two hits
+because its list held both `كرتونة` and `الكرتونة`. Counting distinct unit
+*concepts* rather than tokens removed it. The remaining real one was Arabizi.
+
+Five tests cover it, and the awkward one is worth noting: asserting "no double
+space" is impossible directly, because the generator also doubles spaces
+deliberately. The test filters to lines whose other spaces are single — which
+requires a multi-word phrasing to have a second space to look at, something the
+first two attempts got wrong and the test caught both times.

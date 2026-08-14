@@ -2936,5 +2936,30 @@
     "drinking_water_20l",
     "eggs_30",
     "sanitary_pads_10"
+  ],
+  "unit_words": [
+    "كيلو",
+    "لتر",
+    "كرتونة",
+    "قوطية",
+    "كيس",
+    "طبق",
+    "حبة",
+    "علبة",
+    "قارورة",
+    "اسطوانة",
+    "بمبلة",
+    "دستة",
+    "kilo",
+    "kartouna",
+    "kees",
+    "tabag",
+    "taba9",
+    "garoura",
+    "9arora",
+    "bomba",
+    "lter",
+    "litre",
+    "habba"
   ]
 }
