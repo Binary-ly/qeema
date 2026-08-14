@@ -45,11 +45,20 @@
             Credentials default to the same values used by docker compose and CI,
             so one configuration works in all three places. Existing environment
             variables win, so a developer can point at their own database.
+
+            The database NAME is the exception, and is forced. A plain <env> does
+            not override a variable that already exists, and the app container
+            sets DB_DATABASE=qeema — so running the suite inside it silently
+            bound every test to the live development database. Tests then saw
+            real submissions and 36 of them failed for that reason alone, which
+            is the mild version; the destructive version is a test that writes.
+            Host and credentials are deliberately still overridable, because
+            they legitimately differ between a container, CI and a laptop.
         -->
         <env name="DB_CONNECTION" value="pgsql"/>
         <env name="DB_HOST" value="127.0.0.1"/>
         <env name="DB_PORT" value="5432"/>
-        <env name="DB_DATABASE" value="qeema_test"/>
+        <env name="DB_DATABASE" value="qeema_test" force="true"/>
         <env name="DB_USERNAME" value="qeema"/>
         <env name="DB_PASSWORD" value="qeema"/>
 

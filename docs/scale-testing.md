@@ -265,6 +265,29 @@ against a real shelf. The Libyan dialect itself was judged credible — the
 lexicon, the possessive `متاع`, the real LPG distributor, thumb-typing slips that
 look like slips rather than synthetic noise — but credible is not verified.
 
+## Most of this corpus is now catalogue vocabulary
+
+As of 2026-08-14, **548 of its wordings are `variants` in `countries/ly.yaml`**.
+They were held out until then, which is why every matching figure measured
+before that date understated the platform — but it changes what this file can be
+used for, and the change is not reversible by wishing.
+
+**A matching score computed against the promoted wordings measures memorisation.**
+They are exact catalogue entries now. Measured directly: 555/555 top-1, every one
+at confidence 0.990. That number is worth nothing as evidence about the matcher.
+
+What is still a clean test:
+
+- the **three held-back items** — `drinking_water_20l`, `eggs_30`,
+  `sanitary_pads_10`, 111 wordings — kept out because they carry unresolved
+  questions. Top-1 on them is **53.2%**, which is what an uncovered item looks
+  like.
+- the **210 distractors**, which are not catalogue entries and never will be.
+- any real market data.
+
+The honest generalisation figure is the held-out split done before promotion:
+**67.5% → 86.6%** on wordings the matcher had not seen. Quote that one.
+
 ## Reading a number produced against this
 
 State the dataset alongside the figure, always. A matching accuracy measured here

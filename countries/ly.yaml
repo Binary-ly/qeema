@@ -139,7 +139,61 @@ canonical_items:
     category: infant_nutrition
     default_unit_code: pack
     default_quantity: 1
-    variants: [حليب اطفال, حليب أطفال, حليب بودرة, حليب رضع, حليب صناعي, baby milk, infant formula, formula milk, nido, cerelac milk]
+    variants:
+      - حليب اطفال
+      - حليب أطفال
+      - حليب بودرة
+      - حليب رضع
+      - حليب صناعي
+      - baby milk
+      - infant formula
+      - formula milk
+      - nido
+      - cerelac milk
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - حليب نان ١ ٤٠٠ غرام
+      - نان ٢ قوطية صغيرة
+      - NAN 1 اوبتي برو
+      - نان اوبتيبرو رقم ١
+      - ابتاميل ١ الماني
+      - أبتاميل ٢ علبة ٤٠٠
+      - حليب Aptamil مرحلة اولى
+      - ابتامل 1
+      - بيبيلاك ١ ٤٠٠غ
+      - bebelac 2 حليب
+      - حليب اس ٢٦ نمرة واحد
+      - S26 gold مرحلة ٢
+      - سيميلاك جولد ٤٠٠
+      - نوفالاك ١ فرنسي
+      - قيقوز ٢
+      - حليب بودرة للرضع علبة صغيرة
+      - حليب صيدلية للبيبي ٤٠٠
+      - حليب الرضاعه ٤٠٠ غرام
+      - قوطية حليب دراري
+      - حليب مرحلة تانية للولد
+      - نان١
+      - حليب سوجا للاطفال
+      - ميلوبا ١ حليب
+      - هيرو بيبي ٢
+      - نوتريلون ١ مستورد
+      - حليب بيبي 400g اي ماركة
+      - حليب اطفال جاي من تونس
+      - 7alib nan 1 400 gram
+      - nan optipro nemra 1
+      - nan 2 9otya sghira
+      - aptamil 2 3elba 400
+      - abtamil 1 almani
+      - bebelac 1 7aleeb 400g
+      - s26 gold mar7ala 2
+      - similac gold 400
+      - gotya 7alib drari
+      - haleeb bodra lel rodda3 3elba sghira
+      - بيوميل
+      - بيوميل 3
+      - Biomil
 
   - code: baby_cereal_400g
     name_en: Baby cereal (400g)
@@ -147,7 +201,54 @@ canonical_items:
     category: infant_nutrition
     default_unit_code: pack
     default_quantity: 1
-    variants: [سيريلاك, سريلاك, طعام اطفال, حبوب اطفال, baby cereal, cerelac]
+    variants:
+      - سيريلاك
+      - سريلاك
+      - طعام اطفال
+      - حبوب اطفال
+      - baby cereal
+      - cerelac
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - سيريلاك قمح بالحليب
+      - سريلاك تفاح ٤٠٠
+      - سيرلاك عسل علبة
+      - cerelac قمح ٤٠٠
+      - سيريلاك ٨ حبوب
+      - سيريلاك موز ٤٠٠ غرام
+      - سيريلاك بسكوت
+      - اكل اطفال سيريلاك
+      - عصيدة الرضع سيريلاك
+      - بليدينا فواكه
+      - بليدين ٤٠٠ غرام
+      - ميلوبا حبوب للاطفال
+      - سيريلاك من ٦ شهور
+      - سيريلاك ارز بالحليب
+      - سريلاك تمر
+      - سيليراك قمح
+      - cerlac apple
+      - سيريلاك٤٠٠
+      - سيريلاك خضار
+      - سيريلاك شوفان
+      - سيريلاك بدون حليب
+      - نستله سيريلاك قمح ساده
+      - اكلة الصغير سيريلاك تفاح
+      - سيريلاك 400 جرام
+      - قوطية سيريلاك متوسطة
+      - سيريلاك للبيبي ٦ شهور فما فوق
+      - سريلاك ٤٠٠ اي طعم
+      - cerelac 9am7 bel7alib
+      - srilak tofa7 400
+      - cerelac 3asal 3elba
+      - cerelac 8 7oboub
+      - akl atfal cerelac
+      - 3asida mta3 el rodda3 cerelac
+      - bledina fawakeh
+      - serelak tmar 400 gram
+      - cerelac roz bel 7alib
+      - cerelac mn 6 sh-hour
 
   - code: wheat_flour_1kg
     name_en: Wheat flour
@@ -155,7 +256,59 @@ canonical_items:
     category: staples
     default_unit_code: kg
     default_quantity: 1
-    variants: [دقيق, طحين, دقيق ابيض, دقيق أبيض, flour, wheat flour, da2ee2]
+    variants:
+      - دقيق
+      - طحين
+      - دقيق ابيض
+      - دقيق أبيض
+      - flour
+      - wheat flour
+      - da2ee2
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - فرينة بيضاء كيلو
+      - فرينه ١ك
+      - كيس فرينة صغير
+      - دقيق زيرو زيرو
+      - فرينة زيرو
+      - دقيق فاخر ١ كيلو
+      - فرينة الخبز
+      - فرينة تونسية
+      - دقيق تركي كيس كيلو
+      - فرينة مدعمه
+      - دقيق المطاحن الوطنية
+      - مطاحن ليبيا فرينة كيلو
+      - دفيق قمح كيلو
+      - فرينة للحلويات
+      - دقيق ابيض عادي من الدكان
+      - فرينه كيلوا
+      - flour 1kg
+      - دقيق قمح كامل
+      - فرينة بر
+      - كيلو فرينة من البقالة
+      - دقيق ٠٠
+      - فرينة ديفيلا كيلو
+      - دقيق ١ كيلو للعجين
+      - فرينة وطني
+      - كيس دقيق واحد كيلو
+      - فرينة
+      - frina bayda kilo
+      - farina 1k
+      - kees frina sghir
+      - d9i9 zero zero
+      - frina zero
+      - d9i9 fakher 1 kilo
+      - frina mda3ma
+      - mata7en libya frina kilo
+      - kilo frina mn el b9ala
+      - frina watani lel khobz
+      - دقيق الأغراض المنزلية
+      - دقيق الأغراض المنزلية الربيع
+      - دقيق الأغراض المنزلية الصفوة
+      - دقيق الأغراض المنزلية الريحان
+      - فارينة
 
   - code: rice_1kg
     name_en: Rice
@@ -163,7 +316,59 @@ canonical_items:
     category: staples
     default_unit_code: kg
     default_quantity: 1
-    variants: [ارز, أرز, رز, ارز ابيض, rice, white rice]
+    variants:
+      - ارز
+      - أرز
+      - رز
+      - ارز ابيض
+      - rice
+      - white rice
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - رز مصري كيلو
+      - رز كامولينو
+      - كامولينو ١ك
+      - رز بسمتي هندي
+      - باسمتي كيلو
+      - رز حبة طويلة
+      - رز ياسمين
+      - رز ابو كاس
+      - ابو كاس بسمتي كيلو
+      - رز اميرة
+      - amira basmati 1kg
+      - رز روزا
+      - india gate رز بسمتي
+      - رز تيلدا
+      - رز مسلوق
+      - رز للمحشي
+      - رز حبة قصيرة للطبيخ
+      - كيلو رز عادي
+      - رز امريكي
+      - رزز كيلو
+      - ارز ابيض ١ كيلو
+      - رز بسمطي
+      - رز سيلا
+      - رز مفلفل للطبخ
+      - كيس رز صغير
+      - رز هندي من الحانوت
+      - roz masri kilo
+      - roz camolino
+      - camolino 1k
+      - rouz basmati hindi
+      - roz abu kas
+      - abu kas basmati kilo
+      - roz amira 1kg
+      - roz 7abba tweela
+      - kilo roz 3adi
+      - roz lel ma7shi
+      - أرز حبة طويلة أبو بنت
+      - أرز الحبة القصيرة الصحى
+      - أرز الحبة القصيرة الأسرة
+      - أرز الحبة الطويلة سيلا
+      - أرز الحبة القصيرة
+      - أرز الحبة الطويلة
 
   - code: cooking_oil_1l
     name_en: Cooking oil
@@ -171,7 +376,59 @@ canonical_items:
     category: staples
     default_unit_code: l
     default_quantity: 1
-    variants: [زيت, زيت طعام, زيت نباتي, زيت قلي, oil, cooking oil, vegetable oil]
+    variants:
+      - زيت
+      - زيت طعام
+      - زيت نباتي
+      - زيت قلي
+      - oil
+      - cooking oil
+      - vegetable oil
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - زيت عافية لتر
+      - عافيه ١ لتر
+      - afia زيت دوار الشمس
+      - زيت اوركيدا
+      - اوركيد لتر تركي
+      - زيت اولينا
+      - زيت يودم
+      - زيت قلي لتر
+      - زيت نباتي عادي
+      - قرعة زيت
+      - قرعة زيت صغيرة
+      - زيت مائدة
+      - زيت ذرة كريستال
+      - زيت صويا لتر
+      - زيت دوار الشمس ١ل
+      - زيت شمس
+      - زيت طبخ ١ لتر
+      - زيت للقلي والطبيخ
+      - زيت عباد الشمس اوكراني
+      - زيت 1L
+      - زيت ابيض للطبيخ
+      - زيت اكل
+      - زيت مستورد تركي لتر
+      - زيت نباتي مكرر قارورة
+      - زيت عافيه دوار شمس قارورة لتر
+      - زيت من البقالة لتر
+      - zeet afia liter
+      - 3afia 1 litre
+      - zit dawar el shams
+      - zeet orkida
+      - 9ar3a zeet sghira
+      - gar3a zeet
+      - zeet 9ali liter
+      - zit tabkh 1 liter
+      - zeet nabati 3adi
+      - garoura zeet 1L
+      - زيت عباد الشمس قورينا
+      - زيت الذرة قورينا
+      - زيت عباد الشمس الجيد
+      - زيت عباد الشمس الصفوة
+      - زيت الصفوة
 
   - code: eggs_30
     name_en: Eggs (tray of 30)
@@ -187,7 +444,53 @@ canonical_items:
     category: protein
     default_unit_code: kg
     default_quantity: 1
-    variants: [دجاج, دجاجة, فروج, لحم دجاج, chicken, poultry]
+    variants:
+      - دجاج
+      - دجاجة
+      - فروج
+      - لحم دجاج
+      - chicken
+      - poultry
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - كيلو جاج
+      - جاج حي من المزرعة
+      - جاج وطني مذبوح ومنظف
+      - دجاج وطني مزرعه
+      - جاج مبرد مش مجمد
+      - دجاج مجمد برازيلي
+      - ساديا كرتونه
+      - ساديا دجاجه كامله مجمده
+      - سيارا مجمد كيلو
+      - جاج سيارا حبه
+      - كرتونه جاج ١٠ كيلو
+      - دجاجه كامله ١٢٠٠ جرام
+      - جاج نظيف بدون راس ورجلين
+      - دحاج كيلو
+      - جااج وطني
+      - كيلوجاج
+      - جاج ١ كليو
+      - Sadia ساديا كيلو
+      - chicken جاج مجمد
+      - جاج
+      - kilo jaj
+      - jaj watani madhbou7 w mnaddaf
+      - djaj mjammad brazili
+      - sadia kartouna
+      - sadia dajaja kamla mjammda
+      - seara mjammad kilo
+      - jaj seara 7abba
+      - jaj mbarrad mesh mjammad
+      - kartounet jaj 10 kilo
+      - jaj nadif bla ras w rjilin
+      - دجاج وطني
+      - لحم دجاج وطني
+      - لحم دجاج ساديا مستورد
+      - دجاج جاهز للطبخ
+      - الدجاج الجاهز للطبخ
+      - الدواجن الجاهزة للأكل
 
   - code: tomatoes_1kg
     name_en: Tomatoes
@@ -195,7 +498,49 @@ canonical_items:
     category: produce
     default_unit_code: kg
     default_quantity: 1
-    variants: [طماطم, بندورة, طماطة, tomato, tomatoes]
+    variants:
+      - طماطم
+      - بندورة
+      - طماطة
+      - tomato
+      - tomatoes
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - كيلو طماطم
+      - طماطم بلدي
+      - طماطم حمرا للسلطه
+      - طماطم للصلصه
+      - طماطم ناضجه طريه
+      - صندوق طماطم
+      - قفه طماطم
+      - طماطم بيوت محميه
+      - طماطم تونسي
+      - طماطم مصري مستورد
+      - طماط
+      - طماطه كيلو
+      - طمام
+      - طماطن
+      - طماطم حبه كبيره
+      - طماطم صغيره حبات
+      - كيلوطماطم
+      - ٢ كيلو طماطم
+      - tomato طماطم كيلو
+      - طماطم طازجه من المزرعه
+      - طماطم درجه اولى
+      - طماطم مكسره رخيصه
+      - طماطم سوق الخضره
+      - طماطم كيلو ونص
+      - kilo tmatem
+      - tmatem baladi
+      - tmatem 7amra lel salata
+      - tomatem lel salsa
+      - sandou9 tmatem
+      - goffa tmatem
+      - tmatem tounsi
+      - tmatem sou9 el khodra
+      - kilo w nos tmatem
 
   - code: ors_sachet
     name_en: Oral rehydration salts (sachet)
@@ -203,7 +548,47 @@ canonical_items:
     category: medicine
     default_unit_code: piece
     default_quantity: 1
-    variants: [محلول جفاف, أملاح معالجة الجفاف, املاح الجفاف, او ار اس, ors, oral rehydration, rehydration salts]
+    variants:
+      - محلول جفاف
+      - أملاح معالجة الجفاف
+      - املاح الجفاف
+      - او ار اس
+      - ors
+      - oral rehydration
+      - rehydration salts
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - اكياس الجفاف
+      - كيس جفاف للاطفال
+      - املاح معالجه الجفاف
+      - محلول الجفاف
+      - دوا الجفاف
+      - دوا الاسهال للصغار
+      - او ار اس اكياس
+      - اورس بودره
+      - كيس املاح يذوب في الماء
+      - بودره تذوب في لتر ماء
+      - علبه اكياس جفاف للاطفال
+      - املاح تعويض السوائل
+      - محلول فموي للاطفال
+      - جفاف
+      - اكياس يونيسف للجفاف
+      - املاح بنكهه البرتقال للاطفال
+      - دوا للطفل يسهل ويترجع
+      - كيس ٢٠.٥ جرام املاح
+      - علبه فيها ١٠ اكياس جفاف
+      - املاح الاماهه الفمويه
+      - hydration salts اكياس
+      - akyas el jafaf
+      - amla7 el jafaf
+      - ma7loul el jafaf
+      - dwa el jafaf lel atfal
+      - ORS akyas
+      - dwa el is-hal lel sghar
+      - kis amla7 ydhoub fel ma
+      - amla7 ta3wid el sawa2el
 
   - code: paracetamol_suspension_60ml
     name_en: Paracetamol suspension (60ml, paediatric)
@@ -211,7 +596,52 @@ canonical_items:
     category: medicine
     default_unit_code: ml
     default_quantity: 60
-    variants: [بنادول شراب, باراسيتامول شراب, خافض حرارة اطفال, panadol syrup, paracetamol syrup, calpol]
+    variants:
+      - بنادول شراب
+      - باراسيتامول شراب
+      - خافض حرارة اطفال
+      - panadol syrup
+      - paracetamol syrup
+      - calpol
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - بنادول اطفال شراب
+      - بنادول بيبي
+      - panadol شراب اطفال
+      - ادول شراب
+      - ادول ١٢٠ ملغ شراب
+      - Adol سيروب
+      - دوليبران شراب
+      - دوليبران سيروب للاطفال
+      - Doliprane 2.4% sirop
+      - سيتال شراب
+      - سيتال ١٢٠ للاطفال
+      - ايفرالجان شراب
+      - دوا السخانه للاطفال
+      - شراب الحراره
+      - مخفض حراره اطفال
+      - دوا الحراره شراب ٦٠ مل
+      - براسيتمول شراب
+      - بارستمول ٦٠ مل
+      - باراسيتمول شراب اطفال
+      - قاروره باراسيتامول ٦٠ مل
+      - شراب مسكن وخافض للحراره
+      - بنادول شراب فراوله
+      - باندول اطفال
+      - خافض حراره للرضع شراب
+      - بنادول ٦٠ مل
+      - دوا وجع وحراره للصغار
+      - panadol atfal sharab
+      - banadol baby
+      - adol syrup
+      - doliprane sirop lel atfal
+      - cetal 120 lel atfal
+      - dwa el skhana lel atfal
+      - sharab el 7arara
+      - baracetamol sharab atfal 60 ml
+      - khafid 7arara lel rodda3 garoura
 
   - code: amoxicillin_suspension_60ml
     name_en: Amoxicillin suspension (60ml, paediatric)
@@ -219,7 +649,50 @@ canonical_items:
     category: medicine
     default_unit_code: ml
     default_quantity: 60
-    variants: [اموكسيسيلين, أموكسيسيلين شراب, مضاد حيوي اطفال, amoxicillin, amoxil syrup]
+    variants:
+      - اموكسيسيلين
+      - أموكسيسيلين شراب
+      - مضاد حيوي اطفال
+      - amoxicillin
+      - amoxil syrup
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - مضاد حيوي شراب للاطفال
+      - مضاد حيوي بودره تخلط بالماء
+      - انتيبيوتك شراب
+      - اموكسيل شراب
+      - اموكسيل ٢٥٠ شراب
+      - Amoxil 125 syrup
+      - جلفاموكس شراب
+      - جلفاموكس ٢٥٠ للاطفال
+      - اوسباموكس شراب
+      - كلاموكسيل شراب
+      - هيكونسيل شراب
+      - اي موكس شراب
+      - اموكسيسلين ٦٠ مل
+      - اموكسسيلين شراب اطفال
+      - امكسيلين
+      - اموكسيلين بودره
+      - دوا الحلق للاطفال مضاد حيوي
+      - مضاد ٢٥٠ لكل ٥ مل
+      - amoxicillin syrup 60ml
+      - قنينه مضاد حيوي بودره
+      - اموكسي شراب
+      - مضاد حيوي بنكهه الموز
+      - دوا التهاب اللوز للاطفال
+      - مضاد حيوي للطفل عمره سنتين
+      - شراب مضاد حيوي اصفر
+      - modad 7ayawi sharab lel atfal
+      - mudad 7ayawi bodra tokhlat bel ma
+      - antibiotic sharab atfal
+      - amoxil sharab
+      - amoxil 250 sharab
+      - julphamox 250 lel atfal
+      - amoxicillin 60 ml
+      - dwa el 7al9 lel atfal modad 7ayawi
+      - modad 7ayawi b nakhet el mouz
 
   - code: school_notebook_80p
     name_en: School notebook (80 pages)
@@ -227,7 +700,48 @@ canonical_items:
     category: school
     default_unit_code: piece
     default_quantity: 1
-    variants: [دفتر, كراس, كراسة, دفتر مدرسي, notebook, exercise book]
+    variants:
+      - دفتر
+      - كراس
+      - كراسة
+      - دفتر مدرسي
+      - notebook
+      - exercise book
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - كراسه ٨٠ ورقه
+      - كراس 80 ورقه
+      - كراسه مدرسه
+      - كراسه مسطره
+      - كراسه مربعات
+      - كراسه ساده
+      - كشكول ٨٠ ورقه
+      - كشكول سلك
+      - دفتر ٨٠ ورقه
+      - دفتر مدرسي كبير
+      - كرتونه كراريس
+      - مينترا كشكول
+      - جيبتا كشكول ٨٠
+      - ديلي دفتر
+      - كراسه A4
+      - كراصه ٨٠
+      - كرسه ٨٠ ورقه
+      - كراسه ٨٠ صفحه
+      - كراسه رياضيات مربعات
+      - كراسه انجليزي مسطره
+      - كراسه غلاف مقوى
+      - notebook 80
+      - كراريس
+      - krassa 80 war9a
+      - kraset madrasa
+      - krassa mstara
+      - krassa mrabba3at
+      - kashkoul 80 wara9a
+      - kashkoul silk
+      - daftar madrasi kbir
+      - krassa A4 ghlaf m9awwa
 
   - code: sanitary_pads_10
     name_en: Sanitary pads (pack of 10)
@@ -243,7 +757,65 @@ canonical_items:
     category: fuel
     default_unit_code: piece
     default_quantity: 1
-    variants: [غاز, اسطوانة غاز, أسطوانة غاز, قارورة غاز, بوتاجاز, gas cylinder, cooking gas, lpg]
+    variants:
+      - غاز
+      - اسطوانة غاز
+      - أسطوانة غاز
+      - قارورة غاز
+      - بوتاجاز
+      - gas cylinder
+      - cooking gas
+      - lpg
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - بمبلة غاز
+      - بومبة غاز
+      - اسطوانة الغاز متاع الدار
+      - غاز ١١ كيلو
+      - بمبلة غاز 11
+      - تعبئه بمبلة غاز
+      - غاز البريقه
+      - البريقه ١١ كجم
+      - اسطوانه غاز
+      - بومبة الغاز
+      - غاز الطبخ
+      - غاز المطبخ
+      - بومبة كبيره غاز
+      - بمبلة معبايه
+      - الڨاز
+      - gaz بمبلة
+      - غاز بوتان
+      - بومبة غاز سوق سوداء
+      - غاز من المحطه
+      - بمبله غاز
+      - غاز البيت
+      - بمبلة غاز عاديه متاع الطبخ
+      - بومبة غاز 11 كيلو
+      - بمبلة الغاز
+      - bombla ghaz
+      - bomba gaz
+      - ostwanet el gaz mta3 el dar
+      - ghaz 11 kilo
+      - ta3bi2a bombla ghaz
+      - ghaz el bri9a
+      - brega 11 kg
+      - ostwana gaz
+      - bombla kbira ghaz m3abbaya
+      - gaz el tabkh mta3 el bait
+      - بمبة غاز
+      - بنبة غاز
+      - اسطون غاز
+      - اسطوانات غاز
+      - بمبله غاز طهي
+      - بومبة غاز للطھى
+      - بومبة غاز كبيرة
+      - أسطوانة غاز طهيي
+      - بمبلة غاز الطهي
+      - غاز الطهو
+      - غاز الطهي
+      - أسطوانة غاز الطهي
 
   - code: drinking_water_20l
     name_en: Drinking water (20L)
@@ -267,7 +839,50 @@ canonical_items:
     category: school
     default_unit_code: piece
     default_quantity: 1
-    variants: [قلم, قلم جاف, قلم حبر, pen, biro]
+    variants:
+      - قلم
+      - قلم جاف
+      - قلم حبر
+      - pen
+      - biro
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - قلم بيك
+      - بيك ازرق
+      - bic ازرق
+      - قلم بيك كريستال
+      - قلم ازرق عادي
+      - قلم كحلي
+      - قلم احمر
+      - قلم ناشف
+      - قلم حبر ازرق
+      - قلم مدرسه
+      - علبه اقلام بيك
+      - باكو اقلام زرق
+      - قلم بنسان
+      - pensan ازرق
+      - سكريكس
+      - قلم بايلوت
+      - فابر كاستل
+      - قلم صيني رخيص
+      - قلم للامتحان
+      - قلم اسود
+      - اقلام ١٠ حبات
+      - قلمازرق
+      - قلم ازرق
+      - قلم ديلي
+      - بيك
+      - galam bic
+      - bic azra9
+      - 9alam bic crystal
+      - galam nashef
+      - 9alam a7mar
+      - 3elbet a9lam bic
+      - pensan azra9
+      - galam madrasa 3adi
+      - bako a9lam zor9 10 7abbat
 
   - code: school_backpack
     name_en: School backpack
@@ -275,7 +890,48 @@ canonical_items:
     category: school
     default_unit_code: piece
     default_quantity: 1
-    variants: [حقيبة مدرسية, شنطة مدرسة, محفظة, backpack, school bag]
+    variants:
+      - حقيبة مدرسية
+      - شنطة مدرسة
+      - محفظة
+      - backpack
+      - school bag
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - شنطه مدرسه
+      - شنطة ظهر
+      - شنطه متاع مدرسه
+      - شنطة ولد ابتدائي
+      - شنطه بنات وردي
+      - شنطة تروللي بعجلات
+      - شنطه بعجل
+      - شنطة سبايدرمان
+      - شنطه فروزن
+      - شنطة برشلونه
+      - شنطه ريال مدريد
+      - شنطة روضه صغيره
+      - شنطه كبيره ٣ جيوب
+      - شنطه تركي
+      - شنطة صيني رخيصه
+      - شنطه اعداديه
+      - شنطه ثانوي بنات
+      - شنطهمدرسه
+      - شنطة مدرسه ولاد
+      - حقيبه ظهر
+      - bag مدرسه
+      - شنطة
+      - shanta madrasa
+      - shantet dhahr
+      - shanta mta3 madrasa
+      - shanta banat wardi
+      - shanta b 3ajal trolley
+      - shantet spiderman
+      - shanta torki kbira 3 jyoub
+      - shantet real madrid
+      - شناطي مدرسية
+      - حقائب مدرسية
 
   - code: bath_soap_bar
     name_en: Bath soap (bar)
@@ -283,7 +939,53 @@ canonical_items:
     category: hygiene
     default_unit_code: piece
     default_quantity: 1
-    variants: [صابون, صابونة, صابون استحمام, soap, bath soap]
+    variants:
+      - صابون
+      - صابونة
+      - صابون استحمام
+      - soap
+      - bath soap
+      # Promoted from countries/corpus/ly.json. Wordings people actually
+      # type, gathered from Libyan market sources and ruled on by a native
+      # speaker. Held out of the catalogue until 2026-08-14, which is why
+      # every matching figure measured before then understated it.
+      - صابونه لوكس
+      - لوكس صابون
+      - lux صابون
+      - صابون دوف
+      - dove صابونه
+      - صابون فا
+      - صابونة كاماي
+      - صابون بالموليف
+      - صابون لايف بوي
+      - lifebuoy صابونه
+      - صابون بروتكس
+      - صابون ديتول
+      - صابونه دورو
+      - duru صابون تركي
+      - صابون حاجي شاكر
+      - صابون دالان
+      - صابونة غار
+      - صابون الغار الحلبي
+      - صابون حمام
+      - صابون متاع الحمام
+      - قالب صابون
+      - صابونه للجسم
+      - صابون تواليت
+      - باكو صابون ٦ حبات
+      - صابون ريحه حلوه
+      - صابون سيفجارد
+      - صابونه
+      - sabouna lux
+      - lux saboun
+      - saboun dove
+      - sabounet kamay
+      - saboun palmolive
+      - lifebuoy sabouna
+      - saboun dettol
+      - duru saboun torki
+      - sabounet ghar 7alabi
+      - 9aleb saboun 7ammam
 
 # ---------------------------------------------------------------------------
 # The basket

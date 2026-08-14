@@ -3052,3 +3052,116 @@ is not being done blind. The corpus still carries unresolved questions — wheth
 matcher's vocabulary, where they would be much harder to find than in a JSON file.
 
 The attested subset can go in now. The rest waits for a speaker.
+
+## Phase 25 — two native-speaker rulings, and the vocabulary finally handed over
+
+### دبة does not mean what the corpus assumed
+
+Ruled by a speaker: **دبة means a bear, or a fat person.** It is not a container.
+
+The corpus had built the entire drinking-water item on the opposite assumption,
+and a first grep understated it because the file also spells it `دبه`:
+
+- **23 of 37 wordings** for `drinking_water_20l` were built on it
+- **5 of the 6 head slots** — which the generator weights 40/20/12/8/6
+
+So the overwhelming majority of all synthetic drinking-water traffic ever
+generated, including the 4.2 million-row run, was reporting a bear. All 23 are
+removed. The head is rebuilt from what is actually attested: the two real Libyan
+bottled-water brands, then volume and generic forms.
+
+The item is now thin — 14 wordings, no word for the container at all — and that
+is recorded as an open question rather than patched with another guess. Guessing
+is what produced `دبة` in the first place.
+
+**فرينة is confirmed Libyan**, overriding the research finding that every
+commercial attestation located was Algerian or Tunisian. The word is shared
+across the Maghreb; the missing Libyan citation was a gap in the sources, not
+evidence against it. Its 23 wordings stay. `فرينة عربي` became `فرينة وطني`,
+applying the earlier ruling consistently.
+
+### The catalogue was finally given the vocabulary
+
+**548 wordings across 15 items** are now `variants` in `countries/ly.yaml`.
+Libya went from **133 to 675** catalogue variants.
+
+Nothing was imported blind. Excluded: wordings already present, wordings filed
+under two different items, wordings colliding with a distractor — and every
+wording of the three items that still carry open questions
+(`drinking_water_20l`, `eggs_30`, `sanitary_pads_10`, 111 wordings). Those wait
+for a speaker. As it happens there were no cross-item or distractor collisions
+at all, which is the first evidence the corpus is internally consistent.
+
+### What it bought, measured three ways
+
+**Generalisation** — the 50/50 held-out split from the previous phase, on
+wordings the matcher had never seen: **67.5% → 86.6% top-1, +19.1 points.**
+
+**Separation, where the vocabulary is covered:**
+
+| | n | median | max |
+|---|---|---|---|
+| correct match | 555 | **0.990** | 0.990 |
+| distractor — matches nothing | 210 | 0.641 | **0.750** |
+
+Zero of 210 distractors reach the correct band. The gap between the worst 5% of
+correct matches and the *best* distractor is **+0.240**.
+
+That is the condition that did not exist before. The previous phase proved
+calibration could not separate correct from wrong, because olive oil scored
+0.898 against a correct rice match at 0.885 and isotonic regression cannot
+reorder. **Coverage is what changed it** — not a better model, not a better
+calibrator. The matcher stopped guessing and started recognising.
+
+**And where the vocabulary is not covered, nothing changed:**
+
+| | n | median | max |
+|---|---|---|---|
+| correct, held-out item | 59 | 0.740 | 0.990 |
+| wrong, held-out item | 52 | 0.631 | 0.748 |
+
+**25 of 52 wrong matches still score above the 5th percentile of correct ones.**
+The old overlap is exactly as bad as it was.
+
+So promotion does not make the matcher cleverer. It moves wordings from the
+regime where the problem is unsolvable into the regime where it is already
+solved. That is a far more useful thing to know than a single accuracy number,
+because it says what the review queue is *for*: every wording worked in the
+queue is a wording permanently moved across that line.
+
+**Cost.** 675 variants is 5× the catalogue and batch matching now takes ~300 ms
+per text, enough that the client's 10-second timeout trips on batches of 25.
+Precision did not degrade — still 0 distractors auto-resolving, 208 to review,
+2 rejected.
+
+**Calibration is now viable and is still not fitted.** It would finally do the
+right thing for covered vocabulary. But held-out correct matches sit at a median
+0.740, and a calibrator fit on this separation would push them below the reject
+threshold — turning "unknown wording, send it to a human" into "unknown wording,
+throw it away". That trade is a policy decision, not a tuning one, so it is
+being left for a person to make rather than made silently here.
+
+### A defect found on the way: the suite was running against live data
+
+`phpunit.xml` set `DB_DATABASE=qeema_test`, and it had no effect. A plain
+`<env>` does not override a variable that already exists, and the app container
+sets `DB_DATABASE=qeema`. Every in-container test run bound to the live
+development database. With 4.2 million submissions sitting in it, 36 tests
+failed for that reason alone — and the mild failure mode is the lucky one; the
+unlucky one is a test that writes.
+
+Now forced. Host and credentials are deliberately still overridable, because
+those legitimately differ between a container, CI and a laptop; the database
+*name* never should.
+
+Two related traps, both worth knowing before trusting a green run:
+
+- `bootstrap/cache/config.php` makes `env()` inert, so a cached container
+  ignores the corrected value entirely until `config:clear`.
+- `api/` is **not** mounted into the app container — only `./countries` is. Code
+  and docs in the container are whatever the image was built with, so tests run
+  there silently check stale files. The 11 docs failures seen in-container all
+  pass on the host.
+
+CI was never affected: it provisions `qeema_test` and passes the settings as
+real environment variables. Run the suite on the host, or rebuild the image.
