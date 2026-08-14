@@ -2578,3 +2578,44 @@ The second one is the more instructive. It was invisible in every test — the
 suite generates tens of rows, where the cost is nothing — and only appeared at a
 scale the tests never reach. Which is the argument for having a scale dataset at
 all.
+
+### The run, completed
+
+99 locations, 18 items, 1,095 days, up to 8 reporters on the same item on the
+same day, unmatchable submissions at two per location-day.
+
+```
+Done in 1h 16s.
+1095 days x 99 locations x 18 items -> 4,208,002 submissions
+  (3,791,218 observations, 416,784 queued for review),
+  198,712 erroneous and 2,022 manipulated labelled, 1,951,290 ground-truth rows
+2,867 rows/second sustained
+```
+
+About 14.1 million rows and 4.9 GB, against roughly 21,000 observations in the
+shipped demo. **216,810 submissions — 5.15% — have a ground-truth item of null**,
+meaning no catalogue entry would have been right. That share is what turns a
+recall-only fixture into something precision can be measured against.
+
+Two findings from measuring at that size, and they point opposite ways.
+
+**Index computation gets dearer as history grows.** 340 ms per snapshot against
+224 ms at 1.4M observations — 52% more for 2.7× the data. The estimator reads
+observations in a window around the date, so its cost tracks the observation
+table rather than the location count. A year of backfill across 100 locations is
+about 3.5 hours at this size.
+
+**The public API does not.** `index/current` answers in 316 ms at 3.8M
+observations against 322 ms at 1.4M — unchanged, because it reads published
+snapshots and never touches the observation table. That is exactly what
+precomputing the index was supposed to buy, and this is the first evidence it
+actually does.
+
+### On my own measurements during the run
+
+Twice I spot-checked throughput by differencing two row counts and got numbers
+that were wrong in both directions — once claiming a collapse to 164 rows a
+second when a controlled window measured 853. The generator flushes in batches,
+so short samples are bursty, and my ad-hoc checks were not an instrument. The
+three-minute sampled curve is the one that holds; the spot-checks between them
+should not have been reported as findings, and one of them was.

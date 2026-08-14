@@ -87,66 +87,87 @@ reason about.
 
 ## What was measured
 
-A dataset generated with 101 reporting locations and 18 items. Two runs are
-reported because they answer different questions.
-
-**A complete run**, 42 locations x 18 items x 1,095 days, 6 reports per cell:
-
-| | |
-|---|---|
-| submissions | 1,281,120 |
-| observations | 1,217,159 |
-| queued for review | 63,961 |
-| ground-truth rows | 827,820 |
-| wall clock | 9 min 51 s |
-| sustained insert rate | ~5,700 rows/second |
-
-**A larger run, deliberately interrupted** — 101 locations, stopped partway, so
-it covers 721 of its 1,095 days and its final days are partial. Not a clean
-series, and not usable for anything time-dependent, but a fair basis for
-measuring queries against a large table:
+A single completed run: 99 locations, 18 items, 1,095 days of history, up to 8
+reporters covering the same item on the same day, and unmatchable submissions at
+two per location-day.
 
 | | |
 |---|---|
-| observations | 1,425,760 |
-| submissions / resolutions | 1,500,868 each |
-| ground-truth rows | 1,022,004 |
-| review queue | 75,110 |
-| locations / reporters | 117 / 872 |
-| database size | 1.9 GB |
+| submissions | **4,208,002** |
+| observations | **3,791,218** |
+| resolutions | 3,991,192 |
+| ground-truth prices | 1,951,290 |
+| **unmatchable — no right answer exists** | **216,810 (5.15% of submissions)** |
+| queued for review | 416,803 |
+| labelled erroneous / manipulated | 198,712 / 2,022 |
+| locations / reporters | 99 / 990 |
+| distinct days | 1,095 (2023-08-16 to 2026-08-14) |
+| database size | **4.9 GB** |
+| wall clock | **1 h 00 m 16 s** |
+| sustained rate | 2,867 rows/second |
 
-Against that second dataset:
+About 14.1 million rows across the tables that matter, against roughly 21,000 in
+the shipped demo — a factor of 180.
 
-| Operation | Time |
-|---|---|
-| Index computation, one day across 117 locations | **26.2 s** (~224 ms per snapshot) |
-| `GET /countries/LY/index/current` — 117 locations, 62 KB | **322 ms** |
-| `GET /countries/LY/coverage` | **220 ms** |
-| `GET /health` | **25 ms** |
+The 5.15% unmatchable share is the number that changes what can be measured.
+Those rows carry a ground-truth item of null: no catalogue entry would have been
+right. Until they existed, a matching score computed against this platform's own
+data could only ever be a recall figure.
 
-### Insert throughput falls as the table grows
+### At that size
 
-Measured during a single run, sampling the observation count every three minutes:
+| Operation | 1.4M observations | 3.8M observations |
+|---|---|---|
+| Index computation, one day across ~115 locations | 26.2 s | **39.1 s** |
+| per snapshot | 224 ms | **340 ms** |
+| `GET /countries/LY/index/current` | 322 ms | **316 ms** |
+| `GET /countries/LY/coverage` | 220 ms | **117 ms** |
+| `GET /health` | 25 ms | 25 ms |
+| Anchoring 99 locations | — | 28.3 s |
 
-| Rows in `price_observations` | Observations inserted per second |
+Two things worth drawing out.
+
+**Index computation gets more expensive as history grows** — 52% more per
+snapshot for 2.7× the observations. The estimator reads observations in a window
+around the date, so its cost tracks the size of the observation table rather than
+the number of locations. A year of backfill across 100 locations is roughly
+3.5 hours at this size. Fine nightly; not something to put in front of a user.
+
+**The public API does not.** `index/current` answers in the same time at 3.8M
+observations as at 1.4M, because it reads published snapshots — one row per
+location per day — and never touches the observation table. That is the intended
+consequence of precomputing the index rather than aggregating on read, and it is
+the first evidence the design actually delivers it.
+
+### Insert throughput as the table grows
+
+Sampled every three minutes through a single run to three million rows:
+
+| Rows in `price_observations` | Observations per second |
 |---|---|
 | 286,000 | 2,205 |
-| 543,000 | 1,628 |
 | 866,000 | 1,526 |
-| 1,083,000 | 1,191 |
 | 1,284,000 | 1,110 |
-| 1,480,000 | 1,079 |
 | 1,638,000 | 876 |
+| 1,842,000 | 1,117 |
+| 2,057,000 | 1,186 |
+| 2,438,000 | 1,062 |
+| 2,740,000 | 790 |
+| 3,051,000 | 883 |
 
-Roughly a 60% fall between a quarter-million and one and a half million rows.
-This is index maintenance on a growing table rather than anything specific to
-this code, and the final sample is pessimistic because a test suite was running
-against the same Postgres instance at the time.
+Throughput does fall as the table grows — roughly 2,200 a second early against
+850 or so past three million rows — but **not monotonically**, and the shape
+matters more than the endpoints. The trough at 1.64 million is not a property of
+the database: a test suite was running against the same Postgres instance at that
+moment, and throughput recovered to 1,186 once it finished. Several other samples
+are similarly noisy.
 
-It matters for one practical reason: a bulk import or a backfill that is sized
-from a rate measured on an empty database will take considerably longer than
-predicted on a full one. Anyone planning a migration window should measure at
-the size they will actually be at.
+So the honest reading is a broad downward trend of roughly 60% across an order of
+magnitude of table size, with enough measurement noise that no single pair of
+points should be trusted. Anyone sizing a bulk import should measure at the size
+they will actually be at, on an otherwise quiet database, rather than
+extrapolating from an empty one — which is the practical point, and it survives
+the noise.
 
 The index figure is the operationally important one: **a full year of backfill
 across 117 locations would take roughly 2.6 hours.** That is fine for a nightly
