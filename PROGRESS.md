@@ -2804,3 +2804,27 @@ acting on them is exactly the mistake that had to be undone last time:
 Globally-distributed brands flagged `elsewhere` — Panadol, Lux, Molped — were
 left alone. Absence of Libyan evidence is not evidence of Libyan absence, and the
 agents said so themselves.
+
+### The corpus was built outward from the formal word
+
+The speaker's next correction: eggs are **`دحي`**, not `بيض`.
+
+`eggs_30` held 43 wordings. Forty-one were built on `بيض` / `بيظ` / `eggs`, and
+its head — the set the generator samples most often — was entirely `بيض`. The
+everyday Libyan word appeared twice, both added only in the previous phase, and
+carried roughly 2% of the sampling weight.
+
+This is the same shape as the two corrections before it. `اسطوانة` over `بمبلة`
+and `بومبة`. `عربي` over `وطني`. The corpus was assembled from the word that
+appears in writing and worked outward, when a price reporter types the word they
+say. Written sources cannot correct that, because the written sources *are* the
+formal register — Libyan price bulletins really do print `البيض العادي`.
+
+`دحي` is now the head, and `بيض` is kept but demoted, since the bulletins are
+real too. Measured rather than assumed: the generator emits `دحي` in **47.5%** of
+egg submissions, against about 2% before.
+
+Only `دحي` and `طبق دحي` were ever observed in the wild. The other eighteen forms
+were built by taking frames already attested in the item — `طبق X`, `X ٣٠ حبة`,
+`X وطني` — and swapping the head word in. That is a smaller leap than inventing a
+word, and it is still a leap, so it is recorded in `_open_questions` for pruning.

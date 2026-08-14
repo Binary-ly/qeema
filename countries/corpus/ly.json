@@ -259,7 +259,25 @@
    "بيض مغلف",
    "بيض عادي",
    "بيض وطني للاكل للمائده",
-   "دحي"
+   "دحي",
+   "طبق دحي ٣٠",
+   "طبق الدحي",
+   "دحي ٣٠ حبة",
+   "دحي طبق",
+   "طبق دحي كبير",
+   "دحي وطني",
+   "طبق دحي وطني",
+   "دحي طازج",
+   "كرتونة دحي ٣٠",
+   "٣٠ دحية",
+   "دحي عادي",
+   "طبق دحي عادي",
+   "الدحي",
+   "دحية",
+   "taba9 da7i",
+   "da7i 30 7abba",
+   "tabag da7i",
+   "da7i watani"
   ],
   "chicken_1kg": [
    "كيلو جاج",
@@ -1617,11 +1635,12 @@
    "زيت دوار الشمس ١ل"
   ],
   "eggs_30": [
+   "دحي",
+   "طبق دحي",
+   "طبق دحي ٣٠",
+   "دحي ٣٠ حبة",
    "طبق بيض",
-   "طبق بيض ٣٠",
-   "بيض",
-   "بيض ٣٠ حبة",
-   "طبقة بيض"
+   "بيض"
   ],
   "chicken_1kg": [
    "كيلو جاج",
@@ -2367,7 +2386,25 @@
    "طبق دحي": "west",
    "بيض مغلف": "both",
    "بيض عادي": "both",
-   "بيض وطني للاكل للمائده": "both"
+   "بيض وطني للاكل للمائده": "both",
+   "طبق دحي ٣٠": "both",
+   "طبق الدحي": "both",
+   "دحي ٣٠ حبة": "both",
+   "دحي طبق": "both",
+   "طبق دحي كبير": "both",
+   "دحي وطني": "both",
+   "طبق دحي وطني": "both",
+   "دحي طازج": "both",
+   "كرتونة دحي ٣٠": "both",
+   "٣٠ دحية": "both",
+   "دحي عادي": "both",
+   "طبق دحي عادي": "both",
+   "الدحي": "both",
+   "دحية": "both",
+   "taba9 da7i": "both",
+   "da7i 30 7abba": "both",
+   "tabag da7i": "both",
+   "da7i watani": "both"
   },
   "chicken_1kg": {
    "كيلو جاج": "both",
@@ -2814,6 +2851,8 @@
   "Sanitary pads: not one wording in the item could be attested to a Libyan source. Which of اولويز / كوتكس / مولبد / بيلا / نانا / سليبي are actually on Libyan shelves?",
   "فرينة عربي: is عربي here a flour type, or the same wrong 'local' sense corrected elsewhere?",
   "طهي vs طبخ: three Benghazi gas ads write طهي where western wordings say طبخ. Is that a real east/west split?",
-  "دحي: attested as the everyday Libyan word for eggs but absent from the corpus until now. Which spellings, and does it take طبق?"
+  "دحي spellings: only 'دحي' and 'طبق دحي' were observed in the wild. The other دحي rows were built by taking frames already attested in this item (طبق X، X ٣٠ حبة، X وطني) and swapping the head word in. Please prune any that a Libyan would not write — particularly دحية، الدحي، دحي عادي، and the Arabizi rows.",
+  "Does دحي take طبق the way بيض does, or is the tray called something else?",
+  "بيض is kept because Libyan price bulletins print it (البيض العادي، طبق البيض) — but it is now demoted below دحي in the sampling weights. Is that the right balance, or should بيض be cut back further?"
  ]
 }
