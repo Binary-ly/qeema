@@ -53,6 +53,7 @@ final class ReporterCorpus
      * @param  list<array<string, mixed>>  $locations
      * @param  array<string, list<string>>  $heads  item code => dominant wordings, most common first
      * @param  list<string>  $distractors  wordings that match no catalogue item at all
+     * @param  list<string>  $hold  item codes whose wordings are not trusted enough to promote
      */
     public function __construct(
         private readonly array $phrasings = [],
@@ -61,6 +62,7 @@ final class ReporterCorpus
         private readonly array $locations = [],
         private readonly array $heads = [],
         private readonly array $distractors = [],
+        private readonly array $hold = [],
     ) {}
 
     public static function empty(): self
@@ -100,6 +102,7 @@ final class ReporterCorpus
             locations: is_array($decoded['locations'] ?? null) ? array_values($decoded['locations']) : [],
             heads: self::phrasingMap($decoded['heads'] ?? null),
             distractors: self::strings($decoded['distractors'] ?? []),
+            hold: self::strings($decoded['hold'] ?? []),
         );
     }
 
@@ -148,6 +151,16 @@ final class ReporterCorpus
     public function phrasingsFor(string $itemCode): array
     {
         return $this->phrasings[$itemCode] ?? [];
+    }
+
+    /**
+     * Every wording, by the item code it belongs to.
+     *
+     * @return array<string, list<string>>
+     */
+    public function phrasings(): array
+    {
+        return $this->phrasings;
     }
 
     /**
@@ -210,6 +223,24 @@ final class ReporterCorpus
         }
 
         return $this->weightedCache[$itemCode] = $weighted;
+    }
+
+    /**
+     * Item codes whose wordings must not be promoted into the catalogue.
+     *
+     * A corpus is research until somebody who speaks the language has read it,
+     * and it arrives in pieces: some items get confirmed while others are still
+     * a question. This is where an item says "not yet". Libya holds its drinking
+     * water item for exactly this reason — the word the corpus used for the
+     * container turned out to mean *bear*, and until a speaker supplies the
+     * right one, promoting the remainder would put a guess in the catalogue,
+     * where it is far harder to find than in a JSON file.
+     *
+     * @return list<string>
+     */
+    public function hold(): array
+    {
+        return $this->hold;
     }
 
     /** @return list<string> */

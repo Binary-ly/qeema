@@ -2931,5 +2931,10 @@
       "sanitary_pads_10"
     ],
     "why": "These wordings are now catalogue variants in countries/ly.yaml, so the matcher knows them. That is the point — a held-out split measured +19.1 points of top-1 on wordings it had never seen — but it has a cost that must not be forgotten: a matching score computed against the promoted part of this corpus is now measuring memorisation, not generalisation. The three held-back items still carry open questions and remain a clean test set, as does any real market data."
-  }
+  },
+  "hold": [
+    "drinking_water_20l",
+    "eggs_30",
+    "sanitary_pads_10"
+  ]
 }

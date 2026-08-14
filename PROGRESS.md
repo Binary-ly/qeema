@@ -3297,3 +3297,52 @@ That is 0.015% of a 4.2 million-row dataset that exists to be regenerated, so
 nothing is lost that matters — but it is recorded rather than quietly absorbed,
 because "I deleted rows from a dataset a measurement was taken against" is
 exactly the kind of thing a reader is entitled to know.
+
+## Phase 28 — the promotion becomes something an operator can run
+
+Phase 25's promotion was the most effective change measured on this platform and
+it was done by a throwaway script in `/tmp`. Nobody else could repeat it, no
+other country could have it, and nothing recorded what it had refused to promote
+or why. That is a gap against both C2 and C3, not a tidiness complaint.
+
+`qeema:corpus:promote --country=<ISO2> [--dry-run]` now does it.
+
+**It refuses four things**, and the refusals are the substance of the command:
+
+| Refusal | Why |
+|---|---|
+| item listed under `hold` in the corpus | the corpus itself says the item is not verified yet |
+| already a variant | so a second run changes nothing |
+| claimed by two different items | promoting it teaches the matcher to conflate them |
+| also listed as a distractor | the corpus contradicts itself, and picking a side would be a guess |
+
+The hold list moved out of a script's head and into the corpus as data:
+`ly.json` now carries `"hold": ["drinking_water_20l", "eggs_30",
+"sanitary_pads_10"]`. Country facts belong in country files (C3).
+
+**It writes YAML, not database rows.** The catalogue is country configuration:
+it belongs in version control where it can be diffed and argued with, and it has
+to survive a clean `docker compose up` without anyone remembering a command (C2).
+The rewrite is textual rather than parse-and-re-emit, because re-emitting strips
+every comment a maintainer wrote and reorders keys — a reviewable diff becomes an
+unreadable one. A test asserts a hand-written comment survives.
+
+**It reproduces the manual promotion exactly.** Run against Libya it reports
+nothing to do: 555 already variants, 111 held back. That reconciles with what
+was done by hand — 548 promoted plus 7 that were already there.
+
+### Venezuela is deliberately not promoted
+
+The command works country-agnostically; a dry run offers **411 wordings across
+15 items**, which is the C3 evidence that the mechanism is not Libya-shaped.
+
+It is not being run. The Venezuelan corpus is model-authored, no Spanish speaker
+has read it, and it has no `hold` list because nobody has adjudicated which of
+its items are doubtful. Promoting it would put unverified brand names into the
+catalogue — precisely the failure the `hold` mechanism exists to prevent, and
+precisely what this project spent Phase 25 arguing against. The command is
+ready; Venezuela needs what Libya got, which was a speaker.
+
+Twelve tests cover it, including the ones about refusing rather than promoting:
+a distractor collision, a wording two items both claim, a held item left
+untouched, idempotency, a dry run writing nothing, and a comment surviving.

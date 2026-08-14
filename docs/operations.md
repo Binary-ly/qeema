@@ -303,6 +303,52 @@ nothing, because moving an anchor silently restates every figure published
 behind it. `--force` exists and should be used only when you intend that, and
 only alongside a republish of the affected range.
 
+## Teaching the matcher words it does not know
+
+The matcher resolves reporter text against catalogue variants. If it does not
+have a wording, it has to guess semantically, and it guesses badly around
+near-neighbours — paste against fresh tomatoes, olive oil against cooking oil.
+
+There are two ways vocabulary gets in, and they are for different situations.
+
+**One phrase at a time, from the review queue.** A reviewer resolving a queued
+submission turns its text into a variant automatically. Nothing to run. This is
+the normal path and it is why a queue that is worked shrinks: every decision
+makes the next occurrence of that phrase resolve on its own.
+
+**In bulk, from a reviewed corpus.** If a country has a corpus of wordings under
+`countries/corpus/<code>.json` that somebody who speaks the language has read:
+
+```bash
+docker compose exec app php artisan qeema:corpus:promote --country=<ISO2> --dry-run
+docker compose exec app php artisan qeema:corpus:promote --country=<ISO2>
+docker compose exec app php artisan qeema:config:import --country=<ISO2>
+```
+
+It writes into `countries/<code>.yaml` rather than the database, so the change is
+in version control where it can be reviewed, and survives a rebuild. Run the dry
+run first and read what it refuses.
+
+It refuses four things, and each refusal is worth understanding rather than
+overriding:
+
+| Refusal | Why |
+|---|---|
+| item listed under `hold` in the corpus | the corpus itself says this item is not verified yet |
+| already a variant | so re-running is safe and changes nothing |
+| claimed by two different items | promoting it would teach the matcher to conflate them |
+| also listed as a distractor | the corpus contradicts itself; resolving that silently would be a guess |
+
+**What it costs.** A promoted wording stops being a test. Measuring the matcher
+against wordings that are now in its catalogue measures memorisation and nothing
+else. Keep some items held back, and treat real market data as the real test.
+
+For Libya this was worth **+19.1 points of top-1** — 67.5% to 86.6% — measured
+on a held-out half of the corpus the matcher had never seen. Venezuela is
+deliberately **not** promoted: its corpus is model-authored and no Spanish
+speaker has read it, so promoting it would put unverified brand names into the
+catalogue, where they are much harder to find than in a JSON file.
+
 ## Daily and weekly
 
 **Daily** — glance at the dashboard. If everything is green, that is the whole
