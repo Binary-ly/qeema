@@ -2722,3 +2722,85 @@ might type that no catalogue item should match.
 One entry, `فرينة عربي`, was left alone. `عربي` there may name a type of flour
 rather than local provenance, and guessing at it would repeat exactly the mistake
 above.
+
+## Phase 21 — asking whether a Libyan ever wrote it
+
+The previous pass asked agents "does this look Libyan?", which is a judgement,
+and they answered confidently and sometimes wrongly. This pass asked a different
+question: **"can you find a Libyan writing this?"** — which a search engine can
+settle and judgement cannot. The output schema demanded a verbatim flag, a URL
+and a quote, so an unsupported claim had nowhere to hide.
+
+Six agents, 431 tool calls. 121 wordings attested — 38 **yes**, 45 **no**, 38
+**elsewhere** — with a source URL and quote on 80% of them.
+
+`elsewhere` is the verdict that earns the design: *found it, but every source is
+Egyptian, Gulf, Tunisian or Levantine*. That is how foreign register hides, and
+it is invisible to a plausibility check.
+
+### What the east actually writes
+
+45 attested wordings were added, and the eastern ones came from live Benghazi
+classifieds, verbatim:
+
+- Four more consonant skeletons for a gas cylinder — `بمبة`, `بنبة`, `اسطون`,
+  `اسطوانات` — beside the `بمبلة` / `بومبة` already corrected in.
+- **`طهي` where the west writes `طبخ`.** Three independent Benghazi ads for
+  cooking gas; every western wording in the corpus says `طبخ`. A real east/west
+  split, found rather than reasoned.
+- **`دجاج` where the west writes `جاج`.** Eastern ads spell it out.
+- `بيض وطني` from a Benghazi buyer — independent eastern corroboration of the
+  speaker's correction.
+
+East went from 13 tagged wordings to 23. Still thin, but no longer nominal.
+
+### `دحي`
+
+The everyday Libyan word for eggs. `eggs_30` held 37 wordings and not one was
+`دحي` — every single one was `بيض`, `بيظ` or `eggs`. It was found twice: a
+Libyan paper quoting a homemaker on prices (*"اعتماد المواطن البسيط على الدحي
+والجبنة"*), and a Tripoli classifieds listing (`طبق دحي براهما مخصب`).
+
+An item can be full of wordings and still be missing the word people say.
+
+### Libyan brands, from Libya's own price bulletins
+
+The corpus's brands were all foreign — Afia, Orkide, Sadia, NAN. The national
+commodity bulletin carries Libyan ones nobody had: flour `الربيع`, `الصفوة`,
+`الريحان`; rice `أبو بنت`, `الصحى`, `الأسرة`, `سيلا`; oil **`قورينا`** — Cyrene,
+named for the Libyan city. Plus `بيوميل` (Biomil) infant formula with a named
+Libyan distributor.
+
+And the trade register the bulletins actually print: `دقيق الأغراض المنزلية` for
+1kg household flour, `أرز الحبة الطويلة/القصيرة`, `دجاج جاهز للطبخ`, and the
+`بيض عادي` / `بيض مغلف` grade split at 11 against 17 dinars a tray.
+
+`شناطي مدرسية` — the Libyan broken plural of `شنطة`, from a Libyan seller. The
+agent called it the best single find of its pass and it is hard to disagree.
+
+### What the agents refused to do
+
+Asked to attest `بيض وطني`, one returned **no** and explained why: it had found
+`وطني` used for chicken meat but had not seen the collocation for eggs, and —
+
+> I am marking it "no" only because I refuse to report the speaker's ruling back
+> as if it were my own find. Keep the entry.
+
+Another found `صابون طرابلس` and flagged it as a trap: Tripoli, **Lebanon**.
+
+### Four findings held back for a speaker
+
+Recorded in the corpus under `_open_questions` rather than acted on, because
+acting on them is exactly the mistake that had to be undone last time:
+
+- **`فرينة`** — roughly 15 of the flour wordings, and every commercial
+  attestation found was Algerian or Tunisian. Not one Libyan source.
+- **`دبة`** — 10 of the water wordings, unattested across five query shapes.
+- **`بيض عربي`** — Tripoli bulletins carry `البيض العربي` as a distinct
+  higher-priced grade beside `البيض العادي`. So `عربي` may be a real egg *grade*
+  even though `وطني` is the word for local produce.
+- **Sanitary pads** — not one wording in the item attested to any Libyan source.
+
+Globally-distributed brands flagged `elsewhere` — Panadol, Lux, Molped — were
+left alone. Absence of Libyan evidence is not evidence of Libyan absence, and the
+agents said so themselves.

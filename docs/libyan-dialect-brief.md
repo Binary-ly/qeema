@@ -96,7 +96,49 @@ site:facebook.com بقالة بنغازي
 اللهجة الليبية الشرقية كلمات
 ```
 
-## 9. What the corpus needs from you
+## 9. Ground truth from a Libyan speaker — read this twice
+
+These came from a native speaker AFTER a full research pass had already "fixed"
+the corpus. They are here because of what they show about how wrong a confident,
+well-argued answer can be.
+
+| The corpus had | Research changed it to | A Libyan says |
+|---|---|---|
+| `بلدي` (free-range) | `عربي` | **`وطني`** |
+| `قروره غاز` | kept as authentic | **`اسطوانة`, `بمبلة`, `بومبة`** |
+| `محفظة` (wallet) | deleted, "means wallet in Libya" | wallet is **`جزدان` / `تزدان`** |
+
+The first is the one to sit with. Research correctly identified `بلدي` as
+Egyptian register and replaced it with `عربي` — **also wrong**, with a fluent
+justification attached. Detecting that a word is foreign is something sources can
+do. Knowing which word is *right* needs a speaker.
+
+`قارورة` is still correct for a bottle — cooking oil, medicine. It is only wrong
+for a gas cylinder.
+
+Attested by search, so you can trust these: `بمبلة غاز للبيع` and
+`بومبة غاز منزلية` both appear as live listings on OpenSooq Libya, and Libyan
+news uses `بومبة غاز` for the Brega cylinder booking system.
+
+## 10. Sources: what works, what does not
+
+**Works**
+- **WebSearch is the workhorse.** It surfaces OpenSooq and Facebook content in
+  titles and snippets even where fetching the site fails.
+- `ly.sogarab.com` — Libyan classifieds, reachable.
+- `big.ly`, `matjar-libya.com` — reachable but thin on groceries.
+- `libyaakhbar.com`, `eanlibya.com` — Libyan news, quotes market prices.
+
+**Blocked — do not spend turns here**
+- `facebook.com`, `x.com` — login wall and empty app shell. HTTP 200 either way,
+  which is why they look fetchable.
+- `ly.opensooq.com` — **403 to a direct fetch**, but its listings appear in
+  WebSearch results. Search it; do not fetch it.
+- `html.duckduckgo.com` — CAPTCHA. `mojeek.com` — 403. Bing ignores Arabic
+  site: queries.
+- `mo3jam.com` — entry titles only, no definitions.
+
+## 11. What the corpus needs from you
 
 The file is `countries/corpus/ly.json`. Its `items` map catalogue codes to
 wordings a person might type into a price-reporting app. It has **no regional

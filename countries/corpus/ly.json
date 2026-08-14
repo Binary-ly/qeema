@@ -40,7 +40,10 @@
    "s26 gold mar7ala 2",
    "similac gold 400",
    "gotya 7alib drari",
-   "haleeb bodra lel rodda3 3elba sghira"
+   "haleeb bodra lel rodda3 3elba sghira",
+   "بيوميل",
+   "بيوميل 3",
+   "Biomil"
   ],
   "baby_cereal_400g": [
    "سيريلاك قمح بالحليب",
@@ -117,7 +120,12 @@
    "frina mda3ma",
    "mata7en libya frina kilo",
    "kilo frina mn el b9ala",
-   "frina 3arbi lel khobz"
+   "frina 3arbi lel khobz",
+   "دقيق الأغراض المنزلية",
+   "دقيق الأغراض المنزلية الربيع",
+   "دقيق الأغراض المنزلية الصفوة",
+   "دقيق الأغراض المنزلية الريحان",
+   "فارينة"
   ],
   "rice_1kg": [
    "رز مصري كيلو",
@@ -156,7 +164,13 @@
    "roz amira 1kg",
    "roz 7abba tweela",
    "kilo roz 3adi",
-   "roz lel ma7shi"
+   "roz lel ma7shi",
+   "أرز حبة طويلة أبو بنت",
+   "أرز الحبة القصيرة الصحى",
+   "أرز الحبة القصيرة الأسرة",
+   "أرز الحبة الطويلة سيلا",
+   "أرز الحبة القصيرة",
+   "أرز الحبة الطويلة"
   ],
   "cooking_oil_1l": [
    "زيت عافية لتر",
@@ -195,7 +209,12 @@
    "zeet 9ali liter",
    "zit tabkh 1 liter",
    "zeet nabati 3adi",
-   "garoura zeet 1L"
+   "garoura zeet 1L",
+   "زيت عباد الشمس قورينا",
+   "زيت الذرة قورينا",
+   "زيت عباد الشمس الجيد",
+   "زيت عباد الشمس الصفوة",
+   "زيت الصفوة"
   ],
   "eggs_30": [
    "طبق بيض ٣٠",
@@ -234,7 +253,13 @@
    "beid mazra3a tabag kbir",
    "bayd 30 7abba",
    "tabag bid abyad",
-   "taba9 bayd mn el 7anout"
+   "taba9 bayd mn el 7anout",
+   "بيض وطني",
+   "طبق دحي",
+   "بيض مغلف",
+   "بيض عادي",
+   "بيض وطني للاكل للمائده",
+   "دحي"
   ],
   "chicken_1kg": [
    "كيلو جاج",
@@ -266,7 +291,13 @@
    "jaj seara 7abba",
    "jaj mbarrad mesh mjammad",
    "kartounet jaj 10 kilo",
-   "jaj nadif bla ras w rjilin"
+   "jaj nadif bla ras w rjilin",
+   "دجاج وطني",
+   "لحم دجاج وطني",
+   "لحم دجاج ساديا مستورد",
+   "دجاج جاهز للطبخ",
+   "الدجاج الجاهز للطبخ",
+   "الدواجن الجاهزة للأكل"
   ],
   "tomatoes_1kg": [
    "كيلو طماطم",
@@ -515,7 +546,19 @@
    "brega 11 kg",
    "ostwana gaz",
    "bombla kbira ghaz m3abbaya",
-   "gaz el tabkh mta3 el bait"
+   "gaz el tabkh mta3 el bait",
+   "بمبة غاز",
+   "بنبة غاز",
+   "اسطون غاز",
+   "اسطوانات غاز",
+   "بمبله غاز طهي",
+   "بومبة غاز للطھى",
+   "بومبة غاز كبيرة",
+   "أسطوانة غاز طهيي",
+   "بمبلة غاز الطهي",
+   "غاز الطهو",
+   "غاز الطهي",
+   "أسطوانة غاز الطهي"
   ],
   "drinking_water_20l": [
    "دبة ما",
@@ -624,7 +667,9 @@
    "shanta b 3ajal trolley",
    "shantet spiderman",
    "shanta torki kbira 3 jyoub",
-   "shantet real madrid"
+   "shantet real madrid",
+   "شناطي مدرسية",
+   "حقائب مدرسية"
   ],
   "bath_soap_bar": [
    "صابونه لوكس",
@@ -1719,6 +1764,7 @@
   "حمص حب كيلو",
   "خبز فرن ٥ خبزات",
   "خيار كيلو اليوم",
+  "دقيق المخابز الصفوة",
   "دوا الضغط كونكور ٥",
   "ديتول سائل معقم لتر",
   "ذهب عيار ٢١ الغرام",
@@ -1742,6 +1788,7 @@
   "شنطه لابتوب",
   "صابون سائل للجلي فيري",
   "صباح الخير كيف الحال",
+  "صدر دجاج وطني",
   "صدور دجاج مقطعه مجمده كرتونه",
   "طماطم مجففه بالزيت برطمان",
   "طوب اسمنتي الحبه",
@@ -1752,6 +1799,7 @@
   "علف دواجن كيس ٥٠",
   "غسول وجه للحبوب",
   "غلط ابعتها ثاني",
+  "فخد دجاج وطني",
   "فرشة اسنان",
   "فوط ورق مطبخ رول",
   "فولتارين شريط حبوب",
@@ -1759,6 +1807,7 @@
   "قروره غاز صغيره متاع الكشته",
   "قلم تصحيح ابيض",
   "قلم رصاص HB علبه",
+  "قنطار الدقيق",
   "قهوه تركي علبه",
   "قوارير ما نص لتر باكو ١٢",
   "قوطيه تونه ١٨٥ غرام",
@@ -1913,7 +1962,9 @@
    "shanta b 3ajal trolley": "both",
    "shantet spiderman": "both",
    "shanta torki kbira 3 jyoub": "both",
-   "shantet real madrid": "both"
+   "shantet real madrid": "both",
+   "شناطي مدرسية": "both",
+   "حقائب مدرسية": "both"
   },
   "bath_soap_bar": {
    "صابونه لوكس": "both",
@@ -2081,7 +2132,18 @@
    "brega 11 kg": "both",
    "ostwana gaz": "both",
    "bombla kbira ghaz m3abbaya": "west",
-   "gaz el tabkh mta3 el bait": "west"
+   "gaz el tabkh mta3 el bait": "west",
+   "بمبة غاز": "east",
+   "بنبة غاز": "east",
+   "اسطون غاز": "east",
+   "اسطوانات غاز": "east",
+   "بمبله غاز طهي": "east",
+   "بومبة غاز للطھى": "east",
+   "بومبة غاز كبيرة": "east",
+   "أسطوانة غاز طهيي": "east",
+   "بمبلة غاز الطهي": "west",
+   "غاز الطهو": "both",
+   "أسطوانة غاز الطهي": "both"
   },
   "infant_formula_400g": {
    "حليب نان ١ ٤٠٠ غرام": "both",
@@ -2187,7 +2249,12 @@
    "d9i9 fakher 1 kilo": "both",
    "frina mda3ma": "west",
    "kilo frina mn el b9ala": "west",
-   "frina 3arbi lel khobz": "west"
+   "frina 3arbi lel khobz": "west",
+   "دقيق الأغراض المنزلية": "both",
+   "دقيق الأغراض المنزلية الربيع": "both",
+   "دقيق الأغراض المنزلية الصفوة": "both",
+   "دقيق الأغراض المنزلية الريحان": "both",
+   "فارينة": "west"
   },
   "rice_1kg": {
    "رز مصري كيلو": "both",
@@ -2219,7 +2286,11 @@
    "roz amira 1kg": "both",
    "roz 7abba tweela": "both",
    "kilo roz 3adi": "both",
-   "roz lel ma7shi": "both"
+   "roz lel ma7shi": "both",
+   "أرز حبة طويلة أبو بنت": "both",
+   "أرز الحبة القصيرة الصحى": "both",
+   "أرز الحبة القصيرة الأسرة": "both",
+   "أرز الحبة الطويلة سيلا": "both"
   },
   "cooking_oil_1l": {
    "زيت عافية لتر": "both",
@@ -2256,7 +2327,11 @@
    "zeet 9ali liter": "both",
    "zit tabkh 1 liter": "both",
    "zeet nabati 3adi": "both",
-   "garoura zeet 1L": "west"
+   "garoura zeet 1L": "west",
+   "زيت عباد الشمس قورينا": "both",
+   "زيت الذرة قورينا": "both",
+   "زيت عباد الشمس الجيد": "both",
+   "زيت عباد الشمس الصفوة": "both"
   },
   "eggs_30": {
    "طبق بيض ٣٠": "both",
@@ -2287,7 +2362,12 @@
    "taba9 bayd kbir L": "both",
    "beid mazra3a tabag kbir": "both",
    "bayd 30 7abba": "both",
-   "taba9 bayd mn el 7anout": "west"
+   "taba9 bayd mn el 7anout": "west",
+   "بيض وطني": "east",
+   "طبق دحي": "west",
+   "بيض مغلف": "both",
+   "بيض عادي": "both",
+   "بيض وطني للاكل للمائده": "both"
   },
   "chicken_1kg": {
    "كيلو جاج": "both",
@@ -2319,7 +2399,10 @@
    "jaj seara 7abba": "both",
    "jaj mbarrad mesh mjammad": "both",
    "kartounet jaj 10 kilo": "both",
-   "jaj nadif bla ras w rjilin": "both"
+   "jaj nadif bla ras w rjilin": "both",
+   "دجاج وطني": "east",
+   "لحم دجاج وطني": "both",
+   "لحم دجاج ساديا مستورد": "both"
   },
   "tomatoes_1kg": {
    "كيلو طماطم": "both",
@@ -2417,5 +2500,320 @@
    "khafid 7arara lel rodda3 garoura": "both"
   }
  },
- "_verification": "Reviewed wording by wording against web sources by a research agent working from a Libyan-dialect brief. 39 entries were deleted as non-Libyan (Egyptian, Tunisian, Levantine or Gulf register, or brands with no Libyan market presence) and 35 were corrected. Every surviving wording carries a region tag in `regions`: west, east or both. A native Libyan speaker then corrected the review itself: free-range poultry and eggs are وطني, not عربي (the agent had corrected the Egyptian بلدي to another wrong word); a gas cylinder is اسطوانة / بمبلة / بومبة, never قارورة, which in Libya is a bottle; and a wallet is جزدان or تزدان, so محفظة was not the Libyan word for that either — it simply is not Libyan. Those corrections are applied. The corpus has still had only a partial native review, not a line-by-line one."
+ "_verification": "Reviewed wording by wording against web sources by a research agent working from a Libyan-dialect brief. 39 entries were deleted as non-Libyan (Egyptian, Tunisian, Levantine or Gulf register, or brands with no Libyan market presence) and 35 were corrected. Every surviving wording carries a region tag in `regions`: west, east or both. A native Libyan speaker then corrected the review itself: free-range poultry and eggs are وطني, not عربي (the agent had corrected the Egyptian بلدي to another wrong word); a gas cylinder is اسطوانة / بمبلة / بومبة, never قارورة, which in Libya is a bottle; and a wallet is جزدان or تزدان, so محفظة was not the Libyan word for that either — it simply is not Libyan. Those corrections are applied. The corpus has still had only a partial native review, not a line-by-line one.",
+ "_attestation": {
+  "طبق بيض ٣٠": {
+   "attested": "yes",
+   "source": "https://www.libyaakhbar.com/business-news/2819272.html"
+  },
+  "طبق بيض": {
+   "attested": "yes",
+   "source": "https://alwasat.ly/news/libya/485840"
+  },
+  "طبق بيض عادي": {
+   "attested": "yes",
+   "source": "https://www.libyaakhbar.com/business-news/2805133.html"
+  },
+  "بيض عربي (NOT currently in corpus — proposed)": {
+   "attested": "yes",
+   "source": "https://www.libyaakhbar.com/business-news/2805133.html"
+  },
+  "الدحي (NOT in corpus — proposed)": {
+   "attested": "yes",
+   "source": "https://libyan2day.ly/اقتصاد/News/338/لماذا-الدحي-البيض-؟-هل-نجحت-حملة-خلوه-يفقس-عندكم.html"
+  },
+  "البيض المغلف (NOT in corpus — proposed)": {
+   "attested": "yes",
+   "source": "https://www.libyaakhbar.com/business-news/2819272.html"
+  },
+  "رز حبة طويلة": {
+   "attested": "yes",
+   "source": "https://www.libyaakhbar.com/business-news/2554920.html"
+  },
+  "رز حبة قصيرة للطبيخ": {
+   "attested": "yes",
+   "source": "https://www.libyaakhbar.com/business-news/2554920.html"
+  },
+  "رز سيلا": {
+   "attested": "yes",
+   "source": "https://www.libyaakhbar.com/business-news/2554920.html"
+  },
+  "رز كامولينو": {
+   "attested": "elsewhere",
+   "source": "https://www.hyperone.com.eg/ar/1-6224007588499"
+  },
+  "رز ابو كاس": {
+   "attested": "elsewhere",
+   "source": "https://www.metro-markets.com/ar/product/Abu-Kass-Basmati-Rice---1kg/4670"
+  },
+  "رز اميرة": {
+   "attested": "elsewhere",
+   "source": "https://sanabel-albaraka.com/product/490453/ارز-الاميرات-8-كيلو"
+  },
+  "فرينة (and فرينه، فرينة بيضاء كيلو، فرينة الخبز، فرينة للحلويات، فرينة بر، كيلو فرينة من البقالة، فرينة عربي، frina/farina Arabizi rows)": {
+   "attested": "elsewhere",
+   "source": "https://www.facebook.com/iconic7740/videos/فرينة-البركة-10كغ-450دج-فقط-/1510485344003791/"
+  },
+  "فرينة مدعمه": {
+   "attested": "elsewhere",
+   "source": "https://www.tunisia-sat.com/forums/threads/4507012/"
+  },
+  "دقيق ١ كيلو للعجين": {
+   "attested": "yes",
+   "source": "https://www.libyaakhbar.com/business-news/2554920.html"
+  },
+  "دقيق زيرو زيرو / دقيق ٠٠ / فرينة زيرو": {
+   "attested": "elsewhere",
+   "source": "https://azharspices.com/product/دقيق-زيرو-من-عطارة-الأزهر-الشريف-بالوز/"
+  },
+  "دقيق فاخر ١ كيلو": {
+   "attested": "elsewhere",
+   "source": "https://etabliah.com/WmwapP"
+  },
+  "بيبيلاك ١ ٤٠٠غ / bebelac 2 حليب / bebelac 1 7aleeb 400g": {
+   "attested": "yes",
+   "source": "https://www.tiktok.com/@1964_alsahle/video/7207928235546381573"
+  },
+  "بيوميل / Biomil, بريمالاك / Primalac, بيدياميل / Pediamil (NONE in corpus — proposed)": {
+   "attested": "yes",
+   "source": "https://alwakil.ly/"
+  },
+  "سيريلاك (سيريلاك قمح بالحليب، سيريلاك ٤٠٠ غرام، اكل اطفال سيريلاك etc.)": {
+   "attested": "yes",
+   "source": "https://www.facebook.com/mo3adhamza50/posts/متوفر-الآن-سيريلاك-بعدة-نكهات-السعر-12-دل/969428176559911/"
+  },
+  "زيت ذرة كريستال / زيت نباتي عادي / زيت طبخ ١ لتر": {
+   "attested": "yes",
+   "source": "https://www.libyaakhbar.com/business-news/2697628.html"
+  },
+  "زيت دوار الشمس ١ل / afia زيت دوار الشمس / زيت شمس / zit dawar el shams": {
+   "attested": "elsewhere",
+   "source": "https://www.carrefouruae.com/mafuae/ar/c/F1760406"
+  },
+  "زيت عافية لتر / عافيه ١ لتر / zeet afia liter / 3afia 1 litre": {
+   "attested": "elsewhere",
+   "source": "https://gomla-eg.com/زيت-عافية-1-لتر-زره"
+  },
+  "دجاج وطني مزرعه": {
+   "attested": "yes",
+   "source": "https://almashhadlibya.com/economic-news/40115"
+  },
+  "دجاجه كامله ١٢٠٠ جرام": {
+   "attested": "yes",
+   "source": "https://tamampoultry-sg.com/"
+  },
+  "ساديا كرتونه": {
+   "attested": "elsewhere",
+   "source": "https://danube.sa/products/sadia-frozen-griller-chicken-10-1300-g"
+  },
+  "سيارا مجمد كيلو": {
+   "attested": "elsewhere",
+   "source": "https://searafoodsme.com/products/seara-frozen-chicken-griller-1100g"
+  },
+  "طماطم بلدي": {
+   "attested": "elsewhere",
+   "source": "https://www.carrefouregypt.com/mafegy/ar/tomato/a-tomato-local/p/32631"
+  },
+  "طماطم درجه اولى": {
+   "attested": "yes",
+   "source": "https://www.libyaakhbar.com/business-news/2846188.html"
+  },
+  "طمام": {
+   "attested": "yes",
+   "source": "https://t.me/LYFood/8386"
+  },
+  "[GAP + DISTRACTOR RISK] طماطم حكة / طمام حكه": {
+   "attested": "yes",
+   "source": "https://www.facebook.com/100094557312511/posts/486185791209994/"
+  },
+  "محلول معالجه الجفاف / املاح معالجه الجفاف": {
+   "attested": "elsewhere",
+   "source": "https://altibbi.com/الادوية/املاح-الاماهة-الفموية-علمي"
+  },
+  "املاح الاماهه الفمويه": {
+   "attested": "elsewhere",
+   "source": "https://www.webteb.com/articles/املاح-الاماهة-الفموية_15651"
+  },
+  "ادول شراب / ادول ١٢٠ ملغ شراب / Adol سيروب": {
+   "attested": "elsewhere",
+   "source": "https://www.taw9eel.com/en/adol-syrup-60-ml.html"
+  },
+  "سيتال شراب / سيتال ١٢٠ للاطفال": {
+   "attested": "elsewhere",
+   "source": "https://chefaa.com/blog/سيتال-cetal/"
+  },
+  "دوليبران شراب / دوليبران سيروب للاطفال / Doliprane 2.4% sirop": {
+   "attested": "elsewhere",
+   "source": "https://pharmacia1.com/dolipran-2-4-sirop/"
+  },
+  "بنادول اطفال شراب / بنادول بيبي / panadol شراب اطفال": {
+   "attested": "elsewhere",
+   "source": "https://www.binsina.ae/ar/panadol-100.html"
+  },
+  "اموكسيل شراب / اموكسيل ٢٥٠ شراب / Amoxil 125 syrup": {
+   "attested": "elsewhere",
+   "source": "https://www.vezeeta.com/ar-eg/pharmacy/اموكسيل-فورت-250مجم-5مل-شراب-معلق-60-مل"
+  },
+  "جلفاموكس شراب / جلفاموكس ٢٥٠ للاطفال": {
+   "attested": "elsewhere",
+   "source": "https://altibbi.com/الادوية/جلفاموكس-معلق-2"
+  },
+  "باكو صابون ٦ حبات": {
+   "attested": "yes",
+   "source": "https://t.me/LYFood/7371"
+  },
+  "صابون الغار الحلبي / صابونة غار": {
+   "attested": "elsewhere",
+   "source": "https://www.facebook.com/TEBA.MOL/posts/691991376391759/"
+  },
+  "صابونه لوكس / لوكس صابون / lux صابون": {
+   "attested": "elsewhere",
+   "source": "https://www.facebook.com/permalink.php/?story_fbid=453710956986273&id=100070421160619"
+  },
+  "صابونه دورو / duru صابون تركي / صابون دالان / صابون حاجي شاكر": {
+   "attested": "elsewhere",
+   "source": "https://elghazawy.com/ar/product/38074270277533/"
+  },
+  "[TRAP WARNING] صابون طرابلس": {
+   "attested": "elsewhere",
+   "source": "https://tripoli-soap.com/"
+  },
+  "[SOURCE NOTE — the corpus I built, so it can be reused or challenged]": {
+   "attested": "yes",
+   "source": "https://t.me/s/LYFood"
+  },
+  "بمبلة غاز": {
+   "attested": "yes",
+   "source": "https://ly.opensooq.com/ar/search/189037965"
+  },
+  "بومبة غاز": {
+   "attested": "yes",
+   "source": "https://ly.opensooq.com/ar/search/264953597"
+  },
+  "بومبة الغاز": {
+   "attested": "yes",
+   "source": "https://ly.opensooq.com/ar/search/262622921"
+  },
+  "بمبلي غاز": {
+   "attested": "yes",
+   "source": "https://ly.opensooq.com/ar/search/269945201"
+  },
+  "بنبلي غاز": {
+   "attested": "yes",
+   "source": "https://ly.opensooq.com/ar/search/241375363"
+  },
+  "اسطوانه غاز": {
+   "attested": "yes",
+   "source": "https://alwasat.ly/news/libya/486353"
+  },
+  "غاز البريقه": {
+   "attested": "yes",
+   "source": "https://www.facebook.com/new.efragat.ly/posts/"
+  },
+  "بومبة غاز 11 كيلو": {
+   "attested": "yes",
+   "source": "https://www.nwe-prices.com/2026/01/11_16.html"
+  },
+  "بانقة": {
+   "attested": "yes",
+   "source": "https://ly.opensooq.com/ar/search/169898185"
+  },
+  "دبة ما": {
+   "attested": "elsewhere",
+   "source": "https://om.opensooq.com/ar/search/259511703"
+  },
+  "الصافية ٢٠ لتر / دبه الصافية": {
+   "attested": "yes",
+   "source": "https://www.asafia.ly/our_products.html"
+  },
+  "عبوه ٢٠ لتر شرب": {
+   "attested": "yes",
+   "source": "https://libyaalahrar.tv/2026/04/03/"
+  },
+  "كراريس / كراسات": {
+   "attested": "yes",
+   "source": "https://www.facebook.com/groups/408706847648325/posts/1388200876365579/"
+  },
+  "كراس 80 ورقه": {
+   "attested": "yes",
+   "source": "https://lana.gov.ly/post.php?id=314435&lang=ar"
+  },
+  "كشكول ٨٠ ورقه / كشكول سلك": {
+   "attested": "elsewhere",
+   "source": "https://www.youm7.com/story/2023/9/3/"
+  },
+  "مينترا كشكول": {
+   "attested": "elsewhere",
+   "source": "https://corporate.mintra.com.eg/about/"
+  },
+  "جيبتا كشكول ٨٠": {
+   "attested": "elsewhere",
+   "source": "https://snoonu.com/ar/product/gipta-tulip-notebook/"
+  },
+  "قلم بنسان / pensan ازرق": {
+   "attested": "elsewhere",
+   "source": "https://www.jumia.com.eg/ar/pens-refills/pensan/"
+  },
+  "سكريكس": {
+   "attested": "elsewhere",
+   "source": "https://www.jumia.com.eg/ar/pens-refills/scrikss/"
+  },
+  "فابر كاستل": {
+   "attested": "elsewhere",
+   "source": "https://www.noon.com/egypt-ar/office-supplies/faber_castell/"
+  },
+  "صاكو ضهر": {
+   "attested": "yes",
+   "source": "https://bwstore.ly/product-category/%D8%B5%D8%A7%D9%83%D9%88-%D8%B6%D9%87%D8%B1/"
+  },
+  "شنطة ظهر / حقيبه ظهر": {
+   "attested": "yes",
+   "source": "https://bwstore.ly/product-category/%D8%B5%D8%A7%D9%83%D9%88-%D8%B6%D9%87%D8%B1/"
+  },
+  "حقيبه ظهر / حقيبة مدرسية": {
+   "attested": "yes",
+   "source": "https://ly.opensooq.com/ar/search/161659576"
+  },
+  "شنطة (generic)": {
+   "attested": "yes",
+   "source": "https://ly.opensooq.com/ar/search/201039815"
+  },
+  "شنطة سبايدرمان": {
+   "attested": "elsewhere",
+   "source": "https://ishraqst.com/product/%D8%B4%D9%86%D8%B7%D8%A9-%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9-%D8%B3%D8%A8%D8%A7%D9%8A%D8%AF%D8%B1%D9%85%D8%A7%D9%86-24820-2/"
+  },
+  "فوط نسائيه / فوط الدوره الشهريه": {
+   "attested": "elsewhere",
+   "source": "https://www.facebook.com/Aboali.market5/"
+  },
+  "مولبد / مولبيد نايت طويله / molped ليلي": {
+   "attested": "elsewhere",
+   "source": "https://chefaa.com/blog/%D9%85%D9%85%D9%8A%D8%B2%D8%A7%D8%AA-%D9%88%D8%B9%D9%8A%D9%88%D8%A8-%D9%81%D9%88%D8%B7-%D9%85%D9%88%D9%84%D8%A8%D8%AF/"
+  },
+  "فوط اولويز / اولويز باجنحه / always فوط": {
+   "attested": "elsewhere",
+   "source": "https://alraya-store.com/"
+  },
+  "نانا فوط": {
+   "attested": "elsewhere",
+   "source": "https://www.nana-me.com/en-ae/shop-our-products/available-in-store/sanitary-pads/"
+  },
+  "سليبي فوط": {
+   "attested": "elsewhere",
+   "source": "https://wlidaty.com/en/collections/sleepy"
+  },
+  "سوفي / برايفت": {
+   "attested": "elsewhere",
+   "source": "https://www.facebook.com/Aboali.market5/"
+  }
+ },
+ "_open_questions": [
+  "فرينة (~15 of the flour wordings): every commercial attestation found was Algerian (دج prices) or Tunisian. Not one Libyan source. Is فرينة genuinely what Libyans write for flour, or has it leaked in from the neighbours?",
+  "دبة (10 of the water wordings): not attested to any Libyan source across five query shapes. Is دبة ما what a Libyan calls a 20L water jug?",
+  "بيض عربي: Tripoli price bulletins carry البيض العربي as a distinct HIGHER-priced grade (28 د.ل) next to البيض العادي (16 د.ل). Given the ruling that free-range is وطني, is عربي nonetheless a real egg grade a reporter would type?",
+  "Sanitary pads: not one wording in the item could be attested to a Libyan source. Which of اولويز / كوتكس / مولبد / بيلا / نانا / سليبي are actually on Libyan shelves?",
+  "فرينة عربي: is عربي here a flour type, or the same wrong 'local' sense corrected elsewhere?",
+  "طهي vs طبخ: three Benghazi gas ads write طهي where western wordings say طبخ. Is that a real east/west split?",
+  "دحي: attested as the everyday Libyan word for eggs but absent from the corpus until now. Which spellings, and does it take طبق?"
+ ]
 }
