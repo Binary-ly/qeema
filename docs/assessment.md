@@ -147,6 +147,53 @@ Asserted rather than assumed — a test walks `/`, `/docs`, `/api/v1/health`,
 | Formatting and typing (Pint, ruff, mypy) | clean |
 | Country-agnostic check | pass |
 
+## The one measurement against real Libyan data
+
+Sixty rows from a Libyan daily commodity bulletin — شبكة ليبيا التجارية, 13 April
+2025, product / brand / unit / price in dinars — were pushed through the live
+public submission API and resolved by the real pipeline. This is the only figure
+in this document taken from data the platform did not generate itself.
+
+| | |
+|---|---|
+| Rows submitted | 60 |
+| Correctly matched to a catalogue item | **16** |
+| Products not in the catalogue at all | 41 |
+| Of those, **refused** | **0** |
+| Auto-resolved without a human | **0 of 60** |
+
+Two findings, and the second is the serious one.
+
+**The matcher never refuses.** Every one of the 41 products absent from the
+catalogue — tuna, sugar, cheese, tea, couscous — was matched to *something*
+rather than declined. Sugar was proposed as sanitary pads; tuna as amoxicillin.
+
+**Confidence cannot separate right from wrong here.** Correct matches scored
+0.726–0.746. Incorrect ones scored 0.574–0.741, and **eleven wrong matches scored
+above the lowest correct one**. No threshold exists that admits the good and
+rejects the bad on this data.
+
+The overlap is not random — it is systematic, and it is the failure mode that
+corrupts a price index specifically:
+
+| Real bulletin row | Matched to | Confidence | Why it is wrong |
+|---|---|---|---|
+| طماطم معجون (tomato **paste**) | tomatoes_1kg | 0.739 | A different product at a different price |
+| زيت زيتون (**olive** oil) | cooking_oil_1l | 0.737 | Several times the price of sunflower |
+| دقيق المخابز (**25 kg** bakery sack) | wheat_flour_1kg | 0.735 | Twenty-five times the quantity |
+| دقيق اسمر شعير (**barley** flour) | wheat_flour_1kg | 0.727 | A different grain |
+
+What saved it is that **nothing auto-resolved**: all sixty went to the review
+queue, so a person would have caught every one. That is the design working. It
+also means that on data of this kind the matcher currently automates nothing —
+every row needs a human — which is a real operational fact worth knowing before a
+pilot rather than during one.
+
+One caveat on scope. A trade bulletin is not reporter text; it is a formal
+register the matcher was never tuned for, so this understates performance on
+what a reporter would actually type. The near-neighbour confusions, though, are
+not an artefact of register: a reporter is just as able to type "tomato paste".
+
 ## What is measured only against a simulation
 
 **This section is the one to read carefully.** The machine-learning components

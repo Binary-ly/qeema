@@ -2828,3 +2828,76 @@ Only `دحي` and `طبق دحي` were ever observed in the wild. The other eigh
 were built by taking frames already attested in the item — `طبق X`, `X ٣٠ حبة`,
 `X وطني` — and swapping the head word in. That is a smaller leap than inventing a
 word, and it is still a leap, so it is recorded in `_open_questions` for pruning.
+
+## Phase 22 — the first real Libyan data
+
+Asked directly whether Qeema had ever been tested on real Libyan data, the answer
+was no: 3.79 million observations, every one synthetic. The corpus work had made
+the *vocabulary* real — attested strings from live Libyan listings — but
+vocabulary is not data. The matcher had never seen a real submission.
+
+The attestation agents had walked past the answer. Chasing wordings, they quoted
+46 real Libyan prices from daily commodity bulletins — شبكة ليبيا التجارية,
+republished by Libyan outlets, product / brand / unit / price in dinars, on a
+schedule, for items already in the catalogue.
+
+Sixty of those rows went through the live public submission API and were resolved
+by the real pipeline.
+
+### What happened
+
+Sixteen matched correctly: 1 kg household flour, short- and long-grain rice,
+sunflower and corn oil, each with a real Libyan mill or brand attached — الصفوة،
+الريحان، الربيع، الصحى، الأسرة، أبو بنت، سيلا، الجيد.
+
+Forty-one were products the catalogue does not contain — tuna, cheese, sugar,
+tea, couscous, harissa. **Not one was refused.** Every one had a match proposed.
+Sugar was offered as sanitary pads, tuna as amoxicillin.
+
+**Nothing auto-resolved.** All sixty went to the review queue.
+
+### The finding that matters
+
+Correct matches scored 0.726 to 0.746. Wrong ones scored 0.574 to 0.741, and
+**eleven wrong matches scored higher than the lowest correct one**. There is no
+threshold that admits the good and rejects the bad on this data.
+
+And the overlap is systematic rather than noisy. It is precisely the SKU
+conflation that ruins a price index:
+
+    طماطم معجون  (tomato paste)      → tomatoes_1kg      0.739
+    زيت زيتون    (olive oil)         → cooking_oil_1l    0.737
+    دقيق المخابز (25 kg bakery sack) → wheat_flour_1kg   0.735
+    دقيق اسمر    (barley flour)      → wheat_flour_1kg   0.727
+
+Tomato paste priced as fresh tomatoes. Olive oil priced as sunflower. A 25 kg
+sack priced as a kilo.
+
+The synthetic corpus could not have produced this. Its distractors were chosen to
+be *clearly* different, because they were written by asking what a wrong answer
+looks like. Real market data supplies near-neighbours nobody thought to invent —
+and the near-neighbours are where a price index breaks.
+
+### What it means, stated carefully
+
+The review queue caught all of it, which is the design working exactly as
+intended. It also means that on data of this kind the matcher automates nothing:
+every row needs a person.
+
+A trade bulletin is not reporter text — it is a formal register the matcher was
+never tuned for, so this understates how it would do on what a reporter types.
+But the near-neighbour confusions are not an artefact of register. A reporter can
+type "tomato paste" just as easily as a bulletin can print it.
+
+### Licensing, and why this is not yet an ingestion
+
+The bulletins are real and structured and would slot straight into the existing
+scraper subsystem. They are not being ingested. The route they were found
+through — libyaakhbar — is an aggregator whose footer reads
+`© جميع الحقوق محفوظة`, all rights reserved, which is not an openly-licensed
+dataset and has no place in the runtime of an Apache-2.0 project bound by C1.
+
+The primary source, شبكة ليبيا التجارية, needs its own terms checked before
+anything is ingested. That check did not happen: the session's search budget was
+exhausted by the agents. Sixty rows fetched once for a one-off evaluation is a
+different act from a scheduled scrape, and only the first has been done.
