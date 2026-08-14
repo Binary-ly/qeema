@@ -209,8 +209,21 @@ they are a known distortion rather than a hidden one.
 Three of the review's findings have since been addressed, and it is worth being
 precise about what changed.
 
-**Precision can now be measured.** The corpus carries **distractors**: 136 for
-Libya, 105 for Venezuela, wordings that match no catalogue item at all. They are
+**Precision can now be measured.** The corpus carries **distractors**: 210 for
+Libya, 105 for Venezuela, wordings that match no catalogue item at all.
+
+Sixty-four of the Libyan ones are not invented. They are real product strings
+lifted from a Libyan commodity bulletin — tuna, cheese, sugar, tea, couscous,
+harissa, tomato paste, olive oil, barley flour, 25 kg bakery sacks — every one a
+real thing sold in Libya that the catalogue has no entry for. Seven of them are
+recorded in `_measured_confusions` with the confidence the matcher actually gave
+them, because they are the ones it demonstrably got wrong: tomato paste matched
+to tomatoes at 0.739, olive oil to cooking oil at 0.727, sterilised milk to
+infant formula at 0.660.
+
+Invented distractors are chosen by asking what a wrong answer looks like, so they
+come out clearly wrong. Real market data supplies the near-neighbours nobody
+thinks to invent, and near-neighbours are where a price index breaks. They are
 tagged by kind — another product entirely, a fragment too vague to resolve, a
 greeting or test message typed into the wrong box, and `near_miss`, which is the
 valuable one: something adjacent to a catalogued product that a careless matcher
