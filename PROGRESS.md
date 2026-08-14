@@ -2692,3 +2692,33 @@ Repairing the corpus broke it in a way a person would not have noticed: four
 `heads` entries pointed at wordings that had just been deleted or renamed. Heads
 are matched by string, so a stale head silently disables the weighting for that
 item rather than failing. The test written last phase caught all four.
+
+### A native speaker corrected the correction
+
+Three corrections from a Libyan speaker, and the first one matters most for what
+it says about the method.
+
+**Free-range poultry and eggs are `وطني`.** The verification agent had found the
+corpus's `بلدي` to be Egyptian register — correct — and changed it to `عربي`,
+which is also not the Libyan word. Six wordings were fixed from one wrong word to
+another wrong word, with a plausible-sounding justification attached. Research
+against written sources caught that something was off and still landed wrong;
+only a speaker knew where.
+
+**A gas cylinder is `اسطوانة`, `بمبلة` or `بومبة` — never `قارورة`.** The agent
+had gone the other way, treating `قروره` as the authentic colloquial and
+`أنبوبة` as the Egyptian intruder. It was right about `أنبوبة` and wrong about
+`قروره`. Nineteen wordings were rewritten, distributed across all three real
+words rather than collapsed onto one, so the variety the corpus exists for
+survives. `قارورة` remains where it is genuinely right: an oil bottle, a
+medicine bottle.
+
+**A wallet is `جزدان` or `تزدان`.** The agent deleted `محفظة` from the school-bag
+item on the grounds that in Libya it means a wallet. Deleting it was right;
+the reason was wrong — `محفظة` is not the Libyan word for a wallet either. It has
+been added to the distractors, where a wallet belongs: a real thing somebody
+might type that no catalogue item should match.
+
+One entry, `فرينة عربي`, was left alone. `عربي` there may name a type of flour
+rather than local provenance, and guessing at it would repeat exactly the mistake
+above.
