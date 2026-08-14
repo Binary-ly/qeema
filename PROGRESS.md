@@ -2619,3 +2619,76 @@ second when a controlled window measured 853. The generator flushes in batches,
 so short samples are bursty, and my ad-hoc checks were not an instrument. The
 three-minute sampled curve is the one that holds; the spot-checks between them
 should not have been reported as findings, and one of them was.
+
+## Phase 20 — the corpus checked against sources, not against a model's confidence
+
+Seven agents were given a research brief on Libyan Arabic — the east/west split,
+the phonology that drives spelling, confirmed regional word pairs, Italian
+loanwords, and which sources are actually reachable — and told to check every
+Libyan wording against the web.
+
+Four verification agents returned **666 verdicts, one per wording**: 592 keep,
+35 fix, 39 delete. Every verdict matched a real entry; none referred to a
+wording that was not there.
+
+### What was wrong
+
+The errors clustered by *register*, which is not something a spelling check
+would find. Words that are perfectly good Arabic but belong to another dialect:
+
+- `قوطه` for tomato is **Egyptian**; `أنبوبة غاز` is Egyptian where Libyan is
+  `أسطوانة` or `قروره`; `ظرف` for a sachet is Egyptian where Libyan is `كيس`;
+  `حريمي` and `دستة` are Egyptian markers.
+- `محفظة` for a school bag is **Tunisian/Algerian** — in Libya it means a wallet,
+  so `محفظة الولد` reads as "the boy's wallet".
+- `ستيلو` is French *stylo*, so **Moroccan/Algerian/Tunisian**. Libya's European
+  lexical layer is Italian, not French — the same reason `Clamoxyl sirop` was
+  wrong and `قنينة` (Levantine) should be `قارورة`.
+- `بلدي` for free-range poultry and eggs is Egyptian register; the Libyan market
+  term is **`عربي`**. Six rows.
+
+Brands with no Libyan presence: Rehydran (Egyptian, five rows), Fevadol (Saudi),
+Roco (Gulf retail), Perdix, Frangosul, Doux, Safa. A fabricated brand in a test
+set produces a false negative that looks exactly like a matcher bug.
+
+Two findings I could not have reached alone. `ڨاز` applies the western `ق→g`
+spelling to a word spelled with `غ`, where the rule does not belong. And
+`6ma6em` uses `6` for ط, which is the **Levantine and Gulf** franco-arabe
+convention — Libyan and Maghrebi franco-arabe uses a plain `t`, with `9` for ق
+and `7` for ح. The Arabizi added last phase was partly in the wrong dialect of
+Arabizi.
+
+One entry, `dabba mta3 el cooler / el barrada`, was an authoring artefact: a
+slash offering two alternatives inside a single string, which no person types.
+
+### The corpus now knows where a word is from
+
+571 wordings carry a region tag — **west 108, both 450, east 13**. That ratio is
+itself the finding: the corpus is heavily western, because Tripoli dominates
+what is written online. An eastern reporter in Benghazi or Derna is far less
+well represented than a western one, and now that is visible rather than
+implicit.
+
+### What could not be done, and why
+
+The hunt phase — finding Libyan grocery businesses and extracting real wordings —
+returned nothing, and the agent was right to return nothing. Its own account:
+
+> Padding this list with plausible-sounding Libyan words I did not actually
+> observe would be inventing evidence.
+
+Its blocker was the session's WebSearch budget, spent to 200 of 200 on the
+dialect research before it ran. It fell back to direct fetches and logged every
+one: `big.ly` food pages empty, OpenSooq **403**, DuckDuckGo a **CAPTCHA wall**,
+Bing ignoring the query, Mojeek **403**, mo3jam titles without definitions.
+
+**facebook.com and x.com cannot be fetched at all** — tested directly: Facebook
+serves a login wall and X an empty app shell, both behind an HTTP 200. Search
+snippets were the workaround, and the search budget is what removed them.
+
+### The guard that earned its place
+
+Repairing the corpus broke it in a way a person would not have noticed: four
+`heads` entries pointed at wordings that had just been deleted or renamed. Heads
+are matched by string, so a stale head silently disables the weighting for that
+item rather than failing. The test written last phase caught all four.
