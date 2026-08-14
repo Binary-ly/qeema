@@ -17,6 +17,7 @@ from collections import OrderedDict
 
 import numpy as np
 from fastapi import APIRouter, HTTPException
+from numpy.typing import NDArray
 from pydantic import BaseModel, Field
 
 from qeema_ml import __version__
@@ -51,6 +52,16 @@ _embedder_lock = threading.Lock()
 
 _index_cache: OrderedDict[str, SemanticIndex] = OrderedDict()
 _index_lock = threading.Lock()
+
+#: How many individual passage vectors to keep, across all catalogues.
+#:
+#: Sized so several countries' catalogues fit at once with room for the variants
+#: a review queue adds over a long run. A vector is 768 float32s — about 3 KB —
+#: so this bound is a few tens of megabytes at worst.
+_VECTOR_CACHE_SIZE = 20_000
+
+_vector_cache: OrderedDict[str, NDArray[np.float32]] = OrderedDict()
+_vector_lock = threading.Lock()
 
 
 def _get_embedder() -> SentenceTransformerEmbedder | None:
@@ -122,6 +133,52 @@ def _catalogue_fingerprint(catalogue: CatalogueIn) -> str:
     return digest.hexdigest()
 
 
+def _passage_vectors(
+    embedder: SentenceTransformerEmbedder, texts: list[str]
+) -> NDArray[np.float32]:
+    """Embed passages, reusing every vector already computed.
+
+    A passage embedding depends only on its text, so a catalogue that changed by
+    one variant shares every other vector with the version before it. Without
+    this, changing anything meant embedding everything again.
+
+    That is not a rare case, it is the normal one. A reviewer resolving a queued
+    phrase turns it into a variant, which changes the catalogue fingerprint and
+    invalidated the whole index. Re-embedding 676 variants takes about eleven
+    seconds — longer than the API client waits — so **the first match after
+    every human review failed**, and a queue being actively worked would fail
+    continuously. Measured, end to end, before this existed.
+
+    Now a review costs one embedding rather than the whole catalogue.
+    """
+    unique = list(dict.fromkeys(texts))
+
+    with _vector_lock:
+        known = {text: _vector_cache[text] for text in unique if text in _vector_cache}
+
+    missing = [text for text in unique if text not in known]
+
+    if missing:
+        # Outside the lock for the same reason the caller is: this is the slow
+        # part, and serialising it would defeat the point of caching at all.
+        fresh = embedder.encode_passages(missing)
+
+        for text, vector in zip(missing, fresh, strict=True):
+            known[text] = np.asarray(vector, dtype=np.float32)
+
+        with _vector_lock:
+            for text in missing:
+                _vector_cache[text] = known[text]
+                _vector_cache.move_to_end(text)
+
+            while len(_vector_cache) > _VECTOR_CACHE_SIZE:
+                _vector_cache.popitem(last=False)
+
+    # Assembled from the local map rather than the cache, so an eviction racing
+    # with this call cannot produce a KeyError or a short index.
+    return np.stack([known[text] for text in texts]).astype(np.float32)
+
+
 def _semantic_index(catalogue: CatalogueIn) -> SemanticIndex | None:
     """Embed a catalogue, or return the cached embedding of it.
 
@@ -150,7 +207,7 @@ def _semantic_index(catalogue: CatalogueIn) -> SemanticIndex | None:
     texts = [v.normalized_text or v.text for v in catalogue.variants]
 
     try:
-        vectors = embedder.encode_passages(texts)
+        vectors = _passage_vectors(embedder, texts)
     except Exception:  # pragma: no cover - depends on the deployed image
         logger.exception("Embedding the catalogue failed; matching stays lexical.")
 

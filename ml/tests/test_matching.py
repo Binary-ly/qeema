@@ -14,6 +14,7 @@ from typing import ClassVar
 import numpy as np
 import pytest
 
+from qeema_ml.api import matching
 from qeema_ml.matching.fusion import ConfidenceCalibrator, fuse
 from qeema_ml.matching.lexical import LexicalIndex, score_pair
 from qeema_ml.matching.matcher import CatalogueIndexes, HybridMatcher, MatcherConfig
@@ -478,3 +479,75 @@ class TestBatchMatching:
 
     def test_it_returns_an_empty_list_for_no_texts(self) -> None:
         assert build_matcher().match_many([], build_catalogue()) == []
+
+
+class TestPassageVectorReuse:
+    """A catalogue that grew by one variant must cost one embedding."""
+
+    class CountingEmbedder:
+        def __init__(self) -> None:
+            self.batches: list[list[str]] = []
+
+        def encode_passages(self, texts: list[str]) -> np.ndarray:
+            self.batches.append(list(texts))
+            return np.array([[float(len(t)), 1.0, 0.0] for t in texts], dtype=np.float32)
+
+        def encode_queries(self, texts: list[str]) -> np.ndarray:  # pragma: no cover
+            return np.zeros((len(texts), 3), dtype=np.float32)
+
+        @property
+        def dimension(self) -> int:  # pragma: no cover
+            return 3
+
+    def setup_method(self) -> None:
+        matching._vector_cache.clear()
+
+    def test_it_embeds_only_the_variant_that_is_new(self) -> None:
+        embedder = self.CountingEmbedder()
+        original = ["أرز", "ارز ابيض", "rice"]
+
+        matching._passage_vectors(embedder, original)
+        matching._passage_vectors(embedder, [*original, "رز مصري"])
+
+        assert embedder.batches == [original, ["رز مصري"]], (
+            "the second call must embed only the added variant, not the catalogue"
+        )
+
+    def test_it_returns_the_same_vectors_whether_cached_or_fresh(self) -> None:
+        embedder = self.CountingEmbedder()
+        texts = ["أرز", "ارز ابيض", "rice"]
+
+        fresh = matching._passage_vectors(embedder, texts)
+        cached = matching._passage_vectors(embedder, texts)
+
+        assert np.array_equal(fresh, cached)
+        assert len(embedder.batches) == 1
+
+    def test_it_keeps_row_order_and_handles_a_repeated_text(self) -> None:
+        embedder = self.CountingEmbedder()
+        texts = ["أرز", "rice", "أرز"]
+
+        vectors = matching._passage_vectors(embedder, texts)
+
+        assert vectors.shape == (3, 3)
+        assert np.array_equal(vectors[0], vectors[2]), "the same text must give the same row"
+        assert embedder.batches == [["أرز", "rice"]], "a repeat must not be embedded twice"
+
+    def test_it_does_not_grow_without_bound(self, monkeypatch) -> None:
+        monkeypatch.setattr(matching, "_VECTOR_CACHE_SIZE", 4)
+        embedder = self.CountingEmbedder()
+
+        for i in range(10):
+            matching._passage_vectors(embedder, [f"variant {i}"])
+
+        assert len(matching._vector_cache) == 4
+
+    def test_an_eviction_does_not_break_a_later_call(self, monkeypatch) -> None:
+        """Assembly reads a local map, so eviction can never shorten an index."""
+        monkeypatch.setattr(matching, "_VECTOR_CACHE_SIZE", 2)
+        embedder = self.CountingEmbedder()
+
+        vectors = matching._passage_vectors(embedder, ["a", "bb", "ccc", "dddd"])
+
+        assert vectors.shape == (4, 3)
+        assert len(matching._vector_cache) == 2

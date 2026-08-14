@@ -3231,3 +3231,69 @@ the same action, reason, candidate ids and confidences for the same inputs,
 including the awkward ones — empty text, an exact match, and a string like
 `asdasdasd` that resembles nothing. Two more assert the model is called exactly
 once for a mixed batch and not at all when every text is already decided.
+
+## Phase 27 — the loop closes, and it used to break the next match
+
+Phase 25 concluded that catalogue coverage is the lever and the review queue is
+the mechanism that turns it. That was a claim about code nobody had run, so it
+was worth checking rather than repeating.
+
+**The loop exists and is well built.** `ApplyReviewDecision::learnVariant` takes
+the phrase that defeated the matcher, stores it keyed on its normalised form so
+two spellings that normalise alike become one variant, declines to silently
+reassign a phrase already claimed by a *different* item — a genuine ambiguity a
+reviewer should see — and invalidates the catalogue cache so the next match sees
+it immediately.
+
+**And it works.** End to end, against the live service:
+
+    قزازة ما كبيره للبراد    ->  tomatoes_1kg        0.631  review
+    (a reviewer approves it as drinking water)
+    قزازة ما كبيره للبراد    ->  drinking_water_20l  0.990  auto_resolve
+
+A phrase that was matching *tomatoes* is correct and auto-resolving after one
+human decision.
+
+### The defect that only appears once the catalogue is big
+
+The first call after that review **failed**.
+
+Invalidating the catalogue changes its fingerprint, so the ML service rebuilt
+the semantic index from nothing: 676 passages, about eleven seconds, against a
+client that waits ten. Every human review broke the next matching call, and a
+queue being actively worked would have broken them continuously.
+
+This was invisible at 133 variants and unavoidable at 676. Phase 25 created it.
+
+**Fixed by caching vectors rather than indexes.** A passage embedding depends
+only on its text, so a catalogue that grew by one variant shares every other
+vector with the version before it. `_passage_vectors` now embeds only what it
+has never seen.
+
+| | before | after |
+|---|---|---|
+| catalogue grown by one variant | full rebuild, ~11 s, **timed out** | **215 ms** |
+| first match after a review | **failed** | **97 ms** |
+| unchanged catalogue | 35 ms | 35 ms |
+
+Cold start is unchanged and still slow — 41 s for 677 variants including loading
+the model — because that genuinely is all new work. It happens once per process,
+not once per review, which is the difference that matters.
+
+Five tests cover it: only the new variant is embedded, cached and fresh vectors
+are identical, row order survives a repeated text, the cache is bounded, and an
+eviction racing with a build cannot shorten an index — assembly reads a local
+map, never the cache.
+
+### Cleaning up after the test, and a deletion worth recording
+
+The end-to-end test wrote real rows into the development database. Removing them
+deleted more than intended: one of the phrases used, `قالون ما`, is a genuine
+corpus wording, so the scale dataset contained **611 generated submissions**
+using it. Those and their resolutions went too, along with 607 now-orphaned
+ground-truth rows that were deleted afterwards to restore referential integrity.
+
+That is 0.015% of a 4.2 million-row dataset that exists to be regenerated, so
+nothing is lost that matters — but it is recorded rather than quietly absorbed,
+because "I deleted rows from a dataset a measurement was taken against" is
+exactly the kind of thing a reader is entitled to know.
