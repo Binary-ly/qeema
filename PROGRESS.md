@@ -3165,3 +3165,69 @@ Two related traps, both worth knowing before trusting a green run:
 
 CI was never affected: it provisions `qeema_test` and passes the settings as
 real environment variables. Run the suite on the host, or rebuild the image.
+
+## Phase 26 — the batch endpoint was resolving a batch one text at a time
+
+Growing the catalogue to 675 variants pushed batch matching to roughly 300 ms a
+text, enough that the API client's ten-second timeout tripped on batches of 25.
+The obvious suspect was the catalogue: five times as many variants to embed.
+
+It was not. The semantic index is already cached by fingerprint, so a catalogue
+is embedded once and reused. The cost was on the other side.
+
+`/v1/match/batch` looped over its texts calling `match()`, and `match()` embeds
+one query with one forward pass. So a batch of forty paid forty forward passes.
+The model is far more efficient given all forty at once:
+
+| texts | one forward pass | per text |
+|---|---|---|
+| 1 | 139 ms | 139 ms |
+| 5 | 391 ms | 78 ms |
+| 20 | 1,216 ms | 61 ms |
+| 40 | 1,562 ms | 39 ms |
+
+Against 84 ms a text when looped at twenty. More than half the machine was being
+thrown away, and the waste grew with batch size — exactly backwards for an
+endpoint whose whole purpose is clearing a backlog.
+
+`HybridMatcher.match_many` now embeds the queries in a single pass. Two details
+matter beyond the arithmetic:
+
+**Texts already decided never enter the batch.** An exact match on a known
+variant is a dictionary lookup. Only texts that genuinely need the model are
+embedded — so the better the catalogue's vocabulary gets, the cheaper this
+becomes as well as the more accurate. Phase 25 added 548 wordings; every one of
+them is now a text that costs nothing to resolve.
+
+### Measured end to end
+
+Through the real endpoint, against Libya's 675-variant catalogue:
+
+| batch | before | after | per text |
+|---|---|---|---|
+| 1 | 382 ms | 129 ms | 382 → 129 ms |
+| 5 | 1,863 ms | 242 ms | 373 → 48 ms |
+| 20 | 4,846 ms | 549 ms | 242 → 27 ms |
+| 40 | 11,389 ms | 1,111 ms | 285 → **28 ms** |
+
+**Ten times faster at forty**, and the ten-second client timeout that this phase
+started with now has an order of magnitude of headroom.
+
+Text the catalogue already knows is faster still, because it never reaches the
+model at all: **forty known wordings resolve in 12 ms**, under a millisecond
+each. That is the compounding return on Phase 25 — coverage bought accuracy, and
+it turns out to buy throughput on the same purchase.
+
+One earlier reading was wrong and is worth correcting rather than quietly
+dropping. Halving the catalogue appeared to make matching three times faster,
+which suggested per-text cost scaled with catalogue size. It does not: that
+measurement used a catalogue the fingerprint cache had never seen, so it was
+timing a one-off index build. Re-measured cold, the same call took 15.6 seconds.
+The cache was doing its job the whole time and the inference drawn from that
+number was simply an artefact of a cache miss.
+
+**The answers must not change.** A test asserts batch and one-at-a-time produce
+the same action, reason, candidate ids and confidences for the same inputs,
+including the awkward ones — empty text, an exact match, and a string like
+`asdasdasd` that resembles nothing. Two more assert the model is called exactly
+once for a mixed batch and not at all when every text is already decided.

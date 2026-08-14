@@ -398,3 +398,83 @@ class TestFusionWithMissingSignals:
 
         assert decision.action != "reject"
         assert decision.best.canonical_item_id == 1
+
+
+class TestBatchMatching:
+    """Resolving a batch must be an optimisation, not a different answer."""
+
+    TEXTS: ClassVar[list[str]] = [
+        "baby milk",  # exact match on a variant — never reaches the model
+        "حليب",  # needs the model
+        "بوتاجاز",  # exact match
+        "طبخ",  # needs the model
+        "",  # empty after normalisation
+        "asdasdasd",  # nothing like anything
+    ]
+
+    def test_it_gives_the_same_answers_as_matching_one_at_a_time(self) -> None:
+        matcher = build_matcher()
+        catalogue = build_catalogue()
+
+        batched = matcher.match_many(self.TEXTS, catalogue)
+        singly = [matcher.match(text, catalogue) for text in self.TEXTS]
+
+        assert len(batched) == len(self.TEXTS)
+
+        for batch_decision, single_decision in zip(batched, singly, strict=True):
+            assert batch_decision.action == single_decision.action
+            assert batch_decision.reason == single_decision.reason
+            assert [c.canonical_item_id for c in batch_decision.candidates] == [
+                c.canonical_item_id for c in single_decision.candidates
+            ]
+            assert [c.confidence for c in batch_decision.candidates] == [
+                c.confidence for c in single_decision.candidates
+            ]
+
+    def test_it_embeds_only_the_texts_that_need_the_model(self) -> None:
+        """The batch sent to the model excludes anything already decided.
+
+        This is what makes a well-covered catalogue cheap as well as accurate:
+        an exact match is a dictionary lookup, and the more wordings the
+        catalogue knows the fewer texts reach the model at all.
+        """
+        embedder = StubEmbedder()
+        calls: list[list[str]] = []
+        original = embedder.encode_queries
+
+        def record(texts: list[str]) -> np.ndarray:
+            calls.append(list(texts))
+            return original(texts)
+
+        embedder.encode_queries = record  # type: ignore[method-assign]
+
+        HybridMatcher(MatcherConfig(), embedder=embedder).match_many(self.TEXTS, build_catalogue())
+
+        assert len(calls) == 1, "queries must be embedded in a single forward pass"
+        assert calls[0] == ["حليب", "طبخ", "asdasdasd"]
+
+    def test_it_does_not_call_the_model_when_every_text_is_already_decided(self) -> None:
+        embedder = StubEmbedder()
+        calls: list[list[str]] = []
+        embedder.encode_queries = lambda texts: (  # type: ignore[method-assign]
+            calls.append(list(texts)),
+            np.zeros((len(texts), 3), dtype=np.float32),
+        )[1]
+
+        decisions = HybridMatcher(MatcherConfig(), embedder=embedder).match_many(
+            ["baby milk", "بوتاجاز", ""], build_catalogue()
+        )
+
+        assert calls == []
+        assert [d.action for d in decisions] == ["auto_resolve", "auto_resolve", "reject"]
+
+    def test_it_works_without_an_embedder_at_all(self) -> None:
+        decisions = HybridMatcher(MatcherConfig(), embedder=None).match_many(
+            self.TEXTS, build_catalogue(semantic=False)
+        )
+
+        assert len(decisions) == len(self.TEXTS)
+        assert decisions[0].action == "auto_resolve"
+
+    def test_it_returns_an_empty_list_for_no_texts(self) -> None:
+        assert build_matcher().match_many([], build_catalogue()) == []

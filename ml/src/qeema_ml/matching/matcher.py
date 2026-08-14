@@ -5,6 +5,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+import numpy as np
+from numpy.typing import NDArray
+
 from qeema_ml.matching.fusion import ConfidenceCalibrator, FusedCandidate, fuse
 from qeema_ml.matching.lexical import LexicalIndex
 from qeema_ml.matching.normalise import normalise
@@ -71,30 +74,98 @@ class HybridMatcher:
 
     def match(self, text: str, catalogue: CatalogueIndexes) -> MatchDecision:
         normalised = normalise(text)
+        decided = self._short_circuit(text, normalised, catalogue)
 
+        return decided if decided is not None else self._resolve(normalised, catalogue, None)
+
+    def match_many(self, texts: list[str], catalogue: CatalogueIndexes) -> list[MatchDecision]:
+        """Resolve many texts against one catalogue, embedding the queries together.
+
+        The model is markedly more efficient on a batch than on the same texts
+        one at a time, because a single forward pass amortises a fixed cost over
+        the whole batch. Measured on the shipped model:
+
+            1 text    139 ms      139 ms each
+            20 texts  1216 ms      61 ms each
+            40 texts  1562 ms      39 ms each
+
+        Resolving them individually — which is what this endpoint used to do —
+        cost 84 ms each at twenty, so the loop was throwing away more than half
+        the machine. That was the dominant cost of resolving a backlog, not the
+        catalogue embedding, which is already cached by fingerprint.
+
+        Only texts that need the model are put in the batch. An exact match on a
+        known variant is decided by dictionary lookup and never reaches it,
+        which matters more the better the catalogue's vocabulary gets.
+        """
+        decisions: list[MatchDecision | None] = [None] * len(texts)
+        pending: list[int] = []
+        normalised: list[str] = []
+
+        for position, text in enumerate(texts):
+            candidate = normalise(text)
+            decided = self._short_circuit(text, candidate, catalogue)
+
+            if decided is not None:
+                decisions[position] = decided
+            else:
+                pending.append(position)
+                normalised.append(candidate)
+
+        vectors = None
+        embedder = self._embedder
+        semantic = catalogue.semantic
+
+        if pending and embedder is not None and semantic is not None and len(semantic) > 0:
+            vectors = embedder.encode_queries(normalised)
+
+        for index, position in enumerate(pending):
+            decisions[position] = self._resolve(
+                normalised[index],
+                catalogue,
+                None if vectors is None else vectors[index],
+            )
+
+        # Every position was written by one of the two passes above; the cast is
+        # for the type checker, not a fallback.
+        return [decision for decision in decisions if decision is not None]
+
+    def _short_circuit(
+        self, text: str, normalised: str, catalogue: CatalogueIndexes
+    ) -> MatchDecision | None:
+        """Decide without the model, or return None if the model is needed."""
         if not normalised:
             return MatchDecision([], "reject", "Empty text after normalisation.")
 
         exact = catalogue.exact.get(normalised)
-        if exact is not None:
-            item_id, item_code = exact
 
-            return MatchDecision(
-                candidates=[
-                    FusedCandidate(
-                        canonical_item_id=item_id,
-                        canonical_item_code=item_code,
-                        lexical_score=1.0,
-                        semantic_score=0.0,
-                        fused_score=1.0,
-                        confidence=self._config.exact_match_confidence,
-                        matched_variant=text,
-                    )
-                ],
-                action="auto_resolve",
-                reason="Exact match on a known variant after normalisation.",
-            )
+        if exact is None:
+            return None
 
+        item_id, item_code = exact
+
+        return MatchDecision(
+            candidates=[
+                FusedCandidate(
+                    canonical_item_id=item_id,
+                    canonical_item_code=item_code,
+                    lexical_score=1.0,
+                    semantic_score=0.0,
+                    fused_score=1.0,
+                    confidence=self._config.exact_match_confidence,
+                    matched_variant=text,
+                )
+            ],
+            action="auto_resolve",
+            reason="Exact match on a known variant after normalisation.",
+        )
+
+    def _resolve(
+        self,
+        normalised: str,
+        catalogue: CatalogueIndexes,
+        query_vector: NDArray[np.float32] | None,
+    ) -> MatchDecision:
         lexical_hits = catalogue.lexical.search(normalised, limit=self._config.top_k * 3)
         lexical_scores = {h.canonical_item_id: h.score for h in lexical_hits}
         variants = {h.canonical_item_id: h.matched_variant for h in lexical_hits}
@@ -108,10 +179,11 @@ class HybridMatcher:
         )
 
         if semantic_index is not None and embedder is not None and len(semantic_index) > 0:
-            # "query: " prefix on the incoming text — the catalogue side was
-            # embedded with "passage: ". Using the same prefix on both sides
-            # quietly degrades retrieval.
-            query_vector = embedder.encode_queries([normalised])[0]
+            if query_vector is None:
+                # "query: " prefix on the incoming text — the catalogue side was
+                # embedded with "passage: ". Using the same prefix on both sides
+                # quietly degrades retrieval.
+                query_vector = embedder.encode_queries([normalised])[0]
 
             for hit in semantic_index.search(query_vector, limit=self._config.top_k * 3):
                 semantic_scores[hit.canonical_item_id] = hit.score

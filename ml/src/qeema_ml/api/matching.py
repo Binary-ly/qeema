@@ -310,9 +310,11 @@ def match(request: MatchRequest) -> MatchResponse:
 def match_batch(request: BatchMatchRequest) -> BatchMatchResponse:
     """Resolve many texts against one catalogue.
 
-    The catalogue is indexed once for the whole batch, which is the entire
-    point — rebuilding it per text would dominate the cost of resolving a
-    backlog.
+    The catalogue is indexed once for the whole batch, and the queries are
+    embedded in one forward pass rather than one per text. Both matter: the
+    first avoids rebuilding an index per submission, and the second was worth
+    more than half the wall clock once catalogues grew past a few hundred
+    variants. See ``HybridMatcher.match_many`` for the measurements.
     """
     if not request.catalogue.variants:
         raise HTTPException(status_code=422, detail="Catalogue is empty; nothing to match against.")
@@ -320,10 +322,12 @@ def match_batch(request: BatchMatchRequest) -> BatchMatchResponse:
     catalogue = _build_catalogue(request.catalogue)
     matcher = _matcher()
 
+    decisions = matcher.match_many(request.texts, catalogue)
+
     return BatchMatchResponse(
         results=[
-            _to_response(text, matcher.match(text, catalogue), request.top_k)
-            for text in request.texts
+            _to_response(text, decision, request.top_k)
+            for text, decision in zip(request.texts, decisions, strict=True)
         ]
     )
 
