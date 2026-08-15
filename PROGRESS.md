@@ -3447,3 +3447,137 @@ previous one's hour, and the cause was the measurement, not the platform — the
 same Postgres was being queried throughout to watch the data arrive. The 90-day
 block that spanned that querying took 19 minutes against about 3 for its
 neighbours. The earlier throughput numbers, taken on a quiet database, stand.
+
+## Phase 31 — a real ML improvement that should not be shipped
+
+The task was to improve the matcher and have independent reviewers check the
+improvement was real rather than imagined. Three adversarial reviews ran against
+the code, the data and the numbers. The improvement is real. It should still not
+be shipped, and the reviews are why.
+
+### What was built
+
+A discriminative verifier: twelve features per match — the two existing scores,
+the margin over the runner-up, token coverage each way, digit agreement, and how
+much of the query is absent from the matched item's vocabulary and from the
+catalogue entirely — fed to a logistic regression and a gradient booster, five-fold
+cross-validated with the catalogue rebuilt per fold.
+
+The motivation was measured, not guessed. Calibration provably cannot fix the
+near-neighbours because isotonic regression is monotonic in one score; a model
+over several features can reorder.
+
+### Root cause, found and verified
+
+`fuzz.token_set_ratio` returns **exactly 100 whenever a catalogue variant's tokens
+are a subset of the query's**:
+
+    طماطم معجون بيتي   vs طماطم  -> 100   WRONG  (paste is a different product)
+    ارز ابيض كيلو      vs ارز    -> 100   RIGHT  ("white" is not)
+
+The lexical signal is structurally incapable of separating those two. So is the
+semantic one — the embedding scores the *wrong* pair higher in both flagship
+cases:
+
+    olive oil -> cooking oil   0.8354   vs   sunflower oil -> cooking oil   0.8243
+    tomato paste -> tomatoes   0.8615   vs   red tomatoes -> tomatoes       0.8518
+
+`multilingual-e5-large` was tested against `-base` on the same pairs: it repairs
+the olive oil inversion by +0.005 and leaves tomato paste inverted. **Scaling the
+embedding is not the fix.** Four pairs, so directional only.
+
+Re-weighting the two signals is not the fix either — sweeping the lexical weight
+from 0.4 to 1.0 moves AUC 0.847 to 0.851 at best. The shipped weights are fine;
+an earlier note here that the weaker signal is over-weighted was correct
+arithmetically and wrong in its implication, because the signals are
+complementary rather than redundant.
+
+### What the reviewers found
+
+**The leakage was mine, and it was the same bug.** The guard dropped a held-out
+wording whose *normalised string* was already in the catalogue — 2 of 876. But the
+relation that decides the score is token-subset, not string equality. The corpus
+contains one-token wordings (`رز`, `زيت`, `بيض`); a fold promotes them into the
+catalogue, where each becomes a **wildcard scoring 1.00 against every query
+containing that token**. Having identified that exact asymmetry as the root cause
+of the near-neighbour failures, I did not apply it to my own experiment.
+
+Re-run with a token-set guard:
+
+| | as first reported | reviewer's leak-free | strict token-set guard |
+|---|---|---|---|
+| rows | 873 | 690 | 530 |
+| fused baseline AUC | 0.847 | 0.806 | **0.710** |
+| GBM verifier AUC | 0.912 | 0.897 | **0.910** |
+
+The verifier sits near 0.90 under every framing; the *baseline* is what moves.
+That is a robustness result in the verifier's favour — and the absolute numbers
+first reported were not defensible.
+
+**The baseline was soft.** `margin` — the gap to the runner-up — scores 0.857
+alone, beating the 0.847 fused baseline, and the matcher **already computes it**
+(`_decide` vetoes a margin below 0.05). Dropping `fused` from the twelve features
+costs 0.0004. A two-threshold rule over (fused, margin) with no ML at all
+recovers roughly three quarters of the claimed gain.
+
+**The gain is almost entirely one class.** Splitting the negatives into
+distractors (nothing would have been right) and wrong-item errors (a real price
+filed against the wrong item — the kind that corrupts an index):
+
+| | fused | logistic | gbm |
+|---|---|---|---|
+| vs distractors | 0.837 | 0.915 | 0.911 |
+| vs wrong-item | 0.878 | **0.888 (p = 0.53)** | 0.917 (p = 0.041, n = 70) |
+
+**96% of the logistic model's gain is distractor rejection**, and on wrong-item
+errors it is indistinguishable from doing nothing — and *worse than `margin`
+used alone* (0.931 vs 0.888, p = 0.025). The fitted model destroys signal a
+feature it was given already carried.
+
+The effect that does exist is statistically solid: +0.061 AUC, DeLong
+p = 9.3e-10, positive in all five folds, and it survives a cluster bootstrap over
+the 18 catalogue items — though that clustering means the effective sample is
+about 406, not 873, and every row-level interval was ~1.5x too narrow. Logistic
+and boosting are **not** distinguishable from each other (p = 0.55), so reporting
+both to four decimals implied precision that was not there.
+
+### Why it changes nothing in production
+
+The thresholds apply to `confidence`, not to the fused score, and confidence is
+the calibrator's output. The calibrator has never been fitted in any deployment,
+and its unfitted fallback is `0.5 + 0.5*(score-0.5)*1.2` — which for a **perfect**
+fused score of 1.0 returns **0.80**, below the 0.85 auto-resolve threshold.
+
+Nothing reaches auto-resolve through the scorer at all. The headline metric —
+"wrong answers accepted" — describes acceptances that cannot currently happen.
+Shipping the verifier today would change zero decisions. And the prerequisite,
+fitting the calibrator, is exactly the change Phase 24 measured as moving tomato
+paste, olive oil and the 25 kg sack *into* auto-resolve.
+
+### What the evidence actually points at
+
+Of the 210 distractors, **61 fall into 12 real product families** — tuna, cheese,
+pasta, tomato paste, sterilised milk, couscous, olive oil, bakery flour, chicken
+parts, sugar, harissa, tea. They are labelled "matches nothing" because an
+18-item catalogue does not stock them, not because they are nonsense. Adding
+tomato paste and olive oil as items turns nine of the most dangerous distractors
+into correct auto-resolves at 0.990 through the exact-match short-circuit — no
+model, no reviewer, no inference — and yields two new price series where the
+verifier's best outcome is a queue item a human rejects.
+
+That is what Phase 23 concluded before any of this: "the catalogue simply has no
+entry for what was typed, so 'nearest' is the wrong question." Phase 25 then
+measured coverage as the most effective change on the platform. This phase spent
+its effort building a classifier to be suspicious of the word معجون, when the
+catalogue answers the same question exactly and for free.
+
+**One asymmetry worth fixing regardless.** `ApplyReviewDecision::approve` teaches
+the matcher the phrase that defeated it. `reject` teaches it nothing. A reviewer
+saying "this is not a product we track" is a label the platform currently throws
+away.
+
+### Disposition
+
+`ml/scripts/verifier_experiment.py` is kept. It is a good measurement and it is
+what established that the near-neighbour failures are a vocabulary gap rather than
+a scoring one. Its output does not go in the resolution path.
