@@ -87,34 +87,62 @@ reason about.
 
 ## What was measured
 
-A single completed run: 99 locations, 18 items, 1,095 days of history, up to 8
-reporters covering the same item on the same day, and unmatchable submissions at
-two per location-day.
+Regenerated on 2026-08-15 with a corrected corpus and a corrected generator. The
+figures below replace an earlier run whose text is described in the section after
+this one — that dataset is gone and its numbers should not be quoted.
 
 | | |
 |---|---|
-| submissions | **4,208,002** |
-| observations | **3,791,218** |
-| resolutions | 3,991,192 |
+| submissions | **3,204,564** |
+| observations | 2,837,893 |
+| resolutions | 2,987,754 |
 | ground-truth prices | 1,951,290 |
-| **unmatchable — no right answer exists** | **216,810 (5.15% of submissions)** |
-| queued for review | 416,803 |
-| labelled erroneous / manipulated | 198,712 / 2,022 |
-| locations / reporters | 99 / 990 |
+| **unmatchable — no right answer exists** | **216,810 (6.77% of submissions)** |
+| queued for review | 366,800 |
+| distinct reporter texts | 216,617 |
+| locations / reporters | 99 / 792 |
 | distinct days | 1,095 (2023-08-16 to 2026-08-14) |
-| database size | **4.9 GB** |
-| wall clock | **1 h 00 m 16 s** |
-| sustained rate | 2,867 rows/second |
+| database size | 3,872 MB |
 
-About 14.1 million rows across the tables that matter, against roughly 21,000 in
-the shipped demo — a factor of 180.
+Two of these are worth reading as a consistency check rather than as results.
+`ground-truth prices` and `unmatchable` are **identical** to the previous run —
+1,951,290 and 216,810 — because both depend only on locations x items x days and
+neither of those changed. 99 x 18 x 1,095 is exactly 1,951,290.
 
-The 5.15% unmatchable share is the number that changes what can be measured.
-Those rows carry a ground-truth item of null: no catalogue entry would have been
-right. Until they existed, a matching score computed against this platform's own
-data could only ever be a recall figure.
+The submission count is lower than the previous run's 4.2 million because that
+run created ten reporters per location and this one created eight, as asked.
+Coverage per day is unchanged and uniform: roughly 2,900 submissions a day at the
+start of the history, in the middle and at the end.
 
-### At that size
+**No wall-clock figure is quoted for this run.** It took over four hours against
+the previous run's one, and the difference is measurement interference rather
+than the platform — the same Postgres was being queried throughout the run to
+check the data as it arrived. The earlier run's throughput numbers, taken on a
+quiet database, remain the ones to use.
+
+**The run was interrupted while printing its summary table**, so the command
+never reported success. It had finished: reporter counters are backfilled as the
+generator's last step, and `sum(submissions_total)` across 792 reporters equals
+the submission count exactly. Every ground-truth row resolves to a submission —
+no orphans.
+
+### What the text looks like now
+
+Two defects were fixed before this run and both were verified against the
+finished dataset rather than against a sample:
+
+| | before | after |
+|---|---|---|
+| prefix glued to the wording | 1 line in 10 | **0** |
+| a unit prefix and a unit suffix on one line | 13 in 400 | **0 of 3.2M** |
+
+Four rows still match a naive "glued prefix" pattern and none of them is one.
+They are the corpus wording `جيبتا كشكول ٨٠` with its `ي` deleted by the typo
+mutation, which leaves `جبتا` — and `جبت` happens to also be a prefix. A
+deliberately introduced typo that produces a string resembling a bug is a fair
+description of what this dataset is for.
+
+### At that size### At that size
 
 | Operation | 1.4M observations | 3.8M observations |
 |---|---|---|

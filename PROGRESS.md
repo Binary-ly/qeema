@@ -3398,3 +3398,52 @@ space" is impossible directly, because the generator also doubles spaces
 deliberately. The test filters to lines whose other spaces are single — which
 requires a multi-word phrasing to have a second space to look at, something the
 first two attempts got wrong and the test caught both times.
+
+## Phase 30 — the dataset regenerated against the corrected corpus and generator
+
+The 4.2 million-row dataset predated three fixes: the wordings that meant *bear*,
+the glued affixes, and the doubled units. Every figure measured against it
+described text that had those defects in it. Regenerated.
+
+| | previous | now |
+|---|---|---|
+| submissions | 4,208,002 | **3,204,564** |
+| observations | 3,791,218 | 2,837,893 |
+| ground-truth prices | 1,951,290 | **1,951,290** |
+| unmatchable | 216,810 | **216,810** |
+| locations / reporters | 99 / 990 | 99 / 792 |
+| database | 4.9 GB | 3.9 GB |
+
+The two identical figures are the useful ones. Ground truth and unmatchable rows
+depend only on locations x items x days, none of which changed — and 99 x 18 x
+1,095 is exactly 1,951,290. Anything else being equal would have been suspicious.
+
+The submission count fell because the previous run had ten reporters per location
+and this one has eight, which is what was asked for. Daily coverage is unchanged
+and uniform — about 2,900 submissions a day at the start of the history, in the
+middle, and at the end.
+
+**Both text fixes hold at scale**, verified against the finished dataset rather
+than a sample: zero glued prefixes and zero lines carrying both a unit prefix and
+a unit suffix, in 3.2 million rows.
+
+Four rows do match a naive glued-prefix pattern and none of them is one. They are
+the corpus wording `جيبتا كشكول ٨٠` — "I brought an 80-page notebook" — with its
+`ي` removed by the typo mutation, leaving `جبتا`, and `جبت` is coincidentally also
+a prefix. Chasing that took several wrong turns worth recording: the codepoints
+had to be dumped before it was clear there was no space, because a terminal
+renders Arabic right-to-left and the string did not look like what it was.
+
+### Two things the run itself demonstrated
+
+**It was killed while printing its summary**, so the command never reported
+success. It had finished anyway, and the way to know is worth keeping: reporter
+counters are backfilled as the generator's very last step, and
+`sum(submissions_total)` across 792 reporters equals the submission count
+exactly. A partial run could not produce that.
+
+**No wall-clock figure is quoted.** This run took over four hours against the
+previous one's hour, and the cause was the measurement, not the platform — the
+same Postgres was being queried throughout to watch the data arrive. The 90-day
+block that spanned that querying took 19 minutes against about 3 for its
+neighbours. The earlier throughput numbers, taken on a quiet database, stand.
