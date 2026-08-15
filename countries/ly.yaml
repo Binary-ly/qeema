@@ -133,6 +133,27 @@ locations:
 # (hamza forms, taa marbuta, Arabic-Indic digits), dialect, common
 # transliterations and brand names, because that is what reporters actually type.
 canonical_items:
+  - code: uht_milk_1l
+    name_en: Long-life milk (1 litre)
+    name_local: حليب معقم
+    category: staples
+    default_unit_code: l
+    default_quantity: 1
+    # Catalogued, not basketed. Every wording under this code came off a
+    # real Libyan commodity bulletin and was filed as a distractor purely
+    # because an 18-item catalogue did not stock the product.
+    variants:
+      - حليب معقم
+      - حليب طويل الاجل
+      - uht milk
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - حليب طويل الاجل قاروره لتر
+      - حليب معقم الجيد
+      - حليب معقم الريحان
+      - حليب معقم الزهرات
+      - حليب معقم النسيم
+      - حليب معقم جودي
+
   - code: infant_formula_400g
     name_en: Infant formula (400g tin)
     name_local: حليب أطفال ٤٠٠ غرام
@@ -250,6 +271,25 @@ canonical_items:
       - cerelac roz bel 7alib
       - cerelac mn 6 sh-hour
 
+  - code: bakery_flour_50kg
+    name_en: Bakery flour (50kg sack)
+    name_local: دقيق المخابز
+    category: staples
+    default_unit_code: kg
+    default_quantity: 50
+    # Catalogued, not basketed. Every wording under this code came off a
+    # real Libyan commodity bulletin and was filed as a distractor purely
+    # because an 18-item catalogue did not stock the product.
+    variants:
+      - دقيق المخابز
+      - دقيق مخابز
+      - قنطار دقيق
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - دقيق المخابز الربيع
+      - دقيق المخابز الصفوة
+      - دقيق المخابز الفاخر
+      - قنطار الدقيق
+
   - code: wheat_flour_1kg
     name_en: Wheat flour
     name_local: دقيق قمح
@@ -353,6 +393,65 @@ canonical_items:
       - طماطم معجون الصفوة
       - طماطم معجون بيتي
       - معجون طماطم قوطيه صغيره
+
+  - code: pasta_500g
+    name_en: Pasta (500g)
+    name_local: مكرونة
+    category: staples
+    default_unit_code: pack
+    default_quantity: 1
+    # Catalogued, not basketed. Every wording under this code came off a
+    # real Libyan commodity bulletin and was filed as a distractor purely
+    # because an 18-item catalogue did not stock the product.
+    variants:
+      - مكرونة
+      - مكرونه
+      - معكرونة
+      - pasta
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - مكرونة البركة
+      - مكرونة الجيد
+      - مكرونة الريحان
+      - مكرونة الصفوة
+      - مكرونة الفضة
+      - مكرونة سبيقا
+      - مكرونه سباغيتي نص كيلو
+
+  - code: couscous_1kg
+    name_en: Couscous (1kg)
+    name_local: كسكسي
+    category: staples
+    default_unit_code: kg
+    default_quantity: 1
+    # Catalogued, not basketed. Every wording under this code came off a
+    # real Libyan commodity bulletin and was filed as a distractor purely
+    # because an 18-item catalogue did not stock the product.
+    variants:
+      - كسكسي
+      - كسكس
+      - couscous
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - كسكسي الأميرة
+      - كسكسي الوردة البيضاء
+      - كسكسي جاهز كيس ١ك
+      - كسكسي دياري
+
+  - code: sugar_1kg
+    name_en: Sugar (1kg)
+    name_local: سكر
+    category: staples
+    default_unit_code: kg
+    default_quantity: 1
+    # Catalogued, not basketed. Every wording under this code came off a
+    # real Libyan commodity bulletin and was filed as a distractor purely
+    # because an 18-item catalogue did not stock the product.
+    variants:
+      - سكر
+      - sugar
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - سكر الصحى
+      - سكر الصفوة
+      - سكر كيس كيلو
 
   - code: rice_1kg
     name_en: Rice
@@ -482,6 +581,33 @@ canonical_items:
     default_quantity: 30
     variants: [بيض, طبق بيض, بيض طبق, eggs, egg tray]
 
+  - code: canned_tuna_185g
+    name_en: Canned tuna (185g)
+    name_local: تونة معلبة
+    category: protein
+    default_unit_code: pack
+    default_quantity: 1
+    # Catalogued, not basketed. Every wording under this code came off a
+    # real Libyan commodity bulletin and was filed as a distractor purely
+    # because an 18-item catalogue did not stock the product.
+    variants:
+      - تونة
+      - تونه
+      - تن معلب
+      - canned tuna
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - تن أكاسيا
+      - تن الجيد الجيد
+      - تن الريحان
+      - تن السفينة
+      - تن الصياد مستورد
+      - تن القبطان مستورد
+      - تن الوفاء
+      - تن جنزور (زيت الزيتزن) جنزور
+      - تن ديانا مستورد
+      - تن كالفو
+      - قوطيه تونه ١٨٥ غرام
+
   - code: chicken_1kg
     name_en: Chicken
     name_local: دجاج
@@ -535,6 +661,24 @@ canonical_items:
       - دجاج جاهز للطبخ
       - الدجاج الجاهز للطبخ
       - الدواجن الجاهزة للأكل
+
+  - code: harissa_can
+    name_en: Harissa (can)
+    name_local: هريسة
+    category: staples
+    default_unit_code: pack
+    default_quantity: 1
+    # Catalogued, not basketed. Every wording under this code came off a
+    # real Libyan commodity bulletin and was filed as a distractor purely
+    # because an 18-item catalogue did not stock the product.
+    variants:
+      - هريسة
+      - هريسه
+      - harissa
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - هريسة ( علبة ) الحطاب
+      - هريسة ( علبة ) بسمة
+      - هريسه حاره قوطيه
 
   - code: tomatoes_1kg
     name_en: Tomatoes

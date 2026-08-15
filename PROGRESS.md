@@ -3651,3 +3651,54 @@ everyone, permanently.
 It needs an explicit signal from the reviewer, which means a schema change, an
 action-signature change and a Filament change. Worth doing deliberately, not as
 a footnote to a matching fix.
+
+## Phase 33 — seven more product families out of the distractor pile
+
+Same treatment as the two before, applied to the rest of what a Libyan commodity
+bulletin listed and an 18-item catalogue could not name.
+
+| item | wordings | unit |
+|---|---|---|
+| `canned_tuna_185g` | 11 | pack |
+| `pasta_500g` | 7 | pack |
+| `uht_milk_1l` | 6 | litre |
+| `couscous_1kg` | 4 | kg |
+| `bakery_flour_50kg` | 4 | 50 kg |
+| `sugar_1kg` | 3 | kg |
+| `harissa_can` | 3 | pack |
+
+All catalogued, none basketed. The catalogue is 27 items; the basket is still 15.
+
+**Measured after import: 38 of 38 newly catalogued wordings resolve correctly and
+all 38 auto-resolve at 0.990. The 164 remaining distractors still produce zero
+auto-resolves.** Coverage went up and precision did not move — which is the pair
+of numbers that matters, because adding items is exactly the change that could
+have bought recall with false positives.
+
+### What was deliberately left alone
+
+Four families that look like families and are not one product:
+
+- **Cheese** (8 wordings) — block cheddar, block mozzarella, slices and triangles
+  are different SKUs at different price points.
+- **Yoghurt** (6) — `زبادي` and `لبن` are different products.
+- **Chicken parts** (4) — breast, thigh and liver. The corpus's own adversarial
+  review named this as precisely the distinction a price index exists to
+  preserve, and collapsing it would reward the failure mode.
+- **Tea** (3) — green and black, split two to one.
+
+Each would have raised the coverage number and quietly taught the matcher to
+conflate things that cost different amounts. They stay distractors until somebody
+decides what the right codes are.
+
+### What the remaining distractors are now
+
+164, and they are finally what the name says: greetings, test messages, "how do I
+register a price", car batteries, gold by the gram, phone credit, a taxi fare
+from Tripoli to Tajoura, cement, rebar. Nothing in the list is a grocery a Libyan
+shop sells that the catalogue cannot name. That makes the precision figure
+measured against them mean what it claims to.
+
+Across the two phases: **46 wordings moved from "matches nothing" to a correct
+auto-resolve**, and nine new price series exist where the alternative on offer
+was a classifier trained to be suspicious of them.
