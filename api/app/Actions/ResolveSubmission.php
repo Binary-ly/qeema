@@ -12,8 +12,10 @@ use App\Models\Reporter;
 use App\Models\Resolution;
 use App\Models\Submission;
 use App\Models\Unit;
+use App\Models\UnmatchablePhrase;
 use App\Services\Ml\MatchResult;
 use App\Services\Ml\MlClientInterface;
+use App\Support\Text\TextNormalizer;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
@@ -32,10 +34,23 @@ use InvalidArgumentException;
  */
 final class ResolveSubmission
 {
-    public function __construct(private readonly MlClientInterface $ml) {}
+    public function __construct(
+        private readonly MlClientInterface $ml,
+        private readonly TextNormalizer $normalizer = new TextNormalizer,
+    ) {}
 
     public function handle(Submission $submission): Resolution
     {
+        // A reviewer has already ruled on this exact phrase. Checked before the
+        // matcher runs, for the same reason the catalogue's exact map is: a
+        // decision a human has already made must not be re-asked of the model,
+        // and must not be re-asked of another human either. This is the mirror
+        // of a learned variant — one teaches what a phrase means, the other
+        // that it means nothing.
+        if (($ruling = $this->ruledUnmatchable($submission)) !== null) {
+            return $this->recordUnmatchable($submission, $ruling);
+        }
+
         $result = $this->ml->match($submission->country, $submission->raw_text);
 
         // Null means the service had no opinion — unreachable, errored, or
@@ -101,6 +116,57 @@ final class ResolveSubmission
             }
 
             $submission->forceFill(['status' => Submission::STATUS_RESOLVED])->save();
+
+            return $resolution;
+        });
+    }
+
+    /**
+     * Has a reviewer ruled this exact phrase is not a product?
+     *
+     * Scoped to the country, because a phrase that is noise in one deployment
+     * may be a product in another.
+     */
+    private function ruledUnmatchable(Submission $submission): ?UnmatchablePhrase
+    {
+        $normalised = $this->normalizer->normalize($submission->raw_text);
+
+        if ($normalised === '') {
+            return null;
+        }
+
+        return UnmatchablePhrase::query()
+            ->forCountry($submission->country_id)
+            ->where('normalized_text', $normalised)
+            ->first();
+    }
+
+    /**
+     * Reject without asking a human, and record why.
+     *
+     * The submission is marked rejected rather than deleted, and the resolution
+     * names the ruling that caused it, so a price discarded this way is
+     * traceable to the decision that discarded it and recoverable if that
+     * decision was wrong.
+     */
+    private function recordUnmatchable(Submission $submission, UnmatchablePhrase $phrase): Resolution
+    {
+        return DB::transaction(function () use ($submission, $phrase): Resolution {
+            $phrase->recordMatch();
+
+            $resolution = Resolution::query()->updateOrCreate(
+                ['submission_id' => $submission->id],
+                [
+                    'canonical_item_id' => null,
+                    'method' => Resolution::METHOD_RULE,
+                    'confidence' => 0.0,
+                    'reviewed' => false,
+                    'notes' => 'A reviewer ruled this phrase is not a product tracked here'
+                        .($phrase->reason === null ? '.' : ': '.$phrase->reason),
+                ],
+            );
+
+            $submission->forceFill(['status' => Submission::STATUS_REJECTED])->save();
 
             return $resolution;
         });

@@ -8,10 +8,12 @@ namespace App\Actions;
 
 use App\Exceptions\SubmissionNotObservable;
 use App\Jobs\ClearReviewBacklogJob;
+use App\Jobs\RejectReviewBacklogJob;
 use App\Models\CanonicalItem;
 use App\Models\CanonicalItemVariant;
 use App\Models\Resolution;
 use App\Models\Submission;
+use App\Models\UnmatchablePhrase;
 use App\Services\Ml\MlClient;
 use App\Support\Text\TextNormalizer;
 use Carbon\CarbonImmutable;
@@ -84,10 +86,28 @@ final class ApplyReviewDecision
 
     /**
      * Reject a submission outright — unusable, not merely unmatched.
+     *
+     * `$phraseIsNotAProduct` is the reviewer stating which kind of rejection
+     * this is, and it is a parameter rather than something inferred because the
+     * two kinds must not be confused. "This price is absurd" and "this text is
+     * not a product we track" both arrive as a rejection; only the second says
+     * anything about the phrase. Guessing wrong in that direction is
+     * destructive — a reviewer rejecting a rice report over a nonsense price
+     * would teach the matcher that أرز matches nothing, and rice would stop
+     * resolving for everybody, permanently.
+     *
+     * When it is true, the phrase is remembered and every identical row already
+     * queued is rejected with it. Five phrases — `١٢٣٤`, `test 123`, `تجربه`,
+     * `السلام عليكم`, `asdasdasd` — accounted for 5,138 waiting decisions on the
+     * scale dataset.
      */
-    public function reject(Submission $submission, string $reason, ?int $reviewerId = null): Resolution
-    {
-        return DB::transaction(function () use ($submission, $reason, $reviewerId): Resolution {
+    public function reject(
+        Submission $submission,
+        string $reason,
+        ?int $reviewerId = null,
+        bool $phraseIsNotAProduct = false,
+    ): Resolution {
+        return DB::transaction(function () use ($submission, $reason, $reviewerId, $phraseIsNotAProduct): Resolution {
             $resolution = Resolution::query()->updateOrCreate(
                 ['submission_id' => $submission->id],
                 [
@@ -110,8 +130,62 @@ final class ApplyReviewDecision
 
             $submission->reporter?->recordConfirmedVerdict(accepted: false);
 
+            if ($phraseIsNotAProduct) {
+                $this->learnRejection($submission, $reason, $reviewerId);
+            }
+
             return $resolution;
         });
+    }
+
+    /**
+     * Teach the matcher that a phrase means nothing, the way approval teaches
+     * it what a phrase means.
+     *
+     * Keyed on the normalised form for the same reason variants are: two
+     * spellings that normalise alike are one ruling. A phrase already claimed by
+     * a catalogue variant is refused outright rather than recorded — the
+     * catalogue says it is a product and a reviewer says it is not, and
+     * resolving that silently in either direction would be worse than leaving
+     * it to a person.
+     */
+    private function learnRejection(Submission $submission, string $reason, ?int $reviewerId): void
+    {
+        $normalised = $this->normalizer->normalize($submission->raw_text);
+
+        if ($normalised === '') {
+            return;
+        }
+
+        $isCatalogued = CanonicalItemVariant::query()
+            ->where('normalized_text', $normalised)
+            ->whereHas('canonicalItem', fn ($query) => $query->where('country_id', $submission->country_id))
+            ->exists();
+
+        if ($isCatalogued) {
+            return;
+        }
+
+        $phrase = UnmatchablePhrase::query()->firstOrCreate(
+            ['country_id' => $submission->country_id, 'normalized_text' => $normalised],
+            [
+                'text' => $submission->raw_text,
+                'reason' => $reason,
+                'created_from_submission_id' => $submission->id,
+                'created_by_user_id' => $reviewerId,
+            ],
+        );
+
+        if (! $phrase->wasRecentlyCreated) {
+            return;
+        }
+
+        DB::afterCommit(fn () => RejectReviewBacklogJob::dispatch(
+            $submission->country_id,
+            $submission->raw_text,
+            (string) $submission->id,
+            $reason,
+        ));
     }
 
     /**

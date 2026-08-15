@@ -14,6 +14,7 @@ use App\Models\Submission;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
@@ -280,11 +281,37 @@ final class ReviewQueueTable
                     // is unauditable, and it counts against a real person's
                     // standing.
                     ->helperText('Recorded against the submission, and counted against the reporter.'),
+
+                Checkbox::make('phrase_is_not_a_product')
+                    ->label('This text is not a product we track')
+                    // The reviewer states which kind of rejection this is,
+                    // because the two cannot be told apart from a free-text
+                    // reason and confusing them is destructive. Ticked, the
+                    // phrase is remembered and every identical row is rejected
+                    // with it. Left alone — the default — this rejects one
+                    // submission and teaches the matcher nothing, which is
+                    // right when the price was wrong rather than the words.
+                    ->helperText(
+                        'Tick for greetings, test messages and keyboard mash. Every queued '
+                        .'submission with the same text is rejected too, and future ones stop '
+                        .'reaching the queue. Leave unticked if the words are fine and only '
+                        .'this price is wrong.'
+                    ),
             ])
             ->action(function (Submission $record, array $data): void {
-                app(ApplyReviewDecision::class)->reject($record, (string) $data['reason'], auth()->id());
+                $rulesOutPhrase = (bool) ($data['phrase_is_not_a_product'] ?? false);
 
-                Notification::make()->title('Rejected')->success()->send();
+                app(ApplyReviewDecision::class)->reject(
+                    $record,
+                    (string) $data['reason'],
+                    auth()->id(),
+                    phraseIsNotAProduct: $rulesOutPhrase,
+                );
+
+                Notification::make()
+                    ->title($rulesOutPhrase ? 'Rejected, and the phrase will not be queued again' : 'Rejected')
+                    ->success()
+                    ->send();
             });
     }
 

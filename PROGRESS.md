@@ -3776,3 +3776,72 @@ changing anything the second time, and it does not touch another country.
 sorts by how much a decision moves the published index; the other by how many
 rows it clears. A phrase waiting a thousand times is a thousand rows one click
 can remove, and until now nothing in the interface said so.
+
+## Phase 35 — rejecting teaches the matcher too
+
+Phase 34 made approving worth 11.9 rows a click. Rejecting was still worth one,
+so the junk was now the expensive half of the queue: `١٢٣٤` was waiting 1,049
+times, `test 123` 1,047, `تجربه` 1,033, `السلام عليكم` 1,007, `asdasdasd` 1,002.
+Five phrases, **5,138 human decisions**.
+
+`unmatchable_phrases` is the mirror of a catalogue variant. One records what a
+phrase means; the other records that it means nothing. Both exist so a human
+decision is made once instead of once per submission.
+
+**Measured on the live 3.2M-row dataset:**
+
+    ١٢٣٤            1049 -> 0
+    test 123        1047 -> 0
+    تجربه           1033 -> 0
+    السلام عليكم    1007 -> 0
+    asdasdasd       1002 -> 0
+
+    5 decisions removed 5,138 rows
+
+And the future half, on a newly submitted `asdasdasd`:
+
+    resolved in 24 ms   status: rejected   method: rule
+    notes: A reviewer ruled this phrase is not a product tracked here: keyboard mash
+
+It never reached the queue, and the matcher was never asked.
+
+### The design decision this rests on
+
+**A plain rejection teaches nothing, and that is the whole point.** `reject`
+already meant "this submission is unusable", which covers an absurd price, a
+duplicate and a test message — and only the last says anything about the
+*phrase*. Inferring the ruling from any rejection is the version of this feature
+that destroys the platform: the first reviewer who rejects a rice report because
+the price was nonsense would teach the matcher that أرز matches nothing, and rice
+would stop resolving for everyone, permanently.
+
+So the reviewer states which they mean. The rejection modal has a checkbox —
+"This text is not a product we track" — off by default, and only that path
+records a ruling. The test that matters most asserts the negative: reject for any
+other reason and nothing is remembered.
+
+Three more guards, each for a way this could do damage quietly:
+
+- **A phrase the catalogue calls a product is refused outright.** Reviewer and
+  catalogue disagreeing is a question for a person, not something to settle
+  silently in either direction.
+- **Reputations are not docked for reporters nobody looked at.** Rejecting the
+  submission in front of you is a verdict on that reporter. Rejecting a thousand
+  others because they share a phrase is a verdict on the phrase.
+- **Nothing is deleted.** A discarded submission keeps `rejected` status and its
+  resolution names the ruling and the reason, so a price thrown away by an
+  automatic rule is traceable to the decision that threw it away, and deleting
+  the ruling restores the old behaviour.
+
+Nine tests, weighted toward those negatives rather than the happy path.
+
+### Where the queue stands
+
+    before phases 34-35 : 367,392 rows / 31,044 texts
+    now                 : 360,473 rows / 30,847 texts
+
+The row count moves slowly because only seven phrases have been ruled on so far.
+The number that changed is the cost of a decision: an approval is now worth every
+identical row and a junk ruling is worth every identical row plus every future
+one. A queue of 360,000 rows is 30,847 decisions, and the commonest few thousand
+of those cover most of it.
