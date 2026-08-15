@@ -145,3 +145,38 @@ it('produces submissions that have no right answer at all', function (): void {
         ->and(DB::table('resolutions')->whereIn('submission_id', $ids)->count())->toBe(0)
         ->and(PriceObservation::query()->whereIn('submission_id', $ids)->count())->toBe(0);
 });
+
+it('anchors the basket so the index can carry a level', function (): void {
+    // The failure this prevents was invisible and total. The generator writes
+    // observations with a bulk insert, so PriceObservationObserver never fires
+    // and nothing marks snapshots stale; qeema:bootstrap only anchors a country
+    // with no snapshots at all, so once the scheduler had published a few empty
+    // ones nothing anchored them either. Measured on the 3.2M-row dataset before
+    // this fix: 476 published snapshots, none with an index level, and the
+    // public API serving `level: null, cost: 0, coverage: 0` on top of 2.8
+    // million observations. The index is the product.
+    $this->artisan('qeema:config:import', ['--country' => 'ly'])->assertSuccessful();
+
+    $this->artisan('qeema:demo:scale', [
+        '--country' => 'LY',
+        '--days' => 20,
+    ])->assertSuccessful();
+
+    $country = Country::query()->where('code', 'LY')->firstOrFail();
+
+    expect(DB::table('basket_links')
+        ->join('baskets', 'baskets.id', '=', 'basket_links.basket_id')
+        ->where('baskets.country_id', $country->id)
+        ->count())->toBeGreaterThan(0);
+});
+
+it('tells the operator the index still has to be computed', function (): void {
+    // Recomputation is minutes to hours, so the command does not silently block
+    // on it — but a dataset whose index reads null with no explanation is how
+    // this was missed in the first place.
+    $this->artisan('qeema:config:import', ['--country' => 'ly'])->assertSuccessful();
+
+    $this->artisan('qeema:demo:scale', ['--country' => 'LY', '--days' => 20])
+        ->expectsOutputToContain('qeema:index --country=LY')
+        ->assertSuccessful();
+});

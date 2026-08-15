@@ -3845,3 +3845,66 @@ The number that changed is the cost of a decision: an approval is now worth ever
 identical row and a junk ruling is worth every identical row plus every future
 one. A queue of 360,000 rows is 30,847 decisions, and the commonest few thousand
 of those cover most of it.
+
+## Phase 36 — the index was publishing nothing, and nothing said so
+
+Having changed the catalogue and the queue heavily, the next thing was to check
+the constraints rather than add features. C6 says the public data is the product.
+
+**C6 holds on access**: `/health`, `/countries`, `/index/current` and `/coverage`
+all answer 200 without a token. **It did not hold on content.**
+
+    "index": { "level": null }
+    "cost":  { "local": 0 }
+    "quality": { "coverage": 0, "observed_items": 0, "total_items": 15 }
+
+476 published snapshots, **not one carrying an index level**, sitting on top of
+2.8 million price observations. The headline number of the entire platform was
+null, and every endpoint returned 200 while saying so.
+
+### Two mechanisms, each individually reasonable
+
+**The generator bulk-inserts.** `insertChunks('price_observations', ...)` is what
+makes it fast, and it bypasses Eloquent — so `PriceObservationObserver` never
+fires, and nothing marks the affected snapshots stale. The staleness path the
+`ChainLinker` docblock refers to ("only fires when new observations arrive")
+genuinely exists; the generator simply walks around it.
+
+**Bootstrap only anchors a country with no snapshots at all** — `if ($published)
+continue`. Reasonable on its own: re-anchoring a live country would restate
+published figures. But once the scheduler had published a handful of empty
+snapshots, that guard meant nothing would ever anchor them either.
+
+Neither is wrong alone. Together they produce a platform that serves an empty
+index and never says why.
+
+### Fixed, and verified
+
+`qeema:index:link` anchored 99 locations, which marked 396 snapshots for
+recomputation; draining them took one command. The public API now:
+
+| location | date | cost LYD | level | coverage | items |
+|---|---|---|---|---|---|
+| tripoli | 2026-08-15 | 13,255.41 | 500.90 | 73% | 11/15 |
+| benghazi | 2026-08-15 | 13,554.30 | 487.59 | 69% | 11/15 |
+| khoms | 2026-08-15 | 13,164.52 | 503.53 | 86% | 12/15 |
+
+**99 of 99 locations carry a level**, spanning 460.1 to 539.7.
+
+`qeema:demo:scale` now anchors the basket itself and hands every already-published
+snapshot back for recomputation, then prints the one command still needed.
+Recomputation is not run automatically: it is minutes to hours depending on the
+history, and a command that silently blocks for two hours is worse than one that
+says what to run.
+
+Two tests cover it — the basket must be anchored after generation, and the
+operator must be told the index still needs computing. Neither existed, which is
+why 476 empty snapshots could sit there being served.
+
+### The general lesson, worth keeping
+
+Every gate was green the whole time. Tests passed, Larastan passed, the API
+returned 200, the health check said `ok`. The product was empty. **Nothing in the
+suite asserted that the number the platform exists to publish is not null**, and
+a health check that reports a working pipeline while the pipeline publishes
+nothing is a health check measuring the wrong thing.

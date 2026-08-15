@@ -19,6 +19,7 @@ use App\Models\Unit;
 use App\Models\UnmatchablePhrase;
 use App\Services\Ml\MatchResult;
 use App\Services\Ml\MlClientInterface;
+use App\Support\Text\TextNormalizer;
 
 /**
  * The other half of the review loop.
@@ -97,7 +98,7 @@ it('refuses to rule against a phrase the catalogue calls a product', function ()
     CanonicalItemVariant::query()->create([
         'canonical_item_id' => $this->item->id,
         'text' => 'أرز',
-        'normalized_text' => app(App\Support\Text\TextNormalizer::class)->normalize('أرز'),
+        'normalized_text' => app(TextNormalizer::class)->normalize('أرز'),
         'source' => CanonicalItemVariant::SOURCE_SEED,
     ]);
 
@@ -140,7 +141,7 @@ it('rejects a later submission carrying the phrase without asking a human', func
     UnmatchablePhrase::query()->create([
         'country_id' => $this->country->id,
         'text' => 'صباح الخير',
-        'normalized_text' => app(App\Support\Text\TextNormalizer::class)->normalize('صباح الخير'),
+        'normalized_text' => app(TextNormalizer::class)->normalize('صباح الخير'),
         'reason' => 'a greeting',
     ]);
 
@@ -159,7 +160,7 @@ it('counts how often a ruling earns its keep', function (): void {
     $phrase = UnmatchablePhrase::query()->create([
         'country_id' => $this->country->id,
         'text' => 'تجربه',
-        'normalized_text' => app(App\Support\Text\TextNormalizer::class)->normalize('تجربه'),
+        'normalized_text' => app(TextNormalizer::class)->normalize('تجربه'),
     ]);
 
     $ml = Mockery::mock(MlClientInterface::class);
@@ -178,7 +179,7 @@ it('does not apply one country\'s ruling to another', function (): void {
     UnmatchablePhrase::query()->create([
         'country_id' => $elsewhere->id,
         'text' => 'أرز',
-        'normalized_text' => app(App\Support\Text\TextNormalizer::class)->normalize('أرز'),
+        'normalized_text' => app(TextNormalizer::class)->normalize('أرز'),
     ]);
 
     // A phrase that is noise in one deployment may be a product in another, so
@@ -193,7 +194,7 @@ it('keeps the discarded price traceable rather than deleting it', function (): v
     UnmatchablePhrase::query()->create([
         'country_id' => $this->country->id,
         'text' => 'test 123',
-        'normalized_text' => app(App\Support\Text\TextNormalizer::class)->normalize('test 123'),
+        'normalized_text' => app(TextNormalizer::class)->normalize('test 123'),
         'reason' => 'a test message',
     ]);
 

@@ -5,6 +5,7 @@
 declare(strict_types=1);
 
 use App\Actions\ApplyReviewDecision;
+use App\Actions\ResolveSubmission;
 use App\Jobs\ClearReviewBacklogJob;
 use App\Models\CanonicalItem;
 use App\Models\Country;
@@ -69,7 +70,7 @@ it('resolves every queued submission carrying the same text', function (): void 
 
     app(ApplyReviewDecision::class)->approve($decided, $this->item);
     (new ClearReviewBacklogJob($this->country->id, 'رز', $this->item->id, (string) $decided->id))
-        ->handle(app(App\Actions\ResolveSubmission::class));
+        ->handle(app(ResolveSubmission::class));
 
     foreach ($siblings as $sibling) {
         expect($sibling->refresh()->status)->toBe(Submission::STATUS_RESOLVED)
@@ -84,7 +85,7 @@ it('records the resolution as an exact match, not as a human one', function (): 
     $sibling = ($this->queue)('رز');
 
     (new ClearReviewBacklogJob($this->country->id, 'رز', $this->item->id, (string) $decided->id))
-        ->handle(app(App\Actions\ResolveSubmission::class));
+        ->handle(app(ResolveSubmission::class));
 
     $resolution = $sibling->refresh()->resolution;
 
@@ -102,7 +103,7 @@ it('does not credit reporters for a decision nobody made about them', function (
     $before = $this->reporter->refresh()->submissions_accepted;
 
     (new ClearReviewBacklogJob($this->country->id, 'رز', $this->item->id, (string) $decided->id))
-        ->handle(app(App\Actions\ResolveSubmission::class));
+        ->handle(app(ResolveSubmission::class));
 
     expect($this->reporter->refresh()->submissions_accepted)->toBe($before);
 });
@@ -112,7 +113,7 @@ it('leaves submissions carrying different text alone', function (): void {
     $other = ($this->queue)('زيت');
 
     (new ClearReviewBacklogJob($this->country->id, 'رز', $this->item->id, (string) $decided->id))
-        ->handle(app(App\Actions\ResolveSubmission::class));
+        ->handle(app(ResolveSubmission::class));
 
     expect($other->refresh()->status)->toBe(Submission::STATUS_NEEDS_REVIEW);
 });
@@ -122,7 +123,7 @@ it('leaves submissions that are not awaiting review alone', function (): void {
     $pending = ($this->queue)('رز', Submission::STATUS_PENDING);
 
     (new ClearReviewBacklogJob($this->country->id, 'رز', $this->item->id, (string) $decided->id))
-        ->handle(app(App\Actions\ResolveSubmission::class));
+        ->handle(app(ResolveSubmission::class));
 
     expect($pending->refresh()->status)->toBe(Submission::STATUS_PENDING);
 });
@@ -132,10 +133,10 @@ it('runs twice without changing anything the second time', function (): void {
     $sibling = ($this->queue)('رز');
     $job = new ClearReviewBacklogJob($this->country->id, 'رز', $this->item->id, (string) $decided->id);
 
-    $job->handle(app(App\Actions\ResolveSubmission::class));
+    $job->handle(app(ResolveSubmission::class));
     $first = $sibling->refresh()->resolution->updated_at;
 
-    $job->handle(app(App\Actions\ResolveSubmission::class));
+    $job->handle(app(ResolveSubmission::class));
 
     expect($sibling->refresh()->resolution->updated_at->equalTo($first))->toBeTrue();
 });
@@ -147,7 +148,7 @@ it('does not touch another country', function (): void {
     $foreign->forceFill(['country_id' => $elsewhere->id])->save();
 
     (new ClearReviewBacklogJob($this->country->id, 'رز', $this->item->id, (string) $decided->id))
-        ->handle(app(App\Actions\ResolveSubmission::class));
+        ->handle(app(ResolveSubmission::class));
 
     expect($foreign->refresh()->status)->toBe(Submission::STATUS_NEEDS_REVIEW);
 });

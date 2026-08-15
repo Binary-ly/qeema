@@ -9,6 +9,7 @@ namespace App\Console\Commands;
 use App\Models\Country;
 use App\Models\Location;
 use App\Models\Submission;
+use App\Services\Index\IndexStaleness;
 use App\Support\CountryConfig\CountryConfigLoader;
 use App\Support\Synthetic\ReporterCorpus;
 use App\Support\Synthetic\SyntheticDataGenerator;
@@ -279,6 +280,8 @@ final class GenerateScaleDatasetCommand extends Command
             number_format(($summary->submissions * 2 + $summary->groundTruthCells) / $seconds, 0),
         ));
 
+        $this->anchorAndInvalidate($country);
+
         $this->table(
             ['table', 'rows'],
             collect([
@@ -294,6 +297,43 @@ final class GenerateScaleDatasetCommand extends Command
         );
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Anchor the basket, and hand any already-published snapshot back for
+     * recomputation.
+     *
+     * Both halves are needed, and the omission was doing real damage. The
+     * generator writes observations with a bulk `insert`, which is what makes it
+     * fast and which bypasses Eloquent — so `PriceObservationObserver` never
+     * fires and nothing marks the affected snapshots stale. Meanwhile
+     * `qeema:bootstrap` only anchors a country that has *no* snapshots yet, so
+     * once the scheduler had published a few empty ones nothing would ever
+     * anchor them either.
+     *
+     * The visible result, measured on this dataset before the fix: 476 published
+     * snapshots, **not one with an index level**, and the public API serving
+     * `level: null, cost: 0, coverage: 0` on top of 2.8 million observations.
+     * The index is the product, so that is the whole product reading empty.
+     *
+     * Recomputation itself is not run here. It is minutes to hours depending on
+     * the history generated, and a command that silently blocks for two hours
+     * is worse than one that says what to run.
+     */
+    private function anchorAndInvalidate(Country $country): void
+    {
+        $this->newLine();
+        $this->call('qeema:index:link', ['--country' => $country->code]);
+
+        $marked = app(IndexStaleness::class)->markAllForCountry($country->id);
+
+        if ($marked > 0) {
+            $this->line("  Marked {$marked} already-published snapshot(s) for recomputation.");
+        }
+
+        $this->warn('  The index is not computed yet. Until it is, the public API serves');
+        $this->warn('  null levels. Run:');
+        $this->line("    php artisan qeema:index --country={$country->code} --grace=0");
     }
 
     private function elapsed(float $startedAt): string
