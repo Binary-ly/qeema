@@ -3963,3 +3963,54 @@ case has to ask for it.
 Four tests: the empty case degrades, the summary names the anchor rather than
 blaming lateness, partial coverage stays ok, and the original behaviour still
 holds.
+
+## Phase 38 — the queue was holding work the catalogue had already learned
+
+The review queue is a snapshot of what the matcher could not resolve **at the
+time**. Everything this session did to the catalogue — nine new items, 46
+promoted wordings, every reviewer decision — changed what it can resolve, and
+nothing ever went back for the rows already waiting.
+
+`qeema:review:rematch` measured it: **131,814 of 360,473 queued submissions — 36.6%
+of the whole queue — carried text that had since become catalogue vocabulary.**
+Every one waiting for a human to answer a question the matcher could now answer
+itself.
+
+An earlier SQL estimate said 26,937. That used `lower(trim())` as a stand-in for
+normalisation; the real `TextNormalizer` folds hamza, Arabic-Indic digits and
+more, so it matches five times as much. The crude proxy understated the problem
+by a factor of five, which is worth remembering the next time a quick query is
+used to size something.
+
+### Exact matches only, and that is the whole safety argument
+
+A submission is resolved only when its normalised text is **identical** to a
+known variant — the same condition the matcher's own short-circuit uses, the one
+that returns without consulting the model at all. Nothing here is a judgement
+call, so nothing here can be wrong in a way a human review would have caught. A
+near match stays in the queue, and a test asserts exactly that:
+`زيت زيتون بكر لتر ممتاز جدا` is not resolved by the variant
+`زيت زيتون بكر لتر`.
+
+Two more properties worth naming:
+
+- **The observation is created, not just the resolution.** Resolving the text and
+  failing to produce a price would move the row out of the queue and lose the
+  number, which is worse than leaving it alone. A row whose price cannot be
+  expressed per base unit stays queued.
+- **`METHOD_EXACT`, not `human` or `fused`** — nobody looked at these rows and no
+  model ran. What happened is that the text equals a known variant.
+
+Measured throughput: **48 rows a second**, so the full backlog is about
+45 minutes of background work.
+
+### And the command that creates the problem now says so
+
+`qeema:config:import` reports how many new variants it added, and adding variants
+is precisely what leaves queued rows stranded. It now prints the rematch command
+whenever it added any. Not run automatically: at 131,814 rows it is tens of
+minutes, and an import that silently blocks for that long is worse than one that
+says what to run.
+
+Seven tests, including the two that matter — a near match is refused, and another
+country is untouched.
