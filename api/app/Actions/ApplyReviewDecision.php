@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use App\Exceptions\SubmissionNotObservable;
+use App\Jobs\ClearReviewBacklogJob;
 use App\Models\CanonicalItem;
 use App\Models\CanonicalItemVariant;
 use App\Models\Resolution;
@@ -158,5 +159,17 @@ final class ApplyReviewDecision
         ]);
 
         MlClient::forgetCatalogue($submission->country);
+
+        // Learning the phrase fixed the future. The backlog is the other half:
+        // on the scale dataset, 367,392 queued submissions carried only 31,044
+        // distinct texts, so a reviewer ruling on `أرز` was about to be shown it
+        // another 1,414 times. Dispatched after the transaction commits, because
+        // the job reads the variant this transaction is still writing.
+        DB::afterCommit(fn () => ClearReviewBacklogJob::dispatch(
+            $submission->country_id,
+            $submission->raw_text,
+            $item->id,
+            (string) $submission->id,
+        ));
     }
 }

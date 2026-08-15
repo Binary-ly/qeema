@@ -3702,3 +3702,77 @@ measured against them mean what it claims to.
 Across the two phases: **46 wordings moved from "matches nothing" to a correct
 auto-resolve**, and nine new price series exist where the alternative on offer
 was a classifier trained to be suspicious of them.
+
+## Phase 34 — one decision, a thousand rows
+
+Two measurements changed what the next improvement should be.
+
+**First: the scoring path can never auto-resolve anything.** Routing every corpus
+wording and distractor through the live matcher:
+
+| | n | auto-resolve | review | max confidence |
+|---|---|---|---|---|
+| wordings the catalogue knows | 605 | **605** | 0 | 0.990 |
+| wordings it does not know | 107 | **0** | 107 | 0.751 |
+| distractors | 164 | **0** | 162 | 0.750 |
+
+The uncalibrated confidence ceiling is 0.80 and the auto-resolve threshold is
+0.85, so **only the exact-match short-circuit ever auto-resolves**. Lexical
+scoring, the embedding, the fusion — none of it can decide anything. It is a
+router to humans. And an unknown-but-correct wording (0.751) is indistinguishable
+from something that matches nothing (0.750).
+
+**Second: the reject band is unreachable too, and means nothing anyway.** Two of
+164 distractors reject; the rest queue. And `ResolveSubmission` routes a `reject`
+action to review exactly as it routes `review`, so the two actions are the same
+thing. `asdasdasd`, `صباح الخير`, `test 123` and `١٢٣٤` all cost a human.
+
+So the bottleneck is not the model. It is the queue, and the queue is enormous.
+
+### 11.9 identical rows per decision
+
+On the regenerated dataset, **365,595 submissions awaiting review carry 30,851
+distinct texts**. The commonest phrase was waiting **1,205 times**.
+
+`learnVariant` already fixed the future — the phrase becomes a variant, so the
+next submission carrying it resolves alone. It did nothing about the backlog.
+Every row already queued stayed there, resolvable by a matcher that would now
+get it right, waiting for a human to repeat a decision just made.
+
+`ClearReviewBacklogJob` applies the decision to every identical row.
+
+**Measured end to end on the live 3.2M-row dataset**, using `دحي` — the word a
+native speaker had to correct, and one of the three held items, so genuinely
+unknown to the catalogue:
+
+    queued as دحي before:  1,204
+    one reviewer decision:    53 ms
+    backlog job:            90.7 s
+    queued as دحي after:        0
+    prices that reached the index instead of a queue: 1,204
+
+Three design decisions are worth stating because each could have been made
+carelessly:
+
+**Provenance is `exact`, not `human`.** A reviewer never saw those 1,203 rows.
+Recording them as human-approved would claim somebody checked a price nobody
+looked at. `fused` would claim a model ran. What actually happened is that the
+text matched a variant exactly.
+
+**Reporter reputation is untouched.** The reviewer confirmed what the *phrase*
+means, not that a thousand separate prices are honest. Crediting a thousand
+reporters for one decision would let a single approval move reputations nobody
+examined.
+
+**A row whose price cannot be normalised stays queued.** An unknown unit is a
+different question from what the phrase means, and it still needs a human.
+
+Nine tests cover it, including the two that matter most — it runs twice without
+changing anything the second time, and it does not touch another country.
+
+### And the queue now shows which decisions are worth most
+
+`Identical rows` sits beside the existing `Basket weight` column, sortable. One
+sorts by how much a decision moves the published index; the other by how many
+rows it clears. A phrase waiting a thousand times is a thousand rows one click
+can remove, and until now nothing in the interface said so.

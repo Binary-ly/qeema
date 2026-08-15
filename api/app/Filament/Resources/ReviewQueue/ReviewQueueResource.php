@@ -71,6 +71,17 @@ final class ReviewQueueResource extends Resource
             // hour can spend it on the submissions that actually move a
             // published figure rather than on whatever arrived first.
             ->addSelect([
+                // How many other queued rows carry this exact text. One decision
+                // clears all of them (ClearReviewBacklogJob), so this is the
+                // other impact axis alongside basket weight: on the scale
+                // dataset the queue held 365,595 rows across 30,851 distinct
+                // texts, and the commonest phrase was waiting 1,205 times.
+                'duplicate_count' => Submission::query()
+                    ->selectRaw('count(*)')
+                    ->from('submissions as siblings')
+                    ->whereColumn('siblings.raw_text', 'submissions.raw_text')
+                    ->whereColumn('siblings.country_id', 'submissions.country_id')
+                    ->where('siblings.status', Submission::STATUS_NEEDS_REVIEW),
                 'review_weight' => BasketItem::query()
                     ->select('basket_items.weight')
                     ->join('resolutions', 'resolutions.canonical_item_id', '=', 'basket_items.canonical_item_id')

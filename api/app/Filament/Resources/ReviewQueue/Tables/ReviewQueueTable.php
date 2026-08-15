@@ -116,6 +116,18 @@ final class ReviewQueueTable
                 })
                 ->description(fn (Submission $record): ?string => self::anomalyReasons($record)),
 
+            TextColumn::make('duplicate_count')
+                ->label('Identical rows')
+                ->badge()
+                ->placeholder('1')
+                // The effort sort. A phrase waiting a thousand times is one
+                // decision that clears a thousand rows, because approving it
+                // teaches the matcher and the backlog job applies it to every
+                // sibling. Sorting by this is how a reviewer empties a queue
+                // rather than working through it.
+                ->color(fn ($state): string => (int) $state >= 100 ? 'success' : 'gray')
+                ->sortable(query: fn (Builder $query, string $direction): Builder => $query->orderBy('duplicate_count', $direction)),
+
             TextColumn::make('review_weight')
                 ->label('Basket weight')
                 ->placeholder('—')
