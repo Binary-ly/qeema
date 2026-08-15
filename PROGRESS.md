@@ -4014,3 +4014,37 @@ says what to run.
 
 Seven tests, including the two that matter — a near match is refused, and another
 country is untouched.
+
+### Phase 38, completed
+
+The rematch finished for both countries, and the index was recomputed against
+what it produced.
+
+| | before | after |
+|---|---|---|
+| Libya, awaiting review | 360,473 | **229,558** |
+| Venezuela, awaiting review | 592 | **174** |
+| submissions resolved with no human input | — | **132,315** |
+| Libya, median coverage | 73% | **84%** |
+
+Coverage is the number that matters here. It is the share of the basket a
+location actually has a price for, and it rose eleven points because prices that
+were already collected — sitting in a queue, attached to text the catalogue had
+since learned — finally reached the index. Nobody reported anything new.
+
+Both countries now publish a complete series: Libya 99 of 99 locations carrying a
+level (461.9–541.6), Venezuela 16 of 16 (125.5–451.1), and `publication` reports
+`ok` on its own terms rather than because the check could not tell.
+
+Venezuela is worth singling out. It had never been anchored, had 592 submissions
+queued and 418 of them resolvable, and nothing in the platform had ever said so.
+It took two commands once the health check could see the problem.
+
+### An unrelated collision, worth recording
+
+Qeema's compose publishes the ML service on host port 8000. Nothing needs it —
+the app reaches the service over the Docker network at `http://ml:8000`, and the
+host mapping exists only for poking at it by hand. But 8000 is also
+`php artisan serve`'s default, so running Qeema alongside any other Laravel app
+means both claim the same port. `ML_PORT` already existed to move it; the README
+now says so.
