@@ -133,13 +133,24 @@ describe('recomputation', function (): void {
  * is active, has never published anything, and so makes the publication check
  * degrade for a reason the test never intended.
  */
-function healthSnapshotFor(Country $country, string $date): IndexSnapshot
-{
+function healthSnapshotFor(
+    Country $country,
+    string $date,
+    ?float $level = 100.0,
+    ?Basket $basket = null,
+): IndexSnapshot {
     return IndexSnapshot::factory()->create([
         'country_id' => $country->id,
         'location_id' => Location::factory()->create(['country_id' => $country->id])->id,
-        'basket_id' => Basket::factory()->create(['country_id' => $country->id])->id,
+        // Reusable, because two baskets for one country collide on
+        // (country_id, version) and a test needing two locations needs one
+        // basket, not two.
+        'basket_id' => ($basket ?? Basket::factory()->create(['country_id' => $country->id]))->id,
         'snapshot_date' => $date,
+        // Defaults to carrying a level. "Published" has to mean "carries a
+        // figure" — the factory's null default is exactly what let 476 empty
+        // snapshots pass for a working index.
+        'index_level' => $level,
     ]);
 }
 
@@ -163,6 +174,46 @@ describe('publication', function (): void {
 
     it('ignores a country that is not active', function (): void {
         Country::factory()->create(['timezone' => 'UTC', 'is_active' => false]);
+
+        expect(pipelineCheck('publication')->status)->toBe(HealthCheck::OK);
+    });
+
+    it('degrades when today is published but carries no index level', function (): void {
+        // The failure this exists for. A snapshot existing is not a snapshot
+        // saying anything: on a real deployment 476 published snapshots carried
+        // no level at all, the public API served `level: null` on top of 2.8
+        // million observations, and this check reported that every country had
+        // a figure for today.
+        $country = Country::factory()->create(['timezone' => 'UTC', 'is_active' => true]);
+
+        healthSnapshotFor($country, CarbonImmutable::now()->toDateString(), level: null);
+
+        expect(pipelineCheck('publication')->status)->toBe(HealthCheck::DEGRADED)
+            ->and(pipelineCheck('publication')->detail['no_level'])->toHaveKey($country->code);
+    });
+
+    it('names the anchor as the problem rather than blaming lateness', function (): void {
+        // A level is null because the basket has no anchor, so the operator
+        // needs qeema:index:link — not patience. Reporting it as "behind" would
+        // send them to wait for a publisher that is already running.
+        $country = Country::factory()->create(['timezone' => 'UTC', 'is_active' => true]);
+
+        healthSnapshotFor($country, CarbonImmutable::now()->toDateString(), level: null);
+
+        expect(pipelineCheck('publication')->summary)->toContain('anchored');
+    });
+
+    it('stays ok when at least one location carries a level', function (): void {
+        // Partial coverage is normal — a location with too little data yields no
+        // level and that is not a pipeline failure. The check is asking whether
+        // the country publishes anything at all.
+        $country = Country::factory()->create(['timezone' => 'UTC', 'is_active' => true]);
+        $today = CarbonImmutable::now()->toDateString();
+
+        $basket = Basket::factory()->create(['country_id' => $country->id]);
+
+        healthSnapshotFor($country, $today, level: null, basket: $basket);
+        healthSnapshotFor($country, $today, level: 118.4, basket: $basket);
 
         expect(pipelineCheck('publication')->status)->toBe(HealthCheck::OK);
     });

@@ -203,6 +203,7 @@ final class PipelineHealth
     private function publication(): HealthCheck
     {
         $behind = [];
+        $empty = [];
 
         foreach (Country::query()->where('is_active', true)->get() as $country) {
             $latest = IndexSnapshot::query()
@@ -219,7 +220,38 @@ final class PipelineHealth
 
             if (CarbonImmutable::parse((string) $latest)->toDateString() < $today) {
                 $behind[$country->code] = CarbonImmutable::parse((string) $latest)->toDateString();
+
+                continue;
             }
+
+            // A snapshot existing is not the same as a snapshot saying
+            // anything, and this check could not tell the difference. Measured
+            // on a real deployment: 476 published snapshots, none carrying an
+            // index level, the public API serving `level: null` on top of 2.8
+            // million observations — and this reporting "Every country has a
+            // figure for today". A health check that is satisfied by the
+            // absence of the number the platform exists to publish is measuring
+            // the wrong thing.
+            $carriesLevel = IndexSnapshot::query()
+                ->where('country_id', $country->id)
+                ->where('snapshot_date', $latest)
+                ->whereNotNull('index_level')
+                ->exists();
+
+            if (! $carriesLevel) {
+                $empty[$country->code] = CarbonImmutable::parse((string) $latest)->toDateString();
+            }
+        }
+
+        if ($empty !== []) {
+            // Reported separately from being behind, because the fix is
+            // different and specific: a level is null when the basket has no
+            // anchor, so the operator needs `qeema:index:link`, not patience.
+            return HealthCheck::degraded(
+                'publication',
+                'A country is publishing snapshots that carry no index level; its basket is probably not anchored.',
+                detail: ['no_level' => $empty] + ($behind === [] ? [] : ['behind' => $behind]),
+            );
         }
 
         return $behind === []

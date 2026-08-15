@@ -3908,3 +3908,58 @@ returned 200, the health check said `ok`. The product was empty. **Nothing in th
 suite asserted that the number the platform exists to publish is not null**, and
 a health check that reports a working pipeline while the pipeline publishes
 nothing is a health check measuring the wrong thing.
+
+## Phase 37 — a health check that could not see an empty product
+
+Phase 36 found the index publishing nulls while every gate stayed green. The
+check responsible said this:
+
+    publication  ok  "Every country has a figure for today."
+
+It asked whether a snapshot *existed* for today. It never asked whether the
+snapshot said anything, so a row with `index_level: null` satisfied it
+completely — and the summary then asserted a figure that was not there.
+
+`publication` now distinguishes three states rather than two:
+
+| state | meaning | what the operator does |
+|---|---|---|
+| behind | no snapshot for today | wait, or look at the publisher |
+| **no_level** | snapshots exist and carry no level | **`qeema:index:link` — the basket is not anchored** |
+| ok | at least one location carries a level | nothing |
+
+Reported separately because the fix is different and specific. A level is null
+when the basket has no anchor, so telling an operator the country is "behind"
+sends them to wait for a publisher that is already running perfectly.
+
+Partial coverage stays `ok`: a location with too little data legitimately yields
+no level, and the question this check asks is whether the country publishes
+anything at all.
+
+### It found a second instance immediately
+
+Run against the live deployment, it degraded on **both** countries — and
+Venezuela had never been anchored either. 80 snapshots, none carrying a level, on
+a country nobody had looked at. Anchoring it took one command:
+
+    LY  396 of 396 snapshots carry a level
+    VE   80 of 80  snapshots carry a level
+
+Venezuela is now a real public series: 16 locations, levels 125.6 to 451.1. It
+had been serving nulls for as long as it had been publishing.
+
+### A test that encoded the bug
+
+Adding the check broke an existing passing test — *it is ok when today is
+published* — because `IndexSnapshot::factory()` leaves `index_level` null, so the
+test asserted that a snapshot carrying no figure counted as published. That is
+the same assumption the health check made, written down twice and agreeing with
+itself.
+
+The helper now defaults to creating a snapshot **with** a level, so "published"
+means "carries a figure" everywhere in the suite, and a test that wants the empty
+case has to ask for it.
+
+Four tests: the empty case degrades, the summary names the anchor rather than
+blaming lateness, partial coverage stays ok, and the original behaviour still
+holds.
