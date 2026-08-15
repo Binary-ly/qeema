@@ -61,6 +61,12 @@ demonstrable — before a single real reporter exists. No manual steps.
 | Admin | http://localhost:8080/admin |
 | ML service | http://localhost:8000/ready |
 
+The ML service is the only one that publishes a port nothing needs: the app
+reaches it over the Docker network at `http://ml:8000`, and the host mapping
+exists purely so you can poke at it. It also collides with `php artisan serve`,
+whose default is `127.0.0.1:8000`, so if you run another Laravel app locally put
+`ML_PORT=8001` in a `.env` beside `docker-compose.yml` and nothing else changes.
+
 First build takes roughly 10–15 minutes, most of it downloading PyTorch and the
 embedding weights, which are **baked into the image** so the system works offline
 afterwards. Later starts take seconds.
