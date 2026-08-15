@@ -49,7 +49,8 @@ final class PromoteCorpusCommand extends Command
 {
     protected $signature = 'qeema:corpus:promote
                             {--country= : ISO code}
-                            {--dry-run : Report what would be promoted and write nothing}';
+                            {--dry-run : Report what would be promoted and write nothing}
+                            {--out= : Write the result here instead of over the country file}';
 
     protected $description = 'Add reviewed corpus wordings to a country catalogue as matcher variants';
 
@@ -107,10 +108,36 @@ final class PromoteCorpusCommand extends Command
             return self::SUCCESS;
         }
 
-        file_put_contents($path, $this->rewrite((string) file_get_contents($path), $plan['promote']));
+        $destination = (string) ($this->option('out') ?: $path);
+
+        // `docker compose` mounts ./countries read-only, deliberately — a running
+        // container has no business rewriting the configuration it was started
+        // from. So the obvious invocation, inside the app container, cannot
+        // write, and said so only as an unhandled ErrorException. Say it
+        // properly instead, and offer the way out.
+        if (! is_writable($destination) && ! is_writable(dirname($destination))) {
+            $this->error("Cannot write {$destination} — it is read-only.");
+            $this->newLine();
+            $this->line('  In the shipped compose setup, ./countries is mounted read-only, so this');
+            $this->line('  command cannot rewrite it from inside the container. Either:');
+            $this->line('');
+            $this->line("    docker compose exec app php artisan qeema:corpus:promote --country={$code} --out=/tmp/{$code}.yaml");
+            $this->line("    docker compose cp app:/tmp/{$code}.yaml countries/".strtolower($code).'.yaml');
+            $this->line('');
+            $this->line('  or run it on the host, where the file is writable.');
+
+            return self::FAILURE;
+        }
+
+        file_put_contents($destination, $this->rewrite((string) file_get_contents($path), $plan['promote']));
 
         $this->newLine();
-        $this->info("Wrote {$path}.");
+        $this->info("Wrote {$destination}.");
+
+        if ($destination !== $path) {
+            $this->line('  Copy it over countries/'.strtolower($code).'.yaml, then import.');
+        }
+
         $this->line("  Apply it with: php artisan qeema:config:import --country={$code}");
         $this->warn('  Promoted wordings are catalogue vocabulary now, not a test set — a');
         $this->warn('  matching score measured against them measures memorisation.');
@@ -236,34 +263,50 @@ final class PromoteCorpusCommand extends Command
      */
     private function rewrite(string $yaml, array $promote): string
     {
+        $lines = explode("\n", $yaml);
         $out = [];
         $item = null;
 
-        foreach (explode("\n", $yaml) as $line) {
+        for ($i = 0; $i < count($lines); $i++) {
+            $line = $lines[$i];
+
             if (preg_match('/^\s*-\s+code:\s*(\S+)/', $line, $match) === 1) {
                 $item = $match[1];
             }
 
-            if (
-                $item !== null
-                && isset($promote[$item])
-                && preg_match('/^(\s*)variants:\s*\[(.*)\]\s*$/', $line, $match) === 1
-            ) {
-                $indent = $match[1];
-                $bullet = $indent.'  - ';
+            $wanted = $item !== null && isset($promote[$item]);
 
+            // Flow style — `variants: [a, b]`. Expanded to block style on the
+            // way past, because a forty-entry flow list is unreadable.
+            if ($wanted && preg_match('/^(\s*)variants:\s*\[(.*)\]\s*$/', $line, $match) === 1) {
+                $indent = $match[1];
                 $out[] = $indent.'variants:';
 
                 foreach (array_filter(array_map('trim', explode(',', $match[2]))) as $existing) {
-                    $out[] = $bullet.$existing;
+                    $out[] = $indent.'  - '.$existing;
                 }
 
-                $out[] = $indent.'  # Promoted from the reporter corpus by qeema:corpus:promote.';
+                $out = [...$out, ...$this->promotedLines($indent, $promote[$item])];
+                unset($promote[$item]);
 
-                foreach ($promote[$item] as $wording) {
-                    $out[] = $bullet.$wording;
+                continue;
+            }
+
+            // Block style — `variants:` then `  - value` lines. Missing this
+            // case made the command a silent no-op on every item it had already
+            // promoted once, while still reporting success, because promotion
+            // converts flow style to block style. It reported writing 548
+            // wordings and wrote none.
+            if ($wanted && preg_match('/^(\s*)variants:\s*$/', $line, $match) === 1) {
+                $indent = $match[1];
+                $out[] = $line;
+                $bullet = '/^'.$indent.'\s+(-\s|#)/';
+
+                while ($i + 1 < count($lines) && preg_match($bullet, $lines[$i + 1]) === 1) {
+                    $out[] = $lines[++$i];
                 }
 
+                $out = [...$out, ...$this->promotedLines($indent, $promote[$item])];
                 unset($promote[$item]);
 
                 continue;
@@ -272,6 +315,30 @@ final class PromoteCorpusCommand extends Command
             $out[] = $line;
         }
 
+        if ($promote !== []) {
+            // Never report success for wordings that were not written. This is
+            // the failure the block-style bug hid.
+            throw new \RuntimeException(
+                'Could not find a variants list for: '.implode(', ', array_keys($promote))
+                .'. Every catalogue item must declare `variants:` before it can be promoted into.'
+            );
+        }
+
         return implode("\n", $out);
+    }
+
+    /**
+     * @param  list<string>  $wordings
+     * @return list<string>
+     */
+    private function promotedLines(string $indent, array $wordings): array
+    {
+        $lines = [$indent.'  # Promoted from the reporter corpus by qeema:corpus:promote.'];
+
+        foreach ($wordings as $wording) {
+            $lines[] = $indent.'  - '.$wording;
+        }
+
+        return $lines;
     }
 }

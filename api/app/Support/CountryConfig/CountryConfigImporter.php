@@ -14,6 +14,7 @@ use App\Models\Country;
 use App\Models\Location;
 use App\Models\Source;
 use App\Models\Unit;
+use App\Services\Ml\MlClient;
 use App\Support\Text\TextNormalizer;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
@@ -53,6 +54,14 @@ final class CountryConfigImporter
             [$items, $variants] = $this->importCanonicalItems($country, $config['canonical_items']);
             $basket = $this->importBasket($country, $config['basket']);
             $sources = $this->importSources($country, $config['sources'] ?? []);
+
+            // The matcher is sent a cached copy of the catalogue, and importing
+            // is one of the two ways the catalogue changes — the other, a
+            // reviewer approving a variant, already invalidates it. Without this
+            // an operator could add a product, import it, and watch the matcher
+            // go on ignoring it until the cache happened to expire. Found by
+            // adding two items and measuring that nothing changed.
+            MlClient::forgetCatalogue($country);
 
             return new ImportSummary(
                 countryCode: $country->code,

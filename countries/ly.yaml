@@ -310,6 +310,50 @@ canonical_items:
       - دقيق الأغراض المنزلية الريحان
       - فارينة
 
+  - code: olive_oil_1l
+    name_en: Olive oil (1 litre)
+    name_local: زيت زيتون
+    category: staples
+    default_unit_code: l
+    default_quantity: 1
+    # Catalogued, deliberately not basketed. Three reviewers converged on this:
+    # olive oil was one of the matcher's worst confusions, scoring 0.898 against
+    # cooking oil — higher than a *correct* rice match — and no amount of
+    # calibration or modelling could separate them, because the catalogue had no
+    # entry for what the reporter had actually typed. Adding the entry makes the
+    # confusion disappear rather than be detected. Basket weights are a
+    # methodology decision and are left alone.
+    variants:
+      - زيت زيتون
+      - زيت الزيتون
+      - olive oil
+      - zeit zeitoun
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - زيت زيتون بكر لتر
+      - زيت زيتون محلي السوق المحلي
+      - زيت زيتون مستورد مستورد
+
+  - code: tomato_paste_400g
+    name_en: Tomato paste (400g)
+    name_local: معجون طماطم
+    category: staples
+    default_unit_code: pack
+    default_quantity: 1
+    # The same story: tomato paste matched fresh tomatoes at 0.739, and paste and
+    # fresh tomatoes do not cost the same, so the confusion moved a wrong price
+    # toward a real index. Catalogued, unbasketed.
+    variants:
+      - معجون طماطم
+      - معجون الطماطم
+      - طماطم معجون
+      - tomato paste
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - طماطم معجون الجيد
+      - طماطم معجون الريحان
+      - طماطم معجون الصفوة
+      - طماطم معجون بيتي
+      - معجون طماطم قوطيه صغيره
+
   - code: rice_1kg
     name_en: Rice
     name_local: أرز

@@ -216,6 +216,11 @@
       "زيت عباد الشمس الصفوة",
       "زيت الصفوة"
     ],
+    "olive_oil_1l": [
+      "زيت زيتون بكر لتر",
+      "زيت زيتون محلي السوق المحلي",
+      "زيت زيتون مستورد مستورد"
+    ],
     "eggs_30": [
       "طبق بيض ٣٠",
       "طبق بيض",
@@ -351,6 +356,13 @@
       "tmatem tounsi",
       "tmatem sou9 el khodra",
       "kilo w nos tmatem"
+    ],
+    "tomato_paste_400g": [
+      "طماطم معجون الجيد",
+      "طماطم معجون الريحان",
+      "طماطم معجون الصفوة",
+      "طماطم معجون بيتي",
+      "معجون طماطم قوطيه صغيره"
     ],
     "ors_sachet": [
       "اكياس الجفاف",
@@ -1703,6 +1715,14 @@
       "لوكس صابون",
       "صابون دوف",
       "صابون فا"
+    ],
+    "olive_oil_1l": [
+      "زيت زيتون بكر لتر",
+      "زيت زيتون محلي السوق المحلي"
+    ],
+    "tomato_paste_400g": [
+      "طماطم معجون بيتي",
+      "معجون طماطم قوطيه صغيره"
     ]
   },
   "distractors": [
@@ -1799,9 +1819,6 @@
     "زبدة جديدة",
     "زبدة قولدينا",
     "زبده لورباك ٢٥٠",
-    "زيت زيتون بكر لتر",
-    "زيت زيتون محلي السوق المحلي",
-    "زيت زيتون مستورد مستورد",
     "زيت محرك ٤ لتر للسياره",
     "زيتون اخضر مكبوس كيلو",
     "زيثروماكس شراب للاطفال",
@@ -1830,10 +1847,6 @@
     "صدر دجاج وطني",
     "صدور دجاج مقطعه مجمده كرتونه",
     "طماطم مجففه بالزيت برطمان",
-    "طماطم معجون الجيد",
-    "طماطم معجون الريحان",
-    "طماطم معجون الصفوة",
-    "طماطم معجون بيتي",
     "طوب اسمنتي الحبه",
     "عبايه سودا",
     "عجله سياره مقاس ١٤",
@@ -1888,7 +1901,6 @@
     "مش فاهم شنو لازم نكتب",
     "مضاد حيوي كبسولات للكبار",
     "معجون سنسوداين",
-    "معجون طماطم قوطيه صغيره",
     "مقلمه مدرسيه بسحاب",
     "مكرونة البركة",
     "مكرونة الجيد",
@@ -2897,13 +2909,12 @@
     "بيض is kept because Libyan price bulletins print it (البيض العادي، طبق البيض) — but it is now demoted below دحي in the sampling weights. Is that the right balance, or should بيض be cut back further?"
   ],
   "_measured_confusions": {
-    "طماطم معجون الصفوة": "matched tomatoes_1kg at 0.739 — paste is not fresh tomatoes",
-    "زيت زيتون محلي السوق المحلي": "matched cooking_oil_1l at 0.727 — olive oil is several times the price",
     "دقيق المخابز الصفوة": "matched wheat_flour_1kg at 0.735 — a 25kg sack, not a kilo",
     "دقيق اسمر ( شعير ) العربي": "matched wheat_flour_1kg at 0.727 — barley, not wheat",
     "حليب معقم الريحان": "matched infant_formula_400g at 0.660 — sterilised milk is not infant formula",
     "سكر الصفوة": "matched ors_sachet at 0.592",
-    "تن الصياد مستورد": "matched amoxicillin_suspension_60ml at 0.579"
+    "تن الصياد مستورد": "matched amoxicillin_suspension_60ml at 0.579",
+    "_resolved_by_catalogue_coverage": "زيت زيتون (olive oil, matched cooking_oil_1l at 0.727) and طماطم معجون (tomato paste, matched tomatoes_1kg at 0.739) are no longer confusions. They were never scoring failures — the catalogue had no entry for what the reporter typed, so 'nearest' was the wrong question. olive_oil_1l and tomato_paste_400g were added on 2026-08-15, catalogued but not basketed, and both now resolve to themselves at 0.990 through the exact-match short-circuit. Their wordings moved from distractors to items. زيتون اخضر مكبوس (pickled olives) and معجون سنسوداين (Sensodyne toothpaste) stay distractors: they share a token with the new items but are different products, and both still go to review rather than auto-resolve."
   },
   "_promoted": {
     "date": "2026-08-14",

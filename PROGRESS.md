@@ -3581,3 +3581,73 @@ away.
 `ml/scripts/verifier_experiment.py` is kept. It is a good measurement and it is
 what established that the near-neighbour failures are a vocabulary gap rather than
 a scoring one. Its output does not go in the resolution path.
+
+## Phase 32 — the two confusions, fixed by catalogue rather than by model
+
+Phase 31 concluded that the near-neighbour failures are a vocabulary gap, not a
+scoring one. This acts on that.
+
+**`olive_oil_1l` and `tomato_paste_400g` are now catalogue items** — catalogued,
+deliberately **not basketed**, following the precedent of three items that
+already ship that way. The published index is untouched; basket weights are a
+methodology decision and not one to make as a side effect of a matching fix.
+
+| input | before | after |
+|---|---|---|
+| زيت زيتون بكر لتر | cooking_oil_1l 0.737 review | **olive_oil_1l 0.990 auto_resolve** |
+| طماطم معجون بيتي | tomatoes_1kg 0.739 review | **tomato_paste_400g 0.990 auto_resolve** |
+| زيت عباد الشمس لتر | cooking_oil_1l | unchanged |
+| طماطم كيلو | tomatoes_1kg | unchanged |
+
+Eight wordings moved from `distractors` to `items`. Two deliberately did not:
+**زيتون اخضر مكبوس** is pickled olives and **معجون سنسوداين** is Sensodyne
+toothpaste — `معجون` means paste in general, not tomato paste. Both share a token
+with a new item and both still go to review rather than auto-resolve, which is
+the correct disposition for a product the catalogue does not stock.
+
+No model, no training data, no per-country artifact. The confusion did not get
+detected, it stopped existing.
+
+### Two real bugs found by doing it
+
+**`qeema:corpus:promote` reported writing wordings it had not written.** Its
+rewriter matched only flow-style `variants: [a, b]`. Promotion *converts* flow
+style to block style — so the second run against any item silently promoted
+nothing while printing a success message and a count. Every Libyan item has been
+block style since Phase 25, so the command shipped last phase was a no-op on the
+entire catalogue it was written for.
+
+The test fixture was flow-style throughout, which is exactly why the suite agreed
+with it. Fixed: both styles are handled, the fixture now contains a block-style
+item, and the rewriter **throws rather than returning** if any planned item was
+not written. A command that reports success for work it did not do is worse than
+one that fails.
+
+**`qeema:config:import` never invalidated the matcher's catalogue cache.** The
+app sends the ML service a cached copy of the catalogue. `ApplyReviewDecision`
+invalidates it when a reviewer adds a variant; the importer did not. So an
+operator could add a product, import it, and watch the matcher go on ignoring it
+until the cache happened to expire — which is precisely what happened here, and
+why the first verification run showed 0.752 instead of 0.990.
+
+Both were found by checking the whole lifecycle rather than the diff.
+
+**And one that is real but not worth fixing yet.** `qeema:corpus:promote` cannot
+write from inside the app container: `./countries` is mounted read-only, by
+design. It failed with a raw `ErrorException`. It now says so, and offers
+`--out=` plus the two-line copy-back, or running it on the host.
+
+### Not built: learnRejection
+
+`approve` teaches the matcher the phrase that defeated it; `reject` teaches it
+nothing, and closing that asymmetry was the other recommendation. It is not built
+because `reject` means two different things — "this is not a product we track"
+and "this submission is unusable" — and the reviewer types free text, so the
+intent cannot be inferred. Learning from the second kind would be actively
+harmful: a reviewer rejecting a rice report because the *price* was absurd would
+teach the matcher that أرز matches nothing, and rice would stop resolving for
+everyone, permanently.
+
+It needs an explicit signal from the reviewer, which means a schema change, an
+action-signature change and a Filament change. Worth doing deliberately, not as
+a footnote to a matching fix.

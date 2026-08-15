@@ -44,6 +44,19 @@ beforeEach(function (): void {
         category: protein
         default_unit_code: tray
         variants: [بيض]
+
+      # Block style, which is what an item looks like AFTER it has been promoted
+      # into once. The first version of this command silently promoted nothing
+      # into items shaped like this while reporting success, and this fixture
+      # was flow-style throughout, so the tests agreed with it.
+      - code: cooking_gas_11kg
+        name_en: Cooking gas
+        name_local: غاز
+        category: energy
+        default_unit_code: piece
+        variants:
+          - غاز
+          - بمبلة
     YAML);
 
     $this->writeCorpus = function (array $corpus): void {
@@ -58,6 +71,7 @@ beforeEach(function (): void {
             'rice_1kg' => ['رز مصري', 'ارز حبة قصيرة', 'ارز'],
             'cooking_oil_1l' => ['زيت عباد الشمس', 'زيت قلي'],
             'eggs_30' => ['دحي', 'طبق دحي'],
+            'cooking_gas_11kg' => ['بومبة غاز', 'اسطوانة غاز'],
         ],
         'hold' => ['eggs_30'],
         'distractors' => ['زيت زيتون بكر'],
@@ -177,7 +191,7 @@ it('produces a file that still parses and still describes the same items', funct
     $config = Yaml::parseFile($this->directory.'/xx.yaml');
 
     expect(array_column($config['canonical_items'], 'code'))
-        ->toBe(['rice_1kg', 'cooking_oil_1l', 'eggs_30'])
+        ->toBe(['rice_1kg', 'cooking_oil_1l', 'eggs_30', 'cooking_gas_11kg'])
         ->and($config['country']['code'])->toBe('XX');
 });
 
@@ -193,4 +207,49 @@ it('fails clearly when the country has no configuration', function (): void {
 
 it('requires a country', function (): void {
     $this->artisan('qeema:corpus:promote')->assertFailed();
+});
+
+it('promotes into an item whose variants are already block style', function (): void {
+    // The regression that mattered: promotion converts flow style to block
+    // style, so the SECOND run against any item silently wrote nothing and
+    // still reported success.
+    $this->artisan('qeema:corpus:promote', ['--country' => 'XX'])->assertSuccessful();
+
+    expect(($this->variantsFor)('cooking_gas_11kg'))
+        ->toContain('غاز')
+        ->toContain('بمبلة')
+        ->toContain('بومبة غاز')
+        ->toContain('اسطوانة غاز');
+});
+
+it('is still idempotent once everything is block style', function (): void {
+    $this->artisan('qeema:corpus:promote', ['--country' => 'XX'])->assertSuccessful();
+    $after = file_get_contents($this->directory.'/xx.yaml');
+
+    $this->artisan('qeema:corpus:promote', ['--country' => 'XX'])
+        ->expectsOutputToContain('Nothing to promote')
+        ->assertSuccessful();
+
+    expect(file_get_contents($this->directory.'/xx.yaml'))->toBe($after);
+});
+
+it('refuses to report success for an item it cannot write into', function (): void {
+    // An item with no variants list at all. Silently skipping it is what the
+    // original bug did; this must be loud instead.
+    file_put_contents($this->directory.'/xx.yaml', <<<'YAML'
+    country:
+      code: XX
+      name: Example
+    canonical_items:
+      - code: rice_1kg
+        name_en: Rice
+        name_local: أرز
+        category: staples
+        default_unit_code: kg
+    YAML);
+
+    ($this->writeCorpus)(['items' => ['rice_1kg' => ['رز مصري']]]);
+
+    expect(fn () => $this->artisan('qeema:corpus:promote', ['--country' => 'XX'])->run())
+        ->toThrow(RuntimeException::class);
 });
