@@ -358,15 +358,19 @@ jobs:
               $today  = \Carbon\CarbonImmutable::now($c->timezone)->toDateString();
               echo "\n{$c->code}: latest published snapshot {$latest} | today there {$today}\n";
             }
-            // The scheduled scraper creates submissions constantly, so the
-            // latest submission is almost never the one the test posted. Find it by
-            // looking for a reporter reference rather than a scraped source.
-            $mine = App\Models\Submission::whereNotNull("reporter_id")
+            // Neither "latest" nor "has a reporter" finds the submission under
+            // test: the scheduled scraper creates them constantly and the demo
+            // seeds thousands. The loop test posts a price of exactly 12.5,
+            // which nothing else in the system does.
+            $mine = App\Models\Submission::where("raw_price", 12.5)
               ->orderByDesc("created_at")->take(3)->get();
+            echo "\nsubmissions posted by the loop test: ".$mine->count()."\n";
             foreach ($mine as $m) {
-              echo "\nreporter submission {$m->created_at}: {$m->raw_text} | status={$m->status}";
-              echo " | observation=".($m->priceObservation === null ? "NONE" : "yes");
-              echo " | resolution=".($m->resolution?->method ?? "none")."\n";
+              $mr = $m->resolution;
+              echo "  text={$m->raw_text} | status={$m->status}";
+              echo " | observation=".($m->priceObservation === null ? "NONE" : "yes")."\n";
+              echo "    resolution=".($mr === null ? "none" : $mr->method." conf=".$mr->confidence." item=".$mr->canonical_item_id)."\n";
+              echo "    notes=".($mr?->notes ?? "-")." | location={$m->location_id} | observed_at={$m->observed_at}\n";
             }
 
             // One snapshot stayed stale for the whole 240s window while the
