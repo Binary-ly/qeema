@@ -31,6 +31,7 @@ not improved anything.
 from __future__ import annotations
 
 import json
+import os
 import sys
 from dataclasses import dataclass
 
@@ -51,6 +52,8 @@ class Split:
     index_texts: list[str]
     index_items: list[str]
     train_pairs: list[tuple[str, str, str]]
+    val_texts: list[str]
+    val_items: list[str]
     test_texts: list[str]
     test_items: list[str]
     distractors: list[str]
@@ -61,6 +64,8 @@ def build_split(data: dict) -> Split:
     index_texts: list[str] = []
     index_items: list[str] = []
     train_pairs: list[tuple[str, str, str]] = []
+    val_texts: list[str] = []
+    val_items: list[str] = []
     test_texts: list[str] = []
     test_items: list[str] = []
 
@@ -76,7 +81,13 @@ def build_split(data: dict) -> Split:
         # Positional, so the run reproduces exactly. Every fourth and fifth
         # wording is held out.
         for position, wording in enumerate(wordings):
-            if position % 5 in (3, 4):
+            # Held out twice over. Configurations are chosen on validation and
+            # the winner is reported once on test. Tuning against the number you
+            # then publish is how a search invents a result.
+            if position % 5 == 3:
+                val_texts.append(wording)
+                val_items.append(code)
+            elif position % 5 == 4:
                 test_texts.append(wording)
                 test_items.append(code)
             else:
@@ -101,13 +112,17 @@ def build_split(data: dict) -> Split:
         index_texts=index_texts,
         index_items=index_items,
         train_pairs=train_pairs,
+        val_texts=val_texts,
+        val_items=val_items,
         test_texts=test_texts,
         test_items=test_items,
         distractors=data["distractors"],
     )
 
 
-def evaluate(model: SentenceTransformer, split: Split, label: str) -> dict:
+def evaluate(model: SentenceTransformer, split: Split, label: str, on: str = "test") -> dict:
+    texts = split.val_texts if on == "val" else split.test_texts
+    truth = split.val_items if on == "val" else split.test_items
     index = model.encode(
         [PASSAGE_PREFIX + normalise(t) for t in split.index_texts],
         normalize_embeddings=True,
@@ -115,7 +130,7 @@ def evaluate(model: SentenceTransformer, split: Split, label: str) -> dict:
         batch_size=64,
     )
     queries = model.encode(
-        [QUERY_PREFIX + normalise(t) for t in split.test_texts],
+        [QUERY_PREFIX + normalise(t) for t in texts],
         normalize_embeddings=True,
         show_progress_bar=False,
         batch_size=64,
@@ -131,12 +146,12 @@ def evaluate(model: SentenceTransformer, split: Split, label: str) -> dict:
 
     similarity = queries @ index.T
     best = similarity.argmax(axis=1)
-    top1 = float((items[best] == np.array(split.test_items)).mean())
+    top1 = float((items[best] == np.array(truth)).mean())
 
     # Top-3 by item, not by passage: an item with forty variants would otherwise
     # fill every slot and the number would mean nothing.
     hits = 0
-    for row, truth in zip(similarity, split.test_items, strict=True):
+    for row, want in zip(similarity, truth, strict=True):
         order = np.argsort(-row)
         seen: list[str] = []
         for position in order:
@@ -145,8 +160,8 @@ def evaluate(model: SentenceTransformer, split: Split, label: str) -> dict:
                 seen.append(code)
             if len(seen) == 3:
                 break
-        hits += truth in seen
-    top3 = hits / len(split.test_items)
+        hits += want in seen
+    top3 = hits / len(texts)
 
     correct_similarity = similarity.max(axis=1)
     noise_similarity = (noise @ index.T).max(axis=1)
@@ -183,11 +198,17 @@ def main() -> int:
 
     results = []
 
+    # e5-large is skipped by default. Its baseline is already recorded — top-1
+    # 85.4%, separation 0.728 — and loading 2.2 GB again to re-derive a known
+    # number is the sort of thing that cooks a laptop for nothing.
+    baselines = ["intfloat/multilingual-e5-base"]
+    if os.environ.get("WITH_LARGE") == "1":
+        baselines.append("intfloat/multilingual-e5-large")
+
     print("BASELINE — no training")
-    for name in ("intfloat/multilingual-e5-base", "intfloat/multilingual-e5-large"):
+    for name in baselines:
         results.append(evaluate(SentenceTransformer(name), split, name.split("/")[-1]))
 
-    print("\nFINE-TUNED on the training half")
     from datasets import Dataset
     from sentence_transformers import (
         SentenceTransformerTrainer,
@@ -195,7 +216,6 @@ def main() -> int:
     )
     from sentence_transformers.losses import MultipleNegativesRankingLoss
 
-    model = SentenceTransformer("intfloat/multilingual-e5-base")
     dataset = Dataset.from_dict(
         {
             "anchor": [QUERY_PREFIX + normalise(a) for a, _, _ in split.train_pairs],
@@ -204,32 +224,66 @@ def main() -> int:
         }
     )
 
-    trainer = SentenceTransformerTrainer(
-        model=model,
-        args=SentenceTransformerTrainingArguments(
-            output_dir="/tmp/e5-qeema",
-            num_train_epochs=6,
-            per_device_train_batch_size=32,
-            warmup_steps=0.1,
-            learning_rate=2e-5,
-            logging_steps=50,
-            save_strategy="no",
-            report_to=[],
-            seed=17,
-        ),
-        train_dataset=dataset,
-        # In-batch negatives: every other positive in the batch is a negative for
-        # this anchor, which for 27 items means the model is constantly told
-        # "rice is not oil" without anyone labelling that.
-        loss=MultipleNegativesRankingLoss(model),
-    )
-    trainer.train()
+    def train(batch: int, epochs: int, lr: float) -> SentenceTransformer:
+        model = SentenceTransformer("intfloat/multilingual-e5-base")
+        SentenceTransformerTrainer(
+            model=model,
+            args=SentenceTransformerTrainingArguments(
+                output_dir="/tmp/e5-qeema",
+                num_train_epochs=epochs,
+                per_device_train_batch_size=batch,
+                warmup_steps=0.1,
+                learning_rate=lr,
+                logging_steps=1000,
+                save_strategy="no",
+                report_to=[],
+                seed=17,
+                disable_tqdm=True,
+            ),
+            train_dataset=dataset,
+            # In-batch negatives are the reason batch size is the first thing
+            # worth sweeping: every other positive in the batch is a negative
+            # for this anchor, so a bigger batch is a harder, more informative
+            # task at no extra data cost.
+            loss=MultipleNegativesRankingLoss(model),
+        ).train()
+        return model
 
-    results.append(evaluate(model, split, "e5-base fine-tuned"))
-    model.save("/tmp/e5-qeema/final")
+    print("\nSWEEP — scored on VALIDATION only, so the test half stays unseen")
+    # Batch size is the first thing worth sweeping because in-batch negatives
+    # scale with it. A four-configuration sweep found (64, 12, 3e-5) on
+    # validation; the grid is kept to that one by default so re-running confirms
+    # the winner on test rather than re-deriving the search every time.
+    grid = [(64, 12, 3e-5)]
+    if os.environ.get("FULL_SWEEP") == "1":
+        grid = [(32, 4, 2e-5), (64, 12, 3e-5), (64, 30, 3e-5), (128, 30, 5e-5)]
+    trained: dict[str, SentenceTransformer] = {}
+    scored = []
+
+    for batch, epochs, lr in grid:
+        label = f"batch {batch}, {epochs} epochs, lr {lr:g}"
+        model = train(batch, epochs, lr)
+        trained[label] = model
+        scored.append(evaluate(model, split, label, on="val"))
+
+    print("\n  baseline on validation, for reference:")
+    base_val = evaluate(
+        SentenceTransformer("intfloat/multilingual-e5-base"), split, "e5-base", on="val"
+    )
+
+    # Separation is what this is for. Retrieval must not collapse to buy it, so
+    # a configuration that loses more than five points of top-1 is refused
+    # outright rather than allowed to win on the headline number.
+    eligible = [r for r in scored if r["top1"] >= base_val["top1"] - 0.05]
+    winner = max(eligible or scored, key=lambda r: r["separation"])
+    print(f"\n  chosen on validation: {winner['label']}")
+
+    print("\nTEST — reported once, on the half nothing was chosen against")
+    results.append(evaluate(trained[winner["label"]], split, "e5-base fine-tuned"))
+    trained[winner["label"]].save("/tmp/e5-qeema/final")
 
     baseline = results[0]
-    print("\nagainst the shipped model:")
+    print("\nagainst the shipped model, on test:")
     for row in results[1:]:
         print(
             f"  {row['label']:<30} top-1 {row['top1'] - baseline['top1']:+6.1%}  "

@@ -4113,3 +4113,58 @@ One claim worth correcting for anyone reading the code: `SentenceTransformer` is
 constructed without a `device=` argument, and that is **not** a bug. It
 auto-selects — `mps` on the host, CPU inside the Linux container, which is
 correct in both places. Adding the argument would change nothing.
+
+### Phase 39, completed — fine-tuning the embedder is worth 6.8 points and 0.098 AUC
+
+The sweep chose `batch 64, 12 epochs, lr 3e-5` on the validation half. Reported
+once on the test half, which nothing was selected against:
+
+| | shipped `e5-base` | fine-tuned | change |
+|---|---|---|---|
+| top-1 | 80.3% | **87.1%** | **+6.8 pts** |
+| top-3 | 92.4% | 94.7% | +2.3 pts |
+| gap | +0.021 | **+0.219** | ~10x |
+| **separation AUC** | **0.745** | **0.843** | **+0.098** |
+
+Both numbers move together, which is the part that matters. Retrieval accuracy
+alone is easy to buy by making everything look like everything else; that would
+have shown up as separation collapsing, and it did not. The gap between a correct
+wording and a car battery went from 0.021 to 0.219.
+
+**Separation is the number with product consequences.** It is why nothing
+non-exact can auto-resolve or be refused today. 0.745 does not support a
+threshold; 0.843 begins to.
+
+Three things made the difference, and only one was obvious:
+
+- **Batch size.** In-batch negatives scale with it, so a bigger batch is a harder
+  and more informative task at no extra data cost. 32 -> 64 was worth more than
+  anything else tried.
+- **Epochs.** The first attempt at 4 epochs was simply undertrained and looked
+  like a failure: +0.039 separation and *worse* retrieval.
+- **Distractors as explicit negatives.** In-batch negatives teach "rice is not
+  oil", which is retrieval between items. Nothing in that teaches "a car battery
+  is not any of these", and separation is exactly that question.
+
+### What this is not yet
+
+**Measured on Libya alone, from 444 training wordings.** That is a small corpus
+and a single country, and the honest expectation is that the gain shrinks on a
+country whose corpus nobody has reviewed.
+
+**Nothing is shipped.** A fine-tuned model is a country-specific binary artifact,
+which raises the C3 question the nowcast model already answers one way (fit per
+country at runtime) and would need answering again. It also has to exist on a
+clean `docker compose up` (C2), and a 1.1 GB file is not something to commit.
+
+The model is deliberately not saved into the repo. It reproduces in about three
+minutes from `scripts/embedding_finetune.py`, which is a better artifact than the
+weights: it carries the protocol, the split, and the refusal to let retrieval
+collapse in exchange for separation.
+
+### And a note on why this was fast at all
+
+The same training step took ~14 s while Qeema's six containers were running and
+1.4 s once they were stopped — a tenfold difference on identical work. Colima is
+configured for 2 CPUs and 4 GB total. Any timing measured on this machine is a
+measurement of that box.
