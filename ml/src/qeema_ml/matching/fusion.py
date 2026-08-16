@@ -92,7 +92,7 @@ class ConfidenceCalibrator:
     #: Below this many labelled examples, a fitted curve would be noise.
     #:
     #: Raised from 50 after measuring what 50 actually buys. Fitted on 62 real
-    #: labelled outcomes from a Libyan commodity bulletin — 16 correct, 46 not —
+    #: labelled outcomes from a real commodity bulletin — 16 correct, 46 not —
     #: isotonic collapsed into a two-step function: every score landed on either
     #: 0.524 or 1.000. It fixed the noise floor beautifully (keyboard mash went
     #: from 0.582 to 0.000) and simultaneously began auto-resolving olive oil as

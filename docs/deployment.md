@@ -182,6 +182,7 @@ for the demo; the ones you **must** change for a real deployment are marked.
 |---|---|---|
 | `QEEMA_ML_URL` | `http://ml:8000` | |
 | `QEEMA_ML_TIMEOUT` | `10` | Seconds. |
+| `QEEMA_ML_WARM_TIMEOUT` | `300` | Seconds, for building a catalogue index at boot only. The matcher embeds a catalogue on first sight — tens of seconds for a few hundred variants — so `qeema:bootstrap` warms it with this budget. Without that the first submission after a deployment times out against `QEEMA_ML_TIMEOUT` and goes to review. |
 | `QEEMA_ML_CONNECT_TIMEOUT` | `2` | Seconds. |
 | `QEEMA_ML_RETRIES` | `2` | |
 | `QEEMA_ML_CB_FAILURES` | `5` | Consecutive failures before the circuit breaker opens. |

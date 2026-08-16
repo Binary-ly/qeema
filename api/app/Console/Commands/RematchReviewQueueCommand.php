@@ -22,7 +22,7 @@ use Illuminate\Console\Command;
  * could not resolve *at the time*. Growing the catalogue — adding an item,
  * promoting a corpus, a reviewer teaching it a phrase — changes what it can
  * resolve, and nothing went back for the rows already waiting. Measured
- * immediately after nine items were added to Libya: **26,937 queued submissions
+ * immediately after nine items were added to one country: **26,937 queued submissions
  * carried text that had just become a catalogue variant**, every one of them
  * waiting for a human to answer a question the matcher could now answer itself.
  *

@@ -15,7 +15,7 @@ use Symfony\Component\Yaml\Yaml;
  * Promote reviewed corpus wordings into a country's catalogue as variants.
  *
  * **Why this exists.** The matcher resolves text against catalogue variants.
- * Libya shipped with 133 of them while its corpus held 689 wordings that real
+ * One country shipped with 133 of them while its corpus held 689 wordings that real
  * people type, and the matcher had never been given one — so every matching
  * figure measured against it was measuring the platform on vocabulary it did
  * not have. Handing the vocabulary over was worth **+19.1 points of top-1 on a

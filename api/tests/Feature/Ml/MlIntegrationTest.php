@@ -19,6 +19,7 @@ use App\Services\Ml\MatchResult;
 use App\Services\Ml\MlClient;
 use App\Support\CountryConfig\CountryConfigImporter;
 use App\Support\CountryConfig\CountryConfigLoader;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use JsonSchema\Validator;
@@ -482,5 +483,45 @@ describe('anomaly verdicts carry their provenance', function () {
         $verdicts = (new MlClient)->scoreAnomalies([['submission_id' => 'a']]);
 
         expect($verdicts[0]['model_version'])->toBe('per-verdict');
+    });
+});
+
+describe('warming the catalogue', function (): void {
+    it('builds the index with its own budget rather than the request timeout', function (): void {
+        // The regression this exists for: the matching service embeds a
+        // catalogue on first sight, which for 675 variants is tens of seconds,
+        // and the per-request timeout is ten. The first submission after a
+        // deployment therefore timed out with `cURL error 28`, the circuit
+        // opened, and a price that should have reached the index went to a
+        // human instead.
+        config(['qeema.ml.timeout' => 10.0, 'qeema.ml.warm_timeout' => 300.0]);
+
+        $country = Country::factory()->create(['code' => 'XX']);
+        $item = CanonicalItem::factory()->create(['country_id' => $country->id]);
+        CanonicalItemVariant::factory()->create(['canonical_item_id' => $item->id]);
+
+        Http::fake(['*/v1/match' => Http::response(['normalised_text' => 'x', 'action' => 'review',
+            'reason' => 'warm', 'candidates' => [], 'model_version' => 'test'], 200)]);
+
+        expect(app(MlClient::class)->warm($country))->toBeTrue();
+
+        Http::assertSent(fn ($request) => str_contains($request->url(), '/v1/match'));
+    });
+
+    it('reports failure without opening the circuit', function (): void {
+        // A slow first build is not a failing service. Treating it as one would
+        // route every later submission to review for the length of the cooldown.
+        $country = Country::factory()->create(['code' => 'XX']);
+        $item = CanonicalItem::factory()->create(['country_id' => $country->id]);
+        CanonicalItemVariant::factory()->create(['canonical_item_id' => $item->id]);
+
+        Http::fake(['*/v1/match' => fn () => throw new ConnectionException('timed out')]);
+
+        expect(app(MlClient::class)->warm($country))->toBeFalse()
+            ->and(app(MlClient::class)->isAvailable())->toBeTrue();
+    });
+
+    it('says nothing needed warming when the country has no catalogue', function (): void {
+        expect(app(MlClient::class)->warm(Country::factory()->create(['code' => 'ZZ'])))->toBeTrue();
     });
 });

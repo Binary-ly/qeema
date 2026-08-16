@@ -84,7 +84,7 @@ final class RawTextGenerator
         // A reporter writes "سعر دحي", never "سعردحي". Word boundaries belong to
         // the generator rather than to the corpus: affixes were previously
         // concatenated raw, and one corpus happened to bake its own spaces in
-        // ("el ", " en el abasto") while the other did not — so the Libyan
+        // ("el ", " en el abasto") while the other did not — so the second
         // corpus produced a glued prefix on about one line in ten. Trimming
         // here makes both behave the same and leaves neither with a double
         // space.

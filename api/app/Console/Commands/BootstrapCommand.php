@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Models\Country;
+use App\Services\Ml\MlClient;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Cache\LockTimeoutException;
@@ -234,6 +236,42 @@ final class BootstrapCommand extends Command
                 '--from' => CarbonImmutable::now()->subDays(self::DEMO_INDEX_DAYS)->toDateString(),
                 '--to' => CarbonImmutable::now()->toDateString(),
             ]);
+        }
+
+        $this->warmMatcher();
+    }
+
+    /**
+     * Build each country's catalogue index before the first submission needs it.
+     *
+     * The matching service embeds a catalogue on first sight, which for a few
+     * hundred variants takes tens of seconds — far longer than the ten-second
+     * request timeout. Without this the first price submitted after a fresh
+     * boot times out, the circuit opens, and a price that should have reached
+     * the index goes to a human instead. That is exactly what happened when one
+     * country's catalogue grew from 133 variants to 675: the end-to-end test
+     * failed on `cURL error 28` at the very first match.
+     *
+     * Failure here is not fatal. A deployment with no matching service is a
+     * supported state — the platform routes to human review — so this reports
+     * and continues rather than refusing to finish bootstrapping.
+     */
+    private function warmMatcher(): void
+    {
+        $client = app(MlClient::class);
+
+        if (! $client->isAvailable()) {
+            $this->warn('Matching service unavailable; skipping warm-up.');
+
+            return;
+        }
+
+        foreach (Country::query()->where('is_active', true)->get() as $country) {
+            $this->info("Warming the matcher for {$country->code}...");
+
+            if (! $client->warm($country)) {
+                $this->warn("  Could not warm {$country->code}; the first match will be slow.");
+            }
         }
     }
 

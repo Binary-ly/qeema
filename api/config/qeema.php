@@ -38,6 +38,12 @@ return [
     'ml' => [
         'base_url' => env('QEEMA_ML_URL', 'http://ml:8000'),
         'timeout' => (float) env('QEEMA_ML_TIMEOUT', 10.0),
+
+        // Warming embeds the whole catalogue, which for a few hundred variants
+        // is tens of seconds. It is a deployment step doing work that genuinely
+        // takes that long, so it gets its own budget rather than being held to
+        // the per-request one.
+        'warm_timeout' => (float) env('QEEMA_ML_WARM_TIMEOUT', 300.0),
         'connect_timeout' => (float) env('QEEMA_ML_CONNECT_TIMEOUT', 2.0),
         'retries' => (int) env('QEEMA_ML_RETRIES', 2),
         'retry_delay_ms' => (int) env('QEEMA_ML_RETRY_DELAY_MS', 200),

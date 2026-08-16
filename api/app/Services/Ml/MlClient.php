@@ -39,6 +39,56 @@ final class MlClient implements MlClientInterface
     }
 
     /**
+     * Build the country's catalogue index before real traffic needs it.
+     *
+     * **Why this exists.** The matching service is stateless: it is handed the
+     * catalogue on every request and embeds it on first sight, keyed by
+     * fingerprint. That embedding is the expensive part — for a 675-variant
+     * catalogue it is tens of seconds — and the ordinary request timeout is ten.
+     * So the *first* submission after a deployment, or after any change to the
+     * catalogue, times out. The circuit opens, and prices that should have
+     * reached the index go to a human instead.
+     *
+     * Measured, not hypothesised: growing one country's catalogue from 133
+     * variants to 675 made the end-to-end test fail with
+     * `cURL error 28: Operation timed out after 10001 milliseconds` on the very
+     * first match, and the loop never closed.
+     *
+     * Warming is therefore a deployment step, not an optimisation. It uses its
+     * own generous timeout because it is doing work that legitimately takes
+     * that long, and it deliberately does not touch the circuit breaker: a slow
+     * first build is not a failing service.
+     */
+    public function warm(Country $country, ?float $timeout = null): bool
+    {
+        $config = config('qeema.ml');
+        $variants = $this->catalogueFor($country);
+
+        if ($variants === []) {
+            return true;
+        }
+
+        try {
+            return Http::baseUrl((string) $config['base_url'])
+                ->timeout($timeout ?? (float) ($config['warm_timeout'] ?? 300.0))
+                ->connectTimeout((float) $config['connect_timeout'])
+                ->post('/v1/match', [
+                    'text' => $variants[0]['text'] ?? 'warm',
+                    'catalogue' => ['variants' => $variants],
+                    'top_k' => 1,
+                ])
+                ->successful();
+        } catch (Throwable $e) {
+            Log::warning('Warming the matcher failed', [
+                'country' => $country->code,
+                'reason' => $e->getMessage(),
+            ]);
+
+            return false;
+        }
+    }
+
+    /**
      * Resolve one piece of free text against a country's catalogue.
      *
      * Returns null when the service is unavailable or errored. Null means

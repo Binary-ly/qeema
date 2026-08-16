@@ -233,7 +233,7 @@ final class ReporterCorpus
      *
      * A corpus is research until somebody who speaks the language has read it,
      * and it arrives in pieces: some items get confirmed while others are still
-     * a question. This is where an item says "not yet". Libya holds its drinking
+     * a question. This is where an item says "not yet". One country holds its drinking
      * water item for exactly this reason — the word the corpus used for the
      * container turned out to mean *bear*, and until a speaker supplies the
      * right one, promoting the remainder would put a guess in the catalogue,

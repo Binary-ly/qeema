@@ -115,7 +115,7 @@ final class ImportCountryConfigCommand extends Command
         // New variants change what the matcher can resolve, but only for
         // submissions that arrive *after* them. The queue is a snapshot of what
         // it could not resolve at the time, and nothing goes back for it — so
-        // adding nine items to Libya left 26,937 already-queued submissions
+        // adding nine items to one country left 26,937 already-queued submissions
         // waiting on a question the matcher could now answer itself.
         if ($summary->variants > 0) {
             $this->comment("  {$summary->variants} new variant(s). Queued submissions carrying them stay queued until:");
