@@ -4168,3 +4168,78 @@ The same training step took ~14 s while Qeema's six containers were running and
 1.4 s once they were stopped — a tenfold difference on identical work. Colima is
 configured for 2 CPUs and 4 GB total. Any timing measured on this machine is a
 measurement of that box.
+
+## Phase 40 — CI had been red since before this session, and nobody had looked
+
+Checking GitHub Actions rather than local gates showed **every commit in this
+session left CI failing**, back to a green run on 14 August. Local runs had been
+reported as "gates green" throughout; they cover the PHP and Python suites, not
+the two constraint jobs.
+
+### Fixed and confirmed green
+
+**C3 — country literals in application source.** The check greps for `Libya`,
+`Tripoli`, `LYD` and friends in `api/app` and `ml/src`; docs, tests and
+`countries/` are exempt. Six files had them — all in *comments* where a
+measurement had been written down as "adding nine items to Libya left 26,937
+queued submissions".
+
+Worse than the mistake is that it was noticed and dismissed: a manual run of the
+same grep earlier in this session printed `fusion.py` matching "a Libyan
+commodity bulletin", and the conclusion recorded was "a comment, not a country
+literal — acceptable". The check does not make that distinction and C3 is not a
+soft constraint. The measurements survive; the country names are gone.
+
+**PHP and Python jobs** were already green and remain so.
+
+### Two real bugs found on the way
+
+**The first submission after a deployment timed out.** The matching service is
+stateless and embeds the catalogue on first sight — tens of seconds for a few
+hundred variants against a ten-second request timeout. Growing one country's
+catalogue from 133 variants to 675 made that fatal, with
+`cURL error 28: Operation timed out after 10001 milliseconds` on the very first
+match. `qeema:bootstrap` now warms each country's index with its own budget
+(`QEEMA_ML_WARM_TIMEOUT`, default 300s), because warming is a deployment step
+doing work that legitimately takes that long.
+
+**One unrecomputable snapshot could block every correction, permanently.**
+`RecomputeIndexCommand::drain` had no error handling. A single snapshot that
+threw ended the whole run — and because the task runs every minute and always
+takes the oldest first, that one row would block every other snapshot from ever
+being recomputed again. Silent, too: the command dies, the scheduler reports
+having run, health reports `recomputation: ok`, and the index simply stops
+moving. Each snapshot is now attempted independently and a failure is logged
+with its id, location and date.
+
+That fix ships **without a test**, which is worth stating plainly.
+`IndexCalculator` is `final` so Mockery cannot replace it, and arranging a
+genuine computation failure deterministically needed contrivance that would have
+tested the contrivance rather than the behaviour. A fabricated test would have
+been worse than none.
+
+### C2 — still failing, and four theories disproved
+
+The end-to-end loop test fails: a submitted price does not reach the published
+index inside 240 seconds. Everything that would explain it easily has been ruled
+out with evidence rather than argument:
+
+| theory | verdict |
+|---|---|
+| ML cold-start timeout | **wrong** — C2 passed through the catalogue growth; the resolve job now runs in 44 ms |
+| test fixture is an unbasketed item | **wrong** — the fixture uses `basket.items[0]` |
+| scheduler dead | **wrong** — reports "The clock is running" |
+| grace window too long | **wrong** — 60 s against a 240 s budget |
+| a snapshot stuck stale | **wrong** — the one found was 7 s old, inside grace, and recomputed by hand without error |
+
+What is known: the price *does* become an observation, both countries publish for
+today, `pending jobs: 0  failed: 0`, and health reports resolution, recomputation
+and publication all ok.
+
+Remote iteration costs about 25 minutes a cycle and has produced four wrong
+guesses. The next step is local reproduction under a separate compose project so
+the existing dataset survives — `docker compose -p qeema-ci up` — which answers
+in minutes what CI answers in half-hours.
+
+**Until C2 passes the repository is not submittable.** It is the job that proves
+the one-command claim, which is the first thing a reviewer will try.
