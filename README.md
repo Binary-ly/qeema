@@ -44,7 +44,7 @@ reference, adding a country, backup and restore, and upgrades.
 You need Docker. That is the entire list.
 
 ```bash
-git clone https://github.com/<org>/qeema.git
+git clone https://github.com/Binary-ly/qeema.git
 cd qeema
 docker compose up
 ```

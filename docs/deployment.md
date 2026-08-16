@@ -43,7 +43,7 @@ expect 10–20 minutes on a normal connection. Every build after that is cached.
 ## The one-command demo
 
 ```bash
-git clone https://github.com/<org>/qeema.git
+git clone https://github.com/Binary-ly/qeema.git
 cd qeema
 make demo
 ```
