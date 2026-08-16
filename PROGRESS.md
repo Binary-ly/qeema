@@ -4282,3 +4282,40 @@ exhausted — every job in the last two runs reports `"steps": 0`, having been
 rejected before executing anything. The diagnosis rests on the diagnostic output
 above plus elimination in the source: no other code path produces that
 combination of states.
+
+### The consequence nobody had asserted
+
+That screening invalidates an observation was already tested. That an invalidated
+observation is **absent from the published figure** was not, and the gap is what
+made this expensive: every visible signal said the pipeline was healthy — matcher
+resolved at 0.99, observation created, no failed jobs, scheduler running, health
+`ok` on every stage — and the only symptom was a number that did not move.
+
+Two tests now close it. The useful one asserts the figure rather than a count:
+two prices at 10 and one at 20 costs the basket at 10; invalidate one of the two
+and the remaining pair is 10 and 20, so an index honouring `is_valid` moves and
+one ignoring it does not.
+
+Worth recording that the first two attempts at this test asserted
+`observation_count` and were wrong twice — a wild outlier is trimmed by the
+estimator before it is ever counted, and the count is what the estimator used
+rather than a row count. Pinning it would have tested the estimator's internals
+instead of the behaviour.
+
+### Still unverified, and why
+
+CI stopped executing entirely part-way through this work: every job in every run
+after roughly 22:00 reports `"steps": 0`, accepted and then rejected before
+running a line, while runs an hour earlier executed 61 steps. That is an
+account-level limit, not a repository problem, and it is self-inflicted — roughly
+ten runs at about twenty-five minutes across four jobs, spent on four wrong
+hypotheses.
+
+The loop fix therefore ships on evidence and elimination rather than a green run.
+When minutes return, one run settles it.
+
+**A cheap saving worth taking first:** the C2 job runs `docker compose build` with
+no cache at all, despite `setup-buildx-action` being configured — every run
+recompiles PHP extensions and rebuilds the ML image from scratch. Caching that
+would cut the job substantially. It is deliberately not changed here, because an
+unverifiable build change to the one job already failing is a bad trade.

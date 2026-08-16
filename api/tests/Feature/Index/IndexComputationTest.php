@@ -564,3 +564,52 @@ describe('imputation fills the basket', function () {
             ->and($snapshot->isComparable())->toBeFalse();
     });
 });
+
+describe('an observation the screen rejected', function () {
+    /*
+     * This is the consequence nothing asserted, and its absence cost real time.
+     *
+     * A submission can match the right item at 0.99, produce a price
+     * observation, and still never reach the published index — because anomaly
+     * screening returned REJECTED, which sets `is_valid = false` and routes the
+     * submission to review. Every visible signal says the pipeline is healthy:
+     * the matcher resolved, the observation exists, no job failed, the scheduler
+     * is running. The only symptom is a figure that does not move.
+     *
+     * The end-to-end loop test hit exactly this, posting a hardcoded price that
+     * was a wild outlier for the item it happened to pick, and it read as a
+     * broken pipeline for hours.
+     */
+    it('is left out of the figure entirely', function () {
+        // Two prices at 10 and one at 20 costs the basket at the weighted
+        // median, 10. Invalidate one of the two and the remaining pair is 10 and
+        // 20, so an index that honours `is_valid` moves and one that ignores it
+        // does not.
+        $rice = CanonicalItem::factory()->create(['country_id' => test()->country->id]);
+        basketOf([[$rice, 1.0, 1, 'kg']]);
+
+        $rejected = priceOn($rice, 10.0, DAY);
+        priceOn($rice, 10.0, DAY);
+        priceOn($rice, 20.0, DAY);
+
+        expect((float) computeIndex()->cost_local)->toBe(10.0);
+
+        $rejected->forceFill(['is_valid' => false])->save();
+
+        expect((float) computeIndex()->cost_local)->toBeGreaterThan(10.0);
+    });
+
+    it('does not drag the published price with it', function () {
+        // The whole point of invalidating rather than deleting: the row survives
+        // for provenance, and the figure behaves as though it never arrived.
+        $rice = CanonicalItem::factory()->create(['country_id' => test()->country->id]);
+        basketOf([[$rice, 1.0, 1, 'kg']]);
+
+        priceOn($rice, 10.0, DAY);
+        priceOn($rice, 10.0, DAY);
+        $rejected = priceOn($rice, 9_999.0, DAY);
+        $rejected->forceFill(['is_valid' => false])->save();
+
+        expect((float) computeIndex()->cost_local)->toBe(10.0);
+    });
+});
