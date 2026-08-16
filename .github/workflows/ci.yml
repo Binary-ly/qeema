@@ -358,9 +358,33 @@ jobs:
               $today  = \Carbon\CarbonImmutable::now($c->timezone)->toDateString();
               echo "\n{$c->code}: latest published snapshot {$latest} | today there {$today}\n";
             }
-            $o = App\Models\PriceObservation::latest("created_at")->first();
-            if ($o !== null) {
-              echo "newest observation: item={$o->canonical_item_id} location={$o->location_id} observed_at={$o->observed_at}\n";
+            // The scheduled scraper creates submissions constantly, so "the
+            // latest submission" is almost never the test's. Find the one the
+            // test actually posted: it carries a reporter reference and no
+            // scraped source.
+            $mine = App\Models\Submission::whereNotNull("reporter_id")
+              ->orderByDesc("created_at")->take(3)->get();
+            foreach ($mine as $m) {
+              echo "\nreporter submission {$m->created_at}: {$m->raw_text} | status={$m->status}";
+              echo " | observation=".($m->priceObservation === null ? "NONE" : "yes");
+              echo " | resolution=".($m->resolution?->method ?? "none")."\n";
+            }
+
+            // One snapshot stayed stale for the whole 240s window while the
+            // recompute task ran every minute. Either it is being skipped or it
+            // is throwing, and only trying it says which.
+            foreach (App\Models\IndexSnapshot::where("is_stale", true)->take(3)->get() as $snap) {
+              echo "\nSTALE snapshot: location={$snap->location_id} date={$snap->snapshot_date}";
+              echo " marked={$snap->stale_marked_at} level={$snap->index_level}\n";
+              try {
+                app(App\Services\Index\IndexCalculator::class)->calculate(
+                  $snap->country, $snap->location, $snap->basket,
+                  \Carbon\CarbonImmutable::instance($snap->snapshot_date->toDateTime()),
+                );
+                echo "  recomputing it by hand SUCCEEDED — so the scheduler was not reaching it\n";
+              } catch (\Throwable $e) {
+                echo "  recomputing it by hand THREW: ".get_class($e).": ".$e->getMessage()."\n";
+              }
             }
           ' || true
           docker compose exec -T app php artisan qeema:pipeline:health || true
