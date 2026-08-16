@@ -4048,3 +4048,68 @@ host mapping exists only for poking at it by hand. But 8000 is also
 `php artisan serve`'s default, so running Qeema alongside any other Laravel app
 means both claim the same port. `ML_PORT` already existed to move it; the README
 now says so.
+
+## Phase 39 — the embedder measured properly, and a hypothesis that did not hold
+
+The goal was a large, real gain from the model rather than another marginal one.
+The starting hypothesis was that the embedder is the weak component: `semantic`
+alone had separated correct from wrong at AUC 0.607, and `multilingual-e5-base`
+is a general web-text model being asked about Libyan dialect and franco-arabe.
+
+**The protocol was fixed before anything was trained.** Wordings split per item,
+deterministically, 60/40. The index holds the catalogue's hand-written vocabulary
+plus the training wordings; queries are the held-out 40%, present nowhere in the
+index. This measures the embedder alone — no lexical scorer, no fusion, no
+exact-match short-circuit — which also sidesteps the wildcard-subset leak that
+contaminated the verifier experiment, because token overlap plays no part.
+
+Two numbers, not one. Retrieval accuracy is easy to buy by making everything look
+like everything else, which would destroy the platform's ability to refuse.
+
+| model | top-1 | top-3 | separation AUC |
+|---|---|---|---|
+| `multilingual-e5-base` (shipped) | 82.1% | 94.0% | **0.762** |
+| `multilingual-e5-large` | **85.4%** | **96.3%** | **0.728** |
+
+### The hypothesis was wrong, and the right target is different
+
+**Retrieval is not the problem.** 82.1% top-1 on wordings the index has never
+seen, 94% in the top three. The earlier 53.2% was measured on the three *held*
+items, which have no sibling wordings in the catalogue at all — both numbers are
+correct and they measure different things.
+
+**Separation is the problem.** A correct held-out wording sits 0.869 from its
+nearest passage; a car battery or a greeting sits 0.846 from whatever it is
+nearest. A gap of 0.023, AUC 0.762. That is the number that decides whether the
+platform can ever auto-resolve or refuse on a model score, and it is the reason
+nothing non-exact ever will.
+
+**And the bigger model is worse at it.** `e5-large` buys 3.3 points of top-1 and
+gives up 0.034 of separation. Scaling the model up would have made the decision
+that matters worse — which is worth knowing before renting a GPU to find out.
+
+### Not finished
+
+The fine-tuning run — the same model trained on the training half with
+distractors as explicit negatives, aimed squarely at separation rather than
+retrieval — died at roughly 30 of 84 steps when the machine had to be stopped.
+**There is no fine-tuned result, and none is claimed.**
+
+The script is kept because the measurement it establishes is worth having, and
+because the design question it was built to answer is now sharper than when it
+started: in-batch negatives teach "rice is not oil", which is retrieval between
+items. Nothing in that teaches "a car battery is not any of these". That is why
+the negatives column exists, and it is the thing still untested.
+
+### An environmental note that bounds all of this
+
+The containers run under Colima configured for **2 CPUs and 4 GB** — for
+everything. Eleven containers were sharing it: Qeema's six, including Postgres
+with three million rows and a 278M-parameter model, alongside five belonging to
+another project. Any performance figure taken on this machine is a figure about
+that box, not about the platform.
+
+One claim worth correcting for anyone reading the code: `SentenceTransformer` is
+constructed without a `device=` argument, and that is **not** a bug. It
+auto-selects — `mps` on the host, CPU inside the Linux container, which is
+correct in both places. Adding the argument would change nothing.
