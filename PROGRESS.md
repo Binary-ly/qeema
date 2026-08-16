@@ -4243,3 +4243,42 @@ in minutes what CI answers in half-hours.
 
 **Until C2 passes the repository is not submittable.** It is the job that proves
 the one-command claim, which is the first thing a reviewer will try.
+
+### Phase 40, resolved — the loop test was posting a price the platform is built to refuse
+
+Bisecting the way the last green run and the first red one differed narrowed the
+break to four commits, three of whose runs had been **cancelled** — GitHub's
+`cancel-in-progress` concurrency rule had been cancelling each run as the next
+commit landed, which is why the boundary looked masked.
+
+A probe branch restoring the catalogue to its last green state made C2 pass,
+which said the nine added items were implicated. They were, but not in the way
+that suggested. The mechanism, from the test's own submission:
+
+    text=حليب أطفال ٤٠٠ غرام | status=needs_review | observation=yes
+        resolution=fused conf=0.99 item=2
+
+It matched the **right** item at **0.99** and an observation **was** created. The
+status is the tell. The only path that sets `needs_review` while an observation
+exists is `ScoreSubmissionAnomaly` returning `VERDICT_REJECTED`, which also sets
+`is_valid = false`. The index counts valid observations only, so the count never
+moved and the loop looked open while every part of it was working.
+
+**The test posted a hardcoded `price: 12.5` for whatever item the fixture picked.**
+For infant formula that is a wild outlier, and the screen did exactly its job.
+It had always been borderline; adding nine items shifted the distributions
+enough to tip the verdict from `SUSPECT`, which keeps the observation, to
+`REJECTED`, which does not.
+
+So the failure was neither a regression in the pipeline nor a bad catalogue. The
+test was asserting "the loop closes" while actually testing "an absurd price
+survives screening" — and the honest answer to that second question is no.
+
+The fixture now reads the item's own published `unit_price` from the snapshot and
+posts that. A price the screen would reject is not a test of the loop.
+
+**This fix is not verified by CI.** The account's Actions minutes appear to be
+exhausted — every job in the last two runs reports `"steps": 0`, having been
+rejected before executing anything. The diagnosis rests on the diagnostic output
+above plus elimination in the source: no other code path produces that
+combination of states.
