@@ -349,6 +349,19 @@ jobs:
             echo "  observation: ".($s->priceObservation === null ? "NONE — this is why the index did not move" : "created")."\n";
             echo "  stale snapshots: ".App\Models\IndexSnapshot::where("is_stale", true)->count()."\n";
             echo "  pending jobs: ".DB::table("jobs")->count()."   failed: ".DB::table("failed_jobs")->count()."\n";
+
+            // The loop test polls one location and one date. An observation that
+            // lands on a date nothing has published, or on a date the test is not
+            // watching, is invisible to it however healthy the pipeline is.
+            foreach (App\Models\Country::where("is_active", true)->get() as $c) {
+              $latest = App\Models\IndexSnapshot::where("country_id", $c->id)->max("snapshot_date");
+              $today  = \Carbon\CarbonImmutable::now($c->timezone)->toDateString();
+              echo "\n{$c->code}: latest published snapshot {$latest} | today there {$today}\n";
+            }
+            $o = App\Models\PriceObservation::latest("created_at")->first();
+            if ($o !== null) {
+              echo "newest observation: item={$o->canonical_item_id} location={$o->location_id} observed_at={$o->observed_at}\n";
+            }
           ' || true
           docker compose exec -T app php artisan qeema:pipeline:health || true
 
