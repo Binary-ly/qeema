@@ -332,6 +332,26 @@ jobs:
         if: failure()
         run: docker compose logs --tail=300
 
+      # Container logs alone could not explain a loop failure: they showed the
+      # resolve job completing in 44ms and no error anywhere, while the price
+      # never reached the index. What the submission actually became is a
+      # database question, so ask the database.
+      - name: Say what happened to the last submission
+        if: failure()
+        run: |
+          docker compose exec -T app php artisan tinker --execute='
+            $s = App\Models\Submission::latest("created_at")->first();
+            if ($s === null) { echo "no submissions at all\n"; return; }
+            echo "submission: {$s->id}\n  raw_text: {$s->raw_text}\n  status: {$s->status}\n";
+            echo "  observed_at: {$s->observed_at}\n";
+            $r = $s->resolution;
+            echo "  resolution: ".($r === null ? "none" : "{$r->method} conf={$r->confidence} item={$r->canonical_item_id}")."\n";
+            echo "  observation: ".($s->priceObservation === null ? "NONE — this is why the index did not move" : "created")."\n";
+            echo "  stale snapshots: ".App\Models\IndexSnapshot::where("is_stale", true)->count()."\n";
+            echo "  pending jobs: ".DB::table("jobs")->count()."   failed: ".DB::table("failed_jobs")->count()."\n";
+          ' || true
+          docker compose exec -T app php artisan qeema:pipeline:health || true
+
       - name: Tear down
         if: always()
         run: docker compose down -v
