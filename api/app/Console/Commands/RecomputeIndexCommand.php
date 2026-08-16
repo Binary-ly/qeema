@@ -13,6 +13,8 @@ use App\Services\Index\IndexCalculator;
 use App\Services\Index\IndexStaleness;
 use Carbon\CarbonImmutable;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * Recomputes index snapshots.
@@ -64,13 +66,34 @@ final class RecomputeIndexCommand extends Command
         $this->info("Recomputing {$pending->count()} stale snapshot(s).");
         $bar = $this->output->createProgressBar($pending->count());
 
+        $failed = 0;
+
         foreach ($pending as $snapshot) {
-            $calculator->calculate(
-                $snapshot->country,
-                $snapshot->location,
-                $snapshot->basket,
-                CarbonImmutable::instance($snapshot->snapshot_date->toDateTime()),
-            );
+            try {
+                $calculator->calculate(
+                    $snapshot->country,
+                    $snapshot->location,
+                    $snapshot->basket,
+                    CarbonImmutable::instance($snapshot->snapshot_date->toDateTime()),
+                );
+            } catch (Throwable $e) {
+                // One snapshot must not stop the rest. Without this a single
+                // row that throws takes the whole drain down with it — and
+                // because the task runs every minute and always starts with the
+                // oldest, that one row blocks every other snapshot from ever
+                // being recomputed. The failure mode is silent: the command
+                // dies, the scheduler reports having run, and corrections stop
+                // reaching the published figures for good.
+                $failed++;
+
+                Log::error('Recomputing a snapshot failed; continuing with the rest', [
+                    'snapshot_id' => $snapshot->id,
+                    'location_id' => $snapshot->location_id,
+                    'snapshot_date' => $snapshot->snapshot_date->toDateString(),
+                    'exception' => $e::class,
+                    'reason' => $e->getMessage(),
+                ]);
+            }
 
             $bar->advance();
         }
@@ -78,6 +101,10 @@ final class RecomputeIndexCommand extends Command
         $bar->finish();
         $this->newLine(2);
         $this->info("Done. {$staleness->pendingCount()} still pending.");
+
+        if ($failed > 0) {
+            $this->warn("{$failed} snapshot(s) could not be recomputed; see the log for each.");
+        }
 
         return self::SUCCESS;
     }

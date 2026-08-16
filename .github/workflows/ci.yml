@@ -358,10 +358,9 @@ jobs:
               $today  = \Carbon\CarbonImmutable::now($c->timezone)->toDateString();
               echo "\n{$c->code}: latest published snapshot {$latest} | today there {$today}\n";
             }
-            // The scheduled scraper creates submissions constantly, so "the
-            // latest submission" is almost never the test's. Find the one the
-            // test actually posted: it carries a reporter reference and no
-            // scraped source.
+            // The scheduled scraper creates submissions constantly, so the
+            // latest submission is almost never the one the test posted. Find it by
+            // looking for a reporter reference rather than a scraped source.
             $mine = App\Models\Submission::whereNotNull("reporter_id")
               ->orderByDesc("created_at")->take(3)->get();
             foreach ($mine as $m) {
