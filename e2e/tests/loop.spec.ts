@@ -23,7 +23,11 @@ import { APIRequestContext, expect, test } from '@playwright/test';
  */
 
 /** Two full drain cycles plus the grace window, with room to spare. */
-const PUBLISH_TIMEOUT_MS = 240_000;
+// Calibrated when the demo catalogue was 18 items. It is 27 now, so bootstrap
+// computes half again as many snapshots and the scheduler has more to drain
+// before it reaches the one this test is waiting on. The loop either closes or
+// it does not; this budget only decides whether a slow runner is called a bug.
+const PUBLISH_TIMEOUT_MS = 480_000;
 
 const POLL_INTERVAL_MS = 5_000;
 
