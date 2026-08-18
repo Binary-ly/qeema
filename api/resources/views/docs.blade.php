@@ -30,7 +30,12 @@
     @if ($spec === null)
         <p>The specification has not been generated. Run <code>php artisan qeema:openapi</code>.</p>
     @else
-        <p class="docs__intro">{{ $spec['info']['description'] ?? '' }}</p>
+        {{-- The OpenAPI description field is markdown by specification, and
+             Swagger-style viewers render it. This page escaped it, so `**bold**`
+             appeared on screen as literal asterisks. Escape first, then promote
+             only `**…**` — the input is escaped before any tag is introduced, so
+             nothing in the spec can inject markup. --}}
+        <p class="docs__intro">{!! preg_replace('/\*\*(.+?)\*\*/s', '<strong>$1</strong>', e($spec['info']['description'] ?? '')) !!}</p>
 
         <p><a class="reporter__submit" href="{{ route('openapi') }}">Download the OpenAPI 3 specification</a></p>
 

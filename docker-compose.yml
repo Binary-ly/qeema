@@ -22,7 +22,10 @@ x-app-env: &app-env
   # public API working, which is a confusing way to fail.
   APP_KEY: ${APP_KEY:-base64:UWVlbWFEZW1vS2V5TG9jYWxVc2VPbmx5Q2hhbmdlTWU=}
   APP_DEBUG: ${APP_DEBUG:-false}
-  APP_URL: ${APP_URL:-http://localhost:8080}
+  # Follows APP_PORT. Setting the port alone used to leave APP_URL on 8080, so
+  # every asset URL pointed at a port the stack was no longer listening on and
+  # the dashboard rendered unstyled — with no error anywhere to explain it.
+  APP_URL: ${APP_URL:-http://localhost:${APP_PORT:-8080}}
   LOG_CHANNEL: stderr
   LOG_LEVEL: ${LOG_LEVEL:-info}
 
