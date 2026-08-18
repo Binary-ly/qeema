@@ -30,7 +30,7 @@ here, assume it does not work yet.
 |---|---|
 | Pest | **752 passed**, 1 skipped, 3,795 assertions |
 | PHP coverage | **94.2%** (gate ≥80%) |
-| Playwright (E2E, incl. C2 loop) | **not run since 16 Aug** — needs the composed stack, and CI is the only place it runs |
+| Playwright (E2E, incl. C2 loop) | **pass** — CI run 32148688430 |
 | pytest | **236 passed** |
 | Python coverage | **86.0%** (gate ≥80%) |
 | PHPStan (larastan, level 6) | **0 errors** |
@@ -38,8 +38,8 @@ here, assume it does not work yet.
 | Country-agnostic check (C3) | pass |
 | Licence inventory (C1) | 0 `UNKNOWN` rows |
 
-Measured locally against a real PostgreSQL on 2026-08-18. **CI has not executed
-since 16 August** — account minutes are exhausted; see Phase 41.
+Measured locally against a real PostgreSQL on 2026-08-18 and confirmed by **the
+first fully green CI run since 14 August** — all four jobs, run 32148688430.
 
 ---
 
@@ -4448,14 +4448,30 @@ Two of those gates failed first and were right to. The runbook test caught
 deployment-docs test caught three new environment variables undocumented. Both
 are guards written in earlier phases doing exactly the job they exist for.
 
+### The repository went public, and CI came back with it
+
+CI had not executed since 16 August: every job reported `"steps": 0`, rejected
+before running a line, because account minutes were exhausted. Public
+repositories get unlimited free Actions minutes on standard runners, so making
+this one public — which the fund's eligibility gate wants anyway, and which C4
+always wanted — restored CI in the same minute.
+
+**Run 32148688430: all four jobs green.** The first fully green run since
+14 August.
+
+That settles the open item from Phase 40. **C2 passes** — the composed stack
+boots clean and a price posted to the public API reaches the published index on
+its own, with shipped defaults and nobody running a command. The loop fix had
+shipped on elimination and inference after four wrong hypotheses; it is now
+verified by the test it was written for, together with the observation-count
+change that came within one field of breaking the same test again.
+
+Before publishing, the whole history was scanned for secret-shaped values,
+committed `.env` files and credential-shaped assignments. Clean; the root `.env`
+is ignored and was never tracked.
+
 ### Still unverified
 
-**CI has not run since 16 August.** Every job still reports `"steps": 0` —
-account minutes are exhausted and reset in the second week of September. So the
-C2 loop fix from Phase 40, and everything in this phase, is verified locally
-against a real PostgreSQL and not by CI.
-
-**Making the repository public would fix this today**: public repositories get
-unlimited free Actions minutes on standard runners, and the fund's own
-eligibility gate is that the solution is open source. It is the highest-leverage
-action available and it is not one to take on the owner's behalf.
+Nothing in this phase. The gap that remains is not code: every matching figure
+this platform reports is measured against a corpus a language model wrote, and
+no real reporter has used it yet.

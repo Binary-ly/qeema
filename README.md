@@ -4,8 +4,10 @@
 
 **A live, child-weighted affordability index for crisis economies.**
 
+[![CI](https://github.com/Binary-ly/qeema/actions/workflows/ci.yml/badge.svg)](https://github.com/Binary-ly/qeema/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Coverage gate](https://img.shields.io/badge/coverage-%E2%89%A580%25-brightgreen.svg)](#testing)
+[![Data license](https://img.shields.io/badge/data-CC--BY--4.0-blue.svg)](LICENSE-DATA)
 [![No paid APIs](https://img.shields.io/badge/runtime%20deps-100%25%20OSI-brightgreen.svg)](docs/LICENSES.md)
 
 </div>
