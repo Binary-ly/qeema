@@ -102,7 +102,7 @@ final class Paths
             new OA\Parameter(
                 name: 'hxl',
                 in: 'query',
-                description: 'Add a HXL hashtag row beneath the header, making the file directly ingestible by humanitarian data tooling (HDX, the HXL Proxy, libhxl). Off by default: to a parser that has not been told about HXL the tag row is an ordinary data row, so emitting it unconditionally would change what existing consumers parse.',
+                description: 'Add a HXL (Humanitarian Exchange Language) hashtag row beneath the header so columns can be mapped mechanically rather than by hand. Off by default: to a parser that has not been told about HXL the tag row is an ordinary data row, so emitting it unconditionally would change what existing consumers parse. Note that OCHA retired its hosted HXL services in January 2026 and no longer asks contributors to tag datasets; the standard itself remains open and libhxl is still published.',
                 schema: new OA\Schema(type: 'boolean', default: false),
             ),
         ],

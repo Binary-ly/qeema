@@ -117,9 +117,13 @@ product.
 - **Public REST API**, unauthenticated for read, JSON, documented by an
   OpenAPI 3.0 spec that CI checks against the code on every push.
 - **Bulk CSV export**, streamed — `/api/v1/countries/{code}/export.csv`.
-- **HXL tagging** — `?hxl=1` adds the Humanitarian Exchange Language hashtag row
-  beneath the header, so the file drops directly into the tooling the
-  humanitarian data ecosystem already uses (HDX, the HXL Proxy, libhxl).
+- **HXL tagging** — `?hxl=1` adds a Humanitarian Exchange Language hashtag row
+  beneath the header so consumers can map columns mechanically. Stated
+  accurately: OCHA retired its hosted HXL services (hxlstandard.org, the HXL
+  Proxy, Quick Charts) on 31 January 2026 and no longer asks contributors to tag
+  datasets. The standard itself was explicitly not retired and `libhxl` is still
+  published, so this remains useful to organisations using HXL internally — it
+  is not evidence of alignment with a growing sector default.
 - **Qualifiers travel with the numbers.** Coverage, imputation share, confidence
   intervals, comparability and exchange-rate staleness are columns and fields,
   not footnotes, so an extracted file cannot be read as more certain than it is.

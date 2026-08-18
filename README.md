@@ -110,11 +110,20 @@ curl -OJ "https://your-host/api/v1/countries/LY/export.csv?from=2026-01-01"
 curl -OJ "https://your-host/api/v1/countries/LY/export.csv?hxl=1"
 ```
 
-`?hxl=1` adds a [HXL](https://hxlstandard.org/) hashtag row beneath the header —
-`#date`, `#loc+name`, `#value+cost+usd` — so the file drops straight into HDX,
-the HXL Proxy and libhxl without anyone hand-mapping column names. It is opt-in
-because to a parser that has not been told about HXL the tag row is an ordinary
-data row.
+`?hxl=1` adds a HXL (Humanitarian Exchange Language) hashtag row beneath the
+header — `#date`, `#loc+name`, `#value+cost+usd` — so a consumer can map the
+columns mechanically instead of by hand. It is opt-in because to a parser that
+has not been told about HXL the tag row is an ordinary data row.
+
+**Read this before relying on it.** OCHA retired its hosted HXL services on
+31 January 2026 — `hxlstandard.org`, the HXL Proxy and HDX Quick Charts are all
+gone — and HDX now says it "will no longer be asking data contributors to add
+HXL tags". The *standard* was not retired ("HXL is an open standard and will
+remain available for organizations that wish to continue using it within their
+internal workflows"), `libhxl` is still published, and current humanitarian
+datasets still ship tag rows. So this is useful interoperability for
+organisations that use HXL internally — not, any longer, the ascendant
+convention of the sector.
 
 **Every qualifier travels with every number.** Coverage, imputed share, the
 confidence interval, whether the figure is `comparable` across a basket
@@ -193,6 +202,7 @@ drift from what the real Python service returns.
 | [docs/do-no-harm.md](docs/do-no-harm.md) | **How this platform could harm people while working exactly as designed, and what is done about it** |
 | [docs/privacy.md](docs/privacy.md) | What personal data exists, why, how to erase it, and what is not retained |
 | [docs/dpg-standard.md](docs/dpg-standard.md) | Self-assessment against the nine Digital Public Good indicators |
+| [docs/data-sources.md](docs/data-sources.md) | **Verified inventory of real price data — what exists, what is licensed for reuse, and which sources are mislabelled** |
 
 ---
 
