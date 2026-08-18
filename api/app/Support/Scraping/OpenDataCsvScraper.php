@@ -209,13 +209,57 @@ final class OpenDataCsvScraper implements PriceScraper
                     continue;
                 }
 
-                if ($rule === '/' || str_starts_with($path, $rule)) {
+                if ($this->robotsRuleMatches($rule, $path)) {
                     return false;
                 }
             }
         }
 
         return true;
+    }
+
+    /**
+     * Does one `Disallow` rule match this path?
+     *
+     * Two wildcards are part of the robots convention that every major crawler
+     * honours, and a plain prefix comparison understands neither:
+     *
+     *   `*`  matches any run of characters
+     *   `$`  at the end of a rule anchors it to the end of the path
+     *
+     * This was not academic. The docblock above has always promised a
+     * "deliberately conservative reading … under a wildcard", and the
+     * implementation was `str_starts_with($path, $rule)` — a literal prefix
+     * test. The Humanitarian Data Exchange, which is the source this scraper
+     * was written for, disallows `/*.csv$`. A path ending `.csv` does not
+     * *start* with `/*.csv$`, so every tabular file on the one site this class
+     * names in its own documentation read as allowed, and the scraper would
+     * have fetched what it was told not to.
+     *
+     * Rules without a trailing `$` remain prefix matches, which is what the
+     * convention says and why `^` is anchored but the end is not.
+     */
+    private function robotsRuleMatches(string $rule, string $path): bool
+    {
+        if ($rule === '/') {
+            return true;
+        }
+
+        $anchored = str_ends_with($rule, '$');
+
+        if ($anchored) {
+            $rule = substr($rule, 0, -1);
+        }
+
+        // Escape each literal segment and rejoin with `.*`, so that a `*` in
+        // the rule is the only thing treated as a pattern. Escaping the whole
+        // rule first would turn the wildcard into a literal asterisk.
+        $pattern = implode('.*', array_map(
+            static fn (string $segment): string => preg_quote($segment, '#'),
+            explode('*', $rule),
+        ));
+
+        return preg_match('#^'.$pattern.($anchored ? '$' : '').'#', $path) === 1;
     }
 
     /**

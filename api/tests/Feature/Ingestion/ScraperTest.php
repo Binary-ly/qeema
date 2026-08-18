@@ -307,6 +307,49 @@ describe('politeness', function () {
         expect(Submission::query()->count())->toBe(2);
     });
 
+    it('honours a wildcard disallow on a file extension', function () {
+        // The exact rule published by the Humanitarian Data Exchange, which is
+        // the source this scraper's own documentation names. A path ending
+        // `.csv` does not *start* with `/*.csv$`, so a prefix comparison read
+        // every tabular file on that site as allowed and the scraper fetched
+        // what it had been told not to.
+        fakeDataset(datasetCsv(3), robots: "User-agent: *\nDisallow: /*.csv$\n");
+
+        runner()->run($this->source);
+
+        expect(Submission::query()->count())->toBe(0);
+    });
+
+    it('honours a wildcard in the middle of a rule', function () {
+        fakeDataset(datasetCsv(3), robots: "User-agent: *\nDisallow: /*.csv\n");
+
+        runner()->run($this->source);
+
+        expect(Submission::query()->count())->toBe(0);
+    });
+
+    it('treats a trailing dollar as an end anchor rather than a prefix', function () {
+        // `/prices$` matches a path that IS `/prices`, not one that merely
+        // begins with it. Reading the anchor as decoration would refuse a
+        // legitimate source, which costs data for no protection.
+        fakeDataset(datasetCsv(2), robots: "User-agent: *\nDisallow: /prices$\n");
+
+        runner()->run($this->source);
+
+        expect(Submission::query()->count())->toBe(2);
+    });
+
+    it('does not let a wildcard rule match every path', function () {
+        // `/dataset/*/history` is a real HDX rule. If wildcard handling were
+        // written as "contains a star, therefore blocked", this source would be
+        // refused too — over-caution is not free.
+        fakeDataset(datasetCsv(2), robots: "User-agent: *\nDisallow: /dataset/*/history\n");
+
+        runner()->run($this->source);
+
+        expect(Submission::query()->count())->toBe(2);
+    });
+
     it('proceeds when robots.txt is unreachable', function () {
         // One flaky request must not permanently disable a legitimate,
         // openly-licensed source.
