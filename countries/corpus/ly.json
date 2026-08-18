@@ -2946,10 +2946,25 @@
       "source": "https://www.facebook.com/Aboali.market5/"
     },
     "فرينة": "Libyan. Ruled by a native speaker 2026-08-14, overriding the research finding that every commercial attestation located was Algerian or Tunisian — the word is shared across the Maghreb and the absence of a Libyan citation was a gap in the sources, not evidence against it.",
-    "دبة": "NOT a container. Means bear, or fat (of a person). Ruled by a native speaker 2026-08-14. 23 wordings were built on the assumption it meant a 20L water jug and have been removed; 5 of the 6 head slots for drinking_water_20l were among them."
+    "دبة": "NOT a container. Means bear, or fat (of a person). Ruled by a native speaker 2026-08-14. 23 wordings were built on the assumption it meant a 20L water jug and have been removed; 5 of the 6 head slots for drinking_water_20l were among them.",
+    "بانقة (NOT in corpus — proposed; the 7L jug, not 20L)": {
+      "attested": "yes",
+      "source": "https://libyaalahrar.tv/2026/04/03/أسعار-مياه-الشرب-تشتعل-ما-هي-الأسباب/",
+      "quote": "سجلت أسعار مياه الشرب ارتفاعا لافتا … حتى وصل سعر عبوة الـ 7 لترات أو ما يعرف بالـ \"بانقة\" إلى 3 دنانير"
+    },
+    "دستة (NOT in corpus — proposed; a 12-pack of half-litres)": {
+      "attested": "yes",
+      "source": "https://libyaalahrar.tv/2026/04/03/أسعار-مياه-الشرب-تشتعل-ما-هي-الأسباب/",
+      "quote": "قفز سعر دستة مياه الشرب سعة نصف لتر للعبوة بنسبة 20% من 3.400 دنانير إلى 4.100 دنانير"
+    },
+    "عبوة مياه … 7 لتر / 15 لتر (bottler's own sizes)": {
+      "attested": "yes",
+      "source": "http://www.alsafia.com/our_products.html",
+      "note": "Al-Safia, a Libyan bottler founded 2004, lists 0.33L, 0.5L, 1.5L, 7L, 15L and 230ml cups. No 20L format. A second bottler, alshafiya.com, tops out at 600ml."
+    }
   },
   "_open_questions": [
-    "drinking_water_20l is now thin and its head is brand-led: 23 of 37 wordings were removed with دبة, leaving no word for the container itself. What DOES a Libyan call the 20L jug that goes on a cooler — قالون? عبوة? something else? Until that is answered this item tests brand recognition, not container vocabulary.",
+    "drinking_water_20l — THE SIZE MAY BE WRONG, NOT ONLY THE WORD. This question previously asked what a Libyan calls the 20L jug. Searching Libyan sources suggests the premise is wrong: no Libyan bottler found sells a 20L format. Al-Safia (est. 2004) publishes 0.33L, 0.5L, 1.5L, 7L, 15L and 230ml cups; Al-Shafiya tops out at 600ml. Libya Al-Ahrar TV names the household jug explicitly: \"عبوة الـ 7 لترات أو ما يعرف بالـ بانقة\" — the 7-litre container, known as the بانقة. A Libyan TikTok title uses \"بانقة بنزينة\", so بانقة is a generic jerrycan rather than water-specific. RULING NEEDED from a native speaker: should this item be re-specified as بانقة (7 لتر) and/or عبوة 15 لتر, and the 20L spec dropped? Fourteen of the current wordings say ٢٠ لتر or 20L and would describe a container that is not sold. Nothing has been changed pending that ruling — see docs/data-sources.md.",
     "بيض عربي: Tripoli price bulletins carry البيض العربي as a distinct HIGHER-priced grade (28 د.ل) next to البيض العادي (16 د.ل). Given the ruling that free-range is وطني, is عربي nonetheless a real egg grade a reporter would type?",
     "Sanitary pads: not one wording in the item could be attested to a Libyan source. Which of اولويز / كوتكس / مولبد / بيلا / نانا / سليبي are actually on Libyan shelves?",
     "طهي vs طبخ: three Benghazi gas ads write طهي where western wordings say طبخ. Is that a real east/west split?",

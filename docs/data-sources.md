@@ -173,6 +173,63 @@ hashtag row — and the WFP price CSVs are not among them.
 
 ---
 
+## Libyan national sources
+
+### nashrah.ly — the Ministry's daily bulletin  ⭐ closes three gaps
+
+| | |
+|---|---|
+| URL | `https://nashrah.ly/` |
+| Status observed | `200`, 442,782 bytes, data **server-rendered** |
+| Publisher | Libya Trade Network (شبكة ليبيا للتجارة), an agency of the Ministry of Economy & Trade |
+| robots.txt | `User-agent: *` / `Disallow:` — **explicitly unrestricted**, unlike HDX |
+| Licence | **none stated** — no rights, terms or copyright wording anywhere on the page |
+| Cadence | **daily**; page stamped 2026-08-18 when fetched |
+
+Columns are `إسم المنتج` (product), `وحدة القياس` (unit), `سعر القطاعي`
+(retail price) and a daily change figure. Verbatim rows:
+
+```
+دقيق المخابز الصفوة    | 25 كيلو جرام | 60 دل
+أرز الحبة القصيرة الصحى | 1 كيلو جرام  | 6.5 دل
+أرز الحبة الطويلة سيلا  | 1 كيلو جرام  | 16 دل
+```
+
+**It prices three of the ten items WFP cannot**: `هريسة ( علبة )` 380g,
+`زيت زيتون محلي` and `زيت زيتون مستورد` per litre, and `دقيق المخابز` in 25kg
+sacks. It also carries ~166 products against WFP's 36, daily rather than
+monthly, **in Arabic**.
+
+Two limits before anyone builds on it. There is **no licence**, so republishing
+its prices under CC-BY-4.0 would assert a right nobody granted — the safe use is
+as vocabulary and as a matcher evaluation set, which is a different and far
+weaker claim than redistribution. And **no geographic dimension is visible**, so
+it is unclear whether these are national or Tripoli figures; Qeema's index is
+per-location and cannot use a price whose market is unknown.
+
+Its real value may be the Arabic itself. It writes tea as **شاهي** not شاي, tuna
+as **تن** and **تونة** in different editions, and pasta as **مكرونة** with the
+shape name **سبيقا/سبيقة/سبيقى**. It gives units a generated corpus would not
+invent: `طبق (30 بيضة)` for eggs, `ربطة` for herbs, `قنطار` for bulk flour,
+`دستة` for a twelve-pack.
+
+### Bureau of Statistics and Census — `bsc.ly`
+
+`200`. The national statistics office, with a Price Statistics and Index
+Section. Publishes a **monthly CPI report, bilingual Arabic/English, PDF only** —
+June 2026 issued within about a month, base year 2024, Food and Beverages
+**40.39%** of the basket. No CSV, no API. Generic contact `info@bsc.ly`.
+
+Two things make this the most interesting Libyan institution here. Its CPI being
+PDF-only is a real, checkable gap rather than an invented pitch. And it has a
+**dated, current working relationship with UNICEF Libya** — its own news item of
+6 August 2026 announces the expanded national MICS7 report issued in cooperation
+with UNICEF.
+
+---
+
+---
+
 ## Ruled out, and why
 
 | Source | Reason |
@@ -226,3 +283,39 @@ data it contributed and licence only the derived index CC-BY-4.0 — which is wh
 
 The last of those is the gap this platform was built for, and it is now measured
 rather than asserted.
+
+
+---
+
+## Who actually collects Libyan price data now
+
+Verified August 2026. Stated because two widely-assumed answers are wrong.
+
+- **The Libya Cash and Markets Working Group is archived.** Its ReliefWeb page
+  carries the banner *"This operation has been archived and is no longer being
+  updated"* — as does the entire Libya humanitarian operation page. "We will
+  plug into the CMWG" is not available.
+- **REACH/IMPACT has published nothing on Libya since June 2024.** The JMMI,
+  which most people assume still runs Libyan market monitoring, ended in April
+  2023; WFP states it assumed responsibility afterwards.
+- **Mercy Corps has no current Libya programme** — it is absent from its own
+  country list. Do not name it.
+- **There is no Libyan government open-data portal.** `data.gov.ly` and
+  `opendata.gov.ly` do not resolve. HDX is the de facto portal, with 229 Libya
+  datasets.
+
+So **WFP is the field**, and its data is already openly licensed — meaning a
+pilot can begin with no partnership dependency and no permission request. That
+is a genuine strength rather than a hedge, and it is worth stating plainly in
+any application.
+
+**No partnership, advisor or agreement exists with any organisation named in
+this document.** Everything above is a verified fact about who publishes what.
+None of it is a relationship. For an application question asking about partners
+and advisors, the honest answer today is NA.
+
+One verified alignment is worth knowing without overclaiming it: the Bureau of
+Statistics announced on 6 August 2026 an expanded national MICS7 report issued
+**in cooperation with UNICEF**. UNICEF Libya's existing statistical counterpart
+is therefore the same institution that owns the CPI. That is a checkable path,
+not a connection anyone has made.

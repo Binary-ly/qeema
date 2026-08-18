@@ -4610,3 +4610,62 @@ survive contact with a real market" with evidence instead of assertion.
 No real reporter has used this platform. The matching figures are still measured
 against a corpus a language model wrote. What changed today is that the *prices*
 need not be.
+
+### Phase 42b — the remaining two agents, and a catalogue item that may be wrong
+
+**The 20-litre water container does not exist.** The corpus has carried an open
+question since the دبة ruling: what does a Libyan call the 20L jug on a cooler?
+Searching Libyan sources suggests the question has no answer because the premise
+is wrong.
+
+Al-Safia, a Libyan bottler founded 2004, publishes its complete range on its own
+site: 0.33L, 0.5L, 1.5L, **7L**, **15L**, 230ml cups. The string "20 لتر"
+appears nowhere on the page — verified directly, not via an agent. A second
+bottler, Al-Shafiya, tops out at 600ml. And Libya Al-Ahrar TV names the
+household jug explicitly: *"عبوة الـ 7 لترات أو ما يعرف بالـ بانقة"* — the
+7-litre container, known as the **بانقة**.
+
+So `drinking_water_20l` specifies a size Libyan bottlers do not sell, and 14 of
+its 14 remaining wordings say ٢٠ لتر or 20L. The دبة correction fixed the noun;
+the number is wrong too.
+
+**Nothing was changed.** The evidence is recorded in `_attestation` and the open
+question rewritten to put the ruling where it belongs — with a native speaker,
+exactly as دبة was. The item stays on `hold`.
+
+**A daily Libyan government price bulletin exists.** `nashrah.ly`, run by Libya
+Trade Network under the Ministry of Economy and Trade. Server-rendered, robots
+explicitly unrestricted (`Disallow:` blank), refreshed daily, ~166 products with
+`إسم المنتج | وحدة القياس | سعر القطاعي` and a daily change column. Verified
+directly: `دقيق المخابز الصفوة | 25 كيلو جرام | 60 دل`.
+
+It prices **three of the ten items WFP cannot** — harissa in a 380g can, local
+*and* imported olive oil per litre, bakery flour in 25kg sacks. It carries 166
+products against WFP's 36, daily rather than monthly, in Arabic.
+
+Two limits stop it being an immediate answer. **No licence is stated anywhere on
+the page**, so republishing its prices under CC-BY-4.0 would assert a right
+nobody granted. And **no geographic dimension is visible**, so it is unclear
+whether the figures are national or Tripoli — and a per-location index cannot
+use a price whose market is unknown. Its safest value is vocabulary: real
+Libyan orthography a generated corpus would not invent — شاهي rather than شاي,
+تن and تونة in different editions, and units like `طبق (30 بيضة)`, `ربطة`,
+`قنطار`, `دستة`.
+
+**Who actually collects Libyan price data, since two common assumptions are
+wrong.** The Libya Cash and Markets Working Group is **archived**, along with the
+entire ReliefWeb Libya operation. REACH/IMPACT has published nothing on Libya
+since June 2024; the JMMI ended in April 2023 and WFP states it took over. Mercy
+Corps has no current Libya programme and should not be named. There is no
+Libyan government open-data portal — `data.gov.ly` does not resolve.
+
+WFP is the field, and its data is already openly licensed, so a pilot can start
+with **no partnership dependency and no permission request**.
+
+**No partnership or advisor exists.** For an application asking about partners,
+the honest answer is NA, which that form explicitly invites. One verified
+alignment is worth knowing without overclaiming: the Bureau of Statistics
+announced on 6 August 2026 an expanded MICS7 report issued *in cooperation with
+UNICEF* — so UNICEF Libya's existing statistical counterpart is the institution
+that owns the CPI, whose own price reporting is monthly PDFs with no
+machine-readable release.
