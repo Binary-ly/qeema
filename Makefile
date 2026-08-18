@@ -81,7 +81,11 @@ test-e2e: ## Run Playwright end-to-end tests against the running stack
 
 .PHONY: lint
 lint: ## Lint and statically analyse both services
-	cd $(API_DIR) && ./vendor/bin/pint --test && ./vendor/bin/phpstan analyse --no-progress
+	# --memory-limit: analysing a Laravel app of this size needs more than PHP's
+	# 256M default, and exceeding it crashes the worker with a message about
+	# php.ini rather than reporting any analysis. CI sets memory_limit=-1 so it
+	# never saw this; a fresh clone on a stock PHP does, every time.
+	cd $(API_DIR) && ./vendor/bin/pint --test && ./vendor/bin/phpstan analyse --no-progress --memory-limit=1G
 	cd $(ML_DIR) && .venv/bin/ruff check src tests && .venv/bin/ruff format --check src tests
 
 .PHONY: fix

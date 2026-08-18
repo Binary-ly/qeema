@@ -114,7 +114,7 @@ jobs:
 
       - name: Static analysis
         working-directory: api
-        run: ./vendor/bin/phpstan analyse --no-progress --error-format=github
+        run: ./vendor/bin/phpstan analyse --no-progress --error-format=github --memory-limit=1G
 
       - name: Tests with coverage gate
         working-directory: api
