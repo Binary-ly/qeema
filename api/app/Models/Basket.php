@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property CarbonInterface $effective_from
  * @property CarbonInterface|null $effective_to
+ * @property array{min: float, max: float}|null $plausible_cost_band
  */
 final class Basket extends Model
 {
@@ -28,6 +29,7 @@ final class Basket extends Model
     protected $fillable = [
         'country_id', 'name', 'version',
         'effective_from', 'effective_to', 'notes', 'is_active',
+        'plausible_cost_band',
     ];
 
     protected function casts(): array
@@ -37,6 +39,7 @@ final class Basket extends Model
             'effective_to' => 'date',
             'version' => 'integer',
             'is_active' => 'boolean',
+            'plausible_cost_band' => 'array',
         ];
     }
 

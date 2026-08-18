@@ -1185,6 +1185,28 @@ basket:
   name: Child Affordability Basket
   version: 1
   effective_from: 2026-01-01
+
+  # What this basket should cost, roughly, for one child for one month, priced
+  # at `demo.reference_prices`. Checked by tests/Feature/Country/BasketPlausibilityTest.php.
+  #
+  # This exists because a published Tripoli basket once read 13,250 LYD and
+  # nothing objected. The quantities were fine and the arithmetic was wrong —
+  # the index costed "60 ml of paracetamol" as sixty litres — and every test in
+  # the suite passed, because every test asserted arithmetic against fixtures
+  # rather than a number against the world.
+  #
+  # The band is deliberately wide. It is not a precision instrument; it is a
+  # tripwire for errors of magnitude, which are the ones that survive review.
+  #
+  # Anchor: WFP Libya Market Price Monitoring, May 2026, puts the Full Minimum
+  # Expenditure Basket for a five-person household in Tripoli at LYD 1,246.36
+  # (national LYD 1,180.44). One child, weighted toward formula, paediatric
+  # medicine and school materials, should land at a substantial but clear
+  # fraction of that. At the reference prices below this basket costs LYD 293.
+  plausible_monthly_cost_local:
+    min: 120
+    max: 700
+
   items:
     - { item: infant_formula_400g,          weight: 0.13, quantity: 1,  unit: pack,  category: infant_nutrition }
     - { item: baby_cereal_400g,             weight: 0.05, quantity: 1,  unit: pack,  category: infant_nutrition }
@@ -1221,13 +1243,26 @@ demo:
   reporters_per_location: 4
   # Southern and interior locations run structurally dearer: longer supply
   # lines, thinner competition.
+  # Measured against reality rather than assumed. Costing an identical
+  # 21-commodity bundle across all 21 markets in WFP's Libya price series
+  # (2026, `priceflag: actual`) gives a spread of just **1.33x** from the
+  # cheapest market to the dearest — Sebha 180.41 LYD, Ejdabia 240.81.
+  #
+  # The premiums below were originally up to 1.34 on their own, and the demo
+  # they produced spread 2.19x across locations: 65% wider than the country
+  # actually is. Halved, so the generated country resembles the measured one.
+  #
+  # Worth recording, because it contradicts the assumption these encode: in the
+  # real series **Sebha is the cheapest market in Libya**, not a southern
+  # premium location. The remaining premiums are kept as a mild supply-line
+  # effect, not as a claim about the south.
   regional_premium:
-    sabha: 1.18
-    ubari: 1.26
-    murzuq: 1.30
-    ghat: 1.34
-    ajdabiya: 1.08
-    gharyan: 1.05
+    sabha: 1.09
+    ubari: 1.13
+    murzuq: 1.15
+    ghat: 1.17
+    ajdabiya: 1.04
+    gharyan: 1.02
   monthly_inflation: 0.021
   fx_start_parallel: 7.60
   fx_start_official: 4.85

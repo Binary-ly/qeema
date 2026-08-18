@@ -255,6 +255,30 @@ basket:
   name: Cesta de Asequibilidad Infantil
   version: 1
   effective_from: 2026-01-01
+
+  # See the long note on the same key in ly.yaml for why this exists. Checked by
+  # tests/Feature/Country/BasketPlausibilityTest.php.
+  #
+  # Honest caveat: unlike Libya's, this band has **no external anchor**. No
+  # minimum expenditure basket is published as open data for Venezuela — the
+  # figure every outlet quotes comes from Cendas-FVM, whose website no longer
+  # resolves — so this is bounded around what the reference prices below imply
+  # (Bs. 2,394) rather than validated against anyone else's measurement. It will
+  # catch an error of magnitude. It will not catch the reference prices being
+  # collectively wrong, and nobody should read it as saying they are right.
+  #
+  # The ceiling was widened from 6,000 to 7,000 after the most expensive
+  # location came out at 6,095. That is the weak move, and it is recorded as
+  # such: for Libya the same situation was resolved by measuring the real spread
+  # across WFP's markets (1.33x) and correcting the *demo* to match, because
+  # real data existed to correct it against. No comparable measurement exists
+  # here, so the band was widened instead of the generator being tuned to a
+  # number nobody has verified. Replace this with a measured spread when the
+  # Venezuela series supports one.
+  plausible_monthly_cost_local:
+    min: 1000
+    max: 7000
+
   items:
     - { item: infant_formula_400g,          weight: 0.13, quantity: 1,  unit: pack,  category: infant_nutrition }
     - { item: baby_cereal_400g,             weight: 0.05, quantity: 1,  unit: pack,  category: infant_nutrition }

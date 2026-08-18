@@ -60,6 +60,7 @@ final class PipelineHealth
             $this->reviewBacklog(),
             $this->matching(),
             $this->imputation(),
+            $this->basketPlausibility(),
             $this->failedJobs(),
         ];
     }
@@ -392,6 +393,104 @@ final class PipelineHealth
      * a code path that broke rather than a queue that is behind, and the two
      * want different responses.
      */
+    /**
+     * Is the published figure the right size?
+     *
+     * Every other check here asks whether the pipeline is *moving*. This one
+     * asks whether what it produced is credible, because a pipeline can be
+     * perfectly healthy and publishing nonsense — which it was. A Tripoli
+     * basket read 13,250 LYD, roughly ten times a five-person household's
+     * monthly spend, while every stage reported `ok`.
+     *
+     * The band comes from `basket.plausible_monthly_cost_local` in the
+     * country's own file, where the outside source justifying it is written
+     * down. A country that declares none is skipped rather than guessed at.
+     *
+     * Degraded, never failed, and it never suppresses a figure. A genuine
+     * currency collapse can leave the band legitimately, and refusing to
+     * publish then would be the platform lying about a crisis to protect its
+     * own assumption. The operator is told loudly; the data still ships.
+     */
+    private function basketPlausibility(): HealthCheck
+    {
+        $implausible = [];
+        $checked = 0;
+
+        foreach (Country::query()->where('is_active', true)->get() as $country) {
+            $basket = $country->baskets()->orderByDesc('version')->first();
+            $band = $basket?->plausible_cost_band;
+
+            if ($band === null) {
+                continue;
+            }
+
+            // Every location's latest figure, not one of them. The first cut of
+            // this check took a single snapshot per country and reported `ok`
+            // while one location sat above the ceiling — a guard that samples
+            // one row out of sixteen can miss the error it exists for.
+            $latest = IndexSnapshot::query()
+                ->selectRaw('DISTINCT ON (location_id) index_snapshots.*')
+                ->where('country_id', $country->id)
+                ->where('basket_id', $basket->id)
+                ->orderBy('location_id')
+                ->orderByDesc('snapshot_date')
+                ->with('location')
+                ->get();
+
+            if ($latest->isEmpty()) {
+                continue;
+            }
+
+            $checked += $latest->count();
+            $outside = [];
+
+            foreach ($latest as $snapshot) {
+                $cost = (float) $snapshot->cost_local;
+
+                if ($cost < $band['min'] || $cost > $band['max']) {
+                    $outside[$snapshot->location->slug] = round($cost, 2);
+                }
+            }
+
+            if ($outside !== []) {
+                arsort($outside);
+                $shown = array_slice($outside, 0, 3, true);
+                $names = [];
+                foreach ($shown as $slug => $cost) {
+                    $names[] = "{$slug} {$cost}";
+                }
+
+                $implausible[$country->code] = sprintf(
+                    '%d of %d locations outside %s–%s %s (%s)',
+                    count($outside),
+                    $latest->count(),
+                    $band['min'],
+                    $band['max'],
+                    $country->currency_code,
+                    implode(', ', $names),
+                );
+            }
+        }
+
+        if ($implausible !== []) {
+            return new HealthCheck(
+                key: 'basket_plausibility',
+                status: HealthCheck::DEGRADED,
+                summary: 'A published basket cost is outside the range its country declares: '
+                    .implode('; ', $implausible),
+                detail: $implausible,
+            );
+        }
+
+        return new HealthCheck(
+            key: 'basket_plausibility',
+            status: HealthCheck::OK,
+            summary: $checked === 0
+                ? 'No country declares a plausible cost range.'
+                : "Published basket costs are within the declared range at {$checked} location(s).",
+        );
+    }
+
     private function failedJobs(): HealthCheck
     {
         $since = CarbonImmutable::now()->subDay();
