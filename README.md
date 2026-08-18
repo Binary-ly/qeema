@@ -92,6 +92,38 @@ lets the PHP test suite run without loading a gigabyte of weights.
 
 ---
 
+## Use the data
+
+No key, no account, no rate-limit tier. Constraint C6: the data being open **is**
+the product.
+
+```bash
+# Latest figure for every location in a country
+curl https://your-host/api/v1/countries/LY/index/current
+
+# The whole published history as CSV (-OJ keeps the filename the server sends)
+curl -OJ "https://your-host/api/v1/countries/LY/export.csv?from=2026-01-01"
+
+# The same file, tagged for the humanitarian data ecosystem
+curl -OJ "https://your-host/api/v1/countries/LY/export.csv?hxl=1"
+```
+
+`?hxl=1` adds a [HXL](https://hxlstandard.org/) hashtag row beneath the header —
+`#date`, `#loc+name`, `#value+cost+usd` — so the file drops straight into HDX,
+the HXL Proxy and libhxl without anyone hand-mapping column names. It is opt-in
+because to a parser that has not been told about HXL the tag row is an ordinary
+data row.
+
+**Every qualifier travels with every number.** Coverage, imputed share, the
+confidence interval, whether the figure is `comparable` across a basket
+revision, and whether the exchange rate is stale are fields and columns, not
+footnotes. A figure that was estimated always says so.
+
+Full reference: OpenAPI 3.0 at `/docs`, generated from the source and checked by
+CI for drift.
+
+---
+
 ## Design commitments
 
 These are the things this project refuses to compromise on. Each is enforced by a
@@ -156,6 +188,9 @@ drift from what the real Python service returns.
 | [docs/model-cards/](docs/model-cards/) | Training data, metrics and limitations for each ML component |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Development setup and the rules that are not negotiable |
 | [SECURITY.md](SECURITY.md) | Threat model and private disclosure |
+| [docs/do-no-harm.md](docs/do-no-harm.md) | **How this platform could harm people while working exactly as designed, and what is done about it** |
+| [docs/privacy.md](docs/privacy.md) | What personal data exists, why, how to erase it, and what is not retained |
+| [docs/dpg-standard.md](docs/dpg-standard.md) | Self-assessment against the nine Digital Public Good indicators |
 
 ---
 
@@ -166,5 +201,14 @@ today and what does not — it is kept accurate rather than aspirational.
 
 ## Licence
 
-[Apache-2.0](LICENSE). Model weights (`intfloat/multilingual-e5-base`) are MIT.
-Location geometry is derived from OpenStreetMap and redistributed under ODbL 1.0.
+**Software:** [Apache-2.0](LICENSE).
+**Data:** [CC BY 4.0](LICENSE-DATA) — every price, index snapshot and export.
+The bulk CSV sends `X-Qeema-License` so the licence travels with a downloaded
+file.
+
+Two licences because they are two different things used by different people: a
+developer forking the platform needs patent and contribution terms, an analyst
+putting a chart in a report needs something open-data catalogues recognise.
+
+Model weights (`intfloat/multilingual-e5-base`) are MIT. Location geometry is
+derived from OpenStreetMap and redistributed under ODbL 1.0.

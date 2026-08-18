@@ -12,6 +12,7 @@ to do when it is not.
 - [What runs on its own](#what-runs-on-its-own)
 - [Checking that it is working](#checking-that-it-is-working)
 - [The signals, and what to do about each](#the-signals-and-what-to-do-about-each)
+- [When a reporter asks to be forgotten](#when-a-reporter-asks-to-be-forgotten)
 - [Daily and weekly](#daily-and-weekly)
 - [Things that are supposed to happen](#things-that-are-supposed-to-happen)
 
@@ -46,6 +47,7 @@ The `scheduler` container runs these. If it is not running, none of them are.
 | `qeema:nowcast:train` | every 6 hours | Estimates revert to a crude fallback heuristic |
 | `qeema:scrape` | daily, 02:40 | Configured open datasets are never fetched |
 | `qeema:reporters:bias` | daily, 03:20 | Nobody looks for coordinated price manipulation |
+| `qeema:retention:enforce` | daily, 04:10 | Personal data is kept forever. **A no-op until you configure a retention window** — both ship disabled, so on a stock deployment this prints "retention is not configured" and exits. See [privacy.md](privacy.md) before setting one. |
 | `qeema:pipeline:health` | every 5 minutes | Nothing tells you any of the above stopped |
 | `horizon:snapshot` | every 5 minutes | Queue metrics in the Horizon dashboard |
 | `queue:prune-failed` | daily | Failed-job history grows without bound |
@@ -348,6 +350,43 @@ on a held-out half of the corpus the matcher had never seen. Venezuela is
 deliberately **not** promoted: its corpus is model-authored and no Spanish
 speaker has read it, so promoting it would put unverified brand names into the
 catalogue, where they are much harder to find than in a JSON file.
+
+## When a reporter asks to be forgotten
+
+Somebody who has been reporting prices may need to stop being associated with
+having done so. That is not a favour and it is not optional.
+
+```bash
+# Always look first. Erasure is irreversible.
+docker compose exec app php artisan qeema:reporter:forget --ref=<uuid> --dry-run
+docker compose exec app php artisan qeema:reporter:forget --ref=<uuid>
+```
+
+The `--ref` is the UUID their device holds, which the reporter app shows them.
+If you are working from a request that arrived some other way, find the row in
+the admin panel and use `--id=<n>` instead.
+
+**What goes:** the reporter row, the device reference, the display name, the
+reputation history, and every photograph they submitted — deleted from disk,
+not merely dereferenced.
+
+**What stays:** their prices, with nothing pointing back to a person. Those are
+anonymous aggregate inputs that published figures already rest on. Deleting a
+year of observations because one reporter withdrew would silently rewrite
+history for everyone who has already acted on the index — so it does not happen,
+and no published figure changes.
+
+**What to tell them honestly:** the identifier is gone, but a submission still
+records that a price was reported in that town on that afternoon. If they typed
+anything identifying into a price field, add `--scrub-text`; it is not the
+default because raw text is what makes a published figure traceable.
+
+**Backups outlive erasure.** Somebody erased today is still in last week's dump.
+Your backup retention period is part of this promise, not separate from it.
+
+See [privacy.md](privacy.md) for the full picture, including the scheduled
+retention windows that expire photographs and dormant reporters without anyone
+asking.
 
 ## Daily and weekly
 

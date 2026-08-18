@@ -1,0 +1,65 @@
+Qeema — licence for the data
+============================
+
+The SOFTWARE in this repository is licensed under the Apache License 2.0. See
+LICENSE.
+
+The DATA the software collects and publishes — the price observations, the
+computed index snapshots, and everything served by the public API, the dashboard
+and the CSV export — is licensed under the
+
+    Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+    https://creativecommons.org/licenses/by/4.0/
+    SPDX-License-Identifier: CC-BY-4.0
+
+You are free to share and adapt it, for any purpose, including commercially,
+provided you give appropriate credit, link to the licence, and indicate if you
+made changes.
+
+Why two licences
+----------------
+
+They are two different things and they are used by different people. A developer
+forking the platform needs a software licence that handles patents and
+contribution; an analyst putting a chart in a report needs a data licence that
+is recognised by publishers and by open-data catalogues. Apache-2.0 is the wrong
+instrument for a dataset and CC BY 4.0 is the wrong instrument for source code.
+
+Attribution
+-----------
+
+Suggested form:
+
+    Source: Qeema Open Affordability Index (CC BY 4.0),
+    https://github.com/Binary-ly/qeema
+
+If you are republishing figures, please carry the qualifiers that travel with
+them — coverage, imputed share, the confidence interval, and whether the figure
+is marked comparable. A Qeema number stripped of them says more than the data
+supports, and attribution to this project of a claim it did not make is the one
+use of the data this project would ask you not to make.
+
+The licence travels with the file: the bulk CSV export sends an
+`X-Qeema-License: CC-BY-4.0` response header, because a file passed on loses the
+context the API page carried.
+
+Third-party data
+----------------
+
+Some inputs carry their own terms, which are not superseded by this licence:
+
+  * Location geometry derived from OpenStreetMap — ODbL 1.0.
+  * Exchange rates and prices ingested from an operator-configured public
+    source keep whatever licence that source publishes under. The `sources`
+    table records the licence per source; a deployment that ingests from a
+    source with incompatible terms is responsible for its own compliance.
+
+Operators
+---------
+
+This licence covers the data published by this project. If you run your own
+deployment, the data it collects is yours to licence, and CC BY 4.0 is what this
+project recommends and what the software declares by default. Change the
+`license` field on each source in `countries/<code>.yaml` and the
+`X-Qeema-License` header if you decide otherwise.

@@ -200,6 +200,15 @@ for the demo; the ones you **must** change for a real deployment are marked.
 | `QEEMA_EXPORT_RATE_LIMIT` | `5` | Bulk CSV exports per minute per IP. |
 | `QEEMA_API_MAX_PAGE_SIZE` | `500` | |
 | `QEEMA_API_EXPORT_CHUNK` | `1000` | Rows read per chunk while streaming an export. |
+| `QEEMA_DATA_LICENSE` | `CC-BY-4.0` | SPDX identifier for the licence the published data is offered under, sent as `X-Qeema-License` on every bulk export. A self-hosted deployment's data belongs to whoever collected it; change this if a partner agreement or a national open-data policy says something else. See [LICENSE-DATA](../LICENSE-DATA). |
+
+### What the public surface may reveal about reporters
+
+| Variable | Default | Notes |
+|---|---|---|
+| `QEEMA_MIN_DISCLOSED_OBSERVATIONS` | `5` | Smallest per-item observation count the public API states exactly. Below it the count is withheld and `observation_count_disclosure` says `withheld`; the price, its confidence interval and the imputation flag are never withheld. `observation_count: 1` on an unauthenticated endpoint states that one person reported that product in that named town on that day, and repeated daily that is a behavioural fingerprint. Set to `1` to disclose every exact count — correct where the data comes from published sources or partner organisations, wrong anywhere a reporter could be identified by their own reporting. **The shipped `docker-compose.yml` sets `1`**, because its data is synthetic and there is nobody to protect; change it before running that stack with real reporters. See [do-no-harm.md](do-no-harm.md). |
+| `QEEMA_PHOTO_RETENTION_DAYS` | `0` | Delete reporter photographs older than this many days. **`0` disables it**, which is the shipped default — a retention job that starts deleting the moment you upgrade is a data-loss incident wearing a privacy costume, and the right period depends on your legal basis and what you told reporters. Photographs are the highest-risk artefact in the system and the least load-bearing: they corroborate a price that was screened and published months ago. Enforced daily by `qeema:retention:enforce`. |
+| `QEEMA_DORMANT_REPORTER_RETENTION_DAYS` | `0` | Erase reporters who have submitted nothing for this many days, keeping their prices. `0` disables it. Set this long or leave it off: erasure destroys a reputation built over months, and somebody who reports each harvest is not dormant at six months. |
 
 ### The ingestion pipeline
 
