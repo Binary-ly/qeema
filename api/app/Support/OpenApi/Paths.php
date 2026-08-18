@@ -99,6 +99,12 @@ final class Paths
             new OA\Parameter(name: 'countryCode', in: 'path', required: true, schema: new OA\Schema(type: 'string')),
             new OA\Parameter(name: 'from', in: 'query', schema: new OA\Schema(type: 'string', format: 'date')),
             new OA\Parameter(name: 'to', in: 'query', schema: new OA\Schema(type: 'string', format: 'date')),
+            new OA\Parameter(
+                name: 'hxl',
+                in: 'query',
+                description: 'Add a HXL hashtag row beneath the header, making the file directly ingestible by humanitarian data tooling (HDX, the HXL Proxy, libhxl). Off by default: to a parser that has not been told about HXL the tag row is an ordinary data row, so emitting it unconditionally would change what existing consumers parse.',
+                schema: new OA\Schema(type: 'boolean', default: false),
+            ),
         ],
         responses: [new OA\Response(response: 200, description: 'CSV')],
     )]

@@ -11,6 +11,7 @@ use App\Http\Resources\Api\V1\IndexSnapshotResource;
 use App\Models\Country;
 use App\Models\IndexSnapshot;
 use App\Models\Location;
+use App\Support\Export\HxlTags;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -150,28 +151,32 @@ final class IndexController extends Controller
      * Streamed rather than assembled: a six-month national export is large
      * enough that building it in memory would turn one download into an outage
      * on a public, unauthenticated endpoint.
+     *
+     * `?hxl=1` adds a HXL hashtag row beneath the header, which makes the file
+     * directly ingestible by the humanitarian data ecosystem. See {@see HxlTags}
+     * for what the tags mean and why the row is opt-in rather than always
+     * present.
      */
     public function export(Request $request, string $countryCode): StreamedResponse
     {
         $country = $this->country($countryCode);
         $from = $request->date('from') ?? now()->subDays(90);
         $to = $request->date('to') ?? now();
+        $hxl = $request->boolean('hxl');
 
         $filename = sprintf('qeema-%s-%s-to-%s.csv', strtolower($country->code), $from->toDateString(), $to->toDateString());
 
-        return response()->streamDownload(function () use ($country, $from, $to): void {
+        return response()->streamDownload(function () use ($country, $from, $to, $hxl): void {
             $handle = fopen('php://output', 'wb');
 
-            fputcsv($handle, [
-                'date', 'location_slug', 'location_name', 'cost_local', 'currency',
-                'cost_usd', 'confidence_low', 'confidence_high',
-                // The comparable series. `cost_local` steps whenever the basket
-                // is revised, so anyone computing inflation from this file needs
-                // the level and the version that produced it.
-                'index_level', 'basket_version',
-                'coverage', 'imputed_share', 'comparable', 'quality',
-                'fx_rate', 'fx_type', 'fx_is_stale',
-            ]);
+            // The column list lives in HxlTags, keyed by header name, so the
+            // header and the hashtag row are one declaration read two ways and
+            // cannot drift when a column is added.
+            fputcsv($handle, HxlTags::header());
+
+            if ($hxl) {
+                fputcsv($handle, HxlTags::row());
+            }
 
             IndexSnapshot::query()
                 // One row per location per date. A revision leaves snapshots
@@ -216,7 +221,7 @@ final class IndexController extends Controller
             'Content-Type' => 'text/csv; charset=UTF-8',
             // The licence travels with the data, because a CSV downloaded and
             // passed on loses every bit of context the API page carried.
-            'X-Qeema-License' => 'CC-BY-4.0',
+            'X-Qeema-License' => (string) config('qeema.api.data_license'),
         ]);
     }
 
