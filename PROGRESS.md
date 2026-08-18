@@ -3,7 +3,7 @@
 Kept accurate rather than aspirational. If something is not listed as verified
 here, assume it does not work yet.
 
-**Last updated:** 2026-08-09
+**Last updated:** 2026-08-18
 
 ---
 
@@ -28,15 +28,18 @@ here, assume it does not work yet.
 
 | Gate | Result |
 |---|---|
-| Pest | **335 passed**, 1 skipped, 1,473 assertions |
-| PHP coverage | **93.6%** (gate ≥80%) |
-| Playwright (offline E2E) | **8 passed** |
-| pytest | **210 passed** |
+| Pest | **752 passed**, 1 skipped, 3,795 assertions |
+| PHP coverage | **94.2%** (gate ≥80%) |
+| Playwright (E2E, incl. C2 loop) | **not run since 16 Aug** — needs the composed stack, and CI is the only place it runs |
+| pytest | **236 passed** |
 | Python coverage | **86.0%** (gate ≥80%) |
 | PHPStan (larastan, level 6) | **0 errors** |
 | Pint / ruff / mypy | clean |
 | Country-agnostic check (C3) | pass |
 | Licence inventory (C1) | 0 `UNKNOWN` rows |
+
+Measured locally against a real PostgreSQL on 2026-08-18. **CI has not executed
+since 16 August** — account minutes are exhausted; see Phase 41.
 
 ---
 
@@ -4319,3 +4322,140 @@ no cache at all, despite `setup-buildx-action` being configured — every run
 recompiles PHP extensions and rebuilds the ML image from scratch. Caching that
 would cut the job substantially. It is deliberately not changed here, because an
 unverifiable build change to the one job already failing is a bad trade.
+
+---
+
+## Phase 41 — assessed against the standard the funder actually uses
+
+Work driven by a different question from the previous phases: not "does it
+work" but "would this survive technical diligence by the UNICEF Venture Fund".
+The fund graduates portfolio companies toward **Digital Public Good** status,
+so the DPG Standard's nine indicators are the concrete rubric, and the platform
+was audited against them rather than against a guess at what a reviewer wants.
+
+Eight of nine were already met by work done for its own sake. Two were not, and
+both turned out to be real rather than paperwork.
+
+### The public API was disclosing who reports
+
+`observation_count` is emitted per item, per location, per day, on an
+unauthenticated endpoint. **`observation_count: 1` is a public statement that
+exactly one person reported that product, in that named town, on that day.**
+
+At pilot scale that is every thin-coverage location. Repeated daily it is a
+behavioural fingerprint — who reports, how often, which products they check —
+attached to a named place, in an economy where publishing parallel-market
+prices is not a politically neutral act. Anonymity of the *record* does nothing
+about it, because the disclosure is in the shape of the reporting rather than in
+any field.
+
+Counts below `QEEMA_MIN_DISCLOSED_OBSERVATIONS` (default 5) are now withheld,
+with `observation_count_disclosure: "withheld"` so a suppressed count is never
+mistaken for missing data. The price, its confidence interval and the imputation
+flag are never suppressed: a consumer loses precision on how well supported a
+number is, never the number.
+
+Applied at the resource boundary, not at the source. The stored count is
+untouched, so the admin view, the audit trail and every internal computation
+still see the real number — the difference between protecting reporters and
+losing data.
+
+**The integration this nearly broke.** The C2 loop test polls
+`observation_count` and waits for it to rise; one submitted price yields 1,
+which the new rule withholds, so the test would have polled forever and the one
+CI job already under investigation would have failed for a second, unrelated
+reason. Found by grepping every consumer before shipping rather than after.
+Resolved by setting the threshold to 1 in `docker-compose.yml` — the demo's
+data is synthetic and there is nobody to protect — with the application default
+left at the protective value. `loop.spec.ts` is unchanged.
+
+### A reporter could not leave
+
+There was no way to honour an erasure request and nothing expired, ever.
+
+`qeema:reporter:forget` destroys the person and keeps the prices: the reporter
+row, device reference, display name and reputation history go, photographs are
+deleted **from disk** rather than only dereferenced, and every submission
+survives with `reporter_id` null. The prices are anonymous aggregate inputs that
+published figures already rest on; destroying them would silently rewrite
+history for every consumer of the index.
+
+`qeema:retention:enforce` runs daily and expires photographs and dormant
+reporter rows on two independent windows, **both disabled by default** — a
+retention job that starts deleting the moment somebody upgrades is a data-loss
+incident wearing a privacy costume, and the right period depends on a legal
+basis this project does not know. Neither window ever touches a price
+observation or a published figure, and a test exists whose only job is to fail
+if that stops being true.
+
+### HXL, because the data is meant to be used
+
+`?hxl=1` on the bulk export adds a Humanitarian Exchange Language hashtag row
+beneath the header, so the file drops directly into HDX, the HXL Proxy and
+libhxl instead of needing its columns hand-mapped. Opt-in, because to a parser
+that has not been told about HXL the tag row is an ordinary data row and every
+numeric column silently becomes a string.
+
+The column list now lives in one ordered map keyed by header name, so the header
+row and the tag row are the same declaration read two ways. A test asserts all
+three row types have equal width; it was verified by injecting the exact drift
+it exists to catch, and it failed with `row 2 has 17 columns, header has 18`.
+
+### Smaller things, all real
+
+- **SPDX headers**: 269 of 432 PHP and Python files carried one. Now 431 of 431,
+  plus the two first-party JS files that lacked them. The unheadered remainder
+  is vendored Filament code, which is MIT and not ours to relabel.
+- **`LICENSE-DATA`**: the API has asserted `X-Qeema-License: CC-BY-4.0` since it
+  was written and the README never mentioned a data licence at all. Now a file,
+  a README section, and configurable via `QEEMA_DATA_LICENSE` — a self-hosted
+  deployment's data belongs to whoever collected it.
+- **`phpstan --memory-limit=1G`** in the Makefile and CI. A fresh clone on stock
+  PHP crashes the analyser at 256M with a message about `php.ini` rather than
+  reporting any analysis. CI never saw it because `setup-php` sets `-1`.
+- **Deleted `welcome.blade.php`** — Laravel's default scaffolding, unreferenced.
+
+### New documents
+
+`docs/do-no-harm.md` asks what the platform can do to people *while working
+exactly as designed*, which is a different question from `SECURITY.md`'s. Seven
+harms, what is implemented against each, and the residual risk of each stated
+rather than omitted. `docs/privacy.md` is the factual basis an operator needs to
+write a policy. `docs/dpg-standard.md` maps all nine indicators to evidence.
+
+Two claims were caught being false while writing them and corrected against the
+source: "no IP address stored" (IPs are transient rate-limit keys, and Laravel's
+optional database session driver *would* store admin IPs — the shipped config
+uses Redis), and "Keep a Changelog / semantic versioning" (there is no changelog
+and no release).
+
+### Quality gates, run clean after all of the above
+
+| Gate | Result |
+|---|---|
+| Pest | **752 passed**, 1 skipped, 3,795 assertions |
+| PHP coverage | **94.2%** (gate ≥80%) |
+| pytest | **236 passed** |
+| Python coverage | **86.0%** (gate ≥80%) |
+| PHPStan (larastan, level 6) | 0 errors |
+| Pint / ruff / mypy | clean |
+| OpenAPI drift check | current |
+| Country-agnostic check (C3) | pass |
+| Secret scan | pass |
+
+Two of those gates failed first and were right to. The runbook test caught
+`qeema:retention:enforce` scheduled but absent from `operations.md`, and the
+deployment-docs test caught three new environment variables undocumented. Both
+are guards written in earlier phases doing exactly the job they exist for.
+
+### Still unverified
+
+**CI has not run since 16 August.** Every job still reports `"steps": 0` —
+account minutes are exhausted and reset in the second week of September. So the
+C2 loop fix from Phase 40, and everything in this phase, is verified locally
+against a real PostgreSQL and not by CI.
+
+**Making the repository public would fix this today**: public repositories get
+unlimited free Actions minutes on standard runners, and the fund's own
+eligibility gate is that the solution is open source. It is the highest-leverage
+action available and it is not one to take on the owner's behalf.
