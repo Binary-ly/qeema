@@ -1,0 +1,228 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+# Real data sources — a verified inventory
+
+Every source below was **fetched**, not merely found. Each entry states the HTTP
+status observed, the licence as published, and what the data actually contains
+rather than what its metadata advertises. Where a source's own labelling is
+wrong, that is recorded, because the wrong ones are the dangerous ones.
+
+Verified 18 August 2026. Row counts and date ranges will have moved since.
+
+> **Why this file exists.** Every matching figure this platform reports is
+> measured against a corpus a language model wrote, and its own source file
+> says so. This is the inventory of data that a person or an institution
+> actually collected, which is the only kind that can turn a prototype into a
+> pilot.
+
+---
+
+## The one to start with
+
+### WFP — Libya Food Prices  ✅ primary source
+
+| | |
+|---|---|
+| HDX slug | `wfp-food-prices-for-libya` |
+| Download | `https://data.humdata.org/dataset/dc632a15-d376-496f-976f-c3282e67bc28/resource/49e3a2ae-629e-46f3-8529-7e1fd0277b24/download/wfp_food_prices_lby.csv` |
+| Status observed | `200`, 7,760,599 bytes |
+| Licence | Creative Commons Attribution for Intergovernmental Organisations (**CC BY-IGO 3.0**) |
+| Rows | **67,644** |
+| Coverage | 2017-06-15 → 2026-05-15, **108 months**, 39 markets (21 currently reporting), 36 commodities |
+| Cadence | monthly; dataset last modified 2026-08-16 |
+
+**Every row is `priceflag: actual` and `pricetype: Retail`.** Not one estimated
+value in nine years. That is why this is the primary source and not the
+alternative below.
+
+Columns: `date, admin1, admin2, market, market_id, latitude, longitude,
+category, commodity, commodity_id, unit, priceflag, pricetype, currency, price,
+usdprice`.
+
+**It contains the parallel exchange rate.** A commodity row named
+`Exchange rate (unofficial)`, unit `USD/LCU`, Tripoli centre, **104 monthly
+observations 2017-06 → 2026-02**. This is easy to miss because it is filed as a
+commodity rather than published as an FX dataset — a dataset-level search for
+Libyan exchange rates does not surface it.
+
+Its identity was confirmed against WFP VAM's own *"Libya Black Market Exchange
+Rate"* page, measured independently: June 2019 reads **4.40 in both**, and
+November 2018 and November 2019 agree within the difference you would expect
+between a daily series and a monthly mid-point.
+
+---
+
+## The finding that matters most
+
+**WFP's own `usdprice` column is struck at the official rate, and the same file
+carries the parallel rate that contradicts it.**
+
+Nothing documents this. It was derived by taking the median of
+`price ÷ usdprice` per month, which recovers the conversion rate WFP used:
+
+| Date | Implied rate in `usdprice` | `Exchange rate (unofficial)` | Overstatement |
+|---|---|---|---|
+| 2017-06 | 1.389 | 8.17 | **5.88×** |
+| 2019-06 | 1.389 | 4.40 | 3.17× |
+| 2020-12 | 1.339 | 5.78 | 4.32× |
+| 2021-06 | 4.464 | 5.05 | 1.13× |
+| 2025-06 | 5.434 | 7.71 | 1.42× |
+| 2026-02 | 6.303 | 9.61 | **1.52×** |
+
+The implied rates track Libya's real monetary history exactly — the ~1.40 peg,
+the January 2021 devaluation to ~4.48, the drift to 6.30 — which is what
+establishes that the column is the official rate rather than an artefact.
+
+This is the platform's founding argument, demonstrated on the humanitarian
+sector's own gold-standard dataset: **a USD figure published by a UN agency
+overstated Libyan purchasing power by 488% in 2017 and by 52% in early 2026.**
+Both numbers live in the same file.
+
+---
+
+## What it can and cannot price
+
+Measured against `countries/ly.yaml` (27 basket items):
+
+**17 of 27 items (63%)** are priceable from real WFP data, across **15 of the
+16 configured Libyan locations**: wheat flour, rice, pasta, couscous, sugar,
+cooking oil, tomato paste, tomatoes, eggs (tray of 30), chicken, sanitary pads,
+cooking gas (11kg), infant formula, canned tuna, milk, drinking water, soap.
+
+Four need care, and must not be imported as exact matches:
+
+| Basket item | WFP series | Difference |
+|---|---|---|
+| `infant_formula_400g` | Milk (powder, infant formula), **KG** | priced per kilo, not per 400g tin |
+| `drinking_water_20l` | Water (drinking), **L** | priced per litre, not per 20L container |
+| `canned_tuna_185g` | Fish (tuna, canned), **200 G** | 200g vs 185g |
+| `uht_milk_1l` | Milk (pasteurized), L | pasteurised is not UHT |
+
+**The 10 it cannot price are the reason this platform exists:**
+
+`ors_sachet` · `paracetamol_suspension_60ml` · `amoxicillin_suspension_60ml` ·
+`school_notebook_80p` · `ballpoint_pen` · `school_backpack` ·
+`baby_cereal_400g` · `olive_oil_1l` · `harissa_can` · `bakery_flour_50kg`
+
+Paediatric medicines, school materials, baby cereal, and three Libyan staples.
+The sector's best price dataset tracks the general food basket and **none of the
+medicines or school supplies a child needs**. That gap is the crowdsourced
+layer's job.
+
+Conversely WFP tracks 18 commodities the basket does not, and at least one —
+**Diapers (30 pcs)** — arguably belongs in a child-weighted basket and is worth
+adding.
+
+---
+
+## Sources that look better than they are
+
+### World Bank — Libya Real Time Prices ⚠️ partly modelled
+
+Slug `libya-real-time-prices`. Licence **plain CC BY** — cleaner than WFP's
+IGO 3.0 — fortnightly, current to 2026-08-01, 42 markets. Superficially the
+better source, and it is not, for two reasons.
+
+**It is partly machine-generated.** The World Bank's own dataset notes, verbatim:
+*"compiled and updated weekly by the World Bank Development Economics Data Group
+(DECDG) using a combination of direct price measurement and **Machine Learning
+estimation of missing price data**"*, based on *"price information gathered from
+the World Food Program (WFP), UN-Food and Agricultural Organization (FAO)"*. So
+it is derived from WFP rather than independent of it, and an unknown share of it
+is estimated. A platform whose loudest commitment is that estimates are never
+disguised as observations cannot import that as observed. It is a cross-check,
+and any value taken from it must carry `is_imputed`.
+
+**Its currency file is almost empty.** Of 16 non-derived columns across 4,830
+rows: `batteries`, `candles`, `charcoal`, `firewood`, `soap`,
+`milling_cost_sorghum` and all three `wage_*` columns are **100% empty**. Only
+`exchange_rate_unofficial` is populated — with **48 distinct values across 115
+dates and 42 markets**, i.e. one national number copied per market.
+
+**And that column is mislabelled.** The World Bank's ticker metadata calls it
+*"Unofficial exchange rate (Parallel-market Estimate)"*. It reads 1.43 in 2017
+and 1.34 in December 2020, jumping to 4.46 in January 2021 — the CBL peg and the
+CBL devaluation. The street rate in that period was 6–9. **It is the official
+rate under a parallel label**, and importing it trusting the column name would
+have silently destroyed the platform's central claim.
+
+### HXL tooling — mostly retired
+
+OCHA retired `hxlstandard.org`, the HXL Proxy and HDX Quick Charts on
+**31 January 2026**; both domains now 301 to a decommissioning notice. HDX
+states it *"will no longer be asking data contributors to add HXL tags"*. The
+standard itself was explicitly **not** retired and `libhxl` is still published
+(5.2.2). Of every HDX resource fetched for this inventory, only three carried a
+hashtag row — and the WFP price CSVs are not among them.
+
+---
+
+## Other verified sources
+
+| Source | Status | Licence | Use |
+|---|---|---|---|
+| **HDX HAPI** `hapi.humdata.org/api/v2/...` | `200`, keyless | per-resource, CC BY-IGO upstream | Query API over the same WFP data, **both countries**, with P-codes the CSVs lack. The `app_identifier` is self-minted base64 of `app:email`, not an issued key. |
+| **COD-AB Libya / Venezuela** | `200` | CC BY-IGO 3.0 | Authoritative admin boundaries: adm1/adm2 P-codes, **English + Arabic names**, centroids. The join key everything else needs. |
+| **Libya population by mantika** | `200` | CC BY | Only admin-level Libyan population available — adm3, sex × age **including under-18**. HXL-tagged. 2021, and there is no COD-PS for Libya at all. |
+| **WFP — Venezuela Food Prices** | `200`, 19,922 rows | CC BY-IGO 3.0 | 2022-08 → **2025-05, stalled 15 months**. 9 of 23 states. **100% USD-denominated**, so it cannot show the FX story by itself. |
+| **BCV** (Venezuela central bank) | `200` | **none published** | Official reference FX, daily, plus national CPI by COICOP group to July 2026. Cite-only — no licence grant exists. |
+| **ve.dolarapi.com** | `200`, keyless | **none published** | Official **and parallel** VES rates. Verified 18 Aug 2026: parallel **877.90** vs official **773.31** = **+13.5%**. Its official figure matched BCV's own homepage exactly. Spot only — no history, so a deployment must store its own series from day one. |
+| **World Bank WDI API** | `200`, keyless | **CC BY 4.0** | National annual CPI, both countries. Contextual. |
+| **FAO FPMA** | `200`, keyless | unstated | Libya only, market-level — but `source_name: "Various via WFP VAM"`, so it is republished WFP data, not independent. |
+| **INFORM Severity (ACAPS)** | `200` | CC BY | Monthly 1–10 crisis severity, the only source scoring both countries on one scale. Parse with `data_only=True`; the live sheet is formulas. |
+
+---
+
+## Ruled out, and why
+
+| Source | Reason |
+|---|---|
+| **Numbeo** | Terms forbid redistribution **and** scraping, verbatim. Disqualified entirely — not merely for runtime. Do not cite it. |
+| **IMF** | `LICENSE="© International Monetary Fund Copyright. All Rights Reserved."` embedded in the SDMX payload itself. |
+| **REACH / IMPACT JMMI Libya** | The best non-food series that ever existed for Libya — municipality-level, with an explicit Minimum Expenditure Basket — but **discontinued April 2023**, and IMPACT's terms are all-rights-reserved. Would need written permission. |
+| **WFP Libya Market Price Monitoring** | The live successor to JMMI, monthly to May 2026, mantika-level, and it **does** carry non-food (sanitary pads LYD 5.61 national, May 2026; cooking gas LYD 10.35). **PDF only**, no licence statement, no structured counterpart on HDX. |
+| **Cendas-FVM** (Venezuela) | The canasta figure every news outlet quotes. Both domains fail **DNS resolution**. There is no primary source to cite. |
+| **Observatorio Venezolano de Finanzas** | The real site's post feed is serving injected gambling spam with no legitimate economics content since June 2025. A lookalike domain carries prose only. Citing either would be a liability. |
+| **WFP VAM / DataViz API** | `403`/`401`; the legacy gateway is decommissioned and the replacement is behind a sign-in. Use the HDX dumps. |
+| **UN Comtrade** | Keyless, but neither country reports, and it is trade data rather than consumer prices. |
+| **Open Food Facts** | Real Spanish/Venezuelan product names, but **ODbL share-alike** — a derived database must stay ODbL and cannot be relicensed CC-BY-4.0. |
+
+---
+
+## Ingesting this, honestly
+
+**Not with the scheduled scraper.** HDX's `robots.txt` disallows `/*.csv$` and
+`/api/`, so `OpenDataCsvScraper` refuses these URLs — correctly, and it now
+actually does so (its wildcard handling was fixed after this inventory found the
+gap). robots.txt governs *automated crawling*; the CC BY-IGO licence governs
+*reuse*. Both are respected by a deliberate, attributed, operator-initiated
+import through `PartnerFileImporter`, which is what these files are published
+for.
+
+`ColumnMapping::guess()` already maps every WFP column without configuration —
+`commodity`, `price`, `market`, `unit`, `date` and `currency` are all existing
+aliases. What needs preparing is the vocabulary: WFP market spellings
+(`Tripoli center`, `Ejdabia`, `Albayda`, `Azzawya`, `Sebha`, `Sirt`, `Alkhums`)
+differ from the configured location names, and six WFP markets — Algatroun,
+Aljufra, Alkufra, Nalut, Wadi Alshati, Zwara — have no location entry at all.
+
+**Licensing the output.** CC BY-IGO 3.0 is attribution-only, but it is not CC
+BY 4.0 and carries no upgrade clause. Keep each source's own attribution on the
+data it contributed and licence only the derived index CC-BY-4.0 — which is what
+`LICENSE-DATA` already says about third-party inputs.
+
+---
+
+## What nobody publishes
+
+- **No Minimum Expenditure Basket for either country as open data.** Libya's
+  exists but sits inside an all-rights-reserved spreadsheet from a programme
+  that ended in 2023.
+- **No open, machine-readable, historical parallel-rate series for Venezuela.**
+  Only a keyless spot API with no archive.
+- **No paediatric medicine or school-supply prices anywhere, for either
+  country.** One REACH rapid assessment from November 2023 priced infant formula
+  once. That is the whole of it.
+
+The last of those is the gap this platform was built for, and it is now measured
+rather than asserted.

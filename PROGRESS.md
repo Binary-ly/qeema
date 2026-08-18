@@ -4475,3 +4475,138 @@ is ignored and was never tracked.
 Nothing in this phase. The gap that remains is not code: every matching figure
 this platform reports is measured against a corpus a language model wrote, and
 no real reporter has used it yet.
+
+---
+
+## Phase 42 — real data, found rather than generated
+
+Seven research agents were sent to find price data for Libya and Venezuela that
+somebody actually collected. The instruction they were given matters more than
+the count: **a subagent is a language model and cannot observe a market**, so
+generating "realistic" prices would have produced synthetic data wearing a real
+label — the contamination Phases 19–25 exist to prevent — and putting it in a
+UNICEF application's "results of initial testing" field would have been
+fabricating results. They were told to find and verify, never to produce, and
+to report nothing they had not fetched and read the bytes of.
+
+### What was found
+
+**WFP publishes 67,644 actual Libyan retail prices, openly licensed.**
+`wfp-food-prices-for-libya` on HDX, CC BY-IGO, 108 months from June 2017 to May
+2026, 39 markets of which 21 still report monthly, 36 commodities. **Every row
+is `priceflag: actual`** — nine years without a single estimated value.
+
+Measured against `countries/ly.yaml`: **17 of 27 basket items are priceable from
+it, across 15 of the 16 configured locations.** The ten it cannot price are
+paediatric ORS, paracetamol and amoxicillin suspensions, school notebook, pen,
+backpack, baby cereal, olive oil, harissa and bakery flour — the medicines and
+school supplies a child needs, which no open dataset for Libya tracks at all.
+That is this platform's differentiator, and it is now a measurement rather than
+a claim.
+
+### The parallel rate was hiding in the same file
+
+A commodity row named `Exchange rate (unofficial)` — 104 monthly observations,
+Tripoli, 2017-06 to 2026-02. Invisible to a dataset-level search for exchange
+rates, which is why the agent tasked with FX concluded no such series existed.
+Its identity was settled by cross-checking that agent's own independent
+measurements of WFP VAM's black-market page: **June 2019 reads 4.40 in both.**
+
+And it sits alongside the number it contradicts. Taking the median of
+`price ÷ usdprice` recovers the rate WFP converts at: 1.389 in 2017, stepping to
+4.464 in January 2021, drifting to 6.303 by 2026 — Libya's official peg, its
+devaluation, and its drift, exactly. So **WFP's own USD prices are struck at the
+official rate while the same file carries the parallel one**: a 5.88× gap in
+2017, 1.52× in early 2026. The platform's founding argument, demonstrated on the
+sector's gold-standard dataset.
+
+### Three things the agents got wrong, caught by verification
+
+Agents are not oracles and were not treated as such.
+
+**"Best Libya find: World Bank RTFP, with wage series."** The three `wage_*`
+columns are empty in all 4,830 rows, as are `batteries`, `candles`, `charcoal`,
+`firewood`, `soap` and `milling_cost_sorghum`. The agent read column names from
+a header and reported them as data.
+
+**"Best single fit for the price feed: World Bank RTFP."** The World Bank's own
+notes say it is built "using a combination of direct price measurement and
+**Machine Learning estimation of missing price data**", derived from WFP and
+FAO. For a platform whose loudest commitment is that estimates are never
+disguised as observations, that is disqualifying for the observed-price path
+however clean its licence. WFP's 100%-actual file is the primary source; RTFP is
+a cross-check whose values would have to carry `is_imputed`.
+
+**"No parallel series exists."** It did, inside the food-prices file.
+
+The genuinely valuable agent finding was the inverse error: the World Bank's
+`exchange_rate_unofficial` column, labelled "Parallel-market Estimate" in its own
+ticker metadata, **is the official rate** — 1.43 in 2017 when the street was
+6–9, jumping to 4.46 at the January 2021 devaluation. Importing it on the
+strength of its name would have silently destroyed the central claim.
+
+### A real bug, found by reading robots.txt
+
+HDX disallows `/*.csv$`. `OpenDataCsvScraper`'s docblock has always promised "a
+deliberately conservative reading … under a wildcard"; the implementation was
+`str_starts_with($path, $rule)`, a literal prefix test. A path ending `.csv` does
+not *start* with `/*.csv$`, so **every tabular file on the one site the class
+names in its own documentation read as allowed**, and the scraper would have
+fetched what it was told not to.
+
+Now implements the convention properly — `*` as a wildcard, trailing `$` as an
+end anchor, prefix semantics otherwise. Four tests; the two that matter were
+verified to fail against the old logic, where the scraper ingested 3 rows it had
+been refused.
+
+The consequence is the correct ingestion design: robots.txt governs automated
+crawling, the CC BY-IGO licence governs reuse, and both are honoured by a
+deliberate operator-initiated import through `PartnerFileImporter` rather than a
+scheduled crawler. `ColumnMapping::guess()` already maps every WFP column with
+no configuration.
+
+### A correction to Phase 41, shipped publicly
+
+Phase 41 claimed the HXL export "drops straight into HDX, the HXL Proxy and
+libhxl" — in the README, the DPG self-assessment, the OpenAPI description and
+the `HxlTags` docblock. **OCHA retired `hxlstandard.org`, the HXL Proxy and HDX
+Quick Charts on 31 January 2026**, and HDX states it "will no longer be asking
+data contributors to add HXL tags". Two of the three named tools are gone and
+the third party is walking away.
+
+The standard itself was explicitly not retired, `libhxl` is still published, and
+current humanitarian datasets still ship tag rows — so the feature stands. The
+justification did not, and all four places now say what is true. This is exactly
+the kind of checkable overclaim that costs credibility with a reviewer, and it
+was live in a public repository for several hours.
+
+### Also verified
+
+Venezuela's WFP series is real but weaker: 19,922 rows, 9 of 23 states, stalled
+at May 2025, and **100% USD-denominated**, so it cannot show the FX story alone.
+A keyless API gives Venezuela's live spread — **parallel 877.90 against official
+773.31, +13.5% on 18 August 2026** — cross-validated because its official figure
+matched the central bank's own homepage exactly. It has no history, so a
+deployment must store its own series from day one.
+
+Two Venezuelan sources were ruled out as liabilities rather than gaps:
+**Cendas-FVM**, whose canasta figure every news outlet quotes, has no website at
+all — both domains fail DNS — and the **Observatorio Venezolano de Finanzas**
+site is serving injected gambling spam with no legitimate content since June
+2025.
+
+Full inventory, with HTTP statuses, licences and what each file actually
+contains: **[docs/data-sources.md](docs/data-sources.md)**.
+
+### What this changes about the pilot
+
+`docs/pilot.md` now says: do not start from zero. Point reporters at the ten
+items nobody tracks, and use the 17 overlapping ones as an accuracy check
+against an independent UN series per market — which answers "do the estimates
+survive contact with a real market" with evidence instead of assertion.
+
+### Still true
+
+No real reporter has used this platform. The matching figures are still measured
+against a corpus a language model wrote. What changed today is that the *prices*
+need not be.

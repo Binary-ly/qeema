@@ -43,6 +43,36 @@ The pilot exists to answer questions the software cannot answer about itself:
 A pilot that answers only the first question is still worth running. A pilot
 that answers none of them because nobody looked at the data is not.
 
+## You do not have to start from zero
+
+There is real, openly-licensed Libyan price data available today, and a pilot
+that ignores it wastes its scarcest resource — reporter goodwill — on prices
+somebody has already collected.
+
+**WFP publishes 67,644 actual retail observations for Libya**, monthly, 2017 to
+2026, across 21 currently-reporting markets, under CC BY-IGO. Every row is an
+observed price, not an estimate. It covers **17 of the 27 basket items** in
+`countries/ly.yaml` across 15 of the 16 configured locations.
+
+Two consequences for how a pilot should be designed:
+
+**Point reporters at the ten items nobody else tracks.** Paediatric ORS,
+paracetamol and amoxicillin suspensions, school notebooks, pens, backpacks,
+baby cereal, olive oil, harissa and bakery flour appear in no open dataset for
+Libya — one 2023 rapid assessment priced infant formula once, and that is the
+entirety of the public record. A reporter's time is worth far more on those than
+on rice, which WFP already measures every month.
+
+**You have a ready-made accuracy check.** For the 17 overlapping items you can
+compare what reporters submit against an independent monthly series from a UN
+agency, per market. That answers question 3 above with evidence rather than
+assertion, and it is the strongest form of validation available before the index
+is published anywhere.
+
+See [data-sources.md](data-sources.md) for what has been verified, what is
+licensed for reuse, and which sources are mislabelled in ways that would damage
+the index if trusted.
+
 ## Before anyone reports anything
 
 **Fix the basket, then leave it alone.** A revision mid-pilot is survivable —
