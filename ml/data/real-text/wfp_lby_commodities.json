@@ -1,0 +1,177 @@
+[
+ {
+  "text": "Beans",
+  "unit": "400 G",
+  "expected": null
+ },
+ {
+  "text": "Bread",
+  "unit": "5 pcs",
+  "expected": null
+ },
+ {
+  "text": "Chickpeas",
+  "unit": "400 G",
+  "expected": null
+ },
+ {
+  "text": "Chili (green)",
+  "unit": "KG",
+  "expected": null
+ },
+ {
+  "text": "Couscous",
+  "unit": "KG",
+  "expected": "couscous_1kg"
+ },
+ {
+  "text": "Diapers",
+  "unit": "30 pcs",
+  "expected": null
+ },
+ {
+  "text": "Dishwashing liquid",
+  "unit": "L",
+  "expected": null
+ },
+ {
+  "text": "Eggs",
+  "unit": "30 pcs",
+  "expected": "eggs_30"
+ },
+ {
+  "text": "Fish (tuna, canned)",
+  "unit": "200 G",
+  "expected": "canned_tuna_185g"
+ },
+ {
+  "text": "Fuel (gas)",
+  "unit": "11 KG",
+  "expected": "cooking_gas_11kg"
+ },
+ {
+  "text": "Handwash soap",
+  "unit": "Bar",
+  "expected": "bath_soap_bar"
+ },
+ {
+  "text": "Laundry detergent",
+  "unit": "L",
+  "expected": null
+ },
+ {
+  "text": "Laundry soap",
+  "unit": "KG",
+  "expected": null
+ },
+ {
+  "text": "Meat (chicken)",
+  "unit": "KG",
+  "expected": "chicken_1kg"
+ },
+ {
+  "text": "Meat (lamb)",
+  "unit": "KG",
+  "expected": null
+ },
+ {
+  "text": "Milk (condensed)",
+  "unit": "200 ML",
+  "expected": null
+ },
+ {
+  "text": "Milk (pasteurized)",
+  "unit": "L",
+  "expected": "uht_milk_1l"
+ },
+ {
+  "text": "Milk (powder, infant formula)",
+  "unit": "KG",
+  "expected": "infant_formula_400g"
+ },
+ {
+  "text": "Oil (vegetable)",
+  "unit": "L",
+  "expected": "cooking_oil_1l"
+ },
+ {
+  "text": "Onions",
+  "unit": "KG",
+  "expected": null
+ },
+ {
+  "text": "Pasta",
+  "unit": "500 G",
+  "expected": "pasta_500g"
+ },
+ {
+  "text": "Potatoes",
+  "unit": "KG",
+  "expected": null
+ },
+ {
+  "text": "Rice",
+  "unit": "KG",
+  "expected": "rice_1kg"
+ },
+ {
+  "text": "Salt",
+  "unit": "KG",
+  "expected": null
+ },
+ {
+  "text": "Sanitary pads",
+  "unit": "10 pcs",
+  "expected": "sanitary_pads_10"
+ },
+ {
+  "text": "Shampoo",
+  "unit": "250 ML",
+  "expected": null
+ },
+ {
+  "text": "Sugar",
+  "unit": "KG",
+  "expected": "sugar_1kg"
+ },
+ {
+  "text": "Tea (black)",
+  "unit": "250 G",
+  "expected": null
+ },
+ {
+  "text": "Tea (green)",
+  "unit": "250 G",
+  "expected": null
+ },
+ {
+  "text": "Tomatoes",
+  "unit": "KG",
+  "expected": "tomatoes_1kg"
+ },
+ {
+  "text": "Tomatoes (paste)",
+  "unit": "400 G",
+  "expected": "tomato_paste_400g"
+ },
+ {
+  "text": "Toothbrush",
+  "unit": "Brush",
+  "expected": null
+ },
+ {
+  "text": "Toothpaste",
+  "unit": "100 ML",
+  "expected": null
+ },
+ {
+  "text": "Water (drinking)",
+  "unit": "L",
+  "expected": "drinking_water_20l"
+ },
+ {
+  "text": "Wheat flour",
+  "unit": "KG",
+  "expected": "wheat_flour_1kg"
+ }
+]

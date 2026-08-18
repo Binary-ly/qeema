@@ -1,0 +1,832 @@
+[
+ {
+  "text": "دقيق المخابز الصفوة",
+  "unit": "25 كيلو جرام",
+  "expected": "bakery_flour_50kg"
+ },
+ {
+  "text": "دقيق المخابز الفاخر",
+  "unit": "25 كيلو جرام",
+  "expected": "bakery_flour_50kg"
+ },
+ {
+  "text": "دقيق المخابز الربيع",
+  "unit": "25 كيلو جرام",
+  "expected": "bakery_flour_50kg"
+ },
+ {
+  "text": "دقيق ( الأغراض المنزلية ) الصفوة",
+  "unit": "1 كيلو جرام",
+  "expected": "wheat_flour_1kg"
+ },
+ {
+  "text": "دقيق ( الأغراض المنزلية ) بلادي",
+  "unit": "1 كيلو جرام",
+  "expected": "wheat_flour_1kg"
+ },
+ {
+  "text": "دقيق ( الأغراض المنزلية ) الربيع",
+  "unit": "1 كيلو جرام",
+  "expected": "wheat_flour_1kg"
+ },
+ {
+  "text": "دقيق اسمر ( شعير ) العربي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "أرز الحبة القصيرة الصحى",
+  "unit": "1 كيلو جرام",
+  "expected": "rice_1kg"
+ },
+ {
+  "text": "أرز الحبة القصيرة الأسرة",
+  "unit": "1 كيلو جرام",
+  "expected": "rice_1kg"
+ },
+ {
+  "text": "أرز الحبة القصيرة المبروك",
+  "unit": "1 كيلو جرام",
+  "expected": "rice_1kg"
+ },
+ {
+  "text": "أرز الحبة الطويلة الصحى",
+  "unit": "1 كيلو جرام",
+  "expected": "rice_1kg"
+ },
+ {
+  "text": "أرز الحبة الطويلة سيلا",
+  "unit": "1 كيلو جرام",
+  "expected": "rice_1kg"
+ },
+ {
+  "text": "أرز الحبة الطويلة SOS",
+  "unit": "1 كيلو جرام",
+  "expected": "rice_1kg"
+ },
+ {
+  "text": "مكرونة الفضة",
+  "unit": "400 جرام",
+  "expected": "pasta_500g"
+ },
+ {
+  "text": "مكرونة الريحان",
+  "unit": "400 جرام",
+  "expected": "pasta_500g"
+ },
+ {
+  "text": "مكرونة الجيد",
+  "unit": "500 جرام",
+  "expected": "pasta_500g"
+ },
+ {
+  "text": "مكرونة الوردة البيضاء",
+  "unit": "400 جرام",
+  "expected": "pasta_500g"
+ },
+ {
+  "text": "كسكسي الوردة البيضاء",
+  "unit": "1 كيلو جرام",
+  "expected": "couscous_1kg"
+ },
+ {
+  "text": "زيت عباد الشمس الصفوة",
+  "unit": "850 مل",
+  "expected": "cooking_oil_1l"
+ },
+ {
+  "text": "زيت عباد الشمس الجيد",
+  "unit": "850 مل",
+  "expected": "cooking_oil_1l"
+ },
+ {
+  "text": "سكر الصفوة",
+  "unit": "1 كيلو جرام",
+  "expected": "sugar_1kg"
+ },
+ {
+  "text": "ملح الطعام كريستال",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "هريسة ( علبة ) الحطاب",
+  "unit": "380 جرام",
+  "expected": "harissa_can"
+ },
+ {
+  "text": "طماطم معجون الجيد",
+  "unit": "400 جرام",
+  "expected": "tomato_paste_400g"
+ },
+ {
+  "text": "طماطم معجون بيتي",
+  "unit": "400 جرام",
+  "expected": "tomato_paste_400g"
+ },
+ {
+  "text": "طماطم معجون الريحان",
+  "unit": "400 جرام",
+  "expected": "tomato_paste_400g"
+ },
+ {
+  "text": "تن الريحان",
+  "unit": "160 جرام",
+  "expected": "canned_tuna_185g"
+ },
+ {
+  "text": "تن الوفاء (زيت الزيتون) الوفاء",
+  "unit": "160 جرام",
+  "expected": "canned_tuna_185g"
+ },
+ {
+  "text": "تن كانفو (زيت الزيتون) كالفو",
+  "unit": "160 جرام",
+  "expected": "canned_tuna_185g"
+ },
+ {
+  "text": "شامية المحاصيل",
+  "unit": "250 جرام",
+  "expected": null
+ },
+ {
+  "text": "شامية طيبة",
+  "unit": "200 جرام",
+  "expected": null
+ },
+ {
+  "text": "مربى الواحة",
+  "unit": "800 جرام",
+  "expected": null
+ },
+ {
+  "text": "مربى فيتراك",
+  "unit": "860 جرام",
+  "expected": null
+ },
+ {
+  "text": "شاهي أحمر زهرة",
+  "unit": "500 جرام",
+  "expected": null
+ },
+ {
+  "text": "شاهي أخضر الكبشين",
+  "unit": "500 جرام",
+  "expected": null
+ },
+ {
+  "text": "دقيق الاغراض المنزلية الفاخر",
+  "unit": "1 كيلو جرام",
+  "expected": "wheat_flour_1kg"
+ },
+ {
+  "text": "دقيق الاغراض المنزلية الريحان",
+  "unit": "1 كيلو جرام",
+  "expected": "wheat_flour_1kg"
+ },
+ {
+  "text": "أرز حبة طويلة أبو بنت",
+  "unit": "1 كيلو جرام",
+  "expected": "rice_1kg"
+ },
+ {
+  "text": "مكرونة سبيقا",
+  "unit": "400 جرام",
+  "expected": "pasta_500g"
+ },
+ {
+  "text": "كسكسي دياري",
+  "unit": "1 كيلو جرام",
+  "expected": "couscous_1kg"
+ },
+ {
+  "text": "زيت الذرة الجيد",
+  "unit": "850 مل",
+  "expected": "cooking_oil_1l"
+ },
+ {
+  "text": "زيت زيتون محلي السوق المحلي",
+  "unit": "لتر",
+  "expected": "olive_oil_1l"
+ },
+ {
+  "text": "زيت زيتون مستورد مستورد",
+  "unit": "لتر",
+  "expected": "olive_oil_1l"
+ },
+ {
+  "text": "هريسة ( علبة ) بسمة",
+  "unit": "380 جرام",
+  "expected": "harissa_can"
+ },
+ {
+  "text": "تن السفينة",
+  "unit": "140 جرام",
+  "expected": "canned_tuna_185g"
+ },
+ {
+  "text": "قهوة العميد",
+  "unit": "500 جرام",
+  "expected": null
+ },
+ {
+  "text": "تن الجيد الجيد",
+  "unit": "185 جرام",
+  "expected": "canned_tuna_185g"
+ },
+ {
+  "text": "تن جنزور (زيت الزيتزن) جنزور",
+  "unit": "185 جرام",
+  "expected": "canned_tuna_185g"
+ },
+ {
+  "text": "تن القبطان مستورد",
+  "unit": "140 جرام",
+  "expected": "canned_tuna_185g"
+ },
+ {
+  "text": "تن الصياد مستورد",
+  "unit": "160 جرام",
+  "expected": "canned_tuna_185g"
+ },
+ {
+  "text": "تن جنزور (زيت الذرة) وطني",
+  "unit": "160 جرام",
+  "expected": "canned_tuna_185g"
+ },
+ {
+  "text": "سكر الصحى",
+  "unit": "1 كيلو جرام",
+  "expected": "sugar_1kg"
+ },
+ {
+  "text": "مكرونة البركة",
+  "unit": "400 جرام",
+  "expected": "pasta_500g"
+ },
+ {
+  "text": "زيت دوار الشمس البركة",
+  "unit": "850 مل",
+  "expected": "cooking_oil_1l"
+ },
+ {
+  "text": "زيت الذرة البركة",
+  "unit": "850 مل",
+  "expected": "cooking_oil_1l"
+ },
+ {
+  "text": "زيت عباد الشمس قورينا",
+  "unit": "850 مل",
+  "expected": "cooking_oil_1l"
+ },
+ {
+  "text": "زيت الذرة قورينا",
+  "unit": "850 مل",
+  "expected": "cooking_oil_1l"
+ },
+ {
+  "text": "حليب معقم جودي",
+  "unit": "لتر",
+  "expected": "uht_milk_1l"
+ },
+ {
+  "text": "حليب معقم النسيم",
+  "unit": "لتر",
+  "expected": "uht_milk_1l"
+ },
+ {
+  "text": "حليب معقم الريحان",
+  "unit": "لتر",
+  "expected": "uht_milk_1l"
+ },
+ {
+  "text": "حليب معقم الزهرات",
+  "unit": "لتر",
+  "expected": "uht_milk_1l"
+ },
+ {
+  "text": "حليب مركز الصفوة",
+  "unit": "170 مل",
+  "expected": null
+ },
+ {
+  "text": "لبن النسيم",
+  "unit": "لتر",
+  "expected": null
+ },
+ {
+  "text": "لبن نادك",
+  "unit": "800 مل",
+  "expected": null
+ },
+ {
+  "text": "زبادي النسيم",
+  "unit": "110 جرام",
+  "expected": null
+ },
+ {
+  "text": "زبادي ديليس",
+  "unit": "100 جرام",
+  "expected": null
+ },
+ {
+  "text": "زبادي زويتز",
+  "unit": "115 جرام",
+  "expected": null
+ },
+ {
+  "text": "جبنة مثلثات الريحان",
+  "unit": "8 قطع",
+  "expected": null
+ },
+ {
+  "text": "جبنة مثلثات الربيع",
+  "unit": "8 قطع",
+  "expected": null
+ },
+ {
+  "text": "جبنة مثلثات أبوالولد",
+  "unit": "8 قطع",
+  "expected": null
+ },
+ {
+  "text": "جبنة مثلثات كبتن فرومي",
+  "unit": "8 قطع",
+  "expected": null
+ },
+ {
+  "text": "جبنة بلوك مونزريلا ألمانية",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "جبنة بلوك شيدر هولندية",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "زبدة قولدينا",
+  "unit": "200 جرام",
+  "expected": null
+ },
+ {
+  "text": "زبدة جديدة",
+  "unit": "200 جرام",
+  "expected": null
+ },
+ {
+  "text": "سمن حيواني باريس",
+  "unit": "800 جرام",
+  "expected": null
+ },
+ {
+  "text": "سمن حيواني الحلوب",
+  "unit": "800 جرام",
+  "expected": null
+ },
+ {
+  "text": "سمن نباتي أصيل",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "حليب معقم الجيد",
+  "unit": "لتر",
+  "expected": "uht_milk_1l"
+ },
+ {
+  "text": "حليب مركز الزهرات",
+  "unit": "170 مل",
+  "expected": null
+ },
+ {
+  "text": "جبنة شرائح البقرة السعيدة",
+  "unit": "12 قطع",
+  "expected": null
+ },
+ {
+  "text": "سمن نباتي الهانم",
+  "unit": "700 جرام",
+  "expected": null
+ },
+ {
+  "text": "سمن حيواني جودي",
+  "unit": "800 جرام",
+  "expected": null
+ },
+ {
+  "text": "حليب مركز جودي",
+  "unit": "170 مل",
+  "expected": null
+ },
+ {
+  "text": "جبنة شرائح الربيع",
+  "unit": "12 قطع",
+  "expected": null
+ },
+ {
+  "text": "جبنة مثلثات فرومي",
+  "unit": "8 قطع",
+  "expected": null
+ },
+ {
+  "text": "لحم خروف وطني السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "لحم خروف مستورد مستورد",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "لحم بقر هبرة اللحوم والبيض",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "لحم أبل قعود اللحوم والبيض",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "لحم أبل حوار اللحوم والبيض",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "لحم دجاج وطني اللحوم والبيض",
+  "unit": "1 كيلو جرام",
+  "expected": "chicken_1kg"
+ },
+ {
+  "text": "لحم دجاج ساديا مستورد اللحوم والبيض",
+  "unit": "1100 جرام",
+  "expected": "chicken_1kg"
+ },
+ {
+  "text": "بيض عادي اللحوم والبيض",
+  "unit": "طبق (30 بيضة)",
+  "expected": "eggs_30"
+ },
+ {
+  "text": "بيض مغلف اللحوم والبيض",
+  "unit": "طبق (30 بيضة)",
+  "expected": "eggs_30"
+ },
+ {
+  "text": "لحم بقر مخلط بالعظم وطني",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "كبده دجاج وطني السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "صدر دجاج وطني السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": "chicken_1kg"
+ },
+ {
+  "text": "فخد دجاج وطني السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": "chicken_1kg"
+ },
+ {
+  "text": "لحم بقر مجمد اللحوم والبيض",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "كبده بقر وطني السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "بصل (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "طماطم (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": "tomatoes_1kg"
+ },
+ {
+  "text": "بطاطا (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "فلفل أخضر حار (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "خيار السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "فلفل أحمر (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "فلفل حلو (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "بصل أخضر السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "باذنجان السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "كوسا السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "ثوم السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "كسبر السوق المحلي",
+  "unit": "ربطة",
+  "expected": null
+ },
+ {
+  "text": "جزر السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "بصل (درجة ثانية) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "طماطم (درجة ثانية) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": "tomatoes_1kg"
+ },
+ {
+  "text": "معدنوس وطني",
+  "unit": "ربطة",
+  "expected": null
+ },
+ {
+  "text": "شبت وطني",
+  "unit": "ربطة",
+  "expected": null
+ },
+ {
+  "text": "نعناع السوق المحلي",
+  "unit": "ربطة",
+  "expected": null
+ },
+ {
+  "text": "بنجر السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "لفت السوق المحلي",
+  "unit": "ربطة",
+  "expected": null
+ },
+ {
+  "text": "جرجير السوق المحلي",
+  "unit": "ربطة",
+  "expected": null
+ },
+ {
+  "text": "كرافس السوق المحلي",
+  "unit": "ربطة",
+  "expected": null
+ },
+ {
+  "text": "سلق السوق المحلي",
+  "unit": "ربطة",
+  "expected": null
+ },
+ {
+  "text": "فجل السوق المحلي",
+  "unit": "ربطة",
+  "expected": null
+ },
+ {
+  "text": "سلاطة خس السوق المحلي",
+  "unit": "قطعة",
+  "expected": null
+ },
+ {
+  "text": "تفاح (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "تفاح (درجة ثانية) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "موز (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "كمثرى (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "بطيخ السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "شمام السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "مشمش السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "تمر دقلة (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "تمر صعيدي (درجة أولى) السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "خوخ السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "كيوي السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "أفوكادو السوق المحلي",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "جوافة مستورد",
+  "unit": "1 كيلو جرام",
+  "expected": null
+ },
+ {
+  "text": "إسمنت بني سويف(مستورد)",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "إسمنت إسمنت تركي Sonmez Cimento",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "إسمنت جبل الرصاص (مستورد)",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "إسمنت الاتحاد العربي للمقاولات",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "حديد تسليح مقاس (6مم) الشركة العربية",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "حديد تسليح مقاس (8مم) الشركة العربية",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "حديد تسليح مقاس (12مم) الشركة العربية",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "حديد تسليح مقاس (14مم) الشركة العربية",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "حديد تسليح مقاس (16مم) الشركة العربية",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "حديد تسليح مقاس (20مم) الشركة العربية",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "قمح السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "شعير السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "قمح مستورد",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "شعير مستورد",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "ذرة مجروش السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "نخالة قمح أحمر السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "شعير حب خارجي السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "علف أغنام كسكسي (بادي) السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "علف أغنام مكمل لحم (ناهي) السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "علف دجاج بياض مكرونة السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "علف دجاج ناهي السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "علف شعير مجروش السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "علف أغنام ثلاثية السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "علف دجاج بياض كسكسي السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "علف نخالة مكيسة السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "علف أبقار حلوب السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ },
+ {
+  "text": "علف عجول تسمين السوق المحلي",
+  "unit": "قنطار",
+  "expected": null
+ }
+]

@@ -4669,3 +4669,71 @@ announced on 6 August 2026 an expanded MICS7 report issued *in cooperation with
 UNICEF* — so UNICEF Libya's existing statistical counterpart is the institution
 that owns the CPI, whose own price reporting is monthly PDFs with no
 machine-readable release.
+
+---
+
+## Phase 43 — the matcher measured on text nobody generated
+
+Every matching figure this project has published was measured against
+`countries/corpus/ly.json`, whose own header says it was authored by a language
+model and that its realism is asserted rather than measured. The 87.1% top-1
+from Phase 39 is a number about a simulation. That was the honest gap left at
+the end of Phase 42, and it is now partly closed.
+
+`ml/scripts/real_text_evaluation.py` runs the **shipped** matcher — the same
+`HybridMatcher`, the same `MatcherConfig`, the catalogue built exactly as
+`api/matching.py` builds it — against two sets of product names written by other
+people:
+
+- **166 Arabic strings** from `nashrah.ly`, the daily bulletin of Libya Trade
+  Network under the Ministry of Economy and Trade
+- **35 English strings** from WFP's Libya price dataset on HDX
+
+Both sets are committed under `ml/data/real-text/` so the measurement is
+reproducible rather than anecdotal.
+
+### The numbers
+
+| | |
+|---|---|
+| Top-1 on wordings **not already in the catalogue** | **93.1%** (27/29), 95% CI **[78.0%, 98.1%]** |
+| Top-1 across all 78 positives | 97.4% — but 49 were already variants, so that figure measures memorisation |
+| Real non-basket products **wrongly auto-resolved** | **0 of 123** |
+| Real non-basket products refused | **0 of 123** |
+| Correct matches auto-resolved without a human | **0 of 29** |
+
+The headline is the first row and the interval is wide, because the unseen
+sample is 29 wordings. Reporting 93.1% without it would invite a confidence the
+data does not support.
+
+The distractors are the part an invented list cannot supply: 123 real products
+the basket does not contain — cement, reinforcing bar, sheep feed, thirty
+vegetables, eleven cheeses. Not one was confidently mis-assigned to a basket
+item, which is the failure that would corrupt a published index.
+
+### Against April 2025, same publisher
+
+The 60-row bulletin test in `assessment.md` produced 16 correct matches out of
+60, because 41 of those products were not in the catalogue at all. The catalogue
+has since grown from 133 variants to 758 and coverage is no longer the binding
+constraint.
+
+**Nothing else improved.** Nothing auto-resolves and nothing is refused — both
+structural findings from 2025 are unchanged. All 29 correct matches went to the
+review queue, and so did all 123 products belonging to no basket. Growing the
+catalogue fixed coverage; it did not touch calibration.
+
+### Both misses are the same failure
+
+A modifier beat the head noun. `Tomatoes (paste)` resolved to `tomatoes_1kg`;
+`تن جنزور (زيت الذرة) وطني` — tuna packed *in corn oil* — resolved to
+`cooking_oil_1l`. Confirmed in two languages, on text written by a UN agency and
+a Libyan ministry. It is the same confusion the synthetic corpus surfaced, which
+is the one respect in which that corpus proved honest.
+
+### What this still is not
+
+A trade bulletin is a formal register, not reporter text, so this understates
+performance on what a reporter would type — and says nothing whatever about
+whether reporters will report. **No human has used this platform.** That
+question cannot be answered by engineering, and no measurement here pretends to.

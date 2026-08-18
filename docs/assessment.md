@@ -147,7 +147,61 @@ Asserted rather than assumed — a test walks `/`, `/docs`, `/api/v1/health`,
 | Formatting and typing (Pint, ruff, mypy) | clean |
 | Country-agnostic check | pass |
 
-## The one measurement against real Libyan data
+## Measurements against real Libyan data
+
+Two, sixteen months apart, against the same source. The second is current; the
+first is kept because the comparison is the point.
+
+### August 2026 — the bulletin re-run, with a grown catalogue
+
+`ml/scripts/real_text_evaluation.py`, reproducible. Two sets of product names
+that **no language model wrote**:
+
+- **166 Arabic strings** from `nashrah.ly`, the daily bulletin of Libya Trade
+  Network under the Ministry of Economy and Trade — the same publisher as the
+  2025 test below.
+- **35 English strings** from WFP's own Libya price dataset on HDX.
+
+The labels are ours; the text is not. Deciding that `أرز الحبة القصيرة الصحى`
+means `rice_1kg` is a judgement; every string being real is a fact. Where a
+mapping was arguable — chicken liver against a `chicken_1kg` item — the row was
+made a distractor rather than a generous positive.
+
+| | |
+|---|---|
+| Top-1 on wordings **not already in the catalogue** | **93.1%** (27/29), 95% CI **[78.0%, 98.1%]** |
+| Top-1 across all positives | 97.4% (78) — but 49 were already catalogue variants, so this measures memorisation |
+| Real non-basket products **wrongly auto-resolved** | **0 of 123** |
+| Real non-basket products refused | **0 of 123** |
+| Positives auto-resolved without a human | **0 of 29** |
+
+The honest number is the first row, and the interval is wide because the unseen
+sample is 29 wordings. It is not a claim about thousands.
+
+**What improved.** In April 2025 the same bulletin produced 16 correct matches
+out of 60, because 41 of those products were not in the catalogue at all. The
+catalogue has since grown from 133 variants to 758, and coverage is no longer
+the binding failure.
+
+**What did not improve, at all.** Nothing auto-resolves and nothing is refused —
+the two structural findings from 2025 are unchanged. Every one of 29 correct
+matches still went to the review queue, and so did all 123 products that belong
+in no basket. Growing the catalogue fixed coverage; it did not touch
+calibration, and the section below explains why it cannot.
+
+**Both misses are the same failure, and it is the one that matters.** A modifier
+beat the head noun: `Tomatoes (paste)` resolved to `tomatoes_1kg`, and
+`تن جنزور (زيت الذرة) وطني` — tuna packed *in corn oil* — resolved to
+`cooking_oil_1l`. Confirmed now in two languages, on text written by a UN agency
+and a Libyan ministry. It is the same confusion the synthetic corpus surfaced,
+which is the one respect in which that corpus proved honest.
+
+One caveat on scope, unchanged from 2025: a trade bulletin is a formal register,
+not reporter text, so this understates performance on what a reporter would type
+— and says nothing at all about whether reporters will report.
+
+### April 2025 — the original sixty rows
+
 
 Sixty rows from a Libyan daily commodity bulletin — شبكة ليبيا التجارية, 13 April
 2025, product / brand / unit / price in dinars — were pushed through the live
