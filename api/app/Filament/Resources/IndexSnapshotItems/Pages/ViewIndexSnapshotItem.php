@@ -1,5 +1,7 @@
 <?php
 
+// SPDX-License-Identifier: Apache-2.0
+
 namespace App\Filament\Resources\IndexSnapshotItems\Pages;
 
 use App\Filament\Resources\IndexSnapshotItems\IndexSnapshotItemResource;

@@ -1,5 +1,7 @@
 <?php
 
+// SPDX-License-Identifier: Apache-2.0
+
 namespace App\Filament\Resources\Baskets\Pages;
 
 use App\Filament\Resources\Baskets\BasketResource;

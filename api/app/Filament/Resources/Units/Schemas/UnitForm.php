@@ -1,5 +1,7 @@
 <?php
 
+// SPDX-License-Identifier: Apache-2.0
+
 namespace App\Filament\Resources\Units\Schemas;
 
 use Filament\Forms\Components\Select;

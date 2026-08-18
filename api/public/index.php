@@ -1,5 +1,7 @@
 <?php
 
+// SPDX-License-Identifier: Apache-2.0
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 

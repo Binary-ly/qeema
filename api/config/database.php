@@ -1,5 +1,7 @@
 <?php
 
+// SPDX-License-Identifier: Apache-2.0
+
 use Illuminate\Support\Str;
 use Pdo\Mysql;
 

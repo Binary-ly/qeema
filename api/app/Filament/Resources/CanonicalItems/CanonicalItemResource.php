@@ -1,5 +1,7 @@
 <?php
 
+// SPDX-License-Identifier: Apache-2.0
+
 namespace App\Filament\Resources\CanonicalItems;
 
 use App\Filament\Resources\CanonicalItems\Pages\CreateCanonicalItem;
