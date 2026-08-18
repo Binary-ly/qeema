@@ -307,6 +307,15 @@ final class CountryConfigImporter
                 'effective_to' => $data['effective_to'] ?? null,
                 'notes' => $data['notes'] ?? null,
                 'is_active' => true,
+                // Carried into the database so the running platform can check
+                // its own output, not only CI. Nullable on purpose: a country
+                // without a defensible range should assert nothing.
+                'plausible_cost_band' => isset($data['plausible_monthly_cost_local'])
+                    ? [
+                        'min' => (float) $data['plausible_monthly_cost_local']['min'],
+                        'max' => (float) $data['plausible_monthly_cost_local']['max'],
+                    ]
+                    : null,
             ],
         );
 
@@ -319,6 +328,16 @@ final class CountryConfigImporter
             ->where('country_id', $country->id)
             ->pluck('id', 'code');
 
+        // The unit each item is defined in. A basket line states a quantity in
+        // some unit; costing divides that by the item's own pack size, which is
+        // only meaningful when the two are the same unit. Catching a mismatch
+        // here means a bad country file is rejected before it can produce a
+        // figure — the alternative is a published price that is wrong by a
+        // factor nobody notices, which has happened.
+        $unitsByCode = CanonicalItem::query()
+            ->where('country_id', $country->id)
+            ->pluck('default_unit_code', 'code');
+
         foreach ($entries as $entry) {
             $canonicalItemId = $itemsByCode[(string) $entry['item']] ?? null;
 
@@ -328,6 +347,18 @@ final class CountryConfigImporter
                 // silently dropping a basket item and understating the cost.
                 throw new \RuntimeException(
                     "Basket references canonical item '{$entry['item']}', which was not imported."
+                );
+            }
+
+            $lineUnit = (string) $entry['unit'];
+            $itemUnit = (string) $unitsByCode[(string) $entry['item']];
+
+            if ($lineUnit !== $itemUnit) {
+                throw new \RuntimeException(
+                    "Basket line '{$entry['item']}' is stated in '{$lineUnit}', but the item is "
+                    ."defined in '{$itemUnit}'. Costing divides the basket quantity by the item's "
+                    .'pack size, which only means anything when both are the same unit. State the '
+                    ."line in '{$itemUnit}', or change the item's default_unit_code."
                 );
             }
 
