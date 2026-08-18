@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Country;
+use App\Models\Unit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -41,6 +42,46 @@ final class CountryFactory extends Factory
         }
 
         throw new \RuntimeException('Exhausted the two-letter country code space.');
+    }
+
+    /**
+     * Give every factory country the units a real country file declares.
+     *
+     * Not a convenience. `countries/*.yaml` always defines a `units:` block,
+     * and the importer creates those rows before any basket references them —
+     * so a country without units is a state the application cannot reach.
+     *
+     * Fixtures did reach it, and that is how a dimensional bug survived. Basket
+     * lines were created with `unit_code: 'kg'` against countries that had no
+     * `kg`, the calculator never looked a unit up, and every costing test
+     * therefore proved arithmetic the production code was not doing. A fixture
+     * that cannot represent the failure cannot catch it.
+     *
+     * Base-unit factors are 1 by definition; the rest convert into them.
+     */
+    public function configure(): self
+    {
+        return $this->afterCreating(function (Country $country): void {
+            foreach ([
+                ['kg', 'Kilogram', 'mass', 'kg', 1.0],
+                ['g', 'Gram', 'mass', 'kg', 0.001],
+                ['l', 'Litre', 'volume', 'l', 1.0],
+                ['ml', 'Millilitre', 'volume', 'l', 0.001],
+                ['piece', 'Piece', 'count', 'piece', 1.0],
+                ['pack', 'Pack', 'count', 'piece', 1.0],
+                ['dozen', 'Dozen', 'count', 'piece', 12.0],
+            ] as [$code, $name, $dimension, $base, $factor]) {
+                Unit::query()->firstOrCreate(
+                    ['country_id' => $country->id, 'code' => $code],
+                    [
+                        'name' => $name,
+                        'dimension' => $dimension,
+                        'base_unit_code' => $base,
+                        'factor_to_base' => $factor,
+                    ],
+                );
+            }
+        });
     }
 
     /**

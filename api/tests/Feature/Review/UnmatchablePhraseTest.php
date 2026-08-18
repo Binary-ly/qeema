@@ -15,7 +15,6 @@ use App\Models\Reporter;
 use App\Models\Resolution;
 use App\Models\Source;
 use App\Models\Submission;
-use App\Models\Unit;
 use App\Models\UnmatchablePhrase;
 use App\Services\Ml\MatchResult;
 use App\Services\Ml\MlClientInterface;
@@ -37,10 +36,8 @@ use App\Support\Text\TextNormalizer;
 beforeEach(function (): void {
     $this->country = Country::factory()->create(['code' => 'XX', 'currency_code' => 'XXD']);
 
-    Unit::query()->create([
-        'country_id' => $this->country->id, 'code' => 'kg', 'name' => 'Kilogram',
-        'dimension' => 'mass', 'base_unit_code' => 'kg', 'factor_to_base' => 1,
-    ]);
+    // Units come from the country factory, which seeds the same set a real
+    // country file declares.
 
     $this->item = CanonicalItem::query()->create([
         'country_id' => $this->country->id, 'code' => 'rice_1kg', 'name_en' => 'Rice',

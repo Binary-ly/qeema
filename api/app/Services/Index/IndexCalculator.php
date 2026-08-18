@@ -13,11 +13,13 @@ use App\Models\Country;
 use App\Models\IndexSnapshot;
 use App\Models\Location;
 use App\Models\PriceObservation;
+use App\Models\Unit;
 use App\Services\Fx\FxRateResolver;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use RuntimeException;
 
 /**
  * Costs a child-weighted basket for one location on one day.
@@ -80,6 +82,18 @@ final class IndexCalculator
         $items = $basket->items()->with('canonicalItem')->get();
         $observations = $this->observationsFor($location, $items, $date, $windowDays);
 
+        // Observations are stored as a price per *base* unit — per kilogram,
+        // per litre, per piece. A basket line is a quantity in whatever unit
+        // reads naturally to the person who wrote the country file: "60 ml of
+        // paracetamol", "400 g of formula". Multiplying those two directly is a
+        // dimensional error, and it silently produced a number rather than a
+        // complaint: sixty millilitres costed as sixty litres, a thousandfold.
+        $factors = Unit::query()
+            ->where('country_id', $country->id)
+            ->pluck('factor_to_base', 'code')
+            ->map(fn ($factor): float => (float) $factor)
+            ->all();
+
         $costLocal = 0.0;
         $observedWeight = 0.0;
         $imputedWeight = 0.0;
@@ -112,7 +126,8 @@ final class IndexCalculator
                 continue;
             }
 
-            $contribution = (float) $entry->quantity * $estimate->value;
+            $baseQuantity = $this->baseQuantity($entry, $factors);
+            $contribution = $baseQuantity * $estimate->value;
             $costLocal += $contribution;
             $observedWeight += (float) $entry->weight;
             $observedCount++;
@@ -126,7 +141,7 @@ final class IndexCalculator
             );
 
             $components[] = [
-                'quantity' => (float) $entry->quantity,
+                'quantity' => $baseQuantity,
                 'samples' => $samples,
                 'point' => $estimate->value,
             ];
@@ -135,7 +150,7 @@ final class IndexCalculator
                 'canonical_item_id' => $entry->canonical_item_id,
                 'unit_price_local' => round($estimate->value, 6),
                 'weight' => (float) $entry->weight,
-                'quantity' => (float) $entry->quantity,
+                'quantity' => $baseQuantity,
                 'contribution_local' => round($contribution, 4),
                 'is_imputed' => false,
                 'imputation_method' => null,
@@ -172,11 +187,12 @@ final class IndexCalculator
 
             $imputedWeight += (float) $entry->weight;
 
-            $contribution = (float) $entry->quantity * $imputed['value'];
+            $baseQuantity = $this->baseQuantity($entry, $factors);
+            $contribution = $baseQuantity * $imputed['value'];
             $costLocal += $contribution;
 
             $components[] = [
-                'quantity' => (float) $entry->quantity,
+                'quantity' => $baseQuantity,
                 // The imputation's own interval is sampled, so the basket
                 // interval reflects imputation uncertainty rather than only
                 // sampling noise — which would be badly wrong on a snapshot
@@ -189,7 +205,7 @@ final class IndexCalculator
                 'canonical_item_id' => $entry->canonical_item_id,
                 'unit_price_local' => round($imputed['value'], 6),
                 'weight' => (float) $entry->weight,
-                'quantity' => (float) $entry->quantity,
+                'quantity' => $baseQuantity,
                 'contribution_local' => round($contribution, 4),
                 // Never anything but true on this path.
                 'is_imputed' => true,
@@ -352,6 +368,44 @@ final class IndexCalculator
      * interval reflects the joint uncertainty rather than the sum of
      * independently-taken bounds — which would be far too wide.
      *
+     * @param  list<array{quantity: float, samples: list<float>, point: float}>  $components
+     * @return array{0: float|null, 1: float|null}
+     */
+    /**
+     * A basket line's quantity, expressed in the unit its price is quoted in.
+     *
+     * `normalized_price_per_base_unit` is exactly what it says, so the quantity
+     * multiplying it has to be in base units too. `factor_to_base` is the whole
+     * conversion: 0.001 for millilitres against litres, 12 for a dozen against
+     * pieces, 1 for the units that happen to be base units already.
+     *
+     * That last case is why this went unnoticed. Every unit in the shipped
+     * baskets except `ml` has a factor of exactly 1, so omitting the
+     * multiplication was correct everywhere anyone looked.
+     *
+     * An unknown unit throws rather than defaulting to 1. A default would be a
+     * guess about what somebody meant, and the failure mode of guessing here is
+     * a published price that is wrong by orders of magnitude with nothing on
+     * the surface to show it.
+     *
+     * @param  array<string, float>  $factors
+     */
+    private function baseQuantity(BasketItem $entry, array $factors): float
+    {
+        $factor = $factors[$entry->unit_code] ?? null;
+
+        if ($factor === null || $factor <= 0.0) {
+            throw new RuntimeException(
+                "Basket item {$entry->canonical_item_id} is priced in '{$entry->unit_code}', "
+                .'which this country does not define as a unit. Costing it would require '
+                .'guessing a conversion factor.'
+            );
+        }
+
+        return (float) $entry->quantity * $factor;
+    }
+
+    /**
      * @param  list<array{quantity: float, samples: list<float>, point: float}>  $components
      * @return array{0: float|null, 1: float|null}
      */

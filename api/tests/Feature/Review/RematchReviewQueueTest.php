@@ -12,7 +12,6 @@ use App\Models\Reporter;
 use App\Models\Resolution;
 use App\Models\Source;
 use App\Models\Submission;
-use App\Models\Unit;
 use App\Support\Text\TextNormalizer;
 
 /**
@@ -24,10 +23,8 @@ use App\Support\Text\TextNormalizer;
 beforeEach(function (): void {
     $this->country = Country::factory()->create(['code' => 'XX', 'currency_code' => 'XXD', 'is_active' => true]);
 
-    Unit::query()->create([
-        'country_id' => $this->country->id, 'code' => 'l', 'name' => 'Litre',
-        'dimension' => 'volume', 'base_unit_code' => 'l', 'factor_to_base' => 1,
-    ]);
+    // Units come from the country factory, which seeds the same set a real
+    // country file declares.
 
     $this->item = CanonicalItem::query()->create([
         'country_id' => $this->country->id, 'code' => 'olive_oil_1l', 'name_en' => 'Olive oil',
