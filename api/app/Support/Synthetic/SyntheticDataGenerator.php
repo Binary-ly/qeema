@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Random\Engine\Mt19937;
 use Random\Randomizer;
+use RuntimeException;
 
 /**
  * Generates a plausible multi-month price history, with ground-truth labels.
@@ -140,7 +141,11 @@ final class SyntheticDataGenerator
         $units = Unit::query()->where('country_id', $country->id)->get()->keyBy('code');
 
         $process = new PriceProcess(
-            referencePrices: $this->floatMap($demoConfig['reference_prices'] ?? []),
+            referencePrices: $this->perBaseUnitReferences(
+                $this->floatMap($demoConfig['reference_prices'] ?? []),
+                $itemsByCode,
+                $units->pluck('factor_to_base', 'code')->map(fn ($f): float => (float) $f)->all(),
+            ),
             regionalPremium: $this->floatMap($demoConfig['regional_premium'] ?? []),
             itemCategories: $categories,
             monthlyInflation: (float) ($demoConfig['monthly_inflation'] ?? 0.02),
@@ -890,6 +895,53 @@ final class SyntheticDataGenerator
         foreach (array_chunk($rows, self::INSERT_CHUNK) as $chunk) {
             DB::table($table)->insert($chunk);
         }
+    }
+
+    /**
+     * Turn per-item reference prices into the per-base-unit prices the process wants.
+     *
+     * `reference_prices` in a country file are written the way a person thinks
+     * about a shop: `eggs_30: 24.0` is twenty-four dinars for the tray,
+     * `paracetamol_suspension_60ml: 8.0` is eight dinars for the bottle. The
+     * price process works in base units — per piece, per litre — because that is
+     * what an observation normalises to.
+     *
+     * Feeding one to the other unconverted priced a tray of thirty eggs at
+     * twenty-four dinars *each*, and a sixty-millilitre bottle of paracetamol at
+     * eight dinars *per litre*. The same mistake inflated some items thirtyfold
+     * and deflated others sixteenfold, and every result still looked like a price.
+     *
+     * @param  array<string, float>  $references
+     * @param  array<string, CanonicalItem>  $itemsByCode
+     * @param  array<string, float>  $factors  unit code => factor to its base unit
+     * @return array<string, float>
+     */
+    private function perBaseUnitReferences(array $references, array $itemsByCode, array $factors): array
+    {
+        $converted = [];
+
+        foreach ($references as $code => $price) {
+            $item = $itemsByCode[$code] ?? null;
+
+            if ($item === null) {
+                continue;
+            }
+
+            $packInBaseUnits = (float) $item->default_quantity * ($factors[$item->default_unit_code] ?? 0.0);
+
+            if ($packInBaseUnits <= 0.0) {
+                throw new RuntimeException(
+                    "Item {$code} declares default_quantity {$item->default_quantity} in "
+                    ."'{$item->default_unit_code}', which this country either does not define "
+                    .'as a unit or defines with a non-positive conversion factor. Seeding a '
+                    .'reference price would require guessing one.'
+                );
+            }
+
+            $converted[$code] = $price / $packInBaseUnits;
+        }
+
+        return $converted;
     }
 
     /**
