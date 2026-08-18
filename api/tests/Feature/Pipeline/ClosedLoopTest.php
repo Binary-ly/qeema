@@ -44,6 +44,14 @@ use Illuminate\Support\Str;
 beforeEach(function (): void {
     config()->set('queue.default', 'sync');
 
+    // Disclose exact observation counts here. The public API withholds counts
+    // below a threshold so that a figure resting on one person's report does
+    // not say so in public — but this test proves a single price completes the
+    // journey, and the count is how it sees that happen. The withholding rule
+    // itself is covered in tests/Feature/Api/PublicApiTest.php, where it is the
+    // subject rather than an obstacle.
+    config()->set('qeema.privacy.min_disclosed_observations', 1);
+
     (new CountryConfigImporter)->import(
         (new CountryConfigLoader)->load(base_path('../countries/ly.yaml'))
     );

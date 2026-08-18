@@ -273,6 +273,15 @@
                             "type": "string",
                             "format": "date"
                         }
+                    },
+                    {
+                        "name": "hxl",
+                        "in": "query",
+                        "description": "Add a HXL hashtag row beneath the header, making the file directly ingestible by humanitarian data tooling (HDX, the HXL Proxy, libhxl). Off by default: to a parser that has not been told about HXL the tag row is an ordinary data row, so emitting it unconditionally would change what existing consumers parse.",
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
                     }
                 ],
                 "responses": {
@@ -397,7 +406,8 @@
                 "required": [
                     "is_imputed",
                     "unit_price",
-                    "observation_count"
+                    "observation_count",
+                    "observation_count_disclosure"
                 ],
                 "properties": {
                     "is_imputed": {
@@ -435,8 +445,17 @@
                         "nullable": true
                     },
                     "observation_count": {
-                        "description": "Zero on an imputed price, by construction.",
-                        "type": "integer"
+                        "description": "How many observations stand behind this price. Zero on an imputed price, by construction. Null when the true count was non-zero but small enough that stating it would describe an identifiable reporter rather than a market — check `observation_count_disclosure` rather than treating null as missing data.",
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "observation_count_disclosure": {
+                        "description": "`exact`: the count above is the true one. `withheld`: the true count is between 1 and the deployment's disclosure threshold, and was suppressed to protect the people who reported. The price, its confidence interval and the imputation flag are never suppressed.",
+                        "type": "string",
+                        "enum": [
+                            "exact",
+                            "withheld"
+                        ]
                     }
                 },
                 "type": "object"

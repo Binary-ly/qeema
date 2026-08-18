@@ -73,7 +73,7 @@ use OpenApi\Attributes as OA;
 )]
 #[OA\Schema(
     schema: 'SnapshotItem',
-    required: ['is_imputed', 'unit_price', 'observation_count'],
+    required: ['is_imputed', 'unit_price', 'observation_count', 'observation_count_disclosure'],
     properties: [
         new OA\Property(property: 'is_imputed', type: 'boolean', description: 'True when this price was estimated rather than observed. Always present.'),
         new OA\Property(property: 'imputation_method', type: 'string', nullable: true),
@@ -83,7 +83,18 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'contribution', type: 'number', format: 'float'),
         new OA\Property(property: 'confidence_low', type: 'number', format: 'float', nullable: true),
         new OA\Property(property: 'confidence_high', type: 'number', format: 'float', nullable: true),
-        new OA\Property(property: 'observation_count', type: 'integer', description: 'Zero on an imputed price, by construction.'),
+        new OA\Property(
+            property: 'observation_count',
+            type: 'integer',
+            nullable: true,
+            description: 'How many observations stand behind this price. Zero on an imputed price, by construction. Null when the true count was non-zero but small enough that stating it would describe an identifiable reporter rather than a market — check `observation_count_disclosure` rather than treating null as missing data.',
+        ),
+        new OA\Property(
+            property: 'observation_count_disclosure',
+            type: 'string',
+            enum: ['exact', 'withheld'],
+            description: '`exact`: the count above is the true one. `withheld`: the true count is between 1 and the deployment\'s disclosure threshold, and was suppressed to protect the people who reported. The price, its confidence interval and the imputation flag are never suppressed.',
+        ),
     ],
 )]
 #[OA\Schema(

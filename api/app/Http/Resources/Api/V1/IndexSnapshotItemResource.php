@@ -27,6 +27,8 @@ final class IndexSnapshotItemResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $disclosed = $this->disclosedObservationCount();
+
         return [
             'is_imputed' => (bool) $this->is_imputed,
             'imputation_method' => $this->imputation_method,
@@ -42,8 +44,41 @@ final class IndexSnapshotItemResource extends JsonResource
             'contribution' => (float) $this->contribution_local,
             'confidence_low' => $this->ci_low === null ? null : (float) $this->ci_low,
             'confidence_high' => $this->ci_high === null ? null : (float) $this->ci_high,
-            // Zero on an imputed row, by construction.
-            'observation_count' => $this->observation_count,
+            // Zero on an imputed row, by construction. Null when a real but
+            // small count was withheld — see below.
+            'observation_count' => $disclosed,
+            // Why the count is what it is, so that a withheld count is never
+            // mistaken for missing data. 'exact' means the number above is the
+            // true count; 'withheld' means the true count is between 1 and
+            // `config('qeema.privacy.min_disclosed_observations') - 1`, and
+            // stating it precisely would describe an identifiable person's
+            // reporting rather than a market.
+            'observation_count_disclosure' => $disclosed === null ? 'withheld' : 'exact',
         ];
+    }
+
+    /**
+     * The observation count as the public is allowed to see it.
+     *
+     * Applied here, at the edge, rather than at the source. The stored count is
+     * untouched: the operator's admin view, the audit trail and every internal
+     * computation still see the real number. Only what leaves the building is
+     * reduced, which is the difference between protecting reporters and losing
+     * data.
+     *
+     * Zero passes through unchanged. An imputed row had no observations at all,
+     * so it describes nobody, and blanking it would hide the imputation signal
+     * that matters far more than the count does.
+     */
+    private function disclosedObservationCount(): ?int
+    {
+        $count = (int) $this->observation_count;
+        $threshold = (int) config('qeema.privacy.min_disclosed_observations', 5);
+
+        if ($count === 0 || $count >= $threshold) {
+            return $count;
+        }
+
+        return null;
     }
 }

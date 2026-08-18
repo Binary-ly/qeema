@@ -56,6 +56,14 @@ x-app-env: &app-env
 
   QEEMA_ML_URL: http://ml:8000
   QEEMA_COUNTRIES_PATH: /countries
+  # The demo publishes a synthetic six-month history: every "reporter" in it is
+  # generated, so there is nobody for the disclosure threshold to protect and
+  # exact observation counts are the more useful thing to show. Set here rather
+  # than inherited so that turning it back on for a real deployment is a visible
+  # one-line decision — the application default is the protective value. See
+  # docs/do-no-harm.md before running this stack with real reporters.
+  QEEMA_MIN_DISCLOSED_OBSERVATIONS: ${QEEMA_MIN_DISCLOSED_OBSERVATIONS:-1}
+
   QEEMA_SEED_COUNTRIES: ${QEEMA_SEED_COUNTRIES:-*}
   QEEMA_SEED_DEMO: ${QEEMA_SEED_DEMO:-true}
   QEEMA_SEED_DEMO_MONTHS: ${QEEMA_SEED_DEMO_MONTHS:-6}

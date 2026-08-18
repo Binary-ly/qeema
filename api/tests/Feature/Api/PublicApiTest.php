@@ -121,6 +121,70 @@ describe('every figure carries its qualifiers', function () {
             ->and($item['imputation_method'])->not->toBeNull();
     });
 
+    describe('what the observation count is allowed to reveal', function () {
+        // `observation_count: 1` on an unauthenticated endpoint states that one
+        // person reported that product, in that named town, on that day.
+        // Repeated daily it is a behavioural fingerprint, and where reporting
+        // prices is sensitive that is a risk to the reporter. Small counts are
+        // withheld; the price, its interval and the imputation flag are not.
+        $publish = function (int $observations) {
+            IndexSnapshotItem::factory()->create([
+                'index_snapshot_id' => test()->snapshot->id,
+                'canonical_item_id' => test()->country->canonicalItems()->firstOrFail()->id,
+                'is_imputed' => false,
+                'observation_count' => $observations,
+            ]);
+
+            return test()->getJson(
+                '/api/v1/locations/'.test()->location->slug.'/index/'
+                    .test()->snapshot->snapshot_date->toDateString()
+            )->json('data.items.0');
+        };
+
+        it('withholds a count that would describe a single reporter', function () use ($publish) {
+            config()->set('qeema.privacy.min_disclosed_observations', 5);
+
+            $item = $publish(1);
+
+            expect($item['observation_count'])->toBeNull()
+                ->and($item['observation_count_disclosure'])->toBe('withheld')
+                // Withholding the count must not withhold the measurement. A
+                // consumer loses precision on how well supported the price is,
+                // never the price.
+                ->and($item['unit_price'])->not->toBeNull()
+                ->and($item['is_imputed'])->toBeFalse();
+        });
+
+        it('states a count large enough to describe a market rather than a person', function () use ($publish) {
+            config()->set('qeema.privacy.min_disclosed_observations', 5);
+
+            $item = $publish(12);
+
+            expect($item['observation_count'])->toBe(12)
+                ->and($item['observation_count_disclosure'])->toBe('exact');
+        });
+
+        it('lets an operator with nobody to protect disclose everything', function () use ($publish) {
+            // Synthetic or published-source data has no reporter behind it, and
+            // the demo stack sets exactly this.
+            config()->set('qeema.privacy.min_disclosed_observations', 1);
+
+            expect($publish(1)['observation_count'])->toBe(1);
+        });
+
+        it('never mistakes an imputed row for a withheld one', function () use ($publish) {
+            // Zero observations describes nobody, so it passes through however
+            // high the threshold is. Blanking it would hide the imputation
+            // signal, which matters far more than the count.
+            config()->set('qeema.privacy.min_disclosed_observations', 99);
+
+            $item = $publish(0);
+
+            expect($item['observation_count'])->toBe(0)
+                ->and($item['observation_count_disclosure'])->toBe('exact');
+        });
+    });
+
     it('publishes a null dollar cost rather than omitting the key', function () {
         // A missing key reads as "no data"; an explicit null says "we could not
         // convert this", which is a different and more useful statement.
@@ -177,5 +241,45 @@ describe('bulk export', function () {
         expect($csv)->toContain('comparable')
             ->and($csv)->toContain('imputed_share')
             ->and($csv)->toContain('fx_is_stale');
+    });
+
+    it('omits the HXL row unless it is asked for', function () {
+        // The tag row is an ordinary data row to any parser that has not been
+        // told about HXL, so emitting it unconditionally would silently change
+        // what every existing consumer parses.
+        $lines = explode("\n", $this->get('/api/v1/countries/LY/export.csv')->streamedContent());
+
+        expect($lines[0])->toStartWith('date,')
+            ->and($lines[1] ?? '')->not->toStartWith('#');
+    });
+
+    it('tags the export for the humanitarian data ecosystem when asked', function () {
+        $lines = explode("\n", $this->get('/api/v1/countries/LY/export.csv?hxl=1')->streamedContent());
+
+        // Directly beneath the header, which is where HXL-aware tooling looks
+        // for it — a tag row anywhere else is not a HXL file.
+        expect($lines[0])->toStartWith('date,')
+            ->and($lines[1])->toStartWith('#date,')
+            ->and($lines[1])->toContain('#value+cost+usd')
+            ->and($lines[1])->toContain('#loc+name');
+    });
+
+    it('keeps the header, the HXL row and the data rows the same width', function () {
+        // The bug this exists to catch: someone adds a column to the query and
+        // the header without adding a hashtag, and every HXL consumer's columns
+        // shift by one from that point on. Nothing else in the suite would
+        // notice, because the file still parses.
+        $lines = array_values(array_filter(
+            explode("\n", $this->get('/api/v1/countries/LY/export.csv?hxl=1')->streamedContent()),
+        ));
+
+        expect(count($lines))->toBeGreaterThan(2);
+
+        $width = count(str_getcsv($lines[0], ',', '"', '\\'));
+
+        foreach ($lines as $number => $line) {
+            expect(count(str_getcsv($line, ',', '"', '\\')))
+                ->toBe($width, "row {$number} has a different number of columns than the header");
+        }
     });
 });
