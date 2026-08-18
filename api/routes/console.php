@@ -5,6 +5,7 @@
 declare(strict_types=1);
 
 use App\Console\Commands\DetectReporterBiasCommand;
+use App\Console\Commands\EnforceRetentionCommand;
 use App\Console\Commands\FetchFxRatesCommand;
 use App\Console\Commands\LinkIndexCommand;
 use App\Console\Commands\PipelineHealthCommand;
@@ -149,3 +150,14 @@ Schedule::command('horizon:snapshot')
 Schedule::command('queue:prune-failed --hours=168')
     ->daily()
     ->onOneServer();
+
+// Deletes personal data past its configured retention window. Daily, at a quiet
+// hour, and a no-op on a stock deployment: both windows ship disabled, so this
+// prints "retention is not configured" and exits until an operator sets a
+// policy. On the schedule from the start regardless, because a retention
+// mechanism nobody remembered to run is not a retention policy.
+Schedule::command(EnforceRetentionCommand::class)
+    ->dailyAt('04:10')
+    ->withoutOverlapping(120)
+    ->onOneServer()
+    ->runInBackground();

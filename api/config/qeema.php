@@ -80,6 +80,84 @@ return [
         // one against a single snapshot.
         'export_rate_limit_per_minute' => (int) env('QEEMA_EXPORT_RATE_LIMIT', 5),
         'export_chunk_size' => (int) env('QEEMA_API_EXPORT_CHUNK', 1000),
+
+        /*
+        | The licence the published data is offered under, sent with every bulk
+        | export as `X-Qeema-License`.
+        |
+        | Configurable because a self-hosted deployment's data belongs to
+        | whoever collected it, not to this project. The default is what Qeema
+        | publishes under and what LICENSE-DATA recommends; an operator with a
+        | different obligation — a partner agreement, a national open-data
+        | policy — can say so without patching a controller.
+        |
+        | An SPDX identifier, so that a consumer can resolve it mechanically.
+        */
+        'data_license' => env('QEEMA_DATA_LICENSE', 'CC-BY-4.0'),
+    ],
+
+    /*
+    | What the public surface is allowed to reveal about the people who report.
+    |
+    | Everything else in this platform pushes toward disclosure — the API is
+    | unauthenticated, the qualifiers travel with every number, an estimate says
+    | it is an estimate. This block is the one place that pushes the other way,
+    | and it exists because one figure is not a fact about a market but a fact
+    | about a person.
+    */
+    'privacy' => [
+        /*
+        | Smallest per-item observation count the public API will state exactly.
+        |
+        | `observation_count: 1` on an unauthenticated endpoint says that
+        | exactly one person reported that product, in that town, on that day.
+        | In a place with few reporters — which is every place at pilot stage —
+        | repeating that daily is a behavioural fingerprint attached to a named
+        | location: who reports, how often, and which products they check. Where
+        | reporting prices is itself sensitive, that is a risk to the reporter,
+        | and no amount of withholding their name undoes it.
+        |
+        | Below this threshold the count is withheld and the payload says so.
+        | The band is still there, the confidence interval is still there, and
+        | the price itself is unchanged — a consumer loses precision on how well
+        | supported a number is, not the number.
+        |
+        | Counted in observations rather than reporters because that is the
+        | quantity the snapshot holds, and it is the conservative direction: one
+        | reporter can file several observations, so a low observation count
+        | bounds the number of people above.
+        |
+        | Set to 1 to disclose every exact count. That is the right setting for
+        | a deployment whose data comes from published sources or partner
+        | organisations rather than individuals, and the wrong one anywhere a
+        | reporter could be identified by their own reporting.
+        */
+        'min_disclosed_observations' => (int) env('QEEMA_MIN_DISCLOSED_OBSERVATIONS', 5),
+
+        /*
+        | Retention. Both windows are in days and both are disabled at zero,
+        | which is the shipped default.
+        |
+        | Disabled rather than defaulted to something plausible, because a
+        | retention job that starts deleting the moment somebody upgrades is a
+        | data-loss incident wearing a privacy costume. The right period depends
+        | on the operator's legal basis, their partners, and what they told
+        | reporters — none of which this project knows. `qeema:retention:enforce`
+        | is the mechanism; the policy is the operator's.
+        |
+        | Neither window ever touches a price observation, an index snapshot or
+        | a published figure. Those are anonymous aggregates other people's
+        | decisions rest on, and expiring them would rewrite history.
+        */
+        'photo_retention_days' => (int) env('QEEMA_PHOTO_RETENTION_DAYS', 0),
+
+        /*
+        | A reporter who has submitted nothing for this long is erased, their
+        | prices kept. Set long or leave off: erasure destroys a reputation
+        | built over months, and somebody who reports each harvest is not
+        | dormant at six months.
+        */
+        'dormant_reporter_retention_days' => (int) env('QEEMA_DORMANT_REPORTER_RETENTION_DAYS', 0),
     ],
 
     /*
