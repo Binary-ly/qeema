@@ -4737,3 +4737,109 @@ A trade bulletin is a formal register, not reporter text, so this understates
 performance on what a reporter would type — and says nothing whatever about
 whether reporters will report. **No human has used this platform.** That
 question cannot be answered by engineering, and no measurement here pretends to.
+
+---
+
+## Phase 44 — the published basket was ten times too big, and 178 tests agreed with it
+
+A Libyan reader looked at the dashboard for one second and asked whether Tripoli
+really cost 13,250 LYD a month. WFP's published Minimum Expenditure Basket for a
+**five-person household** in Tripoli is 1,246.36. The figure was roughly ten
+times a whole household's monthly spend, for one child, and it had been
+screenshotted into a pitch-video script an hour earlier without anyone blinking.
+
+### Two defects, and the second was hiding the first
+
+**A — the calculator dropped the unit conversion.** Observations store
+`normalized_price_per_base_unit`: per kilogram, per litre, per piece. A basket
+line states a quantity in whatever unit reads naturally — "60 ml of
+paracetamol". `IndexCalculator` computed `quantity × price` and never multiplied
+by `factor_to_base`, so sixty millilitres were costed as sixty **litres**.
+
+The reason nothing looked wrong: every unit in the shipped baskets except `ml`
+has a factor of exactly 1. `kg`, `l`, `piece` and `pack` are their own base
+units, so the missing multiplication was correct everywhere anyone had looked.
+Two basket lines used `ml`, and those two were 8,390 of the 13,250.
+
+**B — the demo's reference prices were seeded in the wrong unit.**
+`reference_prices` are written the way a person thinks about a shop:
+`eggs_30: 24.0` is twenty-four dinars for the tray. `PriceProcess` consumed them
+as per-base-unit figures, so a tray of thirty was priced at twenty-four dinars
+*each*. The same mistake inflated eggs thirtyfold and water twentyfold while
+**deflating** paracetamol sixteenfold — partially masking defect A.
+
+### Why it was not caught
+
+Four reasons, and they get worse.
+
+**`unit_code` was stored and never read.** It exists on `basket_items` and
+appears in exactly one place in the codebase: `BasketItem::$fillable`. The
+country file recorded the intent; nothing consumed it.
+
+**Every costing test was an arithmetic identity on toy numbers.** `toBe(35.0)`,
+`toBe(10.0)`, `toBe(200.0)` — two items at 5 and 10, quantities 2 and 3,
+therefore 35. They verified the multiplication was wired up. Not one used a
+fixture where the basket unit differed from the base unit, so all 178 passed
+with the defect present. Worse, the fixtures created basket lines with
+`unit_code: 'kg'` against countries that defined **no units at all** — a state
+the real importer cannot produce. A fixture that cannot represent the failure
+cannot catch it.
+
+**There was no external benchmark anywhere in the repository.** Nothing existed
+that any figure could be measured against. WFP's MEB — the number that makes
+13,250 obviously absurd — was found during Phase 42's research, hours before,
+and had not been connected to anything.
+
+**And the number was looked at directly, without being questioned.** It was
+screenshotted, captioned "the opening shot", and written into a video script.
+It was being judged as a picture — is it styled, does the layout hold — not as a
+claim about Libya. This is the same failure as the دبة ruling: no lived
+intuition for what things cost in Tripoli, so an absurd number reads as a
+number.
+
+### What now exists so that it cannot recur
+
+Four guards, at four different layers, each verified to fail when the defect is
+reintroduced.
+
+**The calculator converts, and refuses to guess.** `baseQuantity()` multiplies
+by `factor_to_base`, and an unknown unit throws rather than defaulting to 1. A
+default is a guess, and the failure mode of guessing here is a published price
+wrong by orders of magnitude with nothing on the surface to show it.
+
+**`tests/Feature/Index/BasketUnitConversionTest.php`** — the fixture that never
+existed. Millilitres, grams and dozens, plus a regression case pinning the
+base-unit behaviour. Against the old code it fails at 7,999.998 for a figure
+that should be 8.
+
+**Every country declares what its basket should cost.**
+`basket.plausible_monthly_cost_local` in `countries/*.yaml`, with the outside
+source written beside it — Libya's cites WFP's 1,246.36 and the reference basket
+comes to 293. Checked two ways: over the YAML alone
+(`tests/Feature/Country/BasketPlausibilityTest.php`, which also refuses to let
+any single line exceed half the basket — the original bug's shape), and through
+the **real pipeline**
+(`tests/Feature/Index/PublishedBasketPlausibilityTest.php`), which is the one
+that would have caught this. With the defect reintroduced it reports: *"The
+published basket cost 22271, above the ceiling of 700 that countries/ly.yaml
+declares."*
+
+**The importer rejects a mismatched unit** before anything is written, so an
+operator adding a country is told at import rather than by a test they will
+never run.
+
+**And the fixtures now match reality.** `CountryFactory` seeds the units every
+real country file declares, so a test country can no longer be in a state the
+application cannot reach.
+
+### The honest lesson
+
+The tests were thorough about whether the code did what the code was written to
+do, and silent about whether the answer was the right size. Toy fixtures
+agreeing with the implementation is not evidence, however many of them there
+are. What was missing was not an assertion but a *reference* — something from
+outside the repository for a number to be wrong against.
+
+That reference now exists, is cited, and is enforced at two layers. It is a
+tripwire for errors of magnitude rather than a precision instrument, because
+errors of magnitude are the ones that survive review: they look like numbers.
