@@ -398,9 +398,9 @@ final class PipelineHealth
      *
      * Every other check here asks whether the pipeline is *moving*. This one
      * asks whether what it produced is credible, because a pipeline can be
-     * perfectly healthy and publishing nonsense — which it was. A Tripoli
-     * basket read 13,250 LYD, roughly ten times a five-person household's
-     * monthly spend, while every stage reported `ok`.
+     * perfectly healthy and publishing nonsense — which it was. One location's
+     * basket once published at roughly ten times what a five-person household
+     * spends in a month, while every stage reported `ok`.
      *
      * The band comes from `basket.plausible_monthly_cost_local` in the
      * country's own file, where the outside source justifying it is written

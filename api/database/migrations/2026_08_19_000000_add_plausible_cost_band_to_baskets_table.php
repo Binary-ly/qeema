@@ -12,11 +12,10 @@ use Illuminate\Support\Facades\Schema;
  * What this basket ought to cost, so a figure of the wrong size has something
  * to be wrong against.
  *
- * A published Tripoli basket read 13,250 LYD — about ten times a five-person
- * household's monthly spend — and nothing objected, because nothing in the
- * system held an opinion about what the answer should look like. Every check
- * asked whether the pipeline was moving; none asked whether what came out was
- * credible.
+ * A published basket once read about ten times what a five-person household
+ * spends in a month, and nothing objected, because nothing in the system held
+ * an opinion about what the answer should look like. Every check asked whether
+ * the pipeline was moving; none asked whether what came out was credible.
  *
  * Nullable, because a country that has not yet worked out a defensible range
  * should say nothing rather than assert a guess. The health check skips those
