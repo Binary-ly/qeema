@@ -283,6 +283,11 @@ def main() -> int:
         return model
 
     print("\nSWEEP — scored on VALIDATION only, so the test half stays unseen")
+    # One model per grid point. The default grid is a single configuration and
+    # FULL_SWEEP=1 makes it four — but even the single one is 12 epochs over a
+    # 278M-parameter model, which on a Mac CPU takes hours and pushes the load
+    # average past 20. Run this on a GPU; ml/notebooks/finetune_colab.ipynb does
+    # it on Colab's free tier in a few minutes.
     # Batch size is the first thing worth sweeping because in-batch negatives
     # scale with it. A four-configuration sweep found (64, 12, 3e-5) on
     # validation; the grid is kept to that one by default so re-running confirms
@@ -313,7 +318,9 @@ def main() -> int:
 
     print("\nTEST — reported once, on the half nothing was chosen against")
     results.append(evaluate(trained[winner["label"]], split, "e5-base fine-tuned"))
-    trained[winner["label"]].save("/tmp/e5-qeema/final")
+    out = os.environ.get("QEEMA_FINETUNE_OUT", "/tmp/e5-qeema/final")
+    trained[winner["label"]].save(out)
+    print(f"  saved the winning model to {out}")
 
     baseline = results[0]
     print("\nagainst the shipped model, on test:")
