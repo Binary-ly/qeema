@@ -213,6 +213,78 @@ shape name **سبيقا/سبيقة/سبيقى**. It gives units a generated corp
 invent: `طبق (30 بيضة)` for eggs, `ربطة` for herbs, `قنطار` for bulk flour,
 `دستة` for a twelve-pack.
 
+### ltnet.gov.ly — the Ministry's own daily field survey  ⭐ the best Libyan source found
+
+`https://ltnet.gov.ly` — **شبكة ليبيا للتجارة**, Libya Trade Network, run by the
+Ministry of Economy and Trade. Found by following a Facebook post, which is a
+comment on how discoverable Libyan public data is.
+
+It publishes three things, and the first is the one that matters:
+
+| Product | Cadence | Form |
+|---|---|---|
+| نشرة الأسعار اليومية المحلية | **daily**, numbered — issue 807 was posted this year | PDF |
+| النشرة الشهرية التحليلية | monthly, per sector, with daily charts | PDF, ~30 pp |
+| تقرير أسعار السلع الأساسية | annual | PDF |
+
+The monthly bulletin states its own method: *"من واقع ميداني تم خلاله جمع ورصد
+بيانات أسعار السلع"* — a field survey, charted daily, read weekly, compared
+against the prior month as a base. Five sectors: food, vegetables and fruit,
+meat/poultry/eggs, grains and feed, building materials.
+
+**It is text, not pictures.** The April 2026 bulletin extracts cleanly with
+`pypdf` — presentation-form Arabic that normalises with NFKC. That puts it in a
+different class from Almasar's image cards: this one an importer could read
+without a human in the loop.
+
+Two practical notes. Bright Data's unlocker returned an **empty body** for this
+host while plain `curl` got 200 and a 28 MB PDF — the expensive path was the
+one that failed. And the file named `نشرة-ابريل-2026.pdf` covers **March**;
+trust the period stated inside the document, not the filename.
+
+#### What it says, April 2026
+
+Per the pack the bulletin itself names in each column header:
+
+| Commodity | End-April | Our reference | |
+|---|---|---|---|
+| دقيق الأغراض المنزلية | 2.50–3.50 /kg | 3.88 | 11% above the top |
+| أرز الحبة القصيرة | 6.50–7.00 /kg | 6.06 | 7% below the bottom |
+| زيت الذرة | 12.50 / **850 ml** | 9.67 /l | **55% apart** |
+| زيت عباد الشمس | 11.50 / 850 ml | — | |
+| السكر | 4.00–4.50 / 900 g | — | |
+| طماطم المعجون | 4.00–4.50 / 400 g | — | |
+| التونة المعلبة | 5.75–12.50 / 160–185 g | — | |
+| الحليب المعقم | 6.00–6.75 | — | |
+| البيض | 19.00–24.00 / طبق 30 | 24.75 | just above the top |
+| لحم الدجاج الوطني | 17.50 /kg | 31.00 | see below |
+| لحم البقر الوطني (هبرة) | 92.00 /kg | — | |
+| لحم الإبل (قعود / حوار) | 67 / 85 /kg | — | |
+| دقيق المخابز | 240–280 / قنطار | — | |
+
+**Chicken is not a discrepancy, it is a story.** The bulletin has 17.50 at end
+April; August reporting has it at 20 in Benghazi and 30 in Tripoli, and Almasar
+recorded the jump in the first week of August. Chicken nearly doubled in four
+months. Our 31.00 is an August number and the bulletin is an April one, and
+both are right — which is the same lesson the tomato card taught, running the
+other way.
+
+**Cooking oil was a real error, and this caught it.** WFP's `Oil (vegetable), L`
+gave 9.67 a litre. The Ministry prices the bottle Libyans actually buy, 850 ml,
+at 11.50–12.50 — 13.53 to 14.71 a litre. A resident of Bani Walid, filmed in
+August, says *"علبة الزيت بطنعش تلتاشر دينار"*: the tin at twelve or thirteen,
+which is the bottle and matches the Ministry. Two Libyan sources against one
+international series, so `cooking_oil_1l` moved to 14.12 and is now marked
+`contested` with all three citations. The suspicion is that WFP's per-litre
+normalisation treats an 850 ml bottle as a litre, which would account for most
+of the 15%; that is a suspicion and is recorded as one.
+
+**Its limits.** No licence is published, so cite but do not redistribute. No
+per-city breakdown in the monthly bulletin — the daily one may carry it.
+The `/ar/local-prices/` path is empty; the bulletins are linked from the home
+page as dated upload URLs, so an importer has to scrape the index rather than
+hit a stable endpoint.
+
 ### Bureau of Statistics and Census — `bsc.ly`
 
 `200`. The national statistics office, with a Price Statistics and Index

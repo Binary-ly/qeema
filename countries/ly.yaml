@@ -1283,7 +1283,7 @@ demo:
     baby_cereal_400g: 18.5
     wheat_flour_1kg: 3.88
     rice_1kg: 6.06
-    cooking_oil_1l: 9.67
+    cooking_oil_1l: 14.12
     eggs_30: 24.75
     chicken_1kg: 31.0
     tomatoes_1kg: 3.0
@@ -1388,21 +1388,46 @@ demo:
             the March-May 2026 observations carrying priceflag=actual.
             CC BY-IGO 3.0.
     cooking_oil_1l:
-      value: 9.67
-      as_of: 2026-05
-      confidence: single-source
+      value: 14.12
+      as_of: 2026-04
+      confidence: contested
       note: >-
-        Replaced a guessed 9.0. WFP is one source, but it is a UN agency's own
-        field collection under an open licence, which is a different kind of
-        single source from one news article.
+        Two credible sources, the same months, 55% apart. WFP normalises to a
+        litre and reports 9.67; Libya's own Ministry of Economy field survey
+        prices the bottle Libyans actually buy - 850 ml - at 11.50 for sunflower
+        and 12.50 for corn, which is 13.53 and 14.71 a litre. A man filmed in
+        Bani Walid in August put "علبة الزيت" at twelve to thirteen dinar, which
+        is the bottle, not the litre, and lands on the Ministry's number.
+        Two independent Libyan sources against one international series, so the
+        value is the mean of the Ministry's two oils, 12.00 per 850 ml.
+        What is not resolved is why WFP is low. The suspicion is its litre
+        normalisation: if a bottle priced at ~12 is recorded as a litre rather
+        than as 850 ml, the per-litre figure comes out 15% light, and that is
+        most of the gap. Recorded as contested rather than silently corrected,
+        because the disagreement is the finding.
       sources:
         - url: https://data.humdata.org/dataset/wfp-food-prices-for-libya
           date: 2026-05-15
           kind: official-dataset
           says: >-
             WFP Libya food prices, series "Oil (vegetable), L", Tripoli centre, median of
-            the March-May 2026 observations carrying priceflag=actual.
+            the March-May 2026 observations carrying priceflag=actual, gives 9.67 per litre.
             CC BY-IGO 3.0.
+        - url: https://ltnet.gov.ly/ar/wp-content/uploads/2026/05/%D9%86%D8%B4%D8%B1%D8%A9-%D8%A7%D8%A8%D8%B1%D9%8A%D9%84-2026.pdf
+          date: 2026-04-30
+          kind: official-dataset
+          says: >-
+            Libya Trade Network (Ministry of Economy and Trade), monthly analytical
+            bulletin for April 2026, food sector. زيت الذرة 12.500 and زيت عباد الشمس
+            11.500 dinar, both for the 850 ml bottle the bulletin names in its own
+            column header. Daily field survey.
+        - url: https://www.facebook.com/almenssalibya/videos/2002898300431178/
+          date: 2026-08
+          kind: street-report
+          says: >-
+            A resident of Bani Walid, on camera in an August 2026 street survey,
+            gives "علبة الزيت بطنعش تلتاشر دينار" - the tin of oil at twelve or
+            thirteen dinar.
     eggs_30:
       value: 24.75
       as_of: 2026-05
