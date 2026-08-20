@@ -292,7 +292,16 @@ def main() -> int:
     # scale with it. A four-configuration sweep found (64, 12, 3e-5) on
     # validation; the grid is kept to that one by default so re-running confirms
     # the winner on test rather than re-deriving the search every time.
-    grid = [(64, 12, 3e-5)]
+    # A light run for a machine without a real GPU: one epoch, small batch.
+    # QEEMA_FINETUNE_EPOCHS / _BATCH override the default so the same script can
+    # be nursed through on a laptop instead of only on Colab.
+    grid = [
+        (
+            int(os.environ.get("QEEMA_FINETUNE_BATCH", "64")),
+            int(os.environ.get("QEEMA_FINETUNE_EPOCHS", "12")),
+            3e-5,
+        )
+    ]
     if os.environ.get("FULL_SWEEP") == "1":
         grid = [(32, 4, 2e-5), (64, 12, 3e-5), (64, 30, 3e-5), (128, 30, 5e-5)]
     trained: dict[str, SentenceTransformer] = {}

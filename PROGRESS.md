@@ -4129,6 +4129,23 @@ once on the test half, which nothing was selected against:
 | gap | +0.021 | **+0.219** | ~10x |
 | **separation AUC** | **0.745** | **0.843** | **+0.098** |
 
+> **Reversed on 20 August 2026, and the reversal is the interesting part.**
+> Re-running this experiment against the current repository gives the opposite
+> result: fine-tuning now **costs** 7.5 points of top-1 and 0.128 of separation.
+>
+> The table above was measured against `/tmp/ml_eval.json`, a snapshot carrying
+> 712 wordings and 164 distractors. The catalogue has since grown to 1,307
+> attested Libyan wordings and the corpus to 585 distractors, and against that
+> the **untrained** baseline scores top-1 99.3% with separation AUC 0.942. There
+> is nothing left for 497 training pairs to teach it; one epoch costs 22 points
+> and twelve costs 7.5.
+>
+> Coverage was the binding constraint the whole time. The lesson is not that
+> fine-tuning cannot help this domain — it is that the 2026-08-16 result was a
+> statement about a thin catalogue, and it stopped being true the moment the
+> catalogue stopped being thin. It survived as long as it did because the script
+> read its input from `/tmp` and nobody could re-run it.
+
 Both numbers move together, which is the part that matters. Retrieval accuracy
 alone is easy to buy by making everything look like everything else; that would
 have shown up as separation collapsing, and it did not. The gap between a correct

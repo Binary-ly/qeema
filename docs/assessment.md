@@ -290,10 +290,24 @@ carry the distinguishing information; a reporter's photograph or a follow-up
 question does.
 
 So the remaining gap is not a data problem. It is a **confidence** problem: AUC
-0.873 against the ~0.99 that 99.9% precision at useful coverage would need. That
-is what fine-tuning the embedder and fitting the calibrator are for, and neither
-has been run — `ml/notebooks/finetune_colab.ipynb` is written and waiting on a
-GPU.
+0.873 against the ~0.99 that 99.9% precision at useful coverage would need.
+
+**And it is not a fine-tuning problem either, which was worth finding out.** The
+experiment was run on 20 August 2026 and the result is negative: twelve epochs
+cost **7.5 points of top-1 and 0.128 of separation**, one epoch costs 22. The
+untrained `multilingual-e5-base` scores top-1 **99.3%** with separation AUC
+**0.942** on that retrieval task, because the catalogue now carries 1,307
+attested Libyan wordings. There is nothing for 497 training pairs to add to a
+model already at the ceiling of the task.
+
+That reverses the result recorded on 2026-08-16, which had fine-tuning improving
+top-1 from 80.3% to 87.1%. That measurement was taken against a 712-wording
+snapshot in `/tmp`; it was a statement about a thin catalogue and it stopped
+being true when the catalogue stopped being thin. It survived four days only
+because nobody could re-run it.
+
+What is left is the **calibrator**, which has never been fitted, and the fusion
+layer — not the embedder.
 
 **What did not improve, at all.** Nothing auto-resolves and nothing is refused —
 the two structural findings from 2025 are unchanged. Every one of the correct
