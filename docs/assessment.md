@@ -169,17 +169,30 @@ made a distractor rather than a generous positive.
 
 | | |
 |---|---|
-| Top-1 on wordings **not already in the catalogue** | **96.6%** (28/29), 95% CI **[82.8%, 99.4%]** |
-| Top-1 across all positives | 98.7% (78) — but 49 were already catalogue variants, so this measures memorisation |
-| Real non-basket products **wrongly auto-resolved** | **0 of 123** |
-| Real non-basket products refused | **0 of 123** |
-| Positives auto-resolved without a human | **0 of 29** |
+| Top-1 on wordings **not already in the catalogue** | **85.2%** (416/488), 95% CI **[81.8%, 88.1%]** |
+| Top-1 across all positives | 86.6% (537) — 49 were already catalogue variants, so this measures memorisation |
+| Real non-basket products **wrongly auto-resolved** | **0 of 485** |
+| Real non-basket products refused | **1 of 485** |
+| Positives auto-resolved without a human | **0 of 488** |
 
 The honest number is the first row, and the interval is wide because the unseen
 sample is 29 wordings. It is not a claim about thousands.
 
-**On 20 August 2026 this moved from 93.1% (27/29) to 96.6% (28/29), and that is
-one string.** Eighty-six wordings attested on public Libyan shop pages were
+**On 20 August 2026 the evaluation grew from 29 unseen wordings to 488 and the
+number fell from 96.6% to 85.2%.** The model did not get worse. Eight agents
+collected 1,812 wordings from Libyan shop pages; half of each item's new
+vocabulary went into the catalogue and half was held out, and the held-out half
+is what the table above reports. 96.6% was 28/29 — a sample where one string was
+worth 3.4 points and no value between 96.6% and 100% was even representable. The
+interval narrowed from ±16 points to ±3, and the point estimate moved to where
+the truth was all along.
+
+Two rounds deliberately targeted the hardest cases — bulk versus household flour,
+olive versus cooking oil, formula versus drinking milk — so the test set got
+harder as it got bigger. That is the right direction for a test set and the wrong
+direction for a headline.
+
+**What did improve, measurably.** Eighty-six wordings attested on public Libyan shop pages were
 added to the catalogue, and `تن جنزور (زيت الذرة) وطني` — a Libyan tuna brand
 whose head noun `تن` had been losing to the `زيت الذرة` in its own name — stopped
 resolving to cooking oil. One row on a 29-row set moves the headline three and a
@@ -190,8 +203,48 @@ before any of them is added.
 
 **What improved.** In April 2025 the same bulletin produced 16 correct matches
 out of 60, because 41 of those products were not in the catalogue at all. The
-catalogue has since grown from 133 variants to 843, and coverage is no longer
-the binding failure.
+catalogue has since grown from 133 variants to 1,320, and coverage is no longer
+the binding failure. Confidence is.
+
+### The 99.9% question, answered with arithmetic
+
+Asked to take the matcher to 99.9%, three things had to be established.
+
+**On top-1 it is not reachable, and on 29 rows it was not even representable.**
+One error on 29 costs 3.45 points, so there is nothing between 96.55% and 100%.
+A 99.9% *point estimate* needs at least 1,000 rows with at most one error. For a
+95% lower bound to clear 99.9% you need **3,838 consecutive correct matches**.
+The set is 488.
+
+**Some rows cannot be resolved from the string at all.** `حليب بريزدن` is a
+brand attached to the bare word for milk; nothing in it distinguishes drinking
+milk from infant formula. A ceiling made of genuinely ambiguous strings is not
+moved by more vocabulary.
+
+**But 99.9% is the wrong question, and the right one has a good answer.** A price
+index does not publish best guesses. It publishes what it auto-resolved and
+queues the rest, so what matters is the precision of what goes out unreviewed —
+counting an auto-resolved distractor as the error it is.
+
+| Tier | Coverage | Precision |
+|---|---|---|
+| Exact catalogue match | 9.1% of wordings | **100.0%** (49/49, and 0 of 485 distractors accepted) |
+| Fuzzy, at any threshold | up to 85% | never above 69% |
+
+So the platform can already publish unreviewed at ~100% precision over roughly a
+tenth of submissions, and everything else belongs in a human queue. That is a
+defensible operating policy today.
+
+**Why the fuzzy tier cannot be pushed there yet.** The confidence score separates
+correct matches from distractors at **AUC 0.850** — real information, nowhere near
+the ~0.99 that 99.9% precision at useful coverage would need. Raising it is a
+calibration and embedding problem, not a vocabulary one, which is why
+`ml/notebooks/finetune_colab.ipynb` exists.
+
+**One thing the current safety record does not mean.** "0 wrongly auto-resolved"
+is true and, on its own, vacuous: the auto-resolve threshold is 0.85 and nothing
+in the fuzzy tier scores above 0.75, so the platform is safe because it never
+decides, not because it decides well. The table above is the honest version.
 
 **What did not improve, at all.** Nothing auto-resolves and nothing is refused —
 the two structural findings from 2025 are unchanged. Every one of the correct

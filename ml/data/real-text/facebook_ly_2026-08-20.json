@@ -2593,5 +2593,1515 @@
     "text": "عصير مركز من شركة أصيل",
     "expected": null,
     "source": "https://www.facebook.com/61572783581164/?locale=ar_AR"
+  },
+  {
+    "text": "شكارة دقيق القمح فاخر",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/61565829187313/posts/122222960720527639/"
+  },
+  {
+    "text": "دقيق ليبي فاخر شكارة",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/100077434014556/videos/984892417487837/"
+  },
+  {
+    "text": "دقيق الصفوة 50 كيلو",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/100092466742433/videos/1370787995113027/"
+  },
+  {
+    "text": "شوال دقيق 50 كيلو",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/groups/1105100419595579/posts/1581157798656503/"
+  },
+  {
+    "text": "شكارة دقيق",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/61581294091161/videos/1843335696652631/"
+  },
+  {
+    "text": "شكارة الخمسة وعشرين كيلو",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/61581294091161/videos/1843335696652631/"
+  },
+  {
+    "text": "دقيق 50 كجم الصفوة",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/groups/250569062305173/posts/1827576574604406/"
+  },
+  {
+    "text": "الدقيق (50 كجم)",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/groups/593306118446969/posts/1400395247738048/"
+  },
+  {
+    "text": "دقيق العزيزية الفاخر50ك",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/99Rama2000/posts/1352422070328067/"
+  },
+  {
+    "text": "دقيق الدافنية الفاخر50ك",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/99Rama2000/posts/1352422070328067/"
+  },
+  {
+    "text": "دقيق النخبة الفاخر50ك",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/99Rama2000/posts/1352422070328067/"
+  },
+  {
+    "text": "دقيق لامتياز الفاخر50ك",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/99Rama2000/posts/1015590207344590/"
+  },
+  {
+    "text": "دقيق قرضابيه فاخر",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/99Rama2000/posts/1303443335225941/"
+  },
+  {
+    "text": "دقيق الموسم 25ك",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/99Rama2000/posts/1303443335225941/"
+  },
+  {
+    "text": "دقيق القرضابيه الفاخر",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/99Rama2000/photos/1225356003034675/"
+  },
+  {
+    "text": "دقيق الدافنيه 50ك",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/99Rama2000/photos/1225356003034675/"
+  },
+  {
+    "text": "دقيق العزيزية الفاخر شوال 50 ك",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/groups/1495776280631326/posts/2309369115938701/"
+  },
+  {
+    "text": "دقيق ربيع 50 ك",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/groups/1495776280631326/posts/2309369115938701/"
+  },
+  {
+    "text": "دقيق الدفنيه شوال 25 كيلو",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/100066732337101/posts/970455658522170/"
+  },
+  {
+    "text": "شوال دقيق النور 25كيلو",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/100057298605793/videos/1872581020074396/"
+  },
+  {
+    "text": "دقيق ليبيا 25كيلو",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/100034777464204/posts/1575348920301008/"
+  },
+  {
+    "text": "كيس دقيق 50 كيلو",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/akhbarlibya24/posts/3058014684459008/"
+  },
+  {
+    "text": "كيس الدقيق 50 كيلوغراماً",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/ShneSayeryaliby/posts/855642885276278/"
+  },
+  {
+    "text": "دقيق قمح فاخر",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/alsafwafood/posts/260469863061179/"
+  },
+  {
+    "text": "دقيق وادي 25 كيلو",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/Jihadmall1/posts/1201188256715682/"
+  },
+  {
+    "text": "دقيق الكوثر 50 كجم",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/groups/895902990928832/"
+  },
+  {
+    "text": "أكياس دقيق جديد 25 كليو",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/964371423945110/posts/1339668349748747/"
+  },
+  {
+    "text": "شكارة السكر 50 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/SefrNetwork/photos/122119906431132241/"
+  },
+  {
+    "text": "كيس ارز 25 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/akhbarlibya24/posts/3058014684459008/"
+  },
+  {
+    "text": "كيس السميد 25 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/libya.ck/posts/7549689545056010/"
+  },
+  {
+    "text": "دقيق الشعير",
+    "expected": null,
+    "source": "https://www.facebook.com/100063643323536/videos/3526164844215985/"
+  },
+  {
+    "text": "صندوق الزيت 12 شيشة",
+    "expected": null,
+    "source": "https://www.facebook.com/61553734867884/posts/122179878002124495/"
+  },
+  {
+    "text": "صندوق الطماطم 24 علبة",
+    "expected": null,
+    "source": "https://www.facebook.com/61553734867884/posts/122179878002124495/"
+  },
+  {
+    "text": "دقيق الزهرة 1 كيلو",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/sooqmoner/posts/948879783932834/"
+  },
+  {
+    "text": "دقيق الكوثر 1 كجم",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/groups/895902990928832/"
+  },
+  {
+    "text": "دقيق فاخر الاميره 5 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/Jihadmall1/posts/1151256968375478/"
+  },
+  {
+    "text": "دقيق العزيزيه 5 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/100068943770380/videos/1666101681301103/"
+  },
+  {
+    "text": "دقيق الموسم الفاخر للخبز 5 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/sama.libya914080081/photos/1301822615310478/"
+  },
+  {
+    "text": "دقيق الموسم الفاخر للحلويات 5 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/sama.libya914080081/photos/1301822615310478/"
+  },
+  {
+    "text": "دقيق وادي الربيع خبز 5 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/Jihadmall1/posts/1201188256715682/"
+  },
+  {
+    "text": "دقيق شار mix B",
+    "expected": null,
+    "source": "https://www.facebook.com/100054435401858/posts/1013278253830012/"
+  },
+  {
+    "text": "دقيق متعدد الاستخدامات",
+    "expected": null,
+    "source": "https://www.facebook.com/supplementshouselibya/photos/666960065441883/"
+  },
+  {
+    "text": "دقيق الحلويات عبوة 500 غ",
+    "expected": null,
+    "source": "https://www.facebook.com/HHbenghazi/posts/480831607174209/"
+  },
+  {
+    "text": "دقيق البركة",
+    "expected": null,
+    "source": "https://www.facebook.com/61572906661559/posts/122187703400763555/"
+  },
+  {
+    "text": "دقيق شهبندر",
+    "expected": null,
+    "source": "https://www.facebook.com/100064829747539/posts/329366852541888/"
+  },
+  {
+    "text": "تعبئة اسطوانات الغاز",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/brega.company.bmc/posts/3808387572584036/"
+  },
+  {
+    "text": "التعبئة الفورية لاسطوانة غاز الطهي",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/brega.company.bmc/posts/3836431703112956/"
+  },
+  {
+    "text": "أسطوانات غاز الطهي المنزلي",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/brega.company.bmc/posts/4258354147587374/"
+  },
+  {
+    "text": "بومبة غاز معبيه",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/groups/1063488377339278/posts/2797539760600789/"
+  },
+  {
+    "text": "بومبة غاز للبيع",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/gaslibya/"
+  },
+  {
+    "text": "أسطوانات غاز فارغة للبيع",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/groups/1099374773448228/posts/28213005761658429/"
+  },
+  {
+    "text": "أسطوانة غاز ممتلئة للتبديل بفارغه",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/groups/1032272791114191/posts/1393909248283875/"
+  },
+  {
+    "text": "إسطوانه زرقاء",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/100089416615943/posts/454866060837277/"
+  },
+  {
+    "text": "إسطوانه صفراء",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/100089416615943/posts/454866060837277/"
+  },
+  {
+    "text": "الاسطوانة الصفراء",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/tajouralens/posts/1072751780880187/"
+  },
+  {
+    "text": "نقطة تعبئة الغاز الفورية",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/tajouralens/posts/1072751780880187/"
+  },
+  {
+    "text": "أسطوانة الغاز الجديدة خفيفة الوزن",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/100065857205640/posts/870149585190274/"
+  },
+  {
+    "text": "أنبوبة غاز",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/ALSABAAH.LY/photos/1511219491005780/"
+  },
+  {
+    "text": "اسطوانات غاز جديدة للبيع",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/groups/1063488377339278/posts/2847293885625376/"
+  },
+  {
+    "text": "اسطوانة غاز الصفراء اصلية",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/groups/1063488377339278/posts/2439033553118080/"
+  },
+  {
+    "text": "اسطوانات غاز للبيع",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/groups/718291472069666/posts/2200172530548212/"
+  },
+  {
+    "text": "غاز الشنطة 2x1",
+    "expected": null,
+    "source": "https://www.facebook.com/2022modymody/posts/566886688803304/"
+  },
+  {
+    "text": "إسطوانة البريميس",
+    "expected": null,
+    "source": "https://www.facebook.com/2022modymody/posts/566886688803304/"
+  },
+  {
+    "text": "منظومة حجز أسطوانات الغاز",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1554847085566887/posts/1713744919677102/"
+  },
+  {
+    "text": "خلاطات 60 لتر",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1462537973954259/posts/3391276154413755/"
+  },
+  {
+    "text": "زيت البركة ذرة 750 م",
+    "expected": null,
+    "source": "https://www.facebook.com/Alshawesh2022/posts/1084078600395093/"
+  },
+  {
+    "text": "زيت مسلاته بالودق",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/1097984814074071/"
+  },
+  {
+    "text": "زيت زيتون مسلاتة جديد",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/mallaljawhara/posts/968255045093028/"
+  },
+  {
+    "text": "زيت زيتون درجه أولى مضمون",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1664012227815273/"
+  },
+  {
+    "text": "زيت زيتون درجة أوله معصور",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/1097984814074071/posts/2073835173155692/"
+  },
+  {
+    "text": "زيت زيتون بعلى وليس مروي",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/198563356539605/"
+  },
+  {
+    "text": "زيت بعلي وليس مروي",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1781188232764338/"
+  },
+  {
+    "text": "زيت مسلاتة من الفلاح بعلي مش مروي",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1825331101683384/"
+  },
+  {
+    "text": "زيت زيتون بعلي ومروي",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1791190585097436/"
+  },
+  {
+    "text": "زيت زيتون اخر عصرة مضمون",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1700252107524618/"
+  },
+  {
+    "text": "زيت زيتون العصره الاخير",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1657058665177296/"
+  },
+  {
+    "text": "زيت زيتون بكر اخضر بنه وصنه",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1624284208454742/"
+  },
+  {
+    "text": "زيت اخضر مر وحار",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1657058665177296/"
+  },
+  {
+    "text": "زيت زيتون بكر أخضر",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/1097984814074071/posts/2073835173155692/"
+  },
+  {
+    "text": "زيت زيتون بكر ومعصور ع البارد",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/"
+  },
+  {
+    "text": "زيت زيتون طبيعي 100% عصرة أولى باردة",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/p/%D9%85%D8%B9%D8%B5%D8%B1%D8%A9-%D8%A7%D9%84%D8%B2%D9%8A%D8%AA%D9%88%D9%86-%D8%A7%D9%84%D8%B7%D9%8A%D8%A8-100072381082150/"
+  },
+  {
+    "text": "زيت زيتون بكر ممتاز عصر وتعبئة",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/p/%D9%85%D8%B9%D8%B5%D8%B1%D8%A9-%D8%A7%D9%84%D8%B2%D9%8A%D8%AA%D9%88%D9%86-%D8%A7%D9%84%D8%B7%D9%8A%D8%A8-100072381082150/"
+  },
+  {
+    "text": "زيت زيتون طبيعي 100% معصور حديثًا",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1647879282761901/"
+  },
+  {
+    "text": "زيت زيتون بكر ممتاز عالي الجودة",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/ChainsTradingCompany/videos/1763418514575261/"
+  },
+  {
+    "text": "زيت زيتون معبأ في علب معدنية",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/mal.w.a3maal2/posts/1146093197503262/"
+  },
+  {
+    "text": "زيت زيتون غرياني بكر درجة أولى",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/100063656776911/posts/726943421283015/"
+  },
+  {
+    "text": "زيت الزيتون الغرياني",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/100063656776911/posts/726943421283015/"
+  },
+  {
+    "text": "زيت زيتون غريان بكر جديد",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/1097984814074071/posts/2018708475335029/"
+  },
+  {
+    "text": "زيت زيتون جبلي أصلي",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1811688069714354/"
+  },
+  {
+    "text": "زيت زيتون جبلي يفرن",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/1097984814074071/posts/2148023092403566/"
+  },
+  {
+    "text": "زيت زيتون ترهونة محصول هذا العام",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1808741206675707/"
+  },
+  {
+    "text": "زيت زيتون من منطقة ترهونة",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1756951238521371/"
+  },
+  {
+    "text": "زيت زيتون مصراته",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/1097984814074071/posts/2002345140304696/"
+  },
+  {
+    "text": "زيت زيتون مصراتة السنة",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1770681457148349/"
+  },
+  {
+    "text": "زيت زيتون من مزرعة زليتن",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1656131668603329/"
+  },
+  {
+    "text": "زيت وادي زمزم",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1617391685810661/"
+  },
+  {
+    "text": "زيت زيتون سمنو",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/SamnuOil/posts/2266290330326861/"
+  },
+  {
+    "text": "زيت زيتون وطني بكر",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/REgdalen.city/posts/1114938050671582/"
+  },
+  {
+    "text": "زيت زيتون جديد السنه",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1678356466380849/"
+  },
+  {
+    "text": "زيت زيتون جديد 2026",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1802121357337692/"
+  },
+  {
+    "text": "زيت زيتون جديد كيف معصور",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/815241376474664/posts/1533892517942876/"
+  },
+  {
+    "text": "زيت زيتون كيف طالع من المعصرة",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1674432850106544/"
+  },
+  {
+    "text": "زيت زيتون الموسم الماضي",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1515938469289317/"
+  },
+  {
+    "text": "زيت زيتون السنة الماضية",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/198563356539605/posts/766725263056742/"
+  },
+  {
+    "text": "زيت الزيتون معصور اليوم",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/271374598340049/posts/1280407884103377/"
+  },
+  {
+    "text": "زيت زيتون من المزرعه",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1664012227815273/"
+  },
+  {
+    "text": "زيت زيتون 750 مل",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/mallaljawhara/posts/5384220308288292/"
+  },
+  {
+    "text": "زيت ذرة",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/Tabadulchannel/posts/1195774269368932/"
+  },
+  {
+    "text": "زيت ذرة 850 مل",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/eanlibya/photos/1333220102173274/"
+  },
+  {
+    "text": "زيت ذرة 1 لتر",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/GoldenValleyCo/posts/1251304901663276/"
+  },
+  {
+    "text": "زيت عباد الشمس",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/Tabadulchannel/posts/1195774269368932/"
+  },
+  {
+    "text": "زيت عباد شمس",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100078652996074/posts/878510074780751/"
+  },
+  {
+    "text": "زيت عباد شمس 850 ملي",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/groups/1763005803869348/"
+  },
+  {
+    "text": "الزيت المخلوط",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/lnews.ly/posts/1569693984824538/"
+  },
+  {
+    "text": "زيت الطهي",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/AfaaQnews.ly/posts/1362132505929536/"
+  },
+  {
+    "text": "زيت البركة دوار شمس 850 ملي",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/kayanApp.ly/photos/2682945468421468/"
+  },
+  {
+    "text": "زيت العافية ذرة",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/Alkhayr1.mall/posts/1210988347897944/"
+  },
+  {
+    "text": "زيت الصفوة دوار الشمس 850 ملي",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100070379182262/photos/3127125914265517/"
+  },
+  {
+    "text": "زيت المروة ذرة",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/mo3adhamza50/posts/912164675619595/"
+  },
+  {
+    "text": "زيت المروة دوار الشمس",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100071131345411/posts/2591027071123704/"
+  },
+  {
+    "text": "زيت المروه 850ملي",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100087581559138/posts/131210226475029/"
+  },
+  {
+    "text": "زيت قرطاج ذرة",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100056650457337/posts/1172551469924374/"
+  },
+  {
+    "text": "زيت الجيّد دوار الشمس",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/AljaiedCompany/posts/2791917414444946/"
+  },
+  {
+    "text": "زيت دوار الشمس من الجيد",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/AljaiedCompany/posts/2608294856140537/"
+  },
+  {
+    "text": "زيت الخليج دوار الشمس",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/Jihadmall1/posts/1370530881778897/"
+  },
+  {
+    "text": "زيت جنى ذرة 850مل",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/groups/980457668715926/posts/7893864224041868/"
+  },
+  {
+    "text": "زيت هلال دوار الشمس 850 ملي",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100063604987687/posts/1477438341052985/"
+  },
+  {
+    "text": "زيت التوفيق 850 مل",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100066354109040/videos/338987649263477/"
+  },
+  {
+    "text": "زيت ذرة أجياد",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/groups/858865840985039/posts/1198393843698902/"
+  },
+  {
+    "text": "زيت الدار",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100064014855937/videos/4412946398983115/"
+  },
+  {
+    "text": "علبة زيت الذرة 1 لتر",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/ObservatoryLY/videos/657381115473698/"
+  },
+  {
+    "text": "زيت الشعر باراشوت أدفانسد بالياسمين",
+    "expected": null,
+    "source": "https://www.facebook.com/ParachuteLibya/posts/195269929325858/"
+  },
+  {
+    "text": "زيت شعر جولد بالألوفيرا باراشوت",
+    "expected": null,
+    "source": "https://www.facebook.com/dokkan.ly/posts/6661702120522113/"
+  },
+  {
+    "text": "زيت جوز الهند",
+    "expected": null,
+    "source": "https://www.facebook.com/dokkan.ly/posts/6013170278708637/"
+  },
+  {
+    "text": "زيت جوز الهند والثوم",
+    "expected": null,
+    "source": "https://www.facebook.com/dokkan.ly/posts/6013170278708637/"
+  },
+  {
+    "text": "زيت جوز الهند واللوز",
+    "expected": null,
+    "source": "https://www.facebook.com/dokkan.ly/posts/6013170278708637/"
+  },
+  {
+    "text": "زيت جوز الهند والالوفيرا",
+    "expected": null,
+    "source": "https://www.facebook.com/dokkan.ly/posts/6013170278708637/"
+  },
+  {
+    "text": "زيت شعر بايواكوا",
+    "expected": null,
+    "source": "https://www.facebook.com/100064392175967/posts/1436075541882171/"
+  },
+  {
+    "text": "شامبو وبلسم بزيت الأرگان",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/656080101784935/posts/1917682045624728/"
+  },
+  {
+    "text": "زيت الاركان مغربي",
+    "expected": null,
+    "source": "https://www.facebook.com/argadonia/videos/428432466494492/"
+  },
+  {
+    "text": "زيت ارقان",
+    "expected": null,
+    "source": "https://www.facebook.com/100093906152196/posts/720994701040729/"
+  },
+  {
+    "text": "خلاصة زيت الأرجان",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/474529034364409/"
+  },
+  {
+    "text": "زيت السمسم",
+    "expected": null,
+    "source": "https://www.facebook.com/LibyanAttar/posts/240205244317093/"
+  },
+  {
+    "text": "زيوت هيماني عبوة 250 مل",
+    "expected": null,
+    "source": "https://www.facebook.com/LibyanAttar/posts/240205244317093/"
+  },
+  {
+    "text": "زيت جنين القمح",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/474529034364409/"
+  },
+  {
+    "text": "زيت اكليل الجبل",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/198563356539605/posts/813449358384332/"
+  },
+  {
+    "text": "زيت بذور الكتان",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/198563356539605/posts/813449358384332/"
+  },
+  {
+    "text": "زيت القرنفل",
+    "expected": null,
+    "source": "https://www.facebook.com/pretty2018/posts/2178046658996105/"
+  },
+  {
+    "text": "صابون زيت الزيتون",
+    "expected": null,
+    "source": "https://www.facebook.com/GhadamesSoap/posts/746743547460642/"
+  },
+  {
+    "text": "صابون حليب الماعز",
+    "expected": null,
+    "source": "https://www.facebook.com/GhadamesSoap/posts/746743547460642/"
+  },
+  {
+    "text": "زيتون أخضر محلي",
+    "expected": null,
+    "source": "https://www.facebook.com/sooqmoner/posts/1253655876788555/"
+  },
+  {
+    "text": "زيتون أسود محلي",
+    "expected": null,
+    "source": "https://www.facebook.com/sooqmoner/posts/1253655876788555/"
+  },
+  {
+    "text": "معصرة زيتون للبيع",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/198563356539605/posts/766725263056742/"
+  },
+  {
+    "text": "تنك لتعبئة زيت الزيتون",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/198563356539605/posts/497592559970015/"
+  },
+  {
+    "text": "معصرة غرناطة تاجوراء",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1367921644091001/"
+  },
+  {
+    "text": "معصرة الزيتون الطيب",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D9%85%D8%B9%D8%B5%D8%B1%D8%A9-%D8%A7%D9%84%D8%B2%D9%8A%D8%AA%D9%88%D9%86-%D8%A7%D9%84%D8%B7%D9%8A%D8%A8-100072381082150/"
+  },
+  {
+    "text": "تن قرطاج 140 غرام",
+    "expected": null,
+    "source": "https://www.facebook.com/albark.food/"
+  },
+  {
+    "text": "زيت الجير",
+    "expected": null,
+    "source": "https://www.facebook.com/shelllubricantslibya/videos/802040318789885/"
+  },
+  {
+    "text": "زيوت جير",
+    "expected": null,
+    "source": "https://www.facebook.com/liquimolylibya/"
+  },
+  {
+    "text": "زيت Liqui Moly 10W-40",
+    "expected": null,
+    "source": "https://www.facebook.com/liquimolylibya/photos/561470896515100/"
+  },
+  {
+    "text": "فلتر الزيت",
+    "expected": null,
+    "source": "https://www.facebook.com/Hyundai.Libya.official/videos/3616741508464075/"
+  },
+  {
+    "text": "تغييرة زيت",
+    "expected": null,
+    "source": "https://www.facebook.com/CASTROLLY/videos/2351973595624344/"
+  },
+  {
+    "text": "زيت زيتون صافي معصور",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1811688069714354/"
+  },
+  {
+    "text": "زيت الذرة السبولة",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/sefrly/posts/887050937450871/"
+  },
+  {
+    "text": "زبدة الشيا",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/474529034364409/"
+  },
+  {
+    "text": "صابون القهوة",
+    "expected": null,
+    "source": "https://www.facebook.com/GhadamesSoap/posts/746743547460642/"
+  },
+  {
+    "text": "صابون شوش الورد",
+    "expected": null,
+    "source": "https://www.facebook.com/GhadamesSoap/posts/746743547460642/"
+  },
+  {
+    "text": "صابون الشيبة",
+    "expected": null,
+    "source": "https://www.facebook.com/GhadamesSoap/posts/746743547460642/"
+  },
+  {
+    "text": "زيت الزيتون غير صالح للاكل",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1155767545359449/posts/1689832145286317/"
+  },
+  {
+    "text": "سيريلاك الأمين",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/libyaAlmargg/videos/739287720750597/"
+  },
+  {
+    "text": "سيريلاك قمح و فواكة",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/100063698577306/posts/1370868081713131/"
+  },
+  {
+    "text": "سيريلاك Cerelac بالقمح وقطع الفواكه",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/NestleLibya/posts/122161138352172948/"
+  },
+  {
+    "text": "سيريلاك قمح فواكه",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/100064347211367/posts/147958393643463/"
+  },
+  {
+    "text": "بسكويت مرحي سيريلاك لوبيلو فوسفويت",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/lobello.ly/posts/569882150392589/"
+  },
+  {
+    "text": "بسكويت لوبيلو فوسفوفيت الإيطالي للأطفال",
+    "expected": null,
+    "source": "https://www.facebook.com/lobello.ly/posts/569330987114372/"
+  },
+  {
+    "text": "منتجات سيريلاك",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/my16pharmacy/photos/1163525579144081/"
+  },
+  {
+    "text": "وجبة الاطفال ريري",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/100063043010821/"
+  },
+  {
+    "text": "حليب نيدو هولندي",
+    "expected": null,
+    "source": "https://www.facebook.com/100063043010821/"
+  },
+  {
+    "text": "المكمل الغذائي Cerelac",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/belqespharmacy/posts/1088888038184582/"
+  },
+  {
+    "text": "سيريلاك نستله للأطفال",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/100063716613486/photos/1038685926983090/"
+  },
+  {
+    "text": "بشكوط بلازمون",
+    "expected": null,
+    "source": "https://www.facebook.com/100063716613486/posts/1294572759343266/"
+  },
+  {
+    "text": "وجبات بلازمون الإيطالية",
+    "expected": null,
+    "source": "https://www.facebook.com/100063716613486/posts/1294572759343266/"
+  },
+  {
+    "text": "علب السيريلاك",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/Alasemapharmacy/posts/2329679853838092/"
+  },
+  {
+    "text": "دانالاك جميع الأرقام",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/elzaytouna.pharmacy/photos/1001178063872442/"
+  },
+  {
+    "text": "سيريلاك عسل سنة",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/arkanmisurata/posts/5098144496875058/"
+  },
+  {
+    "text": "عروضنا مازالت مستمرة سيريلاك الأطفال",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/61579156203860/videos/1144180973942565/"
+  },
+  {
+    "text": "طعام الاطفال من تبراميل",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/100078397982351/photos/785097135411524/"
+  },
+  {
+    "text": "Tebramil 8 Cereals & Honey",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/tebracenter/"
+  },
+  {
+    "text": "تبراميل بريماتيور Tebramil pre",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/DatEssawaryPharmacy/posts/349019764347712/"
+  },
+  {
+    "text": "بسكويت بلازمون العادي",
+    "expected": null,
+    "source": "https://www.facebook.com/alrayyan.pharma/posts/1337555496416464/"
+  },
+  {
+    "text": "بسكويت بلازمون بالكاكاو",
+    "expected": null,
+    "source": "https://www.facebook.com/alrayyan.pharma/posts/1337555496416464/"
+  },
+  {
+    "text": "الان يتوفر بسكويت بلازمون",
+    "expected": null,
+    "source": "https://www.facebook.com/Elagel1970/posts/2242630112463801/"
+  },
+  {
+    "text": "Bebelac 1 Iron",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/consulting.pharmacy/posts/1529406969201856/"
+  },
+  {
+    "text": "حليب نينولاك Ninolac",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/ninolac.libya/photos/2355881278036766/"
+  },
+  {
+    "text": "حليب سيميلاك جولد",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100063571150476/posts/949008349035525/"
+  },
+  {
+    "text": "أملاح الإماهة الفموية لتعويض السوائل",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/100063544612274/posts/1553419360119536/"
+  },
+  {
+    "text": "املاح الإماهة الفموية ORS",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/DatEssawaryPharmacy/photos/3748764821884290/"
+  },
+  {
+    "text": "روزالايت + زنك",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/100052996545343/posts/1319002269876312/"
+  },
+  {
+    "text": "Probiolyte sachet",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/100052996545343/posts/1152948729815001/"
+  },
+  {
+    "text": "DILAYT Oral Solution",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/100083010386807/videos/1598040718383657/"
+  },
+  {
+    "text": "DILAYT ORS",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/100083010386807/videos/1051402420652415/"
+  },
+  {
+    "text": "سانتوب الاملاح التعويضية بنكهة الفروالة",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/100064597723220/posts/2751638771526169/"
+  },
+  {
+    "text": "Rozalyte + Zinc",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/TahorPharmacy/photos/1503608185106037/"
+  },
+  {
+    "text": "أملاح تعويضية Electrolytes",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/Elagel1970/photos/1345566187606811/"
+  },
+  {
+    "text": "بديالايت Pedialyte",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/vitamin.pharm/photos/693690809468333/"
+  },
+  {
+    "text": "Prolait Plus Oral Sticks",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/100083418157297/"
+  },
+  {
+    "text": "Prolait plus stick",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/100088191490583/"
+  },
+  {
+    "text": "برولايت Prolait Plus",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/61579288253976/"
+  },
+  {
+    "text": "أكياس أملاح تعويضية",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/559497737736663/photos/1835125730173851/"
+  },
+  {
+    "text": "أملاح تعويضه للأطفال والبكتيريا النافعة",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/amazonpharmacy/"
+  },
+  {
+    "text": "اكياس الجفاف ORS",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/100066815706119/photos/1279389027631609/"
+  },
+  {
+    "text": "محلول معالجة الجفاف ORS",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/admin1.Nahawand/photos/1719276970201562/"
+  },
+  {
+    "text": "ORS Hydrolite + Zinc",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/61577854934675/videos/1293396962778158/"
+  },
+  {
+    "text": "اوجمنتين شراب 156",
+    "expected": "amoxicillin_suspension_60ml",
+    "source": "https://www.facebook.com/alwledphrmacy/posts/864194737119747/"
+  },
+  {
+    "text": "اوجمنتين شراب 312- 457",
+    "expected": "amoxicillin_suspension_60ml",
+    "source": "https://www.facebook.com/alwledphrmacy/posts/864194737119747/"
+  },
+  {
+    "text": "اوجمنتين Augmentin 156",
+    "expected": "amoxicillin_suspension_60ml",
+    "source": "https://www.facebook.com/alwledphrmacy/posts/917691235103430/"
+  },
+  {
+    "text": "اوجمنتين Augmentin 457",
+    "expected": "amoxicillin_suspension_60ml",
+    "source": "https://www.facebook.com/alwledphrmacy/posts/917691235103430/"
+  },
+  {
+    "text": "Betamox 457mg / 5ml",
+    "expected": "amoxicillin_suspension_60ml",
+    "source": "https://www.facebook.com/pharmexcompany/posts/1775733536057124/"
+  },
+  {
+    "text": "Betamox 1g Tablet",
+    "expected": null,
+    "source": "https://www.facebook.com/pharmexcompany/posts/2589380804692389/"
+  },
+  {
+    "text": "Augmentin 156mg suspension",
+    "expected": "amoxicillin_suspension_60ml",
+    "source": "https://www.facebook.com/2mcq.ly/posts/714109638600211/"
+  },
+  {
+    "text": "Amoclan 1g Tab",
+    "expected": null,
+    "source": "https://www.facebook.com/100063719521536/posts/1228229649311008/"
+  },
+  {
+    "text": "Zomax 500mg",
+    "expected": null,
+    "source": "https://www.facebook.com/100063719521536/posts/1228229649311008/"
+  },
+  {
+    "text": "أموكسيل أموكسيسللين",
+    "expected": "amoxicillin_suspension_60ml",
+    "source": "https://www.facebook.com/azina.company/"
+  },
+  {
+    "text": "Paralvit بارالفِت خافض حرارة",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://www.facebook.com/61554859155181/videos/1656296618391952/"
+  },
+  {
+    "text": "Brufemol شراب للأطفال",
+    "expected": null,
+    "source": "https://www.facebook.com/100063525025820/videos/1383623176475089/"
+  },
+  {
+    "text": "أولفنت شراب All Vent 125ML Syrup",
+    "expected": null,
+    "source": "https://www.facebook.com/100034857381750/videos/1284293759287300/"
+  },
+  {
+    "text": "شراب مونوهيكسال",
+    "expected": null,
+    "source": "https://www.facebook.com/100034857381750/posts/1383691266136106/"
+  },
+  {
+    "text": "Bactrim باكتريم",
+    "expected": null,
+    "source": "https://www.facebook.com/pharmexcompany/posts/2363657023931436/"
+  },
+  {
+    "text": "Rhuvex Syrup",
+    "expected": null,
+    "source": "https://www.facebook.com/pharmexcompany/posts/2387799434850528/"
+  },
+  {
+    "text": "ThymoTil Liquid",
+    "expected": null,
+    "source": "https://www.facebook.com/61550524717987/"
+  },
+  {
+    "text": "Laxomax Syrup",
+    "expected": null,
+    "source": "https://www.facebook.com/RHlibya/videos/1244232334280378/"
+  },
+  {
+    "text": "HEMOLACT Sachet",
+    "expected": null,
+    "source": "https://www.facebook.com/100076344343434/"
+  },
+  {
+    "text": "حليب زهرات الماني 1 لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/Jihadmall1/posts/1169904883177353/"
+  },
+  {
+    "text": "دقيق مصري 25 كيلو",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/Jihadmall1/posts/1160259377475237/"
+  },
+  {
+    "text": "دقيق القمح الكامل بالكيلو",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/permalink.php?story_fbid=484521977169839&id=100068361228313"
+  },
+  {
+    "text": "كيلو الطماطة",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/LibyaAlAhrarTV/videos/1106147166422342/"
+  },
+  {
+    "text": "معجون طماطم الرضا صناعه ليبيا",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/drnh.alzahrt.lltswq/posts/122170344704136056/"
+  },
+  {
+    "text": "معجون طماطم إيراني وزن 400 جرام",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/100075808964966/posts/941637431706547/"
+  },
+  {
+    "text": "معجون طماطم الطيبات",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/alhaya.mall.libya/posts/1060410609455482/"
+  },
+  {
+    "text": "معجون طماطم البستان الاصلي 400 جرام",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/alashika.market/posts/821131326679508/"
+  },
+  {
+    "text": "مركز الطماطم دليسيا",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/delicianaturelle/videos/1097828935051240/"
+  },
+  {
+    "text": "طماطم أربيلا",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/groups/662619724176001/"
+  },
+  {
+    "text": "طماطم الجيد",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/groups/662619724176001/"
+  },
+  {
+    "text": "طماطم عزومة",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/groups/662619724176001/"
+  },
+  {
+    "text": "طماطم بريما",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/groups/662619724176001/"
+  },
+  {
+    "text": "زيت دوار الشمس 1 لتر",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/almarwafoods/posts/2105326282959353/"
+  },
+  {
+    "text": "حليب دانا كامل الدسم طويل الاجل 1 لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/DanaDairyLibya/photos/1231052473770632/"
+  },
+  {
+    "text": "حليب دانا 1 لتر كامل +نصف الدسم",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/AltarhouniSonsMarket/posts/801108313587854/"
+  },
+  {
+    "text": "حليب مبخر كامل الدسم 410 جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/DanaDairyLibya/photos/1676030735939468/"
+  },
+  {
+    "text": "حليب مكثف محلي دانا كامل الدسم",
+    "expected": null,
+    "source": "https://www.facebook.com/DanaDairyLibya/photos/1571953749680501/"
+  },
+  {
+    "text": "حليب جودين كامل الدسم 500 مل",
+    "expected": null,
+    "source": "https://www.facebook.com/100071131345411/posts/1045961084451593/"
+  },
+  {
+    "text": "حليب الريحان المركز 410غ",
+    "expected": null,
+    "source": "https://www.facebook.com/100071131345411/posts/1045961084451593/"
+  },
+  {
+    "text": "زيت زيتون جديد",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1688513412031821/"
+  },
+  {
+    "text": "زيت زيتون غريان للبيع جمله",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/1041684765096148/photos/3407707352726680/"
+  },
+  {
+    "text": "دقيق بريما عالي الجودة 1 كيلو",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/100064853853436/posts/1507095866309571/"
+  },
+  {
+    "text": "قابية الطماطم",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/LibyaAlAhrarTV/videos/1541192424003639/"
+  },
+  {
+    "text": "صندوق الطماطم",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/100063906525382/photos/872507444889465/"
+  },
+  {
+    "text": "الطماطم الكيلو",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/LibyaAlhadathLive/videos/1655673955558498/"
+  },
+  {
+    "text": "إيزيلاك 1 – 400 جم",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100039896665966/videos/1322178175570847/"
+  },
+  {
+    "text": "زيت البركة ذرة بخاخ",
+    "expected": null,
+    "source": "https://www.facebook.com/Foodhousecompan/mentions/"
+  },
+  {
+    "text": "زيت ذرة بخاخ",
+    "expected": null,
+    "source": "https://www.facebook.com/100090842497038/photos/837398819298194/"
+  },
+  {
+    "text": "زيت مروة 1 لتر ذرة",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/AltarhouniSonsMarket/posts/426365111062178/"
+  },
+  {
+    "text": "طماطم بلدنا",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+  },
+  {
+    "text": "ستيكة معجون طماطم الزين",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/alzaininter/photos/3330498070560858/"
+  },
+  {
+    "text": "طماطم إيه إيطالي الصنع",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/SNALR0926619233/posts/1120848510069251/"
+  },
+  {
+    "text": "حليب yab تونسي كامل الدسم 1لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100064853853436/posts/1570737019945455/"
+  },
+  {
+    "text": "حليب النسيم كامل الدسم 1 لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100071131345411/posts/447805904267117/"
+  },
+  {
+    "text": "حليب طبيعي معقم طويل الاجل",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/grifolattelibya/"
+  },
+  {
+    "text": "طماطم القابية",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/Alsahelcolibya/posts/1278553314434928/"
+  },
+  {
+    "text": "قابية طماطم طبيعي",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/ecommercezone777/photos/4382929021741968/"
+  },
+  {
+    "text": "دقيق بريما 1كيلو",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/100071131345411/photos/3503350259891376/"
+  },
+  {
+    "text": "دقيق الفاخر",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/100066411493414/posts/611166391070721/"
+  },
+  {
+    "text": "دقيق الصفوة الفاخر 1 كيلو",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/100064853853436/photos/1556270158058808/"
+  },
+  {
+    "text": "دقيق الموسم",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/FaaL.Shopping/posts/1948467965326485/"
+  },
+  {
+    "text": "زيت زيتون انتاج 2026",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1768261927390302/"
+  },
+  {
+    "text": "دقيق الجيد وزن 50 كيلو جرام",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/alkomscenter/photos/286328521814218/"
+  },
+  {
+    "text": "سكر الطعام وزن 50 كيلو جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/alkomscenter/photos/286328521814218/"
+  },
+  {
+    "text": "دقيق غنيمه للمستهلك",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/p/%D8%A3%D8%A8%D9%88%D8%B3%D8%AA%D8%A7%D9%84%D9%87-%D9%84%D9%84%D8%B3%D9%84%D8%B9-%D8%A7%D9%84%D8%AA%D9%85%D9%88%D9%86%D9%8A%D9%87-%D9%88%D8%AF%D9%82%D9%8A%D9%82-%D8%A7%D9%84%D9%85%D8%AE%D8%A7%D8%A8%D8%B2-100077673913619/"
+  },
+  {
+    "text": "طماطم البيضاء",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/turkishshoppin/photos/961276812684578/"
+  },
+  {
+    "text": "طماطم تليماز ايرانيه",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/photo.php?fbid=1245406071082986&set=a.489759226647678&id=100068408144757"
+  },
+  {
+    "text": "طماطم الفخامة إيطالي",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/photo.php?fbid=1245406071082986&set=a.489759226647678&id=100068408144757"
+  },
+  {
+    "text": "جبنة جودي أبراج",
+    "expected": null,
+    "source": "https://www.facebook.com/100067602273544/"
+  },
+  {
+    "text": "طماطم غاليه",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/61572272370869/videos/4372314773082857/"
+  },
+  {
+    "text": "زيت الثــــريـا 10W40",
+    "expected": null,
+    "source": "https://www.facebook.com/Zw.oilrefinery/videos/797681393044313/"
+  },
+  {
+    "text": "زيوت المحركات الأصليه",
+    "expected": null,
+    "source": "https://www.facebook.com/100068118910562/videos/1771430754027111/"
+  },
+  {
+    "text": "بليميل حليب للأطفال",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/61552187060823/"
+  },
+  {
+    "text": "حليب اطفال لانسي مافوق السنة",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100046401567166/posts/1430532395170132/"
+  },
+  {
+    "text": "زيت زيتون قماطة \" قصر الاخيار \"",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1713624036187425/"
+  },
+  {
+    "text": "زيت زيتون للبيع قصر الاخيار",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1745472919669203/"
+  },
+  {
+    "text": "زيت ترهونة",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1800409484175546/"
+  },
+  {
+    "text": "زيتون اخضر طايب",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1818080295741798/"
+  },
+  {
+    "text": "زيتون خدمه حوش",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1668660957350400/"
+  },
+  {
+    "text": "زيتون للبيع متاع السنه",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/989316108618225/posts/1633404244209405/"
+  },
+  {
+    "text": "كيلو الطماطم",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/LibyaAlhadathLive/videos/2431254087314127/"
+  },
+  {
+    "text": "كيلو جرام الطماطم",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/AlHadathNAF/videos/771495499174973/"
+  },
+  {
+    "text": "حليب مجفف لوزان 900ج",
+    "expected": null,
+    "source": "https://www.facebook.com/100067602273544/photos/1310617934534937/"
+  },
+  {
+    "text": "جبنة الشهد كاسات 900ج",
+    "expected": null,
+    "source": "https://www.facebook.com/100067602273544/photos/1043400104590056/"
+  },
+  {
+    "text": "حليب الجيد المركز كامل الدسم",
+    "expected": null,
+    "source": "https://www.facebook.com/AljaiedCompany/posts/2648536625449693/"
+  },
+  {
+    "text": "زيت البركه عباد",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/61552625224954/posts/122267970440087507/"
+  },
+  {
+    "text": "سميد Disarm",
+    "expected": null,
+    "source": "https://www.facebook.com/avan.mall.libya/videos/812547818203429/"
+  },
+  {
+    "text": "زيت الزيتون الأصلي",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/61564060881889/videos/1542131436893630/"
+  },
+  {
+    "text": "البطاطا المصري الكيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/municipalguard/posts/2454610004788559/"
   }
 ]
