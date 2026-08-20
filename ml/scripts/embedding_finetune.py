@@ -34,14 +34,17 @@ import json
 import os
 import sys
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
+import yaml
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics import roc_auc_score
 
 sys.path.insert(0, "src")
 from qeema_ml.matching.normalise import normalise
 
+REPO = Path(__file__).resolve().parents[2]
 TEST_SHARE = 0.4
 QUERY_PREFIX = "query: "
 PASSAGE_PREFIX = "passage: "
@@ -185,9 +188,39 @@ def evaluate(model: SentenceTransformer, split: Split, label: str, on: str = "te
     return {"label": label, "top1": top1, "top3": top3, "gap": gap, "separation": separation}
 
 
+def load_dataset() -> dict:
+    """Build the experiment's input from the repository, not from a scratch file.
+
+    This used to read /tmp/ml_eval.json. That file existed on the machine where
+    the 80.3 -> 87.1 figure was produced, so the script ran there and nowhere
+    else; by the time anyone looked it was a three-day-old snapshot carrying 712
+    wordings against the corpus's 796. A number a reviewer cannot reproduce is
+    not a result, and this one is quoted to a funder.
+
+    An explicit path argument still wins, so a harvested corpus can be swapped in
+    to ask whether real wordings beat generated ones.
+    """
+    if len(sys.argv) > 1:
+        return json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+
+    config = yaml.safe_load((REPO / "countries" / "ly.yaml").read_text(encoding="utf-8"))
+    catalogue = {
+        item["code"]: [item["name_en"], *([item["name_local"]] if item.get("name_local") else [])]
+        + [str(v) for v in (item.get("variants") or [])]
+        for item in config["canonical_items"]
+    }
+
+    corpus = json.loads((REPO / "countries" / "corpus" / "ly.json").read_text(encoding="utf-8"))
+
+    return {
+        "catalogue": catalogue,
+        "corpus": corpus["items"],
+        "distractors": corpus["distractors"],
+    }
+
+
 def main() -> int:
-    with open("/tmp/ml_eval.json") as handle:
-        data = json.load(handle)
+    data = load_dataset()
 
     split = build_split(data)
     print(
