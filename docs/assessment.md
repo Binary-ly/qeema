@@ -346,6 +346,20 @@ rather than assumed:
 | Test-set label audit | ~3 points are a specification question; left unchanged |
 | Fitting the calibrator | **Not attempted — it needs real human review decisions, which need the pilot** |
 
+**A sixth was tried and rejected on the numbers.** Libyan sellers write sizes
+glued to words — `الفاخر50ك`, `25كيلو` — and the normaliser leaves them as a
+single token that matches nothing, while the spaced form `الفاخر 50ك` tokenises
+correctly. Splitting on letter/digit boundaries is a real fix to a real defect,
+and it moves top-1 by **+0.17 points**: 436/488 becomes 435/486, so the correct
+count actually falls by one and the apparent gain is two rows shifting into the
+exact-match bucket. Precision at 0.75 drops from 78.3% to 77.4%.
+
+Against that, `normalise` is duplicated in PHP, both halves are pinned to shared
+fixtures in `contracts/text-normalisation.json`, and changing it rewrites every
+stored `normalized_text` the trigram index depends on. A three-part change plus
+a reindex, for a fifth of a point inside the noise. Not done, and recorded here
+so the next person does not spend an afternoon rediscovering it.
+
 The last row is the honest answer to why the confidence signal is what it is.
 Everything else has been tried.
 
