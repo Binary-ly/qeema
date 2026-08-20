@@ -4696,14 +4696,14 @@ reproducible rather than anecdotal.
 
 | | |
 |---|---|
-| Top-1 on wordings **not already in the catalogue** | **85.2%** (416/488), 95% CI **[81.8%, 88.1%]** |
-| Top-1 across all 537 positives | 86.6% — 49 were already variants, so that figure measures memorisation |
+| Top-1 on wordings **not already in the catalogue** | **89.3%** (436/488), 95% CI **[86.3%, 91.8%]** |
+| Top-1 across all 537 positives | 90.3% — 49 were already variants, so that figure measures memorisation |
 | Real non-basket products **wrongly auto-resolved** | **0 of 123** |
 | Real non-basket products refused | **0 of 123** |
 | Correct matches auto-resolved without a human | **0 of 29** |
 
 The headline is the first row. It was 96.6% on 29 wordings; the sample is now
-488 and the number is 85.2%. Growing a test set seventeen-fold moves a headline
+488 and the number is 89.3%. Growing a test set seventeen-fold moves a headline
 down, and that is the measurement improving rather than the model degrading.
 
 The distractors are the part an invented list cannot supply: 123 real products

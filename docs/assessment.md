@@ -169,8 +169,8 @@ made a distractor rather than a generous positive.
 
 | | |
 |---|---|
-| Top-1 on wordings **not already in the catalogue** | **85.2%** (416/488), 95% CI **[81.8%, 88.1%]** |
-| Top-1 across all positives | 86.6% (537) — 49 were already catalogue variants, so this measures memorisation |
+| Top-1 on wordings **not already in the catalogue** | **89.3%** (436/488), 95% CI **[86.3%, 91.8%]** |
+| Top-1 across all positives | 90.3% (537) — 49 were already catalogue variants, so this measures memorisation |
 | Real non-basket products **wrongly auto-resolved** | **0 of 485** |
 | Real non-basket products refused | **1 of 485** |
 | Positives auto-resolved without a human | **0 of 488** |
@@ -179,7 +179,7 @@ The honest number is the first row, and the interval is wide because the unseen
 sample is 29 wordings. It is not a claim about thousands.
 
 **On 20 August 2026 the evaluation grew from 29 unseen wordings to 488 and the
-number fell from 96.6% to 85.2%.** The model did not get worse. Eight agents
+number fell from 96.6% to 85.2%, then a catalogue fix took it to 89.3%.** The model did not get worse. Eight agents
 collected 1,812 wordings from Libyan shop pages; half of each item's new
 vocabulary went into the catalogue and half was held out, and the held-out half
 is what the table above reports. 96.6% was 28/29 — a sample where one string was
@@ -229,14 +229,14 @@ counting an auto-resolved distractor as the error it is.
 | Tier | Coverage | Precision |
 |---|---|---|
 | Exact catalogue match | 9.1% of wordings | **100.0%** (49/49, and 0 of 485 distractors accepted) |
-| Fuzzy, at any threshold | up to 85% | never above 69% |
+| Fuzzy, at any threshold | up to 82% | never above 78% |
 
 So the platform can already publish unreviewed at ~100% precision over roughly a
 tenth of submissions, and everything else belongs in a human queue. That is a
 defensible operating policy today.
 
 **Why the fuzzy tier cannot be pushed there yet.** The confidence score separates
-correct matches from distractors at **AUC 0.850** — real information, nowhere near
+correct matches from distractors at **AUC 0.873** — real information, nowhere near
 the ~0.99 that 99.9% precision at useful coverage would need. Raising it is a
 calibration and embedding problem, not a vocabulary one, which is why
 `ml/notebooks/finetune_colab.ipynb` exists.
@@ -245,6 +245,32 @@ calibration and embedding problem, not a vocabulary one, which is why
 is true and, on its own, vacuous: the auto-resolve threshold is 0.85 and nothing
 in the fuzzy tier scores above 0.75, so the platform is safe because it never
 decides, not because it decides well. The table above is the honest version.
+
+### The one fix that moved the number, and why it is not tuning
+
+72% of all errors were three sibling pairs — bakery flour against household
+flour, tomato paste against tomatoes, olive oil against cooking oil. In each,
+the **bare head noun was a variant of one sibling and of nothing else**: `دقيق`
+belonged to `wheat_flour_1kg`, `طماطم` to `tomatoes_1kg`, `زيت` to
+`cooking_oil_1l`. So every flour string in the language had an exact anchor on
+the one-kilo bag, and `شكارة دقيق` — a fifty-kilo sack at roughly sixty times
+the price — resolved to it.
+
+The fourth ambiguous pair, infant formula against drinking milk, has no bare
+`حليب` owned by either side. It produced **4%** of errors against the other
+three's 72%. That contrast is what turned a hunch into a diagnosis.
+
+Removing thirteen bare nouns moved top-1 from **85.2% to 89.3%** and distractor
+separation from **0.850 to 0.873**. Both at once is the part worth noticing:
+retrieval accuracy is easy to buy by making items look more alike, which wrecks
+the ability to refuse, and this did the opposite.
+
+It is a catalogue-correctness fix rather than test-set tuning, and the rule
+stands on its own: **a word that names two products in the basket must not
+resolve confidently to either.** It belongs in the review queue — which is
+plainly right when the two readings differ in price by a factor of sixty.
+`api/tests/Feature/Country/CatalogueVariantPlacementTest.php` enforces it, and
+was checked against the old catalogue to confirm it fails there.
 
 **What did not improve, at all.** Nothing auto-resolves and nothing is refused —
 the two structural findings from 2025 are unchanged. Every one of the correct

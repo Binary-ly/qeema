@@ -35,6 +35,7 @@ Run from `ml/`:  .venv/bin/python scripts/real_text_evaluation.py
 from __future__ import annotations
 
 import json
+import os
 import sys
 from collections import Counter
 from pathlib import Path
@@ -308,7 +309,7 @@ def main() -> int:
             conf = f"{best.confidence:.2f}" if best else "-"
             print(f"  {row['text'][:44]:<46} want {row['expected']:<22} got {got:<22} conf {conf}")
             shown += 1
-            if shown >= 15:
+            if shown >= int(os.environ.get("QEEMA_MAX_MISSES", "15")):
                 print("  …")
                 break
     if shown == 0:

@@ -144,3 +144,63 @@ it('never gives two items the same variant', function (): void {
         }
     }
 });
+
+it('never gives one item exclusive ownership of a head noun two items share', function (): void {
+    /*
+     * The single biggest source of matcher error, found by measurement.
+     *
+     * `دقيق` was a variant of wheat_flour_1kg and of nothing else. But it is
+     * also the head of `دقيق المخابز`, the 50kg bakery sack — a different
+     * product at roughly sixty times the price. So every flour string in the
+     * language had an exact anchor on the one-kilo bag, and "شكارة دقيق", a
+     * fifty-kilo sack, resolved to it. The same held for `طماطم` against tomato
+     * paste and `زيت` against olive oil.
+     *
+     * Three sibling pairs had this flaw and produced 72% of all errors between
+     * them. The one ambiguous pair that did not — infant formula against
+     * drinking milk, where neither owns a bare `حليب` — produced 4%. Removing
+     * thirteen bare nouns moved top-1 on held-out real text from 85.2% to 89.3%
+     * and distractor separation from 0.850 to 0.873.
+     *
+     * The rule this encodes: a word that names two products in the basket must
+     * not resolve confidently to either. It belongs in the review queue, which
+     * is exactly where an ambiguous word should go when the two readings differ
+     * in price by a factor of sixty.
+     */
+    foreach (countryCodes() as $code) {
+        /** @var array<string, mixed> $config */
+        $config = Yaml::parseFile(base_path("../countries/{$code}.yaml"));
+
+        $headTokens = [];
+        foreach ($config['canonical_items'] as $item) {
+            foreach (preg_split('/\s+/u', normaliseWording((string) ($item['name_local'] ?? ''))) ?: [] as $token) {
+                if (mb_strlen($token) > 2) {
+                    $headTokens[$token][(string) $item['code']] = true;
+                }
+            }
+        }
+
+        foreach ($config['canonical_items'] as $item) {
+            foreach ($item['variants'] ?? [] as $variant) {
+                $normalised = normaliseWording((string) $variant);
+
+                if (str_contains($normalised, ' ')) {
+                    continue;   // only bare, single-word variants can be this trap
+                }
+
+                $claimants = array_keys($headTokens[$normalised] ?? []);
+
+                if (count($claimants) < 2) {
+                    continue;
+                }
+
+                expect($claimants)->toHaveCount(
+                    1,
+                    "{$code}.yaml: '{$variant}' is a bare variant of {$item['code']} alone, but it "
+                    .'is the head of the local name of '.implode(' and ', $claimants).'. A word that '
+                    .'names two products in the basket must not resolve confidently to one of them.',
+                );
+            }
+        }
+    }
+});

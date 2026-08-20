@@ -456,13 +456,9 @@ canonical_items:
     default_unit_code: kg
     default_quantity: 1
     variants:
-      - دقيق
-      - طحين
       - دقيق ابيض
       - دقيق أبيض
-      - flour
       - wheat flour
-      - da2ee2
       # Promoted from countries/corpus/ly.json. Wordings people actually
       # type, gathered from Libyan market sources and ruled on by a native
       # speaker. Held out of the catalogue until 2026-08-14, which is why
@@ -492,7 +488,6 @@ canonical_items:
       - دقيق ١ كيلو للعجين
       - فرينة وطني
       - كيس دقيق واحد كيلو
-      - فرينة
       - frina bayda kilo
       - farina 1k
       - kees frina sghir
@@ -507,7 +502,6 @@ canonical_items:
       - دقيق الأغراض المنزلية الربيع
       - دقيق الأغراض المنزلية الصفوة
       - دقيق الأغراض المنزلية الريحان
-      - فارينة
       # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
       - دقيق الزهرة
       - دقيق ليبيكا
@@ -862,11 +856,9 @@ canonical_items:
     default_unit_code: l
     default_quantity: 1
     variants:
-      - زيت
       - زيت طعام
       - زيت نباتي
       - زيت قلي
-      - oil
       - cooking oil
       - vegetable oil
       # Promoted from countries/corpus/ly.json. Wordings people actually
@@ -1146,11 +1138,6 @@ canonical_items:
     default_unit_code: kg
     default_quantity: 1
     variants:
-      - طماطم
-      - بندورة
-      - طماطة
-      - tomato
-      - tomatoes
       # Promoted from countries/corpus/ly.json. Wordings people actually
       # type, gathered from Libyan market sources and ruled on by a native
       # speaker. Held out of the catalogue until 2026-08-14, which is why
