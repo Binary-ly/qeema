@@ -117,10 +117,24 @@ def wilson(hits: int, n: int) -> tuple[float, float]:
 
 
 def main() -> int:
-    paths = [Path(a) for a in sys.argv[1:]] or [Path("/tmp/real_wordings.json")]
+    # Default to every evaluation set the repository ships, so that a reviewer
+    # who clones this and runs it bare gets the published figure.
+    #
+    # This used to default to /tmp/real_wordings.json. On the machine where the
+    # number was first produced that file existed, so the script ran and the
+    # docstring's claim that the evaluation "is reproducible from the
+    # repository" looked true. On a clean checkout it was not: the path does not
+    # exist, and even where it did it covered only the Ministry bulletin and
+    # silently left out WFP's commodity names. A figure nobody else can
+    # reproduce is not a measurement, and this one is quoted to a funder.
+    paths = [Path(a) for a in sys.argv[1:]] or sorted(REPO.glob("ml/data/real-text/*.json"))
     dataset: list[dict] = []
     for path in paths:
         dataset.extend(json.loads(path.read_text(encoding="utf-8")))
+
+    if not dataset:
+        print("No evaluation rows found. Expected ml/data/real-text/*.json", file=sys.stderr)
+        return 1
 
     positives = [r for r in dataset if r["expected"]]
     distractors = [r for r in dataset if not r["expected"]]
