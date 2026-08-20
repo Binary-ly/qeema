@@ -306,8 +306,26 @@ snapshot in `/tmp`; it was a statement about a thin catalogue and it stopped
 being true when the catalogue stopped being thin. It survived four days only
 because nobody could re-run it.
 
-What is left is the **calibrator**, which has never been fitted, and the fusion
-layer — not the embedder.
+**The fusion weight is not a lever either.** Swept 0.2 to 0.8 on a salted dev
+half of the held-out set and reported once on the other half: top-1 is flat at
+90.7% across the whole range on dev, and identical on holdout at 0.4 and 0.8.
+Reweighting does not change which item wins, because the two signals agree on
+the argmax and disagree only on the margin.
+
+So of the six things that could have closed the gap, five are now measured
+rather than assumed:
+
+| Lever | Result |
+|---|---|
+| More vocabulary | 1,812 wordings harvested; lifted the retrieval baseline to 99.3% |
+| Catalogue structure | The head-noun fix: **+4.1 points** |
+| Fine-tuning the embedder | **−7.5 points.** Rejected on evidence |
+| Fusion weight | No effect at any setting |
+| Test-set label audit | ~3 points are a specification question; left unchanged |
+| Fitting the calibrator | **Not attempted — it needs real human review decisions, which need the pilot** |
+
+The last row is the honest answer to why the confidence signal is what it is.
+Everything else has been tried.
 
 **What did not improve, at all.** Nothing auto-resolves and nothing is refused —
 the two structural findings from 2025 are unchanged. Every one of the correct
