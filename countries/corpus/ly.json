@@ -595,7 +595,11 @@
       "fowat nisa2iya 3adiya",
       "fowat el dawra el shahriya",
       "bako fowat 10",
-      "fowat mta3 el dawra"
+      "fowat mta3 el dawra",
+      "فوط صحية ليلاس سوبر",
+      "ليلاس بأجنحة",
+      "ليلاس بدون أجنحة",
+      "باكو فوط ليلاس"
     ],
     "cooking_gas_11kg": [
       "بمبلة غاز",
@@ -685,7 +689,14 @@
       "galam madrasa 3adi",
       "bako a9lam zor9 10 7abbat",
       "أقلام الحبر",
-      "أقلام الرصاص"
+      "أقلام الرصاص",
+      "بيرو",
+      "بيروات",
+      "بيرو ازرق",
+      "بيرو احمر",
+      "بيرو جاف",
+      "قلم حبر جاف",
+      "بيك كريستال"
     ],
     "school_backpack": [
       "شنطه مدرسه",
@@ -720,7 +731,10 @@
       "shanta torki kbira 3 jyoub",
       "shantet real madrid",
       "شناطي مدرسية",
-      "حقائب مدرسية"
+      "حقائب مدرسية",
+      "شناتي",
+      "شنطة روضة",
+      "شنطة بعجلات الجرار"
     ],
     "bath_soap_bar": [
       "صابونه لوكس",
@@ -1992,7 +2006,35 @@
     "معدنوس",
     "عنب مصري",
     "خيار",
-    "باذنجان"
+    "باذنجان",
+    "قفطان بنات صيفي",
+    "منشف حمام حجم كبير",
+    "داخلي نسائي فرعة",
+    "تيشرت نسائي خصر",
+    "قطن أطفال تركي الصنع",
+    "سيروم هيالورون",
+    "لوشن أطفال",
+    "فيتامين D3 نقط",
+    "شراب فيتامينات متكامل",
+    "شراب اكتيفيد",
+    "كتكوت",
+    "لحم الخروف الوطني",
+    "أعلاف دواجن",
+    "وقود الديزل",
+    "لصقة سائلة",
+    "دفتر رسم كرافت A4",
+    "كراسة رسم برزاني 160 جرام",
+    "سجل 100 ورقة",
+    "قلم التسطير",
+    "شنطة فطور",
+    "حليب جوز الهند بودرة",
+    "بسكويت خالٍ من الحليب والبيض",
+    "حقيبة ظهر بعجلات",
+    "كراسة سكتش للفحم",
+    "بنادول جوينت",
+    "لبن رائب",
+    "عصائر معلبة",
+    "شكلاطة"
   ],
   "regions": {
     "drinking_water_20l": {
@@ -3104,6 +3146,222 @@
       "attested": "yes",
       "source": "https://t.me/almasartvlibya",
       "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. Egyptian grapes — origin used as part of the product name, as with زيت زيتون مستورد."
+    },
+    "بيرو": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/p/%D9%82%D8%B1%D8%B7%D8%A7%D8%B3%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%88%D8%A7%D8%A6%D9%84-61550478369968/"
+    },
+    "بيروات": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/p/%D9%82%D8%B1%D8%B7%D8%A7%D8%B3%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%88%D8%A7%D8%A6%D9%84-61550478369968/"
+    },
+    "ماعنديش بيرو": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/444504262425324/posts/2640500306159031/"
+    },
+    "بيرو 3 بـ ربع دينار": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/325946498540175/members/"
+    },
+    "قلم حبر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100066506596485/videos/29018245714429523/"
+    },
+    "كراسة 60 ورقة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100071512733361/videos/28314008738185360/"
+    },
+    "كراسة 80 ورقة دبل غلاف": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/mataboushiha/posts/1026975830102389/"
+    },
+    "دفتر 80 ورقة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100066506596485/videos/29018245714429523/"
+    },
+    "دفتر 180 ورقة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/mataboushiha/posts/1026975830102389/"
+    },
+    "كراسة رسم": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/safeeralmaaref/posts/1349316494041695/"
+    },
+    "كراسة سكتش": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/safeeralmaaref/videos/1800340211134570/"
+    },
+    "كراسة المصحف": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100058796125533"
+    },
+    "قرطاسية": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/p/%D9%82%D8%B1%D8%B7%D8%A7%D8%B3%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%88%D8%A7%D8%A6%D9%84-61550478369968/"
+    },
+    "شنطة مدرسة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/photo.php?fbid=1469266885249433"
+    },
+    "شناتي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/alzyuodmool/videos/2491197464709587/"
+    },
+    "شنطة روضة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100071512733361/videos/28314008738185360/"
+    },
+    "حقيبة مدرسية": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61572126641821/videos/1087903213903119/"
+    },
+    "شنطة بعجلات الجرار": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/alzyuodmool/videos/2491197464709587/"
+    },
+    "الادول الباكو": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100078397982351/posts/334840910437151/"
+    },
+    "الادول الأحمر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100078397982351/posts/334840910437151/"
+    },
+    "البنادول الأزرق": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100078397982351/posts/334840910437151/"
+    },
+    "بنادول ادفانس الازرق": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/elskkapharmacy/posts/235667900334232/"
+    },
+    "بنادول اكسترا الاحمر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/elskkapharmacy/posts/235667900334232/"
+    },
+    "شراب بنادول للرضع و الاطفال": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/elskkapharmacy/posts/235667900334232/"
+    },
+    "شراب بنادول للحراره ومسكن للالم للاطفال": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/al.fayruzp/posts/1636508436737265/"
+    },
+    "انتينال لعلاج الاسهال شراب للاطفال": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100054162442218/photos/1377160339087859/"
+    },
+    "خافض حرارة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61554859155181/videos/1656296618391952/"
+    },
+    "مسكن آمن للأطفال": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61554859155181/videos/1656296618391952/"
+    },
+    "حليب أطفال 400 جرام": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/YashifinPharmacy/posts/1606402678156544/"
+    },
+    "عبوة 400 جرام": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/YashifinPharmacy/posts/1606402678156544/"
+    },
+    "حليب فرانس ليه": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/YashifinPharmacy/posts/1606402678156544/"
+    },
+    "حليب هيرو بيبي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/p/Hero-Baby-Libya-61563429915152/"
+    },
+    "حليب كيوت بيبي استاندر رقم 1": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/dokkan.ly/posts/6676880019004323/"
+    },
+    "سعر العلبة 400 جرام": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100061924995903/posts/2237935686269299/"
+    },
+    "فوط صحية": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100078713630157/photos/995764123057366/"
+    },
+    "فوط صحية ليلاس سوبر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100078713630157/photos/995764123057366/"
+    },
+    "الأجنحة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100078713630157/photos/995764123057366/"
+    },
+    "بدون أجنحة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100078713630157/photos/995764123057366/"
+    },
+    "فردات": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/MediaCenterJanzour/photos/915200498578459/"
+    },
+    "رغيف 100 غرام": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/eanlibya/photos/1198641645631121/"
+    },
+    "قنطار الدقيق": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100072195385138/posts/679146837835156/"
+    },
+    "كيسة الدقيق": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/MediaCenterJanzour/photos/915200498578459/"
+    },
+    "خبز الفينو": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/LibyaAlAhrarTV/videos/487812049611482/"
+    },
+    "الخبز السياحي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/LibyaAlAhrarTV/videos/487812049611482/"
+    },
+    "متوفر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/p/%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9-%D9%84%D9%8A%D8%A8%D9%8A%D8%A7-100046967867966/"
+    },
+    "بيع جملة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100078713630157/photos/995764123057366/"
+    },
+    "جملة ومفرق": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61554410138981/videos/1598058055183341/"
+    },
+    "سعر حرق": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/almothie/posts/1435913140659135/"
+    },
+    "بسعر يابلاش": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61572126641821/videos/1575996197223842/"
+    },
+    "الصلاحية": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/al.fayruzp/posts/1636508436737265/"
+    },
+    "بطنعش تلتاشر دينار": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/almenssalibya/videos/2002898300431178/"
+    },
+    "ربع دينار": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/325946498540175/members/"
+    },
+    "الخمسين قرش": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/325946498540175/members/"
+    },
+    "20 قرش": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100071512733361/videos/28314008738185360/"
     }
   },
   "_open_questions": [
@@ -3113,7 +3371,8 @@
     "طهي vs طبخ: three Benghazi gas ads write طهي where western wordings say طبخ. Is that a real east/west split?",
     "دحي spellings: only 'دحي' and 'طبق دحي' were observed in the wild. The other دحي rows were built by taking frames already attested in this item (طبق X، X ٣٠ حبة، X وطني) and swapping the head word in. Please prune any that a Libyan would not write — particularly دحية، الدحي، دحي عادي، and the Arabizi rows.",
     "Does دحي take طبق the way بيض does, or is the tray called something else?",
-    "بيض is kept because Libyan price bulletins print it (البيض العادي، طبق البيض) — but it is now demoted below دحي in the sampling weights. Is that the right balance, or should بيض be cut back further?"
+    "بيض is kept because Libyan price bulletins print it (البيض العادي، طبق البيض) — but it is now demoted below دحي in the sampling weights. Is that the right balance, or should بيض be cut back further?",
+    "كراسة vs دفتر — a 7x price difference hiding behind two words the catalogue treats as synonyms. school_notebook_80p lists both. On Libyan stationery pages in August 2026, دفتر 80 ورقة sells 5 for 1 dinar (0.20 each) at two independent shops, while a كراسة 60 ورقة is 1.25 and قرطاسية ماتا markets a كراسة 80 ورقة دبل غلاف as a premium line. So دفتر appears to be the cheap stapled exercise book and كراسة the bound one — but the same pages also use دفتر for sketchbooks and 180-sheet ledgers, so the split is not clean. Until it is settled the reference price of 2.30 is a price for an unspecified object. Ask a native speaker which word names the book a primary schoolchild is required to buy."
   ],
   "_measured_confusions": {
     "دقيق المخابز الصفوة": "matched wheat_flour_1kg at 0.735 — a 25kg sack, not a kilo",
@@ -3179,6 +3438,17 @@
     "bomba",
     "lter",
     "litre",
-    "habba"
+    "habba",
+    "باكو",
+    "شريط",
+    "بانقة",
+    "كيسة",
+    "قنطار",
+    "فردة",
+    "ربطة",
+    "قرش",
+    "paku",
+    "shrit",
+    "banga"
   ]
 }

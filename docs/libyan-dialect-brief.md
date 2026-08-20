@@ -116,6 +116,98 @@ size and the unit in one sentence — `بانقة مياه 7 لتر وصل سع�
 Search for a **price**, harvest the **words**. It is the most productive query
 pattern found so far.
 
+## 6c. Facebook is where the language actually is
+
+Libya's retail runs on Facebook. Not a marketplace app, not a chain's website —
+pharmacy pages, stationery shops, wholesalers in Misrata posting a carton price
+and a phone number. One sweep here produced more usable vocabulary than every
+previous method in this brief combined, because these are people selling things
+to their neighbours in the words their neighbours use.
+
+**Method.** Bright Data over Google, `site:facebook.com` plus a Libyan-dialect
+term, and — this is the part that matters — `after:2026-07-01`. Without the date
+filter the results are dominated by 2020 posts that read exactly like today's.
+
+### Three rules learned the hard way
+
+**A snippet may never be cited for a price.** Google's snippet for one تسنيم
+الطبية post read *"سعر العلبة 400 جرام .. 24 دينار"*. The post, fetched, is
+dated **30 May 2020** and says *"تخفيض سعر حليب النستوجين 1 , 2 بسعر 6 دينار
+للعلبة"*. Google had merged text from other posts on the same page. Fetch the
+post, read its date, or do not use the number.
+
+**Words keep, prices rot.** That 2020 post is useless as a price and perfectly
+good as a wording. Harvest vocabulary from any date; harvest prices only from
+dated recent posts.
+
+**Libya-targeted results are not all Libyan.** One sweep returned *"138 ريال"*
+and a school bag *"بسعر 50 ألف"* — neither is a dinar magnitude. Every wording
+needs a Libyan-page anchor before it enters the corpus. This is the same trap as
+the Jordanian بانقا result in §8.
+
+### What the sweep found
+
+| Word | Means | Why it matters |
+|---|---|---|
+| **بيرو**, pl. **بيروات** | ballpoint pen | Italian *biro*. The catalogue had `ballpoint_pen` and **not one Libyan word for it** |
+| **الباكو** | the pack | The retail unit for pills and pads: *"الادول الباكو ب3 دينار"* |
+| **الشريط** | the blister strip | The other medicine unit: *"الشريط ب1,5"* — so a باكو is two شرايط |
+| **قرش** | 1/100 dinar | Sub-dinar prices are spoken in قروش: *"بيرواااات 20 قرش"*, *"بيرو 3 بـ ربع دينار"* |
+| **شنطة مدرسة**, pl. **شناتي** | school bag | What people say; the ads write حقيبة مدرسية |
+| **الجرار** | the wheeled one | *"الحقائب المدرسية ذات العجلات (الجرار)"* |
+| **شنطة روضة** | nursery bag | A distinct product at a distinct price, 10 dinar |
+| **فردة** | one loaf | *"الخبزة اتكون 5 فردات بدينار"* |
+| **قنطار** | sack | Both flour and cement are priced للقنطار |
+| **الكيسة** | the sack, colloquially | *"الدقيق 50 د.ل الكيسة"* |
+| **مفرق** | retail | Against جملة. *"جملة ومفرق"* |
+| **سعر حرق** | a burn price | Rock-bottom |
+| **يابلاش** | dirt cheap | Also a shop name, which is how idiom gets into a catalogue |
+| **ليلاس** | the dominant pad brand | With **بأجنحة / بدون أجنحة** |
+| **الادول** | the everyday paracetamol | Not بنادول |
+| **برزاني** | heavy drawing paper | Likely *Bristol*, another Italian-route loan |
+
+### Medicine is named by colour, not by molecule
+
+> *"البنادول ال24 حبة الحمر ب6 والازرق ب4"*
+
+الأحمر is Extra (paracetamol + caffeine); الأزرق is Advance. A pharmacy in
+صيدلية السكة prices *"بنادول ادفانس الازرق"* and *"بنادول اكسترا الاحمر"* in one
+breath. A matcher keyed on active ingredients will never see any of this, and a
+reporter typing "الأحمر" is not being vague — they are naming the product
+precisely, in the only naming system their shop uses.
+
+### Numbers are spoken, and Libyan numerals are their own thing
+
+> *"علبة الزيت بطنعش تلتاشر دينار"* — the tin of oil at twelve-thirteen
+
+اطنعش 12, تلتاشر 13, **بزوز** two (*"دينار وبزوز وتلاتة"*). A price field that
+only accepts digits will silently drop the half of a report where the number is
+a word. This is not a nice-to-have: it is the most common way a price is said
+out loud.
+
+### كراسة is not دفتر, and the gap is 7×
+
+Two independent Tripoli stationers ran the same offer in August 2026 — **five
+دفاتر of 80 ورقة for one dinar**, 0.20 each. A third page prices *"كراسة 60
+ورقة"* at **1.25**, and قرطاسية ماتا markets a *"كراسة 80 ورقة دبل غلاف"* as a
+premium line. So دفتر is the cheap stapled exercise book and كراسة the bound
+one — except the same pages also use دفتر for sketchbooks and 180-sheet ledgers,
+so the split is not clean.
+
+`school_notebook_80p` lists both words as variants and prices the result at
+2.30. Until someone settles which word names the book a Libyan primary
+schoolchild is actually required to buy, that is a price for an unspecified
+object. Logged in `_open_questions`; it needs a native speaker, not another
+search.
+
+### A note on what was not collected
+
+Every wording here was taken from a public commercial post and recorded without
+the poster. No names, no phone numbers, no profile links, no linking of a person
+to a purchase — `docs/do-no-harm.md` commits to taking the words and the prices
+and leaving the people, and a shop advertising a price is the one case where
+that is straightforward.
+
 ## 7. Real Libyan commercial context (verified)
 
 - Mobile operators, seen on a live Libyan store: **المدار**, **ليبيانا**,
