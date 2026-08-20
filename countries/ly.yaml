@@ -402,6 +402,11 @@ canonical_items:
       - زيت زيتون بكر ممتاز
       - معصرة زيت زيتون
       - زيت زيتون متع الموسم الحالي
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - زيت زيتون بالضمان
+      # Origin is the identifying word, as with دلاع وطني and عنب مصري.
+      - زيت زيتون غرياني
+      - زيت زيتون غريان
 
   - code: tomato_paste_400g
     name_en: Tomato paste (400g)
@@ -428,6 +433,8 @@ canonical_items:
       - معجون طماطم الزهور
       - معجون الطماطم من العين
       - معجون طماطم قوطية 400 غرام
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - معجون طماطم 400 غرام للعلبة
 
   - code: pasta_500g
     name_en: Pasta (500g)
@@ -509,6 +516,8 @@ canonical_items:
       - سكر رهف الأصلي
       - سكر النخبة
       - دستة سكر
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - سكر كيس كيلو دستة
 
   - code: rice_1kg
     name_en: Rice
@@ -638,7 +647,28 @@ canonical_items:
     category: protein
     default_unit_code: piece
     default_quantity: 30
-    variants: [بيض, طبق بيض, بيض طبق, eggs, egg tray]
+    variants:
+      # دحي is the Libyan word for eggs. It was attested to a news article *about the
+      # word* and then filed under a placeholder key, so it never reached the
+      # catalogue: five variants, none of them Libyan. A real string, دحي الاستيكة,
+      # resolved to ballpoint_pen at 0.66 confidence.
+      #
+      # eggs_30 stays on hold, so qeema:corpus:promote will not take the other 53
+      # unverified wordings. These nine carry a source and were added by hand.
+      - بيض
+      - طبق بيض
+      - بيض طبق
+      - eggs
+      - egg tray
+      - دحي
+      - الدحي
+      - طبق دحي
+      - طبق الدحي
+      - دحي وطني
+      - دحي ليبي
+      - طبق بيض ٣٠
+      - طبق بيض عادي
+      - بيض ليبي
 
   - code: canned_tuna_185g
     name_en: Canned tuna (185g)
@@ -674,7 +704,9 @@ canonical_items:
       - تونة معلبة قوطية
       - تن مستورد
       # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
-      - بيض ليبي
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - تن الأمير 140ج
+      #
 
   - code: chicken_1kg
     name_en: Chicken
@@ -800,6 +832,8 @@ canonical_items:
       - tmatem tounsi
       - tmatem sou9 el khodra
       - kilo w nos tmatem
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - طماطم شمسي
 
   - code: ors_sachet
     name_en: Oral rehydration salts (sachet)
@@ -1005,6 +1039,8 @@ canonical_items:
       - دفتر 80 ورقة
       - كراسة 60 ورقة
       - كراسة دبل غلاف
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - الكراسة ذات 60 ورقة
 
   - code: sanitary_pads_10
     name_en: Sanitary pads (pack of 10)
@@ -1012,7 +1048,19 @@ canonical_items:
     category: hygiene
     default_unit_code: pack
     default_quantity: 1
-    variants: [فوط صحية, فوط نسائية, حفاضات نسائية, always, sanitary pads, sanitary towels]
+    variants:
+      # ليلاس is the brand Libyan shops actually stock, and باكو is the unit it
+      # is sold in. These four carry sources; the rest of this item stays on hold.
+      - فوط صحية
+      - فوط نسائية
+      - حفاضات نسائية
+      - always
+      - sanitary pads
+      - sanitary towels
+      - فوط صحية ليلاس سوبر
+      - ليلاس بأجنحة
+      - ليلاس بدون أجنحة
+      - باكو فوط
 
   - code: cooking_gas_11kg
     name_en: Cooking gas cylinder (11kg refill)
@@ -1080,10 +1128,9 @@ canonical_items:
       - غاز الطهي
       - أسطوانة غاز الطهي
       # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
-      - فوط صحية ليلاس سوبر
-      - ليلاس بأجنحة
-      - ليلاس بدون أجنحة
-      - باكو فوط
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - أسطوانة الغاز
+      - الأسطوانة بوزن 11 كيلو جرام
 
   # Seven litres, not twenty. No Libyan bottler found sells a 20L format:
   # Al-Safia (est. 2004) publishes 0.33L, 0.5L, 1.5L, 7L, 15L and 230ml cups,
@@ -1097,7 +1144,38 @@ canonical_items:
     category: water
     default_unit_code: l
     default_quantity: 7
-    variants: [بانقة, ماء, مياه, ماء شرب, مياه معدنية, بانقة ماء, water, drinking water, mineral water]
+    variants:
+      - بانقة
+      - ماء
+      - مياه
+      - ماء شرب
+      - مياه معدنية
+      - بانقة ماء
+      - water
+      - drinking water
+      - mineral water
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - بانقة مية
+      - قروره ما كبيره
+      - ما النسيم
+      - ما معدني
+      - قالون ما
+      - بانقة مياه 7 لتر
+      - بانقه الميه
+      - عبوة الماء ذات الـ 7 لتر
+      - قنينة 7 لتر
+      - دستة مياه
+      - بانقة مياه
+      - بانقة الماء
+      - مياه دجلة
+      - مياه النبع
+      - مياه الصافية
+      - ستيكة دجلة
+      - الاستيكة
+      - مياه نص ليترة
+      - ميه اكواب 30 طاسة
+      - بانقة المية
+      - استيكة مياه
 
   # Not in basket v1. Present so the matcher can resolve them and an operator can
   # add them to a v2 basket without touching code.
@@ -1166,16 +1244,10 @@ canonical_items:
       - قلم حبر جاف
       - باكو بيروات
       # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
-      - بانقة مياه
-      - بانقة المية
-      - بانقه الميه
-      - بانقة الماء
-      - مياه دجلة
-      - مياه النبع
-      - مياه الصافية
-      - ستيكة دجلة
-      - استيكة مياه
-      - مياه نص ليترة
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - أقلام الحبر
+      - أقلام الرصاص
+      - بيك كريستال
 
   - code: school_backpack
     name_en: School backpack
@@ -1229,6 +1301,8 @@ canonical_items:
       - شناتي
       - شنطة روضة
       - شنطة بعجلات
+      # Promoted from the reporter corpus by qeema:corpus:promote.
+      - شنطة بعجلات الجرار
 
   - code: bath_soap_bar
     name_en: Bath soap (bar)
