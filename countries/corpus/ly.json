@@ -298,7 +298,9 @@
       "زيت النهر",
       "زيت زيتون بكر ممتاز",
       "معصرة زيت زيتون",
-      "زيت زيتون بالضمان"
+      "زيت زيتون بالضمان",
+      "زيت زيتون غرياني",
+      "زيت زيتون غريان"
     ],
     "eggs_30": [
       "طبق بيض ٣٠",
@@ -2808,10 +2810,6 @@
       "attested": "yes",
       "source": "https://www.libyaakhbar.com/business-news/2805133.html"
     },
-    "الدحي (NOT in corpus — proposed)": {
-      "attested": "yes",
-      "source": "https://libyan2day.ly/اقتصاد/News/338/لماذا-الدحي-البيض-؟-هل-نجحت-حملة-خلوه-يفقس-عندكم.html"
-    },
     "البيض المغلف (NOT in corpus — proposed)": {
       "attested": "yes",
       "source": "https://www.libyaakhbar.com/business-news/2819272.html"
@@ -3759,6 +3757,26 @@
     "سكر كيس كيلو دستة": {
       "attested": "yes",
       "source": "https://www.facebook.com/100063532953804/"
+    },
+    "دحي": {
+      "attested": "yes",
+      "source": "https://libyan2day.ly/اقتصاد/News/338/لماذا-الدحي-البيض-؟-هل-نجحت-حملة-خلوه-يفقس-عندكم.html"
+    },
+    "الدحي": {
+      "attested": "yes",
+      "source": "https://libyan2day.ly/اقتصاد/News/338/لماذا-الدحي-البيض-؟-هل-نجحت-حملة-خلوه-يفقس-عندكم.html"
+    },
+    "طبق دحي": {
+      "attested": "yes",
+      "source": "https://libyan2day.ly/اقتصاد/News/338/لماذا-الدحي-البيض-؟-هل-نجحت-حملة-خلوه-يفقس-عندكم.html"
+    },
+    "دحي وطني": {
+      "attested": "yes",
+      "source": "https://libyan2day.ly/اقتصاد/News/338/لماذا-الدحي-البيض-؟-هل-نجحت-حملة-خلوه-يفقس-عندكم.html"
+    },
+    "زيت زيتون غرياني": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/SNALR0926619233/posts/1613833785620962/"
     }
   },
   "_open_questions": [
