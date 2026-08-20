@@ -52,3 +52,30 @@ Two labels the harvesting agent itself flagged as arguable, and they are the
 right ones to revisit first: Nido 400 g growing-up milk, labelled null rather
 than `infant_formula_400g`; and artisanal olive-oil soap bars, labelled null
 rather than `bath_soap_bar`.
+
+## A defect in this test set, quantified rather than quietly fixed
+
+Sixteen of 537 positives (3.0%) state a pack size that contradicts the item they
+are labelled with: pasta at 400 g against a `pasta_500g` code, tuna at 140 g and
+160 g against `canned_tuna_185g`, flour sacks of 25 kg against
+`bakery_flour_50kg`, and `حليب اطفال نيدو 1800 جرام` against a 400 g formula code.
+
+Two agents disagreed about exactly this. The negatives agent deliberately filed a
+160 g tuna tin as a distractor, calling it "the sharpest size trap in the set";
+the staples agent filed the same shape as a positive. Both were reasoning
+honestly and the project has not decided between them.
+
+It is a **specification** question, not a labelling slip. `canned_tuna_185g` can
+mean the 185 g tin exactly, or the category of standard tinned tuna that Libyan
+shops stock at 140/160/185 g side by side. The Ministry bulletin takes the second
+reading — it prices `المكرونة` as one series and prints the range "(400-500)" in
+its own column header. The corpus takes the first, warning that "a matcher
+scoring well on those would be conflating price points a price monitor exists to
+keep apart".
+
+These rows are left exactly as they are. Relabelling them would raise the
+headline by up to three points on a judgement made *after* seeing which way the
+model got them wrong, which is how a test set stops being one. The number to
+carry is: of the measured error, up to 3 points may be specification rather than
+model failure, and the way to settle it is to decide what the item codes mean.
+

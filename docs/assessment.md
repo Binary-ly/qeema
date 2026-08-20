@@ -272,6 +272,29 @@ plainly right when the two readings differ in price by a factor of sixty.
 `api/tests/Feature/Country/CatalogueVariantPlacementTest.php` enforces it, and
 was checked against the old catalogue to confirm it fails there.
 
+### What is left, and what it would take
+
+52 errors remain on 488 unseen wordings. They are not scattered:
+
+| Share | Confusion | Why |
+|---|---|---|
+| 33% | tomato paste → tomatoes | `طماطم البركه` is a brand on a bare noun. The tin is not named in the string; only the shop's aisle says so |
+| 23% | bakery flour → household flour | The catalogue **has** شكارة, شوال and the `50ك` forms, so this is no longer missing vocabulary. `دقيق العزيزية الفاخر50ك` still loses to the brand-plus-فاخر pattern |
+| 6% | drinking milk → infant formula | `حليب` plus a brand, with no litre and no `أطفال` |
+| ~3pp | specification, not model | Sixteen rows state a pack size their own item code contradicts; see `ml/data/real-text/README_facebook_addendum.md` |
+
+The first and third are **irreducible from the string alone**. `زيت بعلي وليس
+مروي` is olive oil only if you know Libyan farming vocabulary — the word زيتون is
+not in it. No amount of catalogue vocabulary resolves a string that does not
+carry the distinguishing information; a reporter's photograph or a follow-up
+question does.
+
+So the remaining gap is not a data problem. It is a **confidence** problem: AUC
+0.873 against the ~0.99 that 99.9% precision at useful coverage would need. That
+is what fine-tuning the embedder and fitting the calibrator are for, and neither
+has been run — `ml/notebooks/finetune_colab.ipynb` is written and waiting on a
+GPU.
+
 **What did not improve, at all.** Nothing auto-resolves and nothing is refused —
 the two structural findings from 2025 are unchanged. Every one of the correct
 matches still went to the review queue, and so did all 123 products that belong
