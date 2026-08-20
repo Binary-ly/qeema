@@ -287,6 +287,61 @@ rather than asserted.
 
 ---
 
+## اقتصاد المسار — the closest thing Libya has to a daily price monitor
+
+Found 20 August 2026 while chasing a single wrong water price, and the most
+useful Libyan source in this document.
+
+**What it is.** Almasar Economy runs its own **field surveys** — رصد ميداني —
+of retail prices in Tripoli and publishes them dated, with day-on-day
+percentage changes. Not a ministry, not an aid agency: a Libyan economics desk
+walking into shops. Republished as dated articles by `almashhadlibya.com` and
+others, which is the practical way to read it.
+
+**What it covers, from headlines verified in one search:**
+
+| Series | Example |
+|---|---|
+| Chicken and eggs | *"قائمة أسعار الدجاج والبيض في طرابلس اليوم الثلاثاء 5 مايو 2026"* |
+| Cement | daily, with day-on-day change — *"قنطار أسمنت الاتحاد … 71 ديناراً مقابل 69"* |
+| General retail | *"أسعار التجزئة 5 أغسطس 2026 في طرابلس"* |
+| School supplies | 17 Aug 2026, itemised by sheet count and quality |
+| Bottled water | 18 Aug 2026, by pack format |
+| Fuel | *"سعر لتر الديزل في السوق الموازية بطرابلس يقفز 23 ضعف السعر الرسمي"* |
+| Bread | *"لماذا ارتفع سعر الفردة في بعض مخابز العاصمة"* |
+
+**Why it matters more than its size suggests.** It prices exactly what WFP and
+the Ministry bulletin do not — bottled water, cooking fuel, school materials,
+hygiene — which is most of the gap this platform exists to fill. It is dated,
+attributable and recurring, so a price taken from it can be checked and can be
+re-taken next month.
+
+**Its limits, stated.** Tripoli only. No licence is published, so it can be
+cited but not redistributed. And it is a media organisation rather than a
+statistical agency: the figures are a field survey, not a sampling frame, and
+the articles say so themselves — *"الأسعار قابلة للتغير بحسب المحل والعروض"*.
+
+### Two commodities with an official price and a real one
+
+Worth recording separately, because it is the platform's whole argument turning
+up in goods rather than in currency.
+
+**Cooking gas.** Brega, the state oil marketing company, prices an 11kg refill
+at **1.50 LYD**. Cylinders sell on the street at around **60**. A fortyfold gap,
+and which price a household pays depends on access to a rationed booking system
+whose reach nobody publishes. (The 240 LYD figure widely quoted is a *refundable
+deposit* on the cylinder, not a price — the source says so explicitly.)
+
+**Diesel.** Almasar reports the parallel-market litre in Tripoli at **23 times
+the official price**.
+
+An index that prices either at the official rate reports a country that does not
+exist. That is the same failure as converting a basket at an official exchange
+rate, and it is why `cooking_gas_11kg` carries `confidence: contested` in
+`countries/ly.yaml` rather than a confident number.
+
+---
+
 ## Who actually collects Libyan price data now
 
 Verified August 2026. Stated because two widely-assumed answers are wrong.

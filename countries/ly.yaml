@@ -1281,19 +1281,19 @@ demo:
   reference_prices:
     infant_formula_400g: 32.0
     baby_cereal_400g: 18.5
-    wheat_flour_1kg: 4.2
-    rice_1kg: 6.5
-    cooking_oil_1l: 9.0
-    eggs_30: 24.0
-    chicken_1kg: 17.5
-    tomatoes_1kg: 4.0
+    wheat_flour_1kg: 3.88
+    rice_1kg: 6.06
+    cooking_oil_1l: 9.67
+    eggs_30: 24.75
+    chicken_1kg: 31.0
+    tomatoes_1kg: 6.75
     ors_sachet: 1.5
     paracetamol_suspension_60ml: 8.0
     amoxicillin_suspension_60ml: 14.0
-    school_notebook_80p: 3.0
+    school_notebook_80p: 2.3
     sanitary_pads_10: 12.0
     cooking_gas_11kg: 28.0
-    drinking_water_7l: 3.0
+    drinking_water_7l: 4.0
     # Catalogued but outside basket v1 (see the note on those items above).
     # They carry reference prices because the generator prices every catalogued
     # item, so that a v2 basket adding them can be chain-linked against days on
@@ -1301,3 +1301,238 @@ demo:
     ballpoint_pen: 1.5
     school_backpack: 45.0
     bath_soap_bar: 3.5
+
+  # ---------------------------------------------------------------------
+  # Where these numbers came from
+  # ---------------------------------------------------------------------
+  # A price with no citation is somebody's guess wearing a decimal point. The
+  # water line sat at 3.00 for exactly that reason — one news article, five
+  # months stale, read as current — until a Libyan reader said it was too cheap
+  # and it turned out to be the figure at the *start* of a 50% spike.
+  #
+  # So a price may declare its sources here, and
+  # tests/Feature/Country/ReferencePriceProvenanceTest.php enforces three
+  # things: a declared value must match the price above it, every source must
+  # carry a URL and a date, and the count of sourced prices may never fall.
+  # That last one is a ratchet — it makes sourcing incremental rather than
+  # all-or-nothing, and makes deleting a citation a test failure.
+  #
+  # `confidence` is about corroboration, not certainty:
+  #   corroborated  — two or more independent sources agree
+  #   single-source — one source, which may be stale or unrepresentative
+  #   (absent)      — no citation; the number is a plausible guess and nothing more
+  reference_price_provenance:
+    drinking_water_7l:
+      value: 4.0
+      as_of: 2026-08
+      confidence: corroborated
+      note: >-
+        Cross-checked per litre against a field survey: a 0.5L bottle at 0.750
+        LYD is 1.50/litre and a twelve-bottle دستة at 7 LYD is 1.167/litre, so a
+        7L jug at 4 LYD — 0.571/litre — is the cheap bulk format, which is the
+        shape you would expect. The same reporting puts Ubari at 5 LYD, which is
+        direct evidence of a southern premium measured on a non-food item.
+      sources:
+        - url: https://almashhadlibya.com/economic-news/134313
+          date: 2026-08-18
+          kind: field-survey
+          says: >-
+            Almashhad Libya, reporting a رصد ميداني by اقتصاد المسار across
+            Tripoli retail shops: a دستة of twelve half-litre bottles at 7 LYD,
+            up 40-70% on early July; 8-10 LYD in late July when several
+            factories stopped for power cuts; a half-litre bottle at 0.750 LYD
+            in grocery shops and 1 LYD in cafes.
+        - url: https://libyaalahrar.tv/2026/04/03/water-prices
+          date: 2026-04-03
+          kind: news
+          says: >-
+            The 7-litre container known as the بانقة reaching 3 dinars, a rise
+            of 50%. This is the figure that was mistakenly used as current.
+        - url: https://www.facebook.com/OnlyLibya/posts/1448078177356436/
+          date: 2026
+          kind: citizen-report
+          says: >-
+            A 7-litre بانقة at 4 dinars, corroborated by several independent
+            citizen videos including one carried by Arraed TV.
+
+    wheat_flour_1kg:
+      value: 3.88
+      as_of: 2026-05
+      confidence: single-source
+      note: >-
+        Replaced a guessed 4.2. WFP is one source, but it is a UN agency's own
+        field collection under an open licence, which is a different kind of
+        single source from one news article.
+      sources:
+        - url: https://data.humdata.org/dataset/wfp-food-prices-for-libya
+          date: 2026-05-15
+          kind: official-dataset
+          says: >-
+            WFP Libya food prices, series "Wheat flour, KG", Tripoli centre, median of
+            the March-May 2026 observations carrying priceflag=actual.
+            CC BY-IGO 3.0.
+    rice_1kg:
+      value: 6.06
+      as_of: 2026-05
+      confidence: single-source
+      note: >-
+        Replaced a guessed 6.5. WFP is one source, but it is a UN agency's own
+        field collection under an open licence, which is a different kind of
+        single source from one news article.
+      sources:
+        - url: https://data.humdata.org/dataset/wfp-food-prices-for-libya
+          date: 2026-05-15
+          kind: official-dataset
+          says: >-
+            WFP Libya food prices, series "Rice, KG", Tripoli centre, median of
+            the March-May 2026 observations carrying priceflag=actual.
+            CC BY-IGO 3.0.
+    cooking_oil_1l:
+      value: 9.67
+      as_of: 2026-05
+      confidence: single-source
+      note: >-
+        Replaced a guessed 9.0. WFP is one source, but it is a UN agency's own
+        field collection under an open licence, which is a different kind of
+        single source from one news article.
+      sources:
+        - url: https://data.humdata.org/dataset/wfp-food-prices-for-libya
+          date: 2026-05-15
+          kind: official-dataset
+          says: >-
+            WFP Libya food prices, series "Oil (vegetable), L", Tripoli centre, median of
+            the March-May 2026 observations carrying priceflag=actual.
+            CC BY-IGO 3.0.
+    eggs_30:
+      value: 24.75
+      as_of: 2026-05
+      confidence: single-source
+      note: >-
+        Replaced a guessed 24.0. WFP is one source, but it is a UN agency's own
+        field collection under an open licence, which is a different kind of
+        single source from one news article.
+      sources:
+        - url: https://data.humdata.org/dataset/wfp-food-prices-for-libya
+          date: 2026-05-15
+          kind: official-dataset
+          says: >-
+            WFP Libya food prices, series "Eggs, 30 pcs", Tripoli centre, median of
+            the March-May 2026 observations carrying priceflag=actual.
+            CC BY-IGO 3.0.
+    chicken_1kg:
+      value: 31.0
+      as_of: 2026-05
+      confidence: single-source
+      note: >-
+        Replaced a guessed 17.5. WFP is one source, but it is a UN agency's own
+        field collection under an open licence, which is a different kind of
+        single source from one news article.
+      sources:
+        - url: https://data.humdata.org/dataset/wfp-food-prices-for-libya
+          date: 2026-05-15
+          kind: official-dataset
+          says: >-
+            WFP Libya food prices, series "Meat (chicken), KG", Tripoli centre, median of
+            the March-May 2026 observations carrying priceflag=actual.
+            CC BY-IGO 3.0.
+    tomatoes_1kg:
+      value: 6.75
+      as_of: 2026-05
+      confidence: single-source
+      note: >-
+        Replaced a guessed 4.0. WFP is one source, but it is a UN agency's own
+        field collection under an open licence, which is a different kind of
+        single source from one news article.
+      sources:
+        - url: https://data.humdata.org/dataset/wfp-food-prices-for-libya
+          date: 2026-05-15
+          kind: official-dataset
+          says: >-
+            WFP Libya food prices, series "Tomatoes, KG", Tripoli centre, median of
+            the March-May 2026 observations carrying priceflag=actual.
+            CC BY-IGO 3.0.
+
+    school_notebook_80p:
+      value: 2.3
+      as_of: 2026-08
+      confidence: single-source
+      note: >-
+        Interpolated, and the interpolation is the reason this is not
+        'corroborated'. The source prices 60-sheet notebooks at 1.25-1.50 and
+        100-sheet ones at 3.00-3.50; this item is 80 sheets, which sits between
+        them at roughly 2.3. The previous 3.00 was the price of a 100-sheet
+        notebook, so the basket was buying a larger book than it specifies.
+      sources:
+        - url: https://almashhadlibya.com/economic-news/134246
+          date: 2026-08-17
+          kind: field-survey
+          says: >-
+            A circulated Tripoli retail price list, attributed to المسار:
+            "الكراسة ذات 60 ورقة نحو 1.25 دينار للجودة المتوسطة، و1.5 دينار
+            للجودة العالية" and "الكراسة ذات 100 ورقة مسطرة جودة عالية تتراوح
+            بين 3 و3.5 دنانير".
+
+    ballpoint_pen:
+      value: 1.5
+      as_of: 2026-08
+      confidence: single-source
+      note: >-
+        Unchanged, but now cited. 1.5 is the top of the ordinary ink-pen range
+        rather than the middle, so it is a slightly conservative figure; the
+        3-5 band in the same list is for school-grade pens, which this item is
+        not.
+      sources:
+        - url: https://almashhadlibya.com/economic-news/134246
+          date: 2026-08-17
+          kind: field-survey
+          says: >-
+            "تتراوح أسعار أقلام الحبر بين 0.5 ودينار ونصف" — ordinary ink pens
+            between 0.5 and 1.5 LYD in Tripoli retail, 17 August 2026.
+
+    cooking_gas_11kg:
+      value: 28.0
+      as_of: 2026-08
+      confidence: contested
+      note: >-
+        **The value is unchanged on purpose.** Research established the bounds
+        and not the answer: Brega, the state oil marketing company, prices an
+        11kg refill at 1.50 LYD, while cylinders sell on the street at around
+        60. That is a fortyfold gap, and which one a family pays depends on
+        whether they can get a subsidised cylinder through the booking system —
+        a share nobody publishes. Replacing one guess with another would not be
+        progress, so 28.0 stands and now carries its uncertainty instead of
+        hiding it.
+
+        This is the platform's own thesis appearing in a commodity rather than
+        a currency: an official price that exists on paper and a real price
+        people transact at. Worth pricing properly during the pilot; a
+        reporter standing at a depot knows which number is real that day.
+
+        A caution for whoever revisits this: the 240 LYD figure widely quoted
+        is a refundable deposit on the cylinder, not a price. The source below
+        says so in as many words.
+      sources:
+        - url: https://www.facebook.com/brega.company.bmc/posts/798662992457067/
+          date: 2026
+          kind: official-price
+          says: >-
+            Brega Oil Marketing Company: "الأسطوانة بوزن 15 كيلو جرام: 2.00
+            دينار - الأسطوانة بوزن 11 كيلو جرام: 1.50 دينار" — the official
+            subsidised refill price.
+        - url: https://www.facebook.com/network.salam/videos/637494080411493/
+          date: 2026
+          kind: citizen-report
+          says: >-
+            Salam TV: "السوق السوداء.. سعر أسطوانة الغاز بـ60 دينارًا" — 60 LYD
+            on the black market.
+        - url: https://almashhadlibya.com/economic-news/120393
+          date: 2026-03-04
+          kind: news
+          says: >-
+            On the booking system: "حددت الشركة قيمة الضمان المالي للأسطوانة بـ
+            240 دينارًا ليبيًا. هذا المبلغ لا يُعتبر سعر بيع، بل هو تأمين يُسترد
+            بالكامل عند إعادة الأسطوانة" — the 240 is a refundable deposit, not
+            a sale price.
+
+  # Ratchet. Raise as prices are sourced; the test fails if it drops.
+  minimum_sourced_prices: 10

@@ -553,7 +553,9 @@
       "kashkoul 80 wara9a",
       "kashkoul silk",
       "daftar madrasi kbir",
-      "krassa A4 ghlaf m9awwa"
+      "krassa A4 ghlaf m9awwa",
+      "الكراسة ذات 60 ورقة",
+      "كراسة مسطرة"
     ],
     "sanitary_pads_10": [
       "فوط اولويز",
@@ -640,7 +642,9 @@
       "بمبلة غاز الطهي",
       "غاز الطهو",
       "غاز الطهي",
-      "أسطوانة غاز الطهي"
+      "أسطوانة غاز الطهي",
+      "أسطوانة الغاز",
+      "الأسطوانة بوزن 11 كيلو جرام"
     ],
     "ballpoint_pen": [
       "قلم بيك",
@@ -677,7 +681,9 @@
       "3elbet a9lam bic",
       "pensan azra9",
       "galam madrasa 3adi",
-      "bako a9lam zor9 10 7abbat"
+      "bako a9lam zor9 10 7abbat",
+      "أقلام الحبر",
+      "أقلام الرصاص"
     ],
     "school_backpack": [
       "شنطه مدرسه",
@@ -761,7 +767,12 @@
       "ما النسيم",
       "ما معدني",
       "قالون ما",
-      "ما شرب"
+      "ما شرب",
+      "بانقة مياه 7 لتر",
+      "بانقه الميه",
+      "عبوة الماء ذات الـ 7 لتر",
+      "قنينة 7 لتر",
+      "دستة مياه"
     ]
   },
   "prefixes": [
@@ -2955,6 +2966,76 @@
       "attested": "yes",
       "source": "http://www.alsafia.com/our_products.html",
       "note": "Al-Safia, a Libyan bottler founded 2004, lists 0.33L, 0.5L, 1.5L, 7L, 15L and 230ml cups. No 20L format. A second bottler, alshafiya.com, tops out at 600ml."
+    },
+    "بانقة مياه 7 لتر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/OnlyLibya/posts/1448078177356436/",
+      "says": "Citizen post reporting the price reaching 4 dinars."
+    },
+    "بانقه الميه": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/arraedntv/posts/1475615641263113/",
+      "says": "Colloquial spelling — بانقه without the ta marbuta, and ميه for ماء."
+    },
+    "عبوة الماء ذات الـ 7 لتر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/arraedntv/posts/1475615641263113/",
+      "says": "Arraed TV, formal register for the same object."
+    },
+    "قنينة 7 لتر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/sefrly/videos/1936503043682965/",
+      "says": "A citizen in Ubari; قنينة rather than بانقة."
+    },
+    "دستة مياه": {
+      "attested": "yes",
+      "source": "https://almashhadlibya.com/economic-news/134313",
+      "says": "A twelve-pack of half-litre bottles — a unit, not a container."
+    },
+    "أسطوانة الغاز": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/brega.company.bmc/posts/798662992457067/",
+      "says": "Brega Oil Marketing Company, official price notice."
+    },
+    "أسطوانة غاز الطهي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/brega.company.bmc/posts/798662992457067/",
+      "says": "The fuller form used by the state company."
+    },
+    "الأسطوانة بوزن 11 كيلو جرام": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/brega.company.bmc/posts/798662992457067/",
+      "says": "How the official notice states the size."
+    },
+    "الكراسة ذات 60 ورقة": {
+      "attested": "yes",
+      "source": "https://almashhadlibya.com/economic-news/134246",
+      "says": "Retail price list; كراسة is the Libyan word, not دفتر."
+    },
+    "كراسة مسطرة": {
+      "attested": "yes",
+      "source": "https://almashhadlibya.com/economic-news/134246",
+      "says": "Lined notebook, from the 100-sheet entry."
+    },
+    "أقلام الحبر": {
+      "attested": "yes",
+      "source": "https://almashhadlibya.com/economic-news/134246",
+      "says": "Ink pens, as the Tripoli retail list writes them."
+    },
+    "أقلام الرصاص": {
+      "attested": "yes",
+      "source": "https://almashhadlibya.com/economic-news/134246",
+      "says": "Pencils, same list."
+    },
+    "مباري أقلام الرصاص (NOT in corpus — no catalogue item)": {
+      "attested": "yes",
+      "source": "https://almashhadlibya.com/economic-news/134246",
+      "says": "Pencil sharpeners in the Tripoli retail list. مباري is Libyan; MSA would be مبراة."
+    },
+    "الستيكة (NOT in corpus — packaging, not a product)": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/OnlyLibya/posts/1448078177356436/",
+      "says": "The sticker on a water jug, used by a citizen as the mark of genuine bottled water: \"لو تاخذها بدون ستيكر تكتشف انها مياه بئر\" — without it you find it is well water."
     }
   },
   "_open_questions": [
