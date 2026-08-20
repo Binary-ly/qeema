@@ -642,22 +642,6 @@
       "غاز الطهي",
       "أسطوانة غاز الطهي"
     ],
-    "drinking_water_20l": [
-      "قروره ما كبيره",
-      "النسيم ٢٠ لتر",
-      "ما النسيم",
-      "الصافية ٢٠ لتر",
-      "ما معدني",
-      "20 لتر ما",
-      "water 20L",
-      "ما محلى ٢٠ لتر",
-      "قالون ما",
-      "عبوه ٢٠ لتر شرب",
-      "ما شرب",
-      "naseem 20 liter",
-      "asafia 20 lter",
-      "gallon ma 20"
-    ],
     "ballpoint_pen": [
       "قلم بيك",
       "بيك ازرق",
@@ -768,6 +752,16 @@
       "duru saboun torki",
       "sabounet ghar 7alabi",
       "9aleb saboun 7ammam"
+    ],
+    "drinking_water_7l": [
+      "بانقة",
+      "بانقة ماء",
+      "بانقة مية",
+      "قروره ما كبيره",
+      "ما النسيم",
+      "ما معدني",
+      "قالون ما",
+      "ما شرب"
     ]
   },
   "prefixes": [
@@ -1739,14 +1733,6 @@
       "غاز ١١ كيلو",
       "تعبئه بمبلة غاز"
     ],
-    "drinking_water_20l": [
-      "النسيم ٢٠ لتر",
-      "الصافية ٢٠ لتر",
-      "ما النسيم",
-      "عبوه ٢٠ لتر شرب",
-      "قالون ما",
-      "ما شرب"
-    ],
     "ballpoint_pen": [
       "قلم بيك",
       "قلم",
@@ -1810,6 +1796,12 @@
       "هريسة ( علبة ) الحطاب",
       "هريسة ( علبة ) بسمة",
       "هريسه حاره قوطيه"
+    ],
+    "drinking_water_7l": [
+      "بانقة",
+      "ما النسيم",
+      "قالون ما",
+      "ما شرب"
     ]
   },
   "distractors": [
@@ -2855,7 +2847,9 @@
     },
     "بانقة": {
       "attested": "yes",
-      "source": "https://ly.opensooq.com/ar/search/169898185"
+      "source": "https://libyaalahrar.tv/2026/04/03/أسعار-مياه-الشرب-تشتعل-ما-هي-الأسباب/",
+      "quote": "عبوة الـ 7 لترات أو ما يعرف بالـ \"بانقة\"",
+      "ruling": "Confirmed by a native speaker 2026-08-19: the household jug is 7 litres, and 20L is not a Libyan format."
     },
     "دبة ما": {
       "attested": "elsewhere",
@@ -2964,7 +2958,7 @@
     }
   },
   "_open_questions": [
-    "drinking_water_20l — THE SIZE MAY BE WRONG, NOT ONLY THE WORD. This question previously asked what a Libyan calls the 20L jug. Searching Libyan sources suggests the premise is wrong: no Libyan bottler found sells a 20L format. Al-Safia (est. 2004) publishes 0.33L, 0.5L, 1.5L, 7L, 15L and 230ml cups; Al-Shafiya tops out at 600ml. Libya Al-Ahrar TV names the household jug explicitly: \"عبوة الـ 7 لترات أو ما يعرف بالـ بانقة\" — the 7-litre container, known as the بانقة. A Libyan TikTok title uses \"بانقة بنزينة\", so بانقة is a generic jerrycan rather than water-specific. RULING NEEDED from a native speaker: should this item be re-specified as بانقة (7 لتر) and/or عبوة 15 لتر, and the 20L spec dropped? Fourteen of the current wordings say ٢٠ لتر or 20L and would describe a container that is not sold. Nothing has been changed pending that ruling — see docs/data-sources.md.",
+    "drinking_water_7l — RESOLVED on size and container word, still held on phrasing. A native speaker confirmed 2026-08-19 that the Libyan household jug is 7 litres and that 20L is not sold here; the item was re-specified from drinking_water_20l accordingly, and its reference price set to the 3 LYD Libya Al-Ahrar reported for a بانقة in April 2026. Eight wordings asserting ٢٠ لتر or 20L were removed because they described a container that does not exist. Of what remains, only بانقة is attested to a source; the brand and size phrasings around it are still model-generated, which is why this stays on hold. Venezuela keeps drinking_water_20l — the garrafón really is 20 litres there.",
     "بيض عربي: Tripoli price bulletins carry البيض العربي as a distinct HIGHER-priced grade (28 د.ل) next to البيض العادي (16 د.ل). Given the ruling that free-range is وطني, is عربي nonetheless a real egg grade a reporter would type?",
     "Sanitary pads: not one wording in the item could be attested to a Libyan source. Which of اولويز / كوتكس / مولبد / بيلا / نانا / سليبي are actually on Libyan shelves?",
     "طهي vs طبخ: three Benghazi gas ads write طهي where western wordings say طبخ. Is that a real east/west split?",
@@ -3009,7 +3003,7 @@
     "why": "These wordings are now catalogue variants in countries/ly.yaml, so the matcher knows them. That is the point — a held-out split measured +19.1 points of top-1 on wordings it had never seen — but it has a cost that must not be forgotten: a matching score computed against the promoted part of this corpus is now measuring memorisation, not generalisation. The three held-back items still carry open questions and remain a clean test set, as does any real market data."
   },
   "hold": [
-    "drinking_water_20l",
+    "drinking_water_7l",
     "eggs_30",
     "sanitary_pads_10"
   ],

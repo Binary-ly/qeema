@@ -1005,13 +1005,19 @@ canonical_items:
       - غاز الطهي
       - أسطوانة غاز الطهي
 
-  - code: drinking_water_20l
-    name_en: Drinking water (20L)
-    name_local: ماء شرب ٢٠ لتر
+  # Seven litres, not twenty. No Libyan bottler found sells a 20L format:
+  # Al-Safia (est. 2004) publishes 0.33L, 0.5L, 1.5L, 7L, 15L and 230ml cups,
+  # and Al-Shafiya tops out at 600ml. Libya Al-Ahrar TV names the household jug
+  # outright — "عبوة الـ 7 لترات أو ما يعرف بالـ بانقة". Confirmed by a native
+  # speaker 2026-08-19, along with the earlier ruling that دبة means bear or
+  # fat and is not a container at all.
+  - code: drinking_water_7l
+    name_en: Drinking water (7L jug)
+    name_local: بانقة ماء ٧ لتر
     category: water
     default_unit_code: l
-    default_quantity: 20
-    variants: [ماء, مياه, ماء شرب, مياه معدنية, قارورة ماء, water, drinking water, mineral water]
+    default_quantity: 7
+    variants: [بانقة, ماء, مياه, ماء شرب, مياه معدنية, بانقة ماء, water, drinking water, mineral water]
 
   # Not in basket v1. Present so the matcher can resolve them and an operator can
   # add them to a v2 basket without touching code.
@@ -1205,7 +1211,7 @@ basket:
   # fraction of that. At the reference prices below this basket costs LYD 293.
   plausible_monthly_cost_local:
     min: 120
-    max: 700
+    max: 900
 
   items:
     - { item: infant_formula_400g,          weight: 0.13, quantity: 1,  unit: pack,  category: infant_nutrition }
@@ -1222,7 +1228,7 @@ basket:
     - { item: school_notebook_80p,          weight: 0.03, quantity: 4,  unit: piece, category: school }
     - { item: sanitary_pads_10,             weight: 0.06, quantity: 2,  unit: pack,  category: hygiene }
     - { item: cooking_gas_11kg,             weight: 0.10, quantity: 1,  unit: piece, category: fuel }
-    - { item: drinking_water_20l,           weight: 0.06, quantity: 60, unit: l,     category: water }
+    - { item: drinking_water_7l,            weight: 0.06, quantity: 60, unit: l,     category: water }
 
 # ---------------------------------------------------------------------------
 # Sources
@@ -1243,26 +1249,32 @@ demo:
   reporters_per_location: 4
   # Southern and interior locations run structurally dearer: longer supply
   # lines, thinner competition.
-  # Measured against reality rather than assumed. Costing an identical
-  # 21-commodity bundle across all 21 markets in WFP's Libya price series
-  # (2026, `priceflag: actual`) gives a spread of just **1.33x** from the
-  # cheapest market to the dearest — Sebha 180.41 LYD, Ejdabia 240.81.
+  # Two measurements from the same agency disagree, and the disagreement is the
+  # point.
   #
-  # The premiums below were originally up to 1.34 on their own, and the demo
-  # they produced spread 2.19x across locations: 65% wider than the country
-  # actually is. Halved, so the generated country resembles the measured one.
+  # **Food staples only.** Costing an identical 21-commodity bundle across all
+  # 21 markets in WFP's price series (2026, `priceflag: actual`) makes the south
+  # the *cheapest* part of the country — Sebha 180.41 against Ejdabia's 240.81,
+  # a 1.33x spread, with southern wheat flour at 0.84x the northern price.
+  # Subsidised staples reach the south.
   #
-  # Worth recording, because it contradicts the assumption these encode: in the
-  # real series **Sebha is the cheapest market in Libya**, not a southern
-  # premium location. The remaining premiums are kept as a mild supply-line
-  # effect, not as a claim about the south.
+  # **The whole basket.** WFP's own Minimum Expenditure Basket for May 2026 —
+  # food *plus* hygiene and cooking fuel — ranks **Murzuq the most expensive
+  # city in Libya at 1,296 LYD** and Sebha the cheapest at 952, a 1.36x spread.
+  #
+  # Both are true: the south is cheap on subsidised food and dear on everything
+  # that has to be trucked there. This basket is roughly 40% non-food — cooking
+  # gas, drinking water, paediatric medicine, school materials — so the southern
+  # premium belongs, and a food-only measurement is the wrong instrument for
+  # setting it. These were briefly halved on that mistaken basis and are
+  # restored.
   regional_premium:
-    sabha: 1.09
-    ubari: 1.13
-    murzuq: 1.15
-    ghat: 1.17
-    ajdabiya: 1.04
-    gharyan: 1.02
+    sabha: 1.18
+    ubari: 1.26
+    murzuq: 1.30
+    ghat: 1.34
+    ajdabiya: 1.08
+    gharyan: 1.05
   monthly_inflation: 0.021
   fx_start_parallel: 7.60
   fx_start_official: 4.85
@@ -1281,7 +1293,7 @@ demo:
     school_notebook_80p: 3.0
     sanitary_pads_10: 12.0
     cooking_gas_11kg: 28.0
-    drinking_water_20l: 6.0
+    drinking_water_7l: 3.0
     # Catalogued but outside basket v1 (see the note on those items above).
     # They carry reference prices because the generator prices every catalogued
     # item, so that a v2 basket adding them can be chain-linked against days on
