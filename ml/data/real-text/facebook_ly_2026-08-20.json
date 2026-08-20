@@ -1,0 +1,2597 @@
+[
+  {
+    "text": "حليب معقم صنع في ايطاليا",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/Lohoom.Libya/photos/1890127361245564"
+  },
+  {
+    "text": "حليب الريحان",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100061421739095/posts/415191535776707"
+  },
+  {
+    "text": "حليب لاتى ايطالي",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100061421739095/posts/415191535776707"
+  },
+  {
+    "text": "حليب بريزدن",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100061421739095/posts/415191535776707"
+  },
+  {
+    "text": "حليب إيطالي GiGLIO",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100064711811645/posts/181490573358136"
+  },
+  {
+    "text": "حليب الجيد كامل الدسم نصف لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100071131345411/posts/3767632870129779"
+  },
+  {
+    "text": "حليب الجيد",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100076264088803/photos/408256841026179"
+  },
+  {
+    "text": "حليب دليس",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100076264088803/photos/408256841026179"
+  },
+  {
+    "text": "حليب الزهرات حكة صغير",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100076264088803/photos/408256841026179"
+  },
+  {
+    "text": "حليب الجودي كامل الدسم",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/61569701135264/posts/122157844892656704"
+  },
+  {
+    "text": "حليب جودي قليل الدسم",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100068361228313/posts/745785731043461"
+  },
+  {
+    "text": "حليب باكو السهول 1 لتر خالي الدسم",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100057148642141/posts/450435479021283"
+  },
+  {
+    "text": "حليب الصافي لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100039953025823/"
+  },
+  {
+    "text": "حليب النسيم كامل الدسم",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/ghdhayyh.jmlt/posts/1320032926851430"
+  },
+  {
+    "text": "حليب الزهرات 1لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100063532953804/posts/1610196531108097"
+  },
+  {
+    "text": "حليب الزهرات علبة صغيرة",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/benwaremall/"
+  },
+  {
+    "text": "حليب معقم من شركة يورسان التركية",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/midpointco/posts/1113257675516489"
+  },
+  {
+    "text": "حليب نيدو للأطفال",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/dokkan.ly/posts/8671032246255747"
+  },
+  {
+    "text": "حليب الأطفال SMA رقم 1",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100061924995903/posts/2984910841571776"
+  },
+  {
+    "text": "حليب الاطفال نستوجين من نستلة",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100061924995903/posts/2983961541666706"
+  },
+  {
+    "text": "حليب اطفال نيدو 1800 جرام",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/groups/134460623938400/posts/1259136641470787"
+  },
+  {
+    "text": "حليب الاطفال بيبيلاك رقم 3",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/groups/3260367710669617/posts/9835043553201967"
+  },
+  {
+    "text": "زبادي شراب نص لتر",
+    "expected": null,
+    "source": "https://www.facebook.com/abojafersonsstr/posts/1156491136508038"
+  },
+  {
+    "text": "زبادي النسيم فراولة وموز",
+    "expected": null,
+    "source": "https://www.facebook.com/100067097762645/videos/1199258872177418"
+  },
+  {
+    "text": "لبن رايب النسيم 1 لتر",
+    "expected": null,
+    "source": "https://www.facebook.com/100067097762645/videos/1199258872177418"
+  },
+  {
+    "text": "حليب الشوكولاتة من النسيم",
+    "expected": null,
+    "source": "https://www.facebook.com/AlNaseemFoodIndustries/posts/964760125678280"
+  },
+  {
+    "text": "حليب فارس من شركة الجيد",
+    "expected": null,
+    "source": "https://www.facebook.com/abojafersonsstr/posts/1104149888408830"
+  },
+  {
+    "text": "جبنة فيلادلفيا",
+    "expected": null,
+    "source": "https://www.facebook.com/100087040824429/videos/1314309633953409"
+  },
+  {
+    "text": "جبنة المستكه والمحلب",
+    "expected": null,
+    "source": "https://www.facebook.com/100068943770380/videos/1043124475114993"
+  },
+  {
+    "text": "دحي نظيف وحجم كبير",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/100090724004196/videos/1267973775536462"
+  },
+  {
+    "text": "طبق البيض",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/100083692433566/videos/1863633834217544"
+  },
+  {
+    "text": "طبق البيض (30 بيضة)",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/ALSABAAH.LY/posts/1605950378199357"
+  },
+  {
+    "text": "بيض ليبي درجة اولى",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/benwaremall/posts/1235234088401109"
+  },
+  {
+    "text": "بيض غليظ",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/61555735306209/videos/2127936421102183"
+  },
+  {
+    "text": "دحي وطني مائدة",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/groups/1348509115769808/posts/2041203213167058"
+  },
+  {
+    "text": "بيض مخصب او مائدة طازة",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/groups/1348509115769808/posts/1863121204308594"
+  },
+  {
+    "text": "دحي سمان",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/groups/3579823165676499/posts/4109604702698340"
+  },
+  {
+    "text": "دجاج بوادي مجمد كامل",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/BatoulMarket/videos/2191405434972552"
+  },
+  {
+    "text": "صدر دجاج senpilic 10 كيلو",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/100064853853436/posts/1178268272525667"
+  },
+  {
+    "text": "صدور دجاج برازيلي",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/kapoVeneziaMarket/posts/1420113256825490"
+  },
+  {
+    "text": "دجاج كوفدينس البرازيلي وزن 1300 جم",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/100069790010518/videos/1378424141170151"
+  },
+  {
+    "text": "دجاج برازيلي كامل وزن 1.400 كجم",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/ATAJ.FOR.FOOD/photos/580376494090593"
+  },
+  {
+    "text": "صدر دجاج كوباكول",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/100089406771789/posts/585096151147272"
+  },
+  {
+    "text": "دجاج عبال البرازيلي",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/omalkhairr/posts/875686948089791"
+  },
+  {
+    "text": "دجاج برازيلي وزن 1500",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/albosefy2424/"
+  },
+  {
+    "text": "افخاذ دجاج امريكي",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/albosefy2424/"
+  },
+  {
+    "text": "صدر دجاج 2كيلو",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/100057028797236/videos/1382272920208953"
+  },
+  {
+    "text": "صدر دجاج ساديا",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/100087098636563/videos/827786410394611"
+  },
+  {
+    "text": "صدور دجاج ساديا وزن 2.5ك",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/100089319021046/videos/1022042946885597"
+  },
+  {
+    "text": "دجاج وطني يوم طازج",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/groups/1254316914959039/posts/2769854300071952"
+  },
+  {
+    "text": "بيض سمان طازج",
+    "expected": null,
+    "source": "https://www.facebook.com/100063801583392/videos/1041133734932013"
+  },
+  {
+    "text": "كتكوت عربي زهري فيومي",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/2934114443470808/"
+  },
+  {
+    "text": "طماطم شمسي درجة اولي",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/AraddaStore/photos/276962350891272"
+  },
+  {
+    "text": "طماطم مصراتة شمسي درجة أولى",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/turkishshoppin/videos/3025971544260082"
+  },
+  {
+    "text": "طماطم طبيعي درجة اولى",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/groups/171930485053178/posts/769674448612109"
+  },
+  {
+    "text": "بطاطا طرابلسية",
+    "expected": null,
+    "source": "https://www.facebook.com/kapoVeneziaMarket/posts/1108085508028268"
+  },
+  {
+    "text": "كرنب لفة حمــراء",
+    "expected": null,
+    "source": "https://www.facebook.com/kapoVeneziaMarket/posts/1130503385786480"
+  },
+  {
+    "text": "فلفل حلو",
+    "expected": null,
+    "source": "https://www.facebook.com/kapoVeneziaMarket/posts/1130503385786480"
+  },
+  {
+    "text": "بطاطا الحلوة",
+    "expected": null,
+    "source": "https://www.facebook.com/kapoVeneziaMarket/posts/1229271895909628"
+  },
+  {
+    "text": "بنجر وطني",
+    "expected": null,
+    "source": "https://www.facebook.com/kapoVeneziaMarket/posts/1229271895909628"
+  },
+  {
+    "text": "بصل احمر 4ك",
+    "expected": null,
+    "source": "https://www.facebook.com/kapoVeneziaMarket/posts/1229271895909628"
+  },
+  {
+    "text": "بصل طرابلس",
+    "expected": null,
+    "source": "https://www.facebook.com/100063462733954/posts/1647329224059153"
+  },
+  {
+    "text": "الخوخ الوطني",
+    "expected": null,
+    "source": "https://www.facebook.com/SirteNews/videos/2258795174874755"
+  },
+  {
+    "text": "دلاع بعلي",
+    "expected": null,
+    "source": "https://www.facebook.com/Alhadath.Libyaa/photos/2295459197245667"
+  },
+  {
+    "text": "انجاص ايطالي درجة اولي",
+    "expected": null,
+    "source": "https://www.facebook.com/100063506347219/posts/144831276964506"
+  },
+  {
+    "text": "تفاح ايطالي ممتاز",
+    "expected": null,
+    "source": "https://www.facebook.com/100063506347219/posts/144831276964506"
+  },
+  {
+    "text": "برتقال ليبي جميع الانواع",
+    "expected": null,
+    "source": "https://www.facebook.com/100063506347219/posts/144831276964506"
+  },
+  {
+    "text": "فلفل حشو",
+    "expected": null,
+    "source": "https://www.facebook.com/61577432563728/posts/122170180946914418"
+  },
+  {
+    "text": "فلفل أحمر",
+    "expected": null,
+    "source": "https://www.facebook.com/100064665637474/posts/1246392787526231"
+  },
+  {
+    "text": "فلفل أخضر",
+    "expected": null,
+    "source": "https://www.facebook.com/100064665637474/posts/1246392787526231"
+  },
+  {
+    "text": "فلفل حار",
+    "expected": null,
+    "source": "https://www.facebook.com/turkishshoppin/videos/3025971544260082"
+  },
+  {
+    "text": "بذور طماطم صوبات",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1103869239636161/"
+  },
+  {
+    "text": "مسحوق غسيل ملابس اللؤلؤة",
+    "expected": null,
+    "source": "https://www.facebook.com/100064009754936/posts/1396566895820289/"
+  },
+  {
+    "text": "علبة سوبر جل العملاق",
+    "expected": null,
+    "source": "https://www.facebook.com/100064009754936/posts/1396566895820289/"
+  },
+  {
+    "text": "مسحوق غسيل برائحة البودرة",
+    "expected": null,
+    "source": "https://www.facebook.com/100064009754936/posts/777854867691498/"
+  },
+  {
+    "text": "مسحوق الغسيل ناسا",
+    "expected": null,
+    "source": "https://www.facebook.com/100063652502993/"
+  },
+  {
+    "text": "صابون غسالة ملابس اوتوماتيك",
+    "expected": null,
+    "source": "https://www.facebook.com/superclean.libya/posts/517328829692280/"
+  },
+  {
+    "text": "مسحوق للغسالات العاديه والاتوماتيك",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1653704991571653/posts/3922003341408462/"
+  },
+  {
+    "text": "مسحوق غسيل بوزن 9 كغ",
+    "expected": null,
+    "source": "https://www.facebook.com/100075598225916/"
+  },
+  {
+    "text": "سائل غسيل",
+    "expected": null,
+    "source": "https://www.facebook.com/100064936005459/videos/379400480598670/"
+  },
+  {
+    "text": "سانسوداين اصلي",
+    "expected": null,
+    "source": "https://www.facebook.com/yasmeen.alaraby.ly/videos/2363621740801090/"
+  },
+  {
+    "text": "سائل جلي الوزير المركز",
+    "expected": null,
+    "source": "https://www.facebook.com/alwazir.co/videos/alwazir/575402949548800/"
+  },
+  {
+    "text": "جافييل 5L",
+    "expected": null,
+    "source": "https://www.facebook.com/alwazir.co/videos/alwazir/575402949548800/"
+  },
+  {
+    "text": "مستر سترونچ سائل جلي",
+    "expected": null,
+    "source": "https://www.facebook.com/61554807264809/videos/1825411104812395/"
+  },
+  {
+    "text": "أقراص للجلاية",
+    "expected": null,
+    "source": "https://www.facebook.com/61554807264809/videos/1825411104812395/"
+  },
+  {
+    "text": "سائل جلي ليلاس",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%A7%D9%84%D9%81%D9%88%D8%A7%D8%AD-%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%81-100087790701353/"
+  },
+  {
+    "text": "مطهر ومعطر وملمع أرضية",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D9%85%D8%B5%D9%86%D8%B9-%D8%B3%D9%85%D9%87%D8%B1-%D9%84%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%81-100065246243962/"
+  },
+  {
+    "text": "صابون ملابس و معطر أرضيات",
+    "expected": null,
+    "source": "https://www.facebook.com/61578098913692/videos/1638540560711303/"
+  },
+  {
+    "text": "بودرة المنصورة",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%B3%D9%88%D9%82-%D8%A7%D9%84%D9%85%D9%86%D8%B5%D9%88%D8%B1%D8%A9-%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%81-100064380651022/"
+  },
+  {
+    "text": "معطر جو الوشق 350مل",
+    "expected": null,
+    "source": "https://www.facebook.com/100090067776317/"
+  },
+  {
+    "text": "فوطة التلميع وجهين",
+    "expected": null,
+    "source": "https://www.facebook.com/100069085732106/"
+  },
+  {
+    "text": "معطر ارضيات لميس",
+    "expected": null,
+    "source": "https://www.facebook.com/100063987917054/posts/149307743823881/"
+  },
+  {
+    "text": "مزيل عرق نيترو بتشا",
+    "expected": null,
+    "source": "https://www.facebook.com/100063987917054/posts/149307743823881/"
+  },
+  {
+    "text": "فرشاة ومعجون الأسنان",
+    "expected": null,
+    "source": "https://www.facebook.com/100064380294342/posts/2720721454917806/"
+  },
+  {
+    "text": "حليب نيدو وغني بالألياف 400 جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/alhaya.mall.libya/posts/1194642396032302/"
+  },
+  {
+    "text": "حليب نيدو لنمو متكامل",
+    "expected": null,
+    "source": "https://www.facebook.com/alhaya.mall.libya/posts/3387847251323240/"
+  },
+  {
+    "text": "حليب نيدو مقوي",
+    "expected": null,
+    "source": "https://www.facebook.com/TONESFARMACY/posts/2323371204555903/"
+  },
+  {
+    "text": "حليب نيدو عادي",
+    "expected": null,
+    "source": "https://www.facebook.com/TONESFARMACY/posts/2323371204555903/"
+  },
+  {
+    "text": "حليب نيدو مجفف باكو",
+    "expected": null,
+    "source": "https://www.facebook.com/100068361228313/posts/1473724596095664/"
+  },
+  {
+    "text": "حليب نيدو",
+    "expected": null,
+    "source": "https://www.facebook.com/arkanmisurata/photos/2632440650112134/"
+  },
+  {
+    "text": "حليب سويت تايم الهولندي",
+    "expected": null,
+    "source": "https://www.facebook.com/quqa.group/posts/3238724502852883/"
+  },
+  {
+    "text": "حليب إميكلو هولندي",
+    "expected": null,
+    "source": "https://www.facebook.com/100064574656910/posts/818812953614519/"
+  },
+  {
+    "text": "حليب نيدو اورين المجفف",
+    "expected": null,
+    "source": "https://www.facebook.com/100064574656910/posts/818812953614519/"
+  },
+  {
+    "text": "الحليب المكثف المحلى الإسباني بنستار",
+    "expected": null,
+    "source": "https://www.facebook.com/Philadelphia.united.ltd/photos/954512300233960/"
+  },
+  {
+    "text": "حليب مكثف محلى الخاتم الذهبي",
+    "expected": null,
+    "source": "https://www.facebook.com/YonusAlhammadi4t/videos/4679299725678393/"
+  },
+  {
+    "text": "أصابع معمول بجوز الهند",
+    "expected": null,
+    "source": "https://www.facebook.com/YonusAlhammadi4t/videos/4679299725678393/"
+  },
+  {
+    "text": "صلصة الكاتشب",
+    "expected": null,
+    "source": "https://www.facebook.com/HHbenghazi/posts/490538376203532/"
+  },
+  {
+    "text": "صلصة ال بيري بيري",
+    "expected": null,
+    "source": "https://www.facebook.com/HHbenghazi/posts/490538376203532/"
+  },
+  {
+    "text": "صوص وكاتشب ومايونيز",
+    "expected": null,
+    "source": "https://www.facebook.com/100064843086072/posts/1172004781637614/"
+  },
+  {
+    "text": "دقيق للخبز خالي من الغلوتين",
+    "expected": null,
+    "source": "https://www.facebook.com/100064843086072/posts/214127070414293/"
+  },
+  {
+    "text": "نشا ذرة",
+    "expected": null,
+    "source": "https://www.facebook.com/100064843086072/posts/214127070414293/"
+  },
+  {
+    "text": "نشا الذرة",
+    "expected": null,
+    "source": "https://www.facebook.com/AkrootMall/posts/122253290204198200/"
+  },
+  {
+    "text": "نودلز الكورية",
+    "expected": null,
+    "source": "https://www.facebook.com/100068361228313/posts/2149418688526248/"
+  },
+  {
+    "text": "مكرونة بالخلطة",
+    "expected": null,
+    "source": "https://www.facebook.com/61569256591217/posts/122171378528641886/"
+  },
+  {
+    "text": "فلفل محشي",
+    "expected": null,
+    "source": "https://www.facebook.com/altabakh.libya/posts/212135514375046/"
+  },
+  {
+    "text": "كفتة طرابلسية بالبصلة",
+    "expected": null,
+    "source": "https://www.facebook.com/altabakh.libya/posts/200204438901487/"
+  },
+  {
+    "text": "جزيرة دجاج",
+    "expected": null,
+    "source": "https://www.facebook.com/altabakh.libya/posts/200204438901487/"
+  },
+  {
+    "text": "ماء عطر مقطر بزيته",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/568052420723846/posts/845805512948534/"
+  },
+  {
+    "text": "ماء زهر مقطر بزيته",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/568052420723846/posts/845805512948534/"
+  },
+  {
+    "text": "مشروب اللوز صابرينا المركز",
+    "expected": null,
+    "source": "https://www.facebook.com/100063463542082/posts/2714839988777060/"
+  },
+  {
+    "text": "عصير لوز مركز",
+    "expected": null,
+    "source": "https://www.facebook.com/100063463542082/posts/2777070945887297/"
+  },
+  {
+    "text": "عصير عنب مركز",
+    "expected": null,
+    "source": "https://www.facebook.com/100063463542082/posts/2777070945887297/"
+  },
+  {
+    "text": "بخاخ ماء الورد طبيعي 100مل",
+    "expected": null,
+    "source": "https://www.facebook.com/libyangermanshop/photos/2858171551064398/"
+  },
+  {
+    "text": "ماء الزنجبيل",
+    "expected": null,
+    "source": "https://www.facebook.com/bawah.ly/posts/343644017426337/"
+  },
+  {
+    "text": "ماء عشبة الأرنب",
+    "expected": null,
+    "source": "https://www.facebook.com/bawah.ly/posts/343644017426337/"
+  },
+  {
+    "text": "ماء لوبان المر",
+    "expected": null,
+    "source": "https://www.facebook.com/bawah.ly/posts/343644017426337/"
+  },
+  {
+    "text": "مياه النبع لتر ونصف",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/681052480352819/posts/1123375956120467/"
+  },
+  {
+    "text": "مشروب شويبس غازي",
+    "expected": null,
+    "source": "https://www.facebook.com/61555751738884/videos/1850867089005823/"
+  },
+  {
+    "text": "عصير برافو 1.5 لتر",
+    "expected": null,
+    "source": "https://www.facebook.com/Danishsoap/"
+  },
+  {
+    "text": "مشروبات الندى الغازية",
+    "expected": null,
+    "source": "https://www.facebook.com/Annada2008/photos/414954015736235/"
+  },
+  {
+    "text": "عصير الصافي",
+    "expected": null,
+    "source": "https://www.facebook.com/Libyan.markt/videos/2771509503194032/"
+  },
+  {
+    "text": "عصير الفيتراك",
+    "expected": null,
+    "source": "https://www.facebook.com/100063510251256/videos/26623524863931208/"
+  },
+  {
+    "text": "عصير الجودي",
+    "expected": null,
+    "source": "https://www.facebook.com/100063510251256/videos/26623524863931208/"
+  },
+  {
+    "text": "كيكة مارينا بنكهة الفراولة",
+    "expected": null,
+    "source": "https://www.facebook.com/100063510251256/videos/1068257899220740/"
+  },
+  {
+    "text": "شكولاتة سنكرز",
+    "expected": null,
+    "source": "https://www.facebook.com/100063532953804/posts/1691159259678490/"
+  },
+  {
+    "text": "شكولاطة فينالي",
+    "expected": null,
+    "source": "https://www.facebook.com/100063532953804/posts/1185981696862918/"
+  },
+  {
+    "text": "عصير جودي 1 لتر",
+    "expected": null,
+    "source": "https://www.facebook.com/100063532953804/posts/1674355864692163/"
+  },
+  {
+    "text": "جبنة مربعات ستريت كول",
+    "expected": null,
+    "source": "https://www.facebook.com/100063532953804/posts/1412307644230321/"
+  },
+  {
+    "text": "شيبس سناكسي",
+    "expected": null,
+    "source": "https://www.facebook.com/100054252770653/videos/1016637014307161/"
+  },
+  {
+    "text": "قشطة شط الحرية سادة",
+    "expected": null,
+    "source": "https://www.facebook.com/100086983896889/"
+  },
+  {
+    "text": "جبنة الكاسح بطعم القشطة شيشة",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/662619724176001/posts/2216263652144926/"
+  },
+  {
+    "text": "جبنة الصفوة شيشة",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/662619724176001/posts/2216263652144926/"
+  },
+  {
+    "text": "قشطة نادك",
+    "expected": null,
+    "source": "https://www.facebook.com/100068318651724/photos/279055140270405/"
+  },
+  {
+    "text": "زبادي طبيعي نادك",
+    "expected": null,
+    "source": "https://www.facebook.com/100068318651724/photos/279055140270405/"
+  },
+  {
+    "text": "زبادي الماني 115 جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/store24houre/"
+  },
+  {
+    "text": "رب التمر دقلة",
+    "expected": null,
+    "source": "https://www.facebook.com/albaraka.dates.aljufra/videos/729368109156656/"
+  },
+  {
+    "text": "دقلة ودان درجة أولى",
+    "expected": null,
+    "source": "https://www.facebook.com/albaraka.dates.aljufra/videos/729368109156656/"
+  },
+  {
+    "text": "بسيسة أجبالية بالتمر والعسل والمكسرات",
+    "expected": null,
+    "source": "https://www.facebook.com/albaraka.dates.aljufra/posts/1454161251450276/"
+  },
+  {
+    "text": "فطير مكسرات",
+    "expected": null,
+    "source": "https://www.facebook.com/100076376697972/videos/972417028070086/"
+  },
+  {
+    "text": "دشيشة قمح زليتن",
+    "expected": null,
+    "source": "https://www.facebook.com/Downtown.Benghazi.Libya/posts/4927268897331162/"
+  },
+  {
+    "text": "زميتة زليتن",
+    "expected": null,
+    "source": "https://www.facebook.com/Downtown.Benghazi.Libya/posts/4927268897331162/"
+  },
+  {
+    "text": "رب تمر زليتن",
+    "expected": null,
+    "source": "https://www.facebook.com/Downtown.Benghazi.Libya/posts/4927268897331162/"
+  },
+  {
+    "text": "تمر بدون سكر",
+    "expected": null,
+    "source": "https://www.facebook.com/Downtown.Benghazi.Libya/posts/4927268897331162/"
+  },
+  {
+    "text": "مثرودة بالمكسرات والتمر والعسل",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/742599455886869/posts/3737115359768582/"
+  },
+  {
+    "text": "أكياس القهوة سريعة التحضير نسكافيه قولد",
+    "expected": null,
+    "source": "https://www.facebook.com/Espresso.Libya/posts/815346009267629/"
+  },
+  {
+    "text": "شاي أخضر بالنعناع",
+    "expected": null,
+    "source": "https://www.facebook.com/Espresso.Libya/posts/1134978670637693/"
+  },
+  {
+    "text": "الشاي سريع التحضير كيوفي",
+    "expected": null,
+    "source": "https://www.facebook.com/Espresso.Libya/posts/1134978670637693/"
+  },
+  {
+    "text": "كبسولات دولتشي قوستو",
+    "expected": null,
+    "source": "https://www.facebook.com/Espresso.Libya/posts/1006546073480954/"
+  },
+  {
+    "text": "الفلفل الأسود عبوة 100 جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/nakha.zman/photos/3770649453058311/"
+  },
+  {
+    "text": "بهارات السمك",
+    "expected": null,
+    "source": "https://www.facebook.com/ZakariaHome/posts/3202904203089761"
+  },
+  {
+    "text": "فلفل احمر مدخن",
+    "expected": null,
+    "source": "https://www.facebook.com/ZakariaHome/posts/3202904203089761"
+  },
+  {
+    "text": "خلطة ارز حرارات",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/2163155450374392/posts/25801831702746768/"
+  },
+  {
+    "text": "أجنحة دجاج 900 جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/61560774421020/posts/122117381060359147/"
+  },
+  {
+    "text": "برجر بقري جورمية",
+    "expected": null,
+    "source": "https://www.facebook.com/61580910777739/"
+  },
+  {
+    "text": "برجر لحم",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/393280868277419/posts/1922968321975325/"
+  },
+  {
+    "text": "سردينة رينقة محلية",
+    "expected": null,
+    "source": "https://www.facebook.com/Astakwza/posts/1503188063160476/"
+  },
+  {
+    "text": "سردينة موزة 2 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/100057372402614/posts/1210586847530384/"
+  },
+  {
+    "text": "تفاح إيطالي درجة أولى",
+    "expected": null,
+    "source": "https://www.facebook.com/61581166806118/"
+  },
+  {
+    "text": "عنب سبها طازة",
+    "expected": null,
+    "source": "https://www.facebook.com/turkishshoppin/"
+  },
+  {
+    "text": "حفاضات ألين",
+    "expected": null,
+    "source": "https://www.facebook.com/Aleen.ly/photos/435304419318134/"
+  },
+  {
+    "text": "حفاضات بامبو نيتشر",
+    "expected": null,
+    "source": "https://www.facebook.com/Bambonaturelibya/videos/2567875616753793/"
+  },
+  {
+    "text": "حفاضات بيبي لينو",
+    "expected": null,
+    "source": "https://www.facebook.com/BabyLeno1/videos/1557560302457365/"
+  },
+  {
+    "text": "حفاضات بامبل بيبي",
+    "expected": null,
+    "source": "https://www.facebook.com/100027879741725/videos/482589526073210/"
+  },
+  {
+    "text": "مناديل لاكي بيبي المبللة للأطفال",
+    "expected": null,
+    "source": "https://www.facebook.com/dokkan.ly/posts/6891891574169832/"
+  },
+  {
+    "text": "حفاضات الأطفال فرانس لينو",
+    "expected": null,
+    "source": "https://www.facebook.com/100064617942263/photos/669449028552356/"
+  },
+  {
+    "text": "مناديل بيبي ميلا المبللة",
+    "expected": null,
+    "source": "https://www.facebook.com/100089138085037/videos/4203888136521993/"
+  },
+  {
+    "text": "مناديل معطرة Babylove",
+    "expected": null,
+    "source": "https://www.facebook.com/libyangermanshop/posts/258296073584623/"
+  },
+  {
+    "text": "رضاعة Dr. Brown's",
+    "expected": null,
+    "source": "https://www.facebook.com/ADAISSM/photos/1458321739239995/"
+  },
+  {
+    "text": "بودرة أطفال",
+    "expected": null,
+    "source": "https://www.facebook.com/ADAISSM/photos/1458321739239995/"
+  },
+  {
+    "text": "غسول للشعر والجسم",
+    "expected": null,
+    "source": "https://www.facebook.com/ADAISSM/photos/1458321739239995/"
+  },
+  {
+    "text": "قلم حواجب شيجلام",
+    "expected": null,
+    "source": "https://www.facebook.com/100077493521707/videos/476643231862058/"
+  },
+  {
+    "text": "قلم ازالة شعر الوجه",
+    "expected": null,
+    "source": "https://www.facebook.com/100076623700625/videos/559064260347634/"
+  },
+  {
+    "text": "قلم SB BROWBLADE",
+    "expected": null,
+    "source": "https://www.facebook.com/nuha.beauty18/posts/1585069570285455/"
+  },
+  {
+    "text": "قلم رسم الحواجب Micro Brow Pencil",
+    "expected": null,
+    "source": "https://www.facebook.com/NYX.Libya/posts/2662841963773070/"
+  },
+  {
+    "text": "قلم حواجب ميكرو",
+    "expected": null,
+    "source": "https://www.facebook.com/NYX.Libya/videos/2112780852248046/"
+  },
+  {
+    "text": "حنة نيها الاصلية",
+    "expected": null,
+    "source": "https://www.facebook.com/100045935541333/posts/1450124273195410/"
+  },
+  {
+    "text": "لصقة حنة أطفال",
+    "expected": null,
+    "source": "https://www.facebook.com/100045935541333/posts/1450124273195410/"
+  },
+  {
+    "text": "مسك وعنبر",
+    "expected": null,
+    "source": "https://www.facebook.com/Claire4LY/posts/917126032509661/"
+  },
+  {
+    "text": "كريم شعر",
+    "expected": null,
+    "source": "https://www.facebook.com/Claire4LY/posts/917126032509661/"
+  },
+  {
+    "text": "زيت الأركان المغربي الطبيعي",
+    "expected": null,
+    "source": "https://www.facebook.com/zanomyofficial/posts/928374831391444/"
+  },
+  {
+    "text": "زيت الاركان المغربي الأصلي Bio",
+    "expected": null,
+    "source": "https://www.facebook.com/100076295077520/posts/518040047415827/"
+  },
+  {
+    "text": "ماسك حمام الزيت",
+    "expected": null,
+    "source": "https://www.facebook.com/libyangermanshop/posts/2412852535596304/"
+  },
+  {
+    "text": "زيت الأركان المغربي حجم صغير",
+    "expected": null,
+    "source": "https://www.facebook.com/100069136845328/photos/111163660385405/"
+  },
+  {
+    "text": "شامبو الشيب",
+    "expected": null,
+    "source": "https://www.facebook.com/100069815283246/posts/149164507409104/"
+  },
+  {
+    "text": "شامبو وبلسم وسيروم اورغانك الايطالي",
+    "expected": null,
+    "source": "https://www.facebook.com/100045935541333/posts/1360358112172027/"
+  },
+  {
+    "text": "شامبو وبلسم اولابلكس",
+    "expected": null,
+    "source": "https://www.facebook.com/barbieshoply/posts/2793320284041112/"
+  },
+  {
+    "text": "شامبو وبلسم للشعر المصبوغ",
+    "expected": null,
+    "source": "https://www.facebook.com/libyangermanshop/posts/2041433279404900/"
+  },
+  {
+    "text": "شامبو زيادة نمو وتطويل الشعر",
+    "expected": null,
+    "source": "https://www.facebook.com/BEAUTYROCHERLIBYA/videos/1235812750943406/"
+  },
+  {
+    "text": "كريم مرطب",
+    "expected": null,
+    "source": "https://www.facebook.com/BEAUTYROCHERLIBYA/videos/447671199209096/"
+  },
+  {
+    "text": "بلسم فاميلي كير بزيت الزيتون",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1332614547212373/posts/2021949424945545/"
+  },
+  {
+    "text": "CIEN أكوا كريم ترطيب الوجه",
+    "expected": null,
+    "source": "https://www.facebook.com/libyangermanshop/photos/2087409748140586/"
+  },
+  {
+    "text": "مقشر الخوخ",
+    "expected": null,
+    "source": "https://www.facebook.com/100085304924149/posts/539429098910583/"
+  },
+  {
+    "text": "صابون التفتيح المغربي كينتا",
+    "expected": null,
+    "source": "https://www.facebook.com/100086625696290/posts/1020521067512074/"
+  },
+  {
+    "text": "صابون بزيت الزيتون طبيعي",
+    "expected": null,
+    "source": "https://www.facebook.com/HHbenghazi/posts/404344008156303/"
+  },
+  {
+    "text": "صابون زيت الزيتون واملاح البحر الميت",
+    "expected": null,
+    "source": "https://www.facebook.com/lamar.co1919l/posts/1065284854288110/"
+  },
+  {
+    "text": "صابون زهر النيرولي",
+    "expected": null,
+    "source": "https://www.facebook.com/ALBAYLESEN/photos/1607761408023919/"
+  },
+  {
+    "text": "صابون اللوز",
+    "expected": null,
+    "source": "https://www.facebook.com/ALBAYLESEN/photos/1607761408023919/"
+  },
+  {
+    "text": "صابون الشبة",
+    "expected": null,
+    "source": "https://www.facebook.com/Zein2018Libya/posts/1418672471845129/"
+  },
+  {
+    "text": "صابون مصنع بزيت الزيتون بدون عطور",
+    "expected": null,
+    "source": "https://www.facebook.com/alhaya.mall.libya/posts/5411539265620685/"
+  },
+  {
+    "text": "عطر شعر",
+    "expected": null,
+    "source": "https://www.facebook.com/100085304924149/posts/539429098910583/"
+  },
+  {
+    "text": "مكمل غذائي مضاد للأكسدة",
+    "expected": null,
+    "source": "https://www.facebook.com/100046967867966/"
+  },
+  {
+    "text": "فيتامينات للرجال Limitless Man Max",
+    "expected": null,
+    "source": "https://www.facebook.com/AlqalaaPharmacy/photos/1671952558274618/"
+  },
+  {
+    "text": "Centrum Silver فيتامينات ومعادن",
+    "expected": null,
+    "source": "https://www.facebook.com/Alhia.afdal/posts/800728059136988/"
+  },
+  {
+    "text": "مقلمة ران",
+    "expected": null,
+    "source": "https://www.facebook.com/mataboushiha/"
+  },
+  {
+    "text": "مقلمة هيبارا",
+    "expected": null,
+    "source": "https://www.facebook.com/mataboushiha/"
+  },
+  {
+    "text": "علبة ألوان خشبية 50 لون",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/151106245437858/"
+  },
+  {
+    "text": "مقلمة للأطفال أولاد وبنات",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D9%82%D8%B1%D8%B7%D8%A7%D8%B3%D9%8A%D8%A9-%D8%A5%D9%82%D8%B1%D8%A3-%D9%84%D9%84%D8%A7%D8%AF%D8%A7%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A%D8%A9-61556456330359/"
+  },
+  {
+    "text": "المقلمة والمطارة",
+    "expected": null,
+    "source": "https://www.facebook.com/100075987703407/videos/1735076954208171/"
+  },
+  {
+    "text": "حقيبة كتفين جلد",
+    "expected": null,
+    "source": "https://www.facebook.com/mamash.jewelry/posts/1070042911835661/"
+  },
+  {
+    "text": "تن الجيد 185غرام",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/groups/1363493740426907/"
+  },
+  {
+    "text": "توت اطفال",
+    "expected": null,
+    "source": "https://www.facebook.com/elegantkids007/photos/767004595428342/"
+  },
+  {
+    "text": "حذاء أطفال للبنات PUMA",
+    "expected": null,
+    "source": "https://www.facebook.com/100076092877701/posts/156875440114145/"
+  },
+  {
+    "text": "طاقم جرانيت كروي 7 قطع",
+    "expected": null,
+    "source": "https://www.facebook.com/Alsharifhome.ly/videos/1132735527896065/"
+  },
+  {
+    "text": "طنجرة بالكسكاس حجم 24 سم",
+    "expected": null,
+    "source": "https://www.facebook.com/NACHOMELIBYA/videos/forno/580194816597291/"
+  },
+  {
+    "text": "TREKINA طقم 7 قطع",
+    "expected": null,
+    "source": "https://www.facebook.com/WaqedGroup/videos/973224941837299/"
+  },
+  {
+    "text": "منظم الغاز المنزلي",
+    "expected": null,
+    "source": "https://www.facebook.com/ElsharifHouseWare/videos/1045385629646530/"
+  },
+  {
+    "text": "صوبات يونيفرسال",
+    "expected": null,
+    "source": "https://www.facebook.com/lamarjanashop/videos/975984651037485/"
+  },
+  {
+    "text": "مولدات iPOWER",
+    "expected": null,
+    "source": "https://www.facebook.com/zadtools/photos/1739282009564756/"
+  },
+  {
+    "text": "زيت 5w20",
+    "expected": null,
+    "source": "https://www.facebook.com/100064228173233/photos/1323546769796250/"
+  },
+  {
+    "text": "فلتر زيت موبس عادي",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/387927313621784/posts/1055568080191034/"
+  },
+  {
+    "text": "فلتر زيت هونداي",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/387927313621784/posts/862893189458525/"
+  },
+  {
+    "text": "فلتر زيت بورتر موبس",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/387927313621784/posts/864897765924734/"
+  },
+  {
+    "text": "فلتر زيت تيقوان",
+    "expected": null,
+    "source": "https://www.facebook.com/tecnecolibya/photos/118949273134521/"
+  },
+  {
+    "text": "فلتر محرك نافطة شامبيون تركي",
+    "expected": null,
+    "source": "https://www.facebook.com/Algradi.truck/posts/1139002358227968/"
+  },
+  {
+    "text": "حديد 12 مم مصراتة",
+    "expected": null,
+    "source": "https://www.facebook.com/sooq7aded/"
+  },
+  {
+    "text": "حديد 14 مم مصراتة",
+    "expected": null,
+    "source": "https://www.facebook.com/sooq7aded/"
+  },
+  {
+    "text": "حديد 8 مم مصراتة",
+    "expected": null,
+    "source": "https://www.facebook.com/sooq7aded/"
+  },
+  {
+    "text": "حديد 14 زليتن",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%AF%D9%84%D9%8A%D9%84-%D9%84%D9%8A%D8%A8%D9%8A%D8%A7-%D9%84%D9%84%D8%A8%D9%86%D8%A7%D8%A1-100066702006549/"
+  },
+  {
+    "text": "دشيشة حرشة وناعمة",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/964371423945110/posts/2023639631351612/"
+  },
+  {
+    "text": "نخالة قشور اللوز",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/294206282405031/"
+  },
+  {
+    "text": "تبن خبزة مرحية",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/294206282405031/posts/1355298722962443/"
+  },
+  {
+    "text": "شعير مكيس",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/537964091240254/"
+  },
+  {
+    "text": "كرت فئة 40 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/AlmadarAljadid.Co/posts/2859843460767821/"
+  },
+  {
+    "text": "مصحف صغير",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1332614547212373/posts/1938296883310800/"
+  },
+  {
+    "text": "سبحة الكترونية",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/296643254781823/posts/1586354935810642/"
+  },
+  {
+    "text": "كرت اذكار",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/296643254781823/posts/1586354935810642/"
+  },
+  {
+    "text": "بخارة بخور",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/296643254781823/posts/1586354935810642/"
+  },
+  {
+    "text": "سجادة صلاة مبطنة بالاسفنج",
+    "expected": null,
+    "source": "https://www.facebook.com/100063540159770/posts/766890688772263/"
+  },
+  {
+    "text": "خاتم التسبيح الذكي",
+    "expected": null,
+    "source": "https://www.facebook.com/Litoooo0/posts/1021688740003650/"
+  },
+  {
+    "text": "بدلة صلاة",
+    "expected": null,
+    "source": "https://www.facebook.com/tkfeedddd/posts/502711357065675/"
+  },
+  {
+    "text": "بوكس صلاة",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/jomlaly1/posts/24482295194772793/"
+  },
+  {
+    "text": "حليب بيبيلاك 1\\2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/Alzohor.pharmacy/posts/904621488377317/"
+  },
+  {
+    "text": "حليب الأطفال بيبيلاك 1.2.3",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/AlhaniMarket/posts/382433212166893/"
+  },
+  {
+    "text": "حليب بيبيلاك رقم 2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100070208222490/photos/1969322343109239/"
+  },
+  {
+    "text": "حليب بيبيلاك رقم 1 و 2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100092219529028/"
+  },
+  {
+    "text": "بيبيلاك AR ضد الترجيع",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/alsafwa.pharmacy.zlten/"
+  },
+  {
+    "text": "حليب ديلاك 1 - 2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/1307883925893220/posts/3584798821535041/"
+  },
+  {
+    "text": "حليب لبتوميل رقم 1 و 2 و 3",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100054265190500/posts/1731263903789324/"
+  },
+  {
+    "text": "حليب ليبتوميل رقم (1،2،3)",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/OZONN.ALSARAJ/posts/629628337447138/"
+  },
+  {
+    "text": "حليب لبتوميلك رقم 1،2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/elzaytouna.pharmacy/photos/575486803108239/"
+  },
+  {
+    "text": "حليب سيميلاك Similac gold",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/Royal.Ce.pharmacy/posts/1196737134059680/"
+  },
+  {
+    "text": "سيميلاك Similac gold 2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/Royal.Ce.pharmacy/posts/1196737134059680/"
+  },
+  {
+    "text": "حليب سيميلاك أدفانس",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100063716613486/posts/1630474722419733/"
+  },
+  {
+    "text": "حليب سيميلاك قولد رقم 123",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100078397982351/posts/854650741789496/"
+  },
+  {
+    "text": "حليب سيميلاك كومفورت رقم 123",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100078397982351/posts/854650741789496/"
+  },
+  {
+    "text": "حليب الأطفال similac",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100078397982351/posts/854650741789496/"
+  },
+  {
+    "text": "حليب سيميلاك جولد تركيبة HMO",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/ali.pharmacy1990/posts/1737173963126806/"
+  },
+  {
+    "text": "حليب نوفالاك AC",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/Alzahraweenpharmacy/videos/4037707269696792/"
+  },
+  {
+    "text": "حليب سانوميل",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/Sanomil.ly/videos/899092075319807/"
+  },
+  {
+    "text": "حليب هيرو بيبي",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/61563429915152/posts/122179760048447663/"
+  },
+  {
+    "text": "حليب هيرو بيبي AR",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/61563429915152/posts/122179760048447663/"
+  },
+  {
+    "text": "حليب هيرو بيبي 1&2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100090065676122/"
+  },
+  {
+    "text": "حليب سيليا",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/61554833986995/posts/122229649172161132/"
+  },
+  {
+    "text": "حليب سيليا ديفلوب",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/61554833986995/videos/3785550108426723/"
+  },
+  {
+    "text": "سيليا نيوتشرن",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/61554833986995/videos/1327609125246386/"
+  },
+  {
+    "text": "حليب سيليا رقم 2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100063877305199/"
+  },
+  {
+    "text": "حليب أطفال فرانس ليه 1-2-3",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100064853853436/posts/832399540445877/"
+  },
+  {
+    "text": "حليب فرانس ليه رقم 2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100069898838420/photos/1714145335546317/"
+  },
+  {
+    "text": "حليب بيوميل للأطفال 1.2.3",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/Aldora.pharmacy/photos/2977014912562636/"
+  },
+  {
+    "text": "حليب كيوت بيبى الذهبي",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/cutebaby.co11/posts/275149505120580/"
+  },
+  {
+    "text": "حليب نيدو للأطفال مدعوووم",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100064690868822/posts/1160650684288029/"
+  },
+  {
+    "text": "حليب نيدو حكة مدعم",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/arkanmisurata/posts/5517221648300672/"
+  },
+  {
+    "text": "حليب نيدو المدعم والمخصص للأطفال",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100046401567166/photos/1546733290216708/"
+  },
+  {
+    "text": "حليب نيدو مقوي المغطي الحمراء",
+    "expected": null,
+    "source": "https://www.facebook.com/100069898838420/photos/1714145335546317/"
+  },
+  {
+    "text": "حليب ابتاميل رقم 1 . 2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100064574656910/posts/818812953614519/"
+  },
+  {
+    "text": "حليب ابتاميل رقم 2 و 3",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/alrabe3.pharmacy/posts/1042177165967037/"
+  },
+  {
+    "text": "حليب ابتاميـل(ar)",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/belqespharmacy/posts/869372586802796/"
+  },
+  {
+    "text": "AR FORMULA المضاد للترجيع",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100063234820818/posts/204505757548135/"
+  },
+  {
+    "text": "حليب ماي بوي رقم 1",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100065001121476/posts/255748616430013/"
+  },
+  {
+    "text": "حليب ماي بوي جميع الارقام",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/yashfenpharma/photos/1451019208330302/"
+  },
+  {
+    "text": "حليب قايدا الماني رقم 2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/yashfenpharma/photos/1451019208330302/"
+  },
+  {
+    "text": "حليب بريملاك جميع الأرقام",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/libyapharmacy7/posts/101318621458531/"
+  },
+  {
+    "text": "حليب بريمالاك Primalac Premium",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100084935485042/videos/1042005855274998/"
+  },
+  {
+    "text": "حليب بريمالاك",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/61563720965426/"
+  },
+  {
+    "text": "حليب برافوا ميل",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/61563720965426/"
+  },
+  {
+    "text": "حليب الاطفال نينولاك 1",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100063671048119/posts/697302721050366/"
+  },
+  {
+    "text": "حليب نينولاك",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/ninolac.libya/photos/1403156771817942/"
+  },
+  {
+    "text": "حليب نستوجين",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100061924995903/posts/2983961541666706/"
+  },
+  {
+    "text": "حليب النستوجين 1 , 2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100061924995903/photos/3212508632145328/"
+  },
+  {
+    "text": "حليب نستوجين صناعة فرنسية رقم 1",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/Kribamarket/posts/136836031358846/"
+  },
+  {
+    "text": "حليب الأطفال نستوجين",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/ALQANDILALMUTAJADID/posts/161360778778420/"
+  },
+  {
+    "text": "حليب الأطفال SMA",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100061924995903/posts/2984910841571776/"
+  },
+  {
+    "text": "حليب الاطفال SMS",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100061924995903/posts/3212508675478657/"
+  },
+  {
+    "text": "حليب pediamil",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/HyatPharmacy/photos/541535031320053/"
+  },
+  {
+    "text": "بيدياميل LF",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100091333837763/videos/611749994441497/"
+  },
+  {
+    "text": "حليب نوتري هولند",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/AlqalaaPharmacy/videos/1808458990593336/"
+  },
+  {
+    "text": "سيريلاك جميع النكهات",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/100078397982351/photos/350826085505300/"
+  },
+  {
+    "text": "سيريلاك القمح والتمر المدعم بالحديد",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/100054480309314/"
+  },
+  {
+    "text": "سيريلاك قمح وفواكه",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/100084689442669/"
+  },
+  {
+    "text": "سيريلاك قمـح وتمـر",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/100084689442669/"
+  },
+  {
+    "text": "وجبة مسحوق الارز",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/100078397982351/photos/785097135411524/"
+  },
+  {
+    "text": "سيريلاك بلازمون",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/libyaAlmargg/videos/739287720750597/"
+  },
+  {
+    "text": "تبراميل وجبات",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/61563720965426/"
+  },
+  {
+    "text": "شراب بنادول للحراره ومسكن للالم للاطفال",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://www.facebook.com/al.fayruzp/posts/1636508436737265/"
+  },
+  {
+    "text": "Paralvit خافض حرارة ومسكن آمن للأطفال",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://www.facebook.com/61554859155181/videos/1656296618391952/"
+  },
+  {
+    "text": "Dolenfant Syrup",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://www.facebook.com/61552018894535/"
+  },
+  {
+    "text": "ادول شراب للأطفال و الرضع",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://www.facebook.com/groups/585873585755663/posts/1305065137169834/"
+  },
+  {
+    "text": "مضاد حيوي أموكسيل شراب",
+    "expected": "amoxicillin_suspension_60ml",
+    "source": "https://www.facebook.com/100064690868822/posts/579110375775399/"
+  },
+  {
+    "text": "محلول معالجة الجفاف (ORS)",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/admin1.Nahawand/photos/587079862930661/"
+  },
+  {
+    "text": "Pro biolyte",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/alabrag.pharmacy/posts/743308617797094/"
+  },
+  {
+    "text": "محلول جفاف عادي",
+    "expected": "ors_sachet",
+    "source": "https://www.facebook.com/100083822267782/"
+  },
+  {
+    "text": "حفاضات +My A",
+    "expected": null,
+    "source": "https://www.facebook.com/100089138085037/videos/4203888136521993/"
+  },
+  {
+    "text": "حفاضات بامبينو",
+    "expected": null,
+    "source": "https://www.facebook.com/61578266729724/"
+  },
+  {
+    "text": "حفاضات BabyJoy",
+    "expected": null,
+    "source": "https://www.facebook.com/AlqalaaPharmacy/videos/1808458990593336/"
+  },
+  {
+    "text": "حفاضات KIKI Baby مقاس 2/3",
+    "expected": null,
+    "source": "https://www.facebook.com/100083418157297/"
+  },
+  {
+    "text": "قطن أطفال coosh تركي الصنع",
+    "expected": null,
+    "source": "https://www.facebook.com/100046967867966/"
+  },
+  {
+    "text": "Wellbaby Vit D Drops",
+    "expected": null,
+    "source": "https://www.facebook.com/100064690868822/posts/1254811114871985/"
+  },
+  {
+    "text": "فيتامين د نقاط للاطفال",
+    "expected": null,
+    "source": "https://www.facebook.com/100063636414322/posts/517969415449993/"
+  },
+  {
+    "text": "Omegavit drops",
+    "expected": null,
+    "source": "https://www.facebook.com/100042203505006/photos/1799987574751342/"
+  },
+  {
+    "text": "For ferro syrup",
+    "expected": null,
+    "source": "https://www.facebook.com/DatEssawaryPharmacy/photos/1505188356241959/"
+  },
+  {
+    "text": "Children's Vitamin C",
+    "expected": null,
+    "source": "https://www.facebook.com/100063716613486/posts/1423237696476771/"
+  },
+  {
+    "text": "Frutdep D50,000",
+    "expected": null,
+    "source": "https://www.facebook.com/ADARION.LY/photos/2631027307170864/"
+  },
+  {
+    "text": "HEDELIX Syrup",
+    "expected": null,
+    "source": "https://www.facebook.com/RHlibya/posts/4406381969461053/"
+  },
+  {
+    "text": "Aspecton Cough Syrup",
+    "expected": null,
+    "source": "https://www.facebook.com/RHlibyaBenghazi/posts/864241816458818/"
+  },
+  {
+    "text": "Conta flu syrup",
+    "expected": null,
+    "source": "https://www.facebook.com/AlghosnalakhdarLiB/videos/1351345736701934/"
+  },
+  {
+    "text": "Conta flu drop للرضع",
+    "expected": null,
+    "source": "https://www.facebook.com/AlghosnalakhdarLiB/videos/1351345736701934/"
+  },
+  {
+    "text": "Advancis Extra Cough Relief Kids",
+    "expected": null,
+    "source": "https://www.facebook.com/100063546580258/"
+  },
+  {
+    "text": "زيلون شراب",
+    "expected": null,
+    "source": "https://www.facebook.com/alwledphrmacy/posts/917711185101435/"
+  },
+  {
+    "text": "فلاجيل شراب مطهر",
+    "expected": null,
+    "source": "https://www.facebook.com/alwledphrmacy/posts/905248246347729/"
+  },
+  {
+    "text": "نوبين – Nopain",
+    "expected": null,
+    "source": "https://www.facebook.com/alwledphrmacy/posts/917711185101435/"
+  },
+  {
+    "text": "ADVANCIS Coli Baby نقط اللاكتاز",
+    "expected": null,
+    "source": "https://www.facebook.com/100075985953784/"
+  },
+  {
+    "text": "Bepanthen مرهم الأطفال",
+    "expected": null,
+    "source": "https://www.facebook.com/100075985953784/"
+  },
+  {
+    "text": "Enterogermina Kids",
+    "expected": null,
+    "source": "https://www.facebook.com/100064690868822/posts/579110375775399/"
+  },
+  {
+    "text": "انتينال لعلاج الاسهال شراب للاطفال",
+    "expected": null,
+    "source": "https://www.facebook.com/100054162442218/posts/1377160369087856/"
+  },
+  {
+    "text": "بسكويت اطفال اصابع بلازمون",
+    "expected": null,
+    "source": "https://www.facebook.com/libyaAlmargg/videos/739287720750597/"
+  },
+  {
+    "text": "بسكويت Plasmon il Biscotto الإيطالي",
+    "expected": null,
+    "source": "https://www.facebook.com/AlqalaaPharmacy/posts/1642827321187142/"
+  },
+  {
+    "text": "حليب بديا شور للاطفال",
+    "expected": null,
+    "source": "https://www.facebook.com/100078397982351/posts/785935818660989/"
+  },
+  {
+    "text": "كراسة 60 مسطرة أندونيسي درجة أولى",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/groups/942374689443997/posts/2277275605953892/"
+  },
+  {
+    "text": "دستة 10 كراسات",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/100063493386325/"
+  },
+  {
+    "text": "الكراسة المدرسية",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/Abanstores/posts/1068544725451220/"
+  },
+  {
+    "text": "دستة ستة كراسات",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/Abanstores/videos/1123248656443768/"
+  },
+  {
+    "text": "كراس 100 ورقه جوده ممتازه",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/alsherif81/posts/1473152594348479/"
+  },
+  {
+    "text": "كراسات ملونه 100 ورقه",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/alsherif81/posts/1475682877428784/"
+  },
+  {
+    "text": "كراس 100 ورقة مغلف",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/qalm.arby/posts/801449665564313/"
+  },
+  {
+    "text": "كراس 60 ورقة مسطر",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/qalm.arby/posts/801449665564313/"
+  },
+  {
+    "text": "كراس 60 ورقة مش مسطر",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/qalm.arby/posts/801449665564313/"
+  },
+  {
+    "text": "كراس60 ورقة ملون",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/qalm.arby/posts/801449665564313/"
+  },
+  {
+    "text": "كراس مرسوم 60 ورقة",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/100064127888135/"
+  },
+  {
+    "text": "كراس 100 ورق",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/100064127888135/photos/955350389945882/"
+  },
+  {
+    "text": "كراس بروحه",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/100064127888135/photos/1211320431015542/"
+  },
+  {
+    "text": "كراس 60ورقه",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/100085717131750/posts/763048703229027/"
+  },
+  {
+    "text": "كراس 60ملون",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/100085717131750/posts/763048703229027/"
+  },
+  {
+    "text": "كراس A4مسفر ومسطر",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/100085717131750/posts/763048703229027/"
+  },
+  {
+    "text": "كراسة 60 ورقة رسم + تسطير",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/groups/1139679576966287/"
+  },
+  {
+    "text": "كراسة 60 ورقة تسطير فقط",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/groups/1139679576966287/"
+  },
+  {
+    "text": "كراسة 100 ورقة تسطير فقط",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/groups/1139679576966287/"
+  },
+  {
+    "text": "الكراسه 60 ورقه",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/groups/432808024210602/"
+  },
+  {
+    "text": "دفتر 60 ورقه",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/groups/627404362792508/"
+  },
+  {
+    "text": "دفتر 100 ورقه",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/groups/627404362792508/"
+  },
+  {
+    "text": "كراسات واجهة برسمة تخص المادة",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/groups/629473755225763/"
+  },
+  {
+    "text": "حقيبة مدرسية 3 قطع",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/100090268779912/photos/1043406455344971/"
+  },
+  {
+    "text": "الحقائب المدرسية البناتية بتصاميم عصرية",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/61572126641821/videos/1087903213903119/"
+  },
+  {
+    "text": "شنطة مدرسية 3 قطع كاملة",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/p/%D8%B9%D8%A7%D9%84%D9%85-%D8%A7%D9%84%D8%AD%D9%82%D8%A7%D8%A6%D8%A8-world-of-bags-61552331323698/"
+  },
+  {
+    "text": "حقائب مدرسيه 5-4 قطع",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/p/%D9%85%D8%AA%D8%AC%D8%B1-%D8%A7%D8%A8%D8%AA%D8%B3%D8%A7%D9%85%D9%87-100063532926321/"
+  },
+  {
+    "text": "حقائب مدرسيه في ليبيا",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/b4s.ly/videos/796689051372563/"
+  },
+  {
+    "text": "شنطة Smiggle الأصلية",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/100075987703407/videos/1873131824089839/"
+  },
+  {
+    "text": "شنطة مدرسية بثلاثة ألوان",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/100068943770380/videos/997031456754956/"
+  },
+  {
+    "text": "حقائب مدرسية بنات و أولاد",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/100068943770380/videos/1625183132560295/"
+  },
+  {
+    "text": "شنط مدرسيه",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/groups/1766650233557992/posts/4049873055235687/"
+  },
+  {
+    "text": "الحقائب المدرسية بتصاميم عصرية",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/Elmisorey/"
+  },
+  {
+    "text": "طقم حقيبة مدرسية ثلاث قطع",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/groups/379633207783680/posts/967818408965154/"
+  },
+  {
+    "text": "حقيبة اولاد خامة وشكل",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/100041234805812/posts/1042331513817999/"
+  },
+  {
+    "text": "أقلام جاف",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/61580616238116/"
+  },
+  {
+    "text": "بيروات ملونة",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/61580616238116/"
+  },
+  {
+    "text": "الأقلام والبيروات بجميع الأنواع والألوان",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/61580616238116/"
+  },
+  {
+    "text": "قلم حبر جاف 4×1 4الوان",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/alekhlasstationerylibrary/posts/2817270461751070/"
+  },
+  {
+    "text": "بيرو محاية بطمة",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/100068987589128/photos/609374268038821/"
+  },
+  {
+    "text": "اقلام جاف ملونة",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/groups/1075184453040357/"
+  },
+  {
+    "text": "مياه الشرب سعة 7 لتر",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/100077583355057/photos/1119417227321045/"
+  },
+  {
+    "text": "بانقة 7 لتر",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/100069560960754/posts/1348659914129361/"
+  },
+  {
+    "text": "مياه 7لتر",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/groups/450022947708230/"
+  },
+  {
+    "text": "مياه دجلة الأولى في السوق الليبي",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/100063531818395/posts/243792634063533/"
+  },
+  {
+    "text": "ستيكة دجلة نص ليتر",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/dokkan.ly/posts/5480558511969819/"
+  },
+  {
+    "text": "ستيكة لتر و نصف",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/102986567732153/posts/218528269511315/"
+  },
+  {
+    "text": "مياه قوربينار Gurpinar",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/102986567732153/posts/218528269511315/"
+  },
+  {
+    "text": "ستيكة نصف لتر",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/Qserlibya/posts/2798143826908067/"
+  },
+  {
+    "text": "بانقة 6.200 لتر",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/AlghofranLy/"
+  },
+  {
+    "text": "عبوة 1.5لتر ستيكة فيها 6",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/100069395131865/posts/262705431760265/"
+  },
+  {
+    "text": "عبوة 15 كيلو",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/downtownlibya/posts/1015048835217277/"
+  },
+  {
+    "text": "اسطوانات غاز الطهي",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/2Sabha/photos/a.192766005468569/244154606996375/"
+  },
+  {
+    "text": "بنابل غاز",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/groups/24185910431100254/"
+  },
+  {
+    "text": "اسطونات غاز فارغه",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/groups/1063488377339278/posts/2784243905263708/"
+  },
+  {
+    "text": "اسطوانة غاز للبيع",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/groups/1063488377339278/posts/2740303952991037/"
+  },
+  {
+    "text": "2بنابل غاز للبيع",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/groups/1063488377339278/posts/2740303952991037/"
+  },
+  {
+    "text": "تعبئة من مستودع 11 كيلو او 10 كيلو",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/brega.company.bmc/photos/889169390073093/"
+  },
+  {
+    "text": "فوط صحيه ليلاس سوبر حجم كبير",
+    "expected": "sanitary_pads_10",
+    "source": "https://www.facebook.com/100078713630157/photos/995764123057366/"
+  },
+  {
+    "text": "لوكس صابون صلب",
+    "expected": "bath_soap_bar",
+    "source": "https://www.facebook.com/groups/314689229993449/"
+  },
+  {
+    "text": "صابون توري صلب 6 قطع",
+    "expected": "bath_soap_bar",
+    "source": "https://www.facebook.com/p/%D8%A7%D9%84%D9%82%D9%85%D9%88%D8%AF%D9%8A-3-%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%81-%D9%88%D8%A7%D9%84%D8%B9%D8%B7%D9%88%D8%B1-%D9%81%D8%B1%D8%B9-%D9%82%D8%B1%D8%AC%D9%8A-61563776343009/"
+  },
+  {
+    "text": "كراسة رسم (كانسون)",
+    "expected": null,
+    "source": "https://www.facebook.com/Alosta.stationery/videos/1701499607504279/"
+  },
+  {
+    "text": "كراسات السكتش للرسامين",
+    "expected": null,
+    "source": "https://www.facebook.com/safeeralmaaref/videos/1800340211134570/"
+  },
+  {
+    "text": "اقلام التحبير",
+    "expected": null,
+    "source": "https://www.facebook.com/safeeralmaaref/videos/1800340211134570/"
+  },
+  {
+    "text": "حقيبة DOMS الشفافة",
+    "expected": null,
+    "source": "https://www.facebook.com/Alalama.saoe/posts/1272298671594421/"
+  },
+  {
+    "text": "البيرو اللماع بأشكال وأحجام متنوعة",
+    "expected": null,
+    "source": "https://www.facebook.com/AlphaLibrary.net/posts/934077005404715/"
+  },
+  {
+    "text": "ممحاة القلم",
+    "expected": null,
+    "source": "https://www.facebook.com/logistic.libya/posts/2106092552864830/"
+  },
+  {
+    "text": "شنطة اكل حرارية",
+    "expected": null,
+    "source": "https://www.facebook.com/Germanstore09/posts/1218301283744106/"
+  },
+  {
+    "text": "حقيبة طعام عملية",
+    "expected": null,
+    "source": "https://www.facebook.com/100075987703407/"
+  },
+  {
+    "text": "شنطة حرارية خاصة بالفطور/الغداء",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%B9%D8%A7%D9%84%D9%85-%D8%A7%D9%84%D8%AD%D9%82%D8%A7%D8%A6%D8%A8-world-of-bags-61552331323698/"
+  },
+  {
+    "text": "شنط خصر (كروس)",
+    "expected": null,
+    "source": "https://www.facebook.com/Almoktrly/videos/3571193729713094/"
+  },
+  {
+    "text": "حقائب سفر",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%A7%D9%84%D9%85%D8%AC%D8%AF%D9%88%D8%A8-%D9%84%D9%84%D8%AD%D9%82%D8%A7%D8%A6%D8%A8-100085495719040/"
+  },
+  {
+    "text": "حقائب مستندات يد",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%A7%D9%84%D9%85%D8%AC%D8%AF%D9%88%D8%A8-%D9%84%D9%84%D8%AD%D9%82%D8%A7%D8%A6%D8%A8-100085495719040/"
+  },
+  {
+    "text": "حقائب الابلات حجم كبير",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D9%85%D8%AE%D8%A7%D8%B2%D9%86-%D8%A8%D9%88%D8%B1%D9%88-%D9%84%D8%AA%D8%AC%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AD%D9%82%D8%A7%D8%A6%D8%A8-%D8%A8%D8%A7%D9%84%D8%AC%D9%85%D9%84%D9%87-100054683863233/"
+  },
+  {
+    "text": "سبورات رياضه",
+    "expected": null,
+    "source": "https://www.facebook.com/100092466742433/videos/1572223377980777/"
+  },
+  {
+    "text": "صابون ومعطر ملابس",
+    "expected": null,
+    "source": "https://www.facebook.com/61578406745848/videos/1364618688457725/"
+  },
+  {
+    "text": "صابون سائل ملابس واواني",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%B5%D8%A7%D9%84%D8%A9-%D8%B3%D9%84%D9%81%D9%8A%D9%88%D9%85-%D9%84%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D9%85%D9%86%D8%B2%D9%84%D9%8A%D8%A9-%D9%88%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%81-100070638543218/"
+  },
+  {
+    "text": "جل و مسحوق غسالات اوتوماتيك",
+    "expected": null,
+    "source": "https://www.facebook.com/Rawajcm"
+  },
+  {
+    "text": "صابون مستر اوكسي تركي",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%A7%D9%84%D8%A8%D8%B1%D9%91%D8%A7%D9%82-%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%81-%D9%88%D8%A7%D9%84%D8%A8%D9%84%D8%A7%D8%B3%D8%AA%D9%83-100027352281681/"
+  },
+  {
+    "text": "صابون سايبر",
+    "expected": null,
+    "source": "https://www.facebook.com/61550750601709/"
+  },
+  {
+    "text": "صابون التركيبة",
+    "expected": null,
+    "source": "https://www.facebook.com/100095155598109/videos/3785305208445976/"
+  },
+  {
+    "text": "كرة أوربي السحرية",
+    "expected": null,
+    "source": "https://www.facebook.com/61551433761258/videos/943134310863073/"
+  },
+  {
+    "text": "صابون سائل للصحون",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1106880090518823/posts/1612221929984634/"
+  },
+  {
+    "text": "شامبوات جسم وشعر ومعجون اسنان",
+    "expected": null,
+    "source": "https://www.facebook.com/Almotmyez.Market/"
+  },
+  {
+    "text": "مساحيق غسيل",
+    "expected": null,
+    "source": "https://www.facebook.com/Almotmyez.Market/"
+  },
+  {
+    "text": "منشف حمام حجم كبير",
+    "expected": null,
+    "source": "https://www.facebook.com/100078713630157/posts/151326250826054/"
+  },
+  {
+    "text": "سائل أيدي توري الأصلي",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%A7%D9%84%D9%82%D9%85%D9%88%D8%AF%D9%8A-3-%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%81-%D9%88%D8%A7%D9%84%D8%B9%D8%B7%D9%88%D8%B1-%D9%81%D8%B1%D8%B9-%D9%82%D8%B1%D8%AC%D9%8A-61563776343009/"
+  },
+  {
+    "text": "محارم شيفون تركية",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/622862236672587/posts/881573280801480/"
+  },
+  {
+    "text": "اسفنجات تنظيف",
+    "expected": null,
+    "source": "https://www.facebook.com/61572582282121/videos/1822459115132551/"
+  },
+  {
+    "text": "السلة عبّاها بالقرطاسية",
+    "expected": null,
+    "source": "https://www.facebook.com/Abanstores/videos/617803154527065/"
+  },
+  {
+    "text": "ارز هندي كيلو",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/photo.php?fbid=122162147708923246&set=a.122093031380923246&type=3"
+  },
+  {
+    "text": "أرز البركه مكيس عبوة 1كيلو",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/groups/1145078079006980/posts/1850664838448297/"
+  },
+  {
+    "text": "ارز سوس حبة القصيرة",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/100075906654365/"
+  },
+  {
+    "text": "ارز النجيب 1 كيلو حبة طويلة",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/61575643829099/videos/801895629526196/"
+  },
+  {
+    "text": "أرز بياض",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/benwaremall/posts/1523568949567620/"
+  },
+  {
+    "text": "ارز زواز حبه قصيره",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/Alsahelcolibya/"
+  },
+  {
+    "text": "ارز حبة قصيرة",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/Ajelbenghazioriginal3/posts/129837209414819/"
+  },
+  {
+    "text": "ارز حبه طويله",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/Ajelbenghazioriginal3/posts/129837209414819/"
+  },
+  {
+    "text": "أرز لاكاز برتغالي",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/AlhaniMarket/posts/941511196259089/"
+  },
+  {
+    "text": "أرز بسمتي طويل",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/groups/1763005803869348/posts/3127464750756773/"
+  },
+  {
+    "text": "ارز ابو بنات حبه طويه",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/Alsahelcolibya/"
+  },
+  {
+    "text": "رز المبروك",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/100064067383144/"
+  },
+  {
+    "text": "رز الاسرة",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/100064067383144/"
+  },
+  {
+    "text": "رز البركة حبة قصيرة شكارة",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/100092466742433/videos/1025681493590450/"
+  },
+  {
+    "text": "مكرونة سبرينقو صناعة ليبية",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/benwaremall/posts/2923677617938784/"
+  },
+  {
+    "text": "مكرونة الجوهرة 400جم",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/61572941883869/photos/122196875372764729/"
+  },
+  {
+    "text": "مكرونة غالية",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/benwaremall/posts/1523568949567620/"
+  },
+  {
+    "text": "مكرونة الجوهرة",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/benwaremall/posts/1523568949567620/"
+  },
+  {
+    "text": "مكرونة غالية سباقيتي",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/61566287902986/photos/122198875184542930/"
+  },
+  {
+    "text": "مكرونة بسمة سبيقة",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/100067602273544/posts/1347848307478566/"
+  },
+  {
+    "text": "مكرونة لمتنا",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/100063532953804/posts/1652136416914108/"
+  },
+  {
+    "text": "مكرونة الورده",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/SirtBywnAbnayha/posts/1422222449945390/"
+  },
+  {
+    "text": "مكرونة سبيقه 400جرام",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/61572941883869/posts/122215281194764729/"
+  },
+  {
+    "text": "مكرونة الصفوة سباجيتي 500 جم",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/homyfordistribution/videos/567310715118474/"
+  },
+  {
+    "text": "مكرونة الصفوة بينّة 400 جم",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/homyfordistribution/videos/567310715118474/"
+  },
+  {
+    "text": "مكرونة الصفوة شعيرية 400 جم",
+    "expected": "pasta_500g",
+    "source": "https://www.facebook.com/homyfordistribution/videos/567310715118474/"
+  },
+  {
+    "text": "كسكسي رندا متوسط 1كيلو",
+    "expected": "couscous_1kg",
+    "source": "https://www.facebook.com/61572941883869/photos/122216082494764729/"
+  },
+  {
+    "text": "كسكسي السنبلة 1كيلو",
+    "expected": "couscous_1kg",
+    "source": "https://www.facebook.com/61572783581164/photos/122188453862759452/"
+  },
+  {
+    "text": "كسكسي دياري متوسط",
+    "expected": "couscous_1kg",
+    "source": "https://www.facebook.com/alkums.twa/posts/1071719521712991/"
+  },
+  {
+    "text": "سكر البركه 2كيلو",
+    "expected": "sugar_1kg",
+    "source": "https://www.facebook.com/100063532953804/posts/2812090655713113/"
+  },
+  {
+    "text": "سكر مغربي 25ك",
+    "expected": "sugar_1kg",
+    "source": "https://www.facebook.com/100066499184865/photos/102103595328584/"
+  },
+  {
+    "text": "سكر جود 5 كيلو",
+    "expected": "sugar_1kg",
+    "source": "https://www.facebook.com/100092466742433/videos/1003154819010467/"
+  },
+  {
+    "text": "دقيق لمتنا 1كيلو",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/61572783581164/?locale=ar_AR"
+  },
+  {
+    "text": "دقيق زمان",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/61572783581164/photos/122188453862759452/"
+  },
+  {
+    "text": "دقيق الصافي",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/61583164486542/videos/1619724176332512/"
+  },
+  {
+    "text": "دقيق المزرعة",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/100054303650723/"
+  },
+  {
+    "text": "دقيق القمح الحبة الكاملة",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/100063643323536/videos/3526164844215985/"
+  },
+  {
+    "text": "دقيق الفخامة حلويات 1 ك",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/100067397885154/posts/1217068278691976/"
+  },
+  {
+    "text": "الدقيق المنزلي 1 كيلو",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/100080640323405/posts/1825889437600728/"
+  },
+  {
+    "text": "دقيق قمح فاخر شركة الماهر الدولي",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/groups/1495776280631326/posts/2930286450513628/"
+  },
+  {
+    "text": "شكارة دقيق 50 كيلو",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/100092466742433/videos/2329181374173157/"
+  },
+  {
+    "text": "دقيق الدافنية 25ك",
+    "expected": "bakery_flour_50kg",
+    "source": "https://www.facebook.com/100066499184865/?locale=ar_AR"
+  },
+  {
+    "text": "زيت نباتي اولينا 850ملي",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/groups/390794325303002/posts/1085152935867134/"
+  },
+  {
+    "text": "زيت بريما 850 ملي النباتي",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100063532953804/posts/1128301945964227/"
+  },
+  {
+    "text": "زيت الاصيل",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100063532953804/posts/1039193741541715/"
+  },
+  {
+    "text": "زيت الذرة 900 ملي",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100080640323405/posts/1825889437600728/"
+  },
+  {
+    "text": "زيت هنادي",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100063532953804/posts/1512062744254810/"
+  },
+  {
+    "text": "زيت البركة ذرة صافي 900 مل",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/100067122633716/"
+  },
+  {
+    "text": "زيت صافي الذره",
+    "expected": "cooking_oil_1l",
+    "source": "https://www.facebook.com/groups/1864431270586761/posts/2412860999077116/"
+  },
+  {
+    "text": "زيت زيتون طبيعي بكر ممتاز",
+    "expected": "olive_oil_1l",
+    "source": "https://www.facebook.com/100063651006942/posts/872043751593984/"
+  },
+  {
+    "text": "طماطم البركه",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/100063532953804/posts/2812090655713113/"
+  },
+  {
+    "text": "طماطم كون سيرفا",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/100063532953804/posts/1657035253090891/"
+  },
+  {
+    "text": "طماطم جلوة علبة كبيرة",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/benwaremall/posts/1523568949567620/"
+  },
+  {
+    "text": "طماطم الكفيل",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/groups/1633516150154246/posts/2756692804503236/"
+  },
+  {
+    "text": "معجون طماطم لمتنا",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/Alasga1/photos/1190715516423975/"
+  },
+  {
+    "text": "معجون سيليا المركز",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/100068254690134/posts/1904704285148043/"
+  },
+  {
+    "text": "معجون طماطم غالية",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/groups/858865840985039/posts/2606100102928262/"
+  },
+  {
+    "text": "معجون طماطم جالو علبة وزن400جرام",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/100070142256724/posts/580295790985158/"
+  },
+  {
+    "text": "طماطم الصفوه",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/p/%D9%85%D8%AD%D9%84-%D8%A7%D9%84%D8%BA%D8%B1%D8%A8%D9%8A%D9%87-%D9%84%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%BA%D8%B0%D8%A7%D8%A6%D9%8A%D9%87-100088884732758/"
+  },
+  {
+    "text": "طماطم علبة إيطالية",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/100070142256724/videos/1525061728830667/"
+  },
+  {
+    "text": "تن العميد صن شاين",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/MINIMALLTRIPOLI/posts/1129976632502117/"
+  },
+  {
+    "text": "تن فاميليا زيت نباتي 160 جرام",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/albasma2017/posts/275471193123885/"
+  },
+  {
+    "text": "تن الصياد",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/100066693824877/posts/1357017059864742/"
+  },
+  {
+    "text": "تن المعمورة كثلة درجه اولى",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/100066693824877/posts/1357017059864742/"
+  },
+  {
+    "text": "تن اية",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/p/%D8%B3%D9%88%D9%82-%D8%A7%D9%84%D9%87%D9%86%D9%82%D8%A7%D8%B1%D9%8A-%D9%84%D9%84%D8%B3%D9%84%D8%B9-%D8%A7%D9%84%D8%AA%D9%85%D9%88%D9%8A%D9%86%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%BA%D8%B0%D8%A7%D8%A6%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D8%A8%D9%82%D9%88%D9%84%D9%8A%D8%A7%D8%AA-%D9%88%D9%85%D8%B3%D8%AA%D9%84%D8%B2%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%84%D9%88%D9%8A%D8%A7%D8%AA-100054578765118/"
+  },
+  {
+    "text": "تن إيطالي بزيت الزيتون 160جرام",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/61559473869701/videos/973082325566625/"
+  },
+  {
+    "text": "تن المروه 140 جم",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/Alsahelcolibya/photos/1195131856110408/"
+  },
+  {
+    "text": "لبن محلي لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/photo.php?fbid=122162147708923246&set=a.122093031380923246&type=3"
+  },
+  {
+    "text": "حليب تيبرا 1لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100063532953804/posts/2812090655713113/"
+  },
+  {
+    "text": "حليب المزرعة 1 لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/mallaljawhara/posts/3247549115288766/"
+  },
+  {
+    "text": "حليب دانا كامل الدسم 1 لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/DanaDairyLibya/"
+  },
+  {
+    "text": "حليب MILANO إيطالي نصف دسم",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/albasma2017/posts/392553078082362/"
+  },
+  {
+    "text": "حليب جودي باريستا",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/100063532953804/"
+  },
+  {
+    "text": "دجاج مستورد",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/Ajelbenghazioriginal3/posts/129837209414819/"
+  },
+  {
+    "text": "قشطة صافي",
+    "expected": null,
+    "source": "https://www.facebook.com/100063532953804/"
+  },
+  {
+    "text": "بسكويت تورين",
+    "expected": null,
+    "source": "https://www.facebook.com/100063532953804/photos/2536796536575861/"
+  },
+  {
+    "text": "حليب الجيد بالوز",
+    "expected": null,
+    "source": "https://www.facebook.com/100063532953804/"
+  },
+  {
+    "text": "بريوش شكلاطة",
+    "expected": null,
+    "source": "https://www.facebook.com/61572941883869/photos/122196875372764729/"
+  },
+  {
+    "text": "نيوتيلا 350جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/61572941883869/photos/122196875372764729/"
+  },
+  {
+    "text": "ذرة حلوة ألمانيا",
+    "expected": null,
+    "source": "https://www.facebook.com/61572941883869/posts/122207987630764729/"
+  },
+  {
+    "text": "شاي المانجا",
+    "expected": null,
+    "source": "https://www.facebook.com/100063542502259/"
+  },
+  {
+    "text": "عصير مركز من شركة أصيل",
+    "expected": null,
+    "source": "https://www.facebook.com/61572783581164/?locale=ar_AR"
+  }
+]

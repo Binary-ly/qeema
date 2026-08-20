@@ -162,6 +162,26 @@ canonical_items:
       - حليب الندى
       - حليب لاسيه
       - حليب مبستر
+      # From the August 2026 Facebook harvest. Half of each item's new wordings
+      # went here and half were held out as test; see ml/data/facebook/README.md.
+      - حليب زهرات لتر مدعوم
+      - حليب المراعي كامل الدسم
+      - حليب الصافي كامل الدسم 1 لتر
+      - حليب كامل الدسم السعودية 1 ل
+      - حليب الجيد كامل الدسم
+      - حليب جودي خالي الدسم
+      - حليب جودي
+      - حليب الصافي خالي الدسم
+      - حليب الصافي كامل الدسم
+      - حليب النسيم
+      - حليب النسيم معقم
+      - حليب 1 لتر بالعبوة الجديدة
+      - حليب الزهرات 1 لتر كامل الدسم
+      - حليب الليثي
+      - الحليب الندى
+      - حليب جودي كامل الدسم
+      - حليب كانديا كامل الدسم 1 لتر
+      - حليب السعودية 1لتر
 
   - code: infant_formula_400g
     name_en: Infant formula (400g tin)
@@ -224,6 +244,53 @@ canonical_items:
       - بيوميل
       - بيوميل 3
       - Biomil
+      - حليب سيليا اكسبيرت للأطفال
+      - حليب بيبيلاك 400 جرام
+      - حليب الاطفال بيبيلاك LF
+      - حليب بيبيلاك رقم 1
+      - حليب بيبيﻻك رقم 3
+      - حليب ديلاك
+      - حليب لبتوميل رقم 4
+      - حليب ليبتوميل رقم 1 3
+      - حليب سيميلاك توتل كومفرت
+      - حليب سيميلاك جميع لارقام القولد
+      - نوفالاك رقم 1 و2 حجم 800 جرام
+      - حليب نوفالاك جينيو
+      - حليب هيرو بيبي Digest
+      - هيرو بيبي Hero Baby حليب إسباني
+      - حليب هيرو بيبي رقم ٢
+      - Hero Baby AR
+      - حليب سيليا 1 - 2 - 3
+      - حليب فرانس ليه رقم 3
+      - حليب فرانس ليه Ar
+      - حليب فرانس ليه مدعوم
+      - حليب بايو ميل
+      - بيوميل حليب الأطفال
+      - حليب كيوت بيبي رقم 1
+      - LF cute baby
+      - حليب نيدو المدعم للأطفال
+      - حليب نيدو المقوى
+      - حليب ابتاميل رقم 3
+      - حليب ابتاميــل رقم 1
+      - حليب ابتاميل رقم 2 بسعر
+      - حليب ابتاميل رقم (1،2،3)
+      - حليب اطفال Aptamil ابتاميل رقم 1
+      - حليب هونيلاك رقم 1,2,3
+      - حليب هونيلاك جميع الارقام
+      - حليب بريميلاك جميع الارقام
+      - حليب فابي ميلك رقم 1 ورقم 2
+      - حليب كيكوز رقم 1
+      - حليب كيكوز رقم 2
+      - حليب تبراميل
+      - حليب سوسيلاك
+      - Humana 3
+      - حليب نستوجين متوفر حالياً
+      - حليب دانالاك
+      - حليب دانالاك رقم 2
+      - حليب crown milk
+      - حليب اطفال Biemil
+      - حليب أطفال BLEMIL_PLUS أسباني
+      - حليب الأطفال Babylino
 
   - code: baby_cereal_400g
     name_en: Baby cereal (400g)
@@ -279,6 +346,13 @@ canonical_items:
       - serelak tmar 400 gram
       - cerelac roz bel 7alib
       - cerelac mn 6 sh-hour
+      - سيريلاك بالتمر علبة 400جرام
+      - سيريلاك علبه فرانس بيبي
+      - سيريلاك اطفال باكو
+      - سيريلاك قمح وعسل
+      - وجبات الأطفال من TEBRAMIL
+      - هاينز وجبات
+      - سيريلاك خال من مادة الغلوتين
 
   - code: bakery_flour_50kg
     name_en: Bakery flour (50kg sack)
@@ -302,6 +376,8 @@ canonical_items:
       - دقيق مخابز إفرنجية
       - دقيق معجنات وبيتزا
       - شوال دقيق
+      - دقيق المخابز القنطار
+      - دقيق الصفوة حبة كامله 50 كيلو
 
   - code: wheat_flour_1kg
     name_en: Wheat flour
@@ -365,6 +441,12 @@ canonical_items:
       # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
       - دقيق الزهرة
       - دقيق ليبيكا
+      - دقيق الصفوة فارينة 10ك
+      - دقيق المعمورة 1كيلو
+      - دقيق النخبة
+      - دقيق ليبيكا الـ4 كيلو
+      - دقيق الفخامة متعدد 1 ك
+      - دقيق الضحى
 
   - code: olive_oil_1l
     name_en: Olive oil (1 litre)
@@ -407,6 +489,10 @@ canonical_items:
       # Origin is the identifying word, as with دلاع وطني and عنب مصري.
       - زيت زيتون غرياني
       - زيت زيتون غريان
+      - زيت الزيتون الليبي
+      - زيت زيتون 250 مل
+      - زيت زيتون فاخر إسباني
+      - زيت الزيتون لتر
 
   - code: tomato_paste_400g
     name_en: Tomato paste (400g)
@@ -435,6 +521,16 @@ canonical_items:
       - معجون طماطم قوطية 400 غرام
       # Promoted from the reporter corpus by qeema:corpus:promote.
       - معجون طماطم 400 غرام للعلبة
+      - معجون طماطم مزارعنا
+      - طماطم إيطالية 400 جرام
+      - معجون طماطم البسمة
+      - طماطم الاميره
+      - طماطم الشاهد
+      - طماطم سيكام
+      - طماطم الماسة
+      - طماطم الزهرات
+      - طماطم اريس تونسي
+      - طماطم الرضا 400غ ليبي
 
   - code: pasta_500g
     name_en: Pasta (500g)
@@ -468,6 +564,22 @@ canonical_items:
       - مكرونة الطرف
       - مكرونة البسمة
       - مكرونة إيطالية
+      - مكرونة بسمة
+      - مكرونة الجوهرة بينة
+      - مكرونة لمتنا خرز
+      - مكرونة غالية سبيقة
+      - مكرونة باستا خرز
+      - مكرونة الامتياز
+      - مكرونة الحاجه سباغيتي
+      - مكرونة تونسية
+      - مكرونة بنينا 500 جم
+      - مكرونة طعام السنبلة
+      - مكرونه الموسم فاخره 400 جرام
+      - مكرونة الصفوة خرز 400 جم
+      - مكرونة اسبرينقو اسبقيتي
+      - مكرونة مبوخة غالية
+      - مكرونه أبها سبيقا
+      - مكرونه غاليه سبقيني
 
   - code: couscous_1kg
     name_en: Couscous (1kg)
@@ -493,6 +605,17 @@ canonical_items:
       - كسكسي البركة
       - كسكسي السنبلة
       - كسكسي لمتنا
+      - كسكسي بريما ناعم كيلو
+      - كسكسي دياري التونسي الخشن
+      - كسكسى دياري 1 كيلو
+      - كسكسي دياري نص كيلو
+      - كسكسي الإمتياز
+      - كسكسي الفاخر وزن 1 كيلو
+      - كسكسي ليبي
+      - كسكسي غاليه
+      - كسكسي دياري 1كيلو
+      - كسكسي الصفوة
+      - كسكي البركة حبه متوسطه
 
   - code: sugar_1kg
     name_en: Sugar (1kg)
@@ -518,6 +641,9 @@ canonical_items:
       - دستة سكر
       # Promoted from the reporter corpus by qeema:corpus:promote.
       - سكر كيس كيلو دستة
+      - سكر مذاق ثلاثة كيلو
+      - سكر الحاكم
+      - سكر عامر
 
   - code: rice_1kg
     name_en: Rice
@@ -580,6 +706,19 @@ canonical_items:
       - أرز الحبة الطويلة
       # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
       - ارز البركة حبة قصيرة
+      - ارز مصري كيلو
+      - ارز البركة عالي الجودة 1 كيلو
+      - رز المذاق واحد كيلو
+      - أرز دعوات 1 كيلو
+      - ارز بسمتي حبه طويله
+      - ارز الكاس الذهبي
+      - رز غالية
+      - ارز السيفين حبة طويلة
+      - أرز المروة حبة طويلة
+      - رز الضحى
+      - رز الامير
+      - رز الصفوة حبة قصيرة
+      - أرز بسمتي
 
   - code: cooking_oil_1l
     name_en: Cooking oil
@@ -640,6 +779,21 @@ canonical_items:
       - زيت عباد الشمس الجيد
       - زيت عباد الشمس الصفوة
       - زيت الصفوة
+      - زيت البركة النباتي
+      - زيت الجيد نباتي 850ملي
+      - زيت اوليتا نباتي
+      - زيت البركة نباتي 750مل
+      - زيت بريما دوار الشمس
+      - زيت الريان 850 ملي
+      - زيت الصفوه نباتي 1 لتر
+      - زيت ذرة الوسام الذهبي
+      - زيت بريما 900 مل
+      - زيت مروه النباتي
+      - زيت عباد الشمس غاليه
+      - زيت خبير نباتي
+      - زيت البركة ذرة 750مل
+      - زيت بريما ذرة 900مل
+      - زيت البركة ذرة زيت بريما ذرة
 
   - code: eggs_30
     name_en: Eggs (tray of 30)
@@ -669,6 +823,15 @@ canonical_items:
       - طبق بيض ٣٠
       - طبق بيض عادي
       - بيض ليبي
+      - طبق البيض 30بيضة
+      - بيض مصراته
+      - بيض المـائده الليبي حجم متوسط
+      - بيض ليبي درجه أولى حجم كبير
+      - دحي بلدي
+      - بيض بلدي طازج
+      - دحي وطني مخصب
+      - دحي للاكل
+      - بيض وطني
 
   - code: canned_tuna_185g
     name_en: Canned tuna (185g)
@@ -707,6 +870,12 @@ canonical_items:
       # Promoted from the reporter corpus by qeema:corpus:promote.
       - تن الأمير 140ج
       #
+      - تن القبطان
+      - تن صبراتة 160 جرام بزيت الزيتون
+      - تن حلق الوادي بدون ملح مضاف
+      - تن المخطاف
+      - تن المحيط
+      - تن جون وست 170 جرام
 
   - code: chicken_1kg
     name_en: Chicken
@@ -761,6 +930,21 @@ canonical_items:
       - دجاج جاهز للطبخ
       - الدجاج الجاهز للطبخ
       - الدواجن الجاهزة للأكل
+      - دجاج وطني حجم كبير
+      - دجاج وطني طازج وزن 1500 جرام
+      - الدجاج الوطني المجمد
+      - دجاج ليبي مجمد
+      - دجاج كونفيدنس
+      - دجاج مجمد
+      - دجاج وزن 1200
+      - دجاج زلة الطازج
+      - كيلو الدجاج المدبوح
+      - دجاج الطاحونة الطازج
+      - دجاج غوط السلطان
+      - دجاج طازج يوميًا
+      - صدر دجاج بدون عظم 2 ك
+      - دجاج محلي
+      - دجاج وطني وزن كبير
 
   - code: harissa_can
     name_en: Harissa (can)
@@ -782,6 +966,7 @@ canonical_items:
       # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
       - هريسة سيكام
       - هريسة تونسية علبة
+      - هريسة وطنية درجة أولى
 
   - code: tomatoes_1kg
     name_en: Tomatoes
@@ -834,6 +1019,7 @@ canonical_items:
       - kilo w nos tmatem
       # Promoted from the reporter corpus by qeema:corpus:promote.
       - طماطم شمسي
+      - طماطم شمسي طازه درجه اولي
 
   - code: ors_sachet
     name_en: Oral rehydration salts (sachet)
@@ -882,6 +1068,8 @@ canonical_items:
       - dwa el is-hal lel sghar
       - kis amla7 ydhoub fel ma
       - amla7 ta3wid el sawa2el
+      - املاح معالجة الجفاف للاطفال
+      - Rehydran N
 
   - code: paracetamol_suspension_60ml
     name_en: Paracetamol suspension (60ml, paediatric)
@@ -935,6 +1123,9 @@ canonical_items:
       - sharab el 7arara
       - baracetamol sharab atfal 60 ml
       - khafid 7arara lel rodda3 garoura
+      - شراب بنادول للرضع و الاطفال
+      - شراب البنادول خافض الحرارة للأطفال
+      - شراب الحرارة كالبول -Calpol
 
   - code: amoxicillin_suspension_60ml
     name_en: Amoxicillin suspension (60ml, paediatric)
@@ -986,6 +1177,7 @@ canonical_items:
       - amoxicillin 60 ml
       - dwa el 7al9 lel atfal modad 7ayawi
       - modad 7ayawi b nakhet el mouz
+      - أوجمنتين/أموكسيكلاف مضاد حيوي واسع المجال
 
   - code: school_notebook_80p
     name_en: School notebook (80 pages)
@@ -1041,6 +1233,20 @@ canonical_items:
       - كراسة دبل غلاف
       # Promoted from the reporter corpus by qeema:corpus:promote.
       - الكراسة ذات 60 ورقة
+      - كراسة ملونه 80 ورقة
+      - كراسة 100 مسطر مغلف
+      - كراسة 100 ذات جودة
+      - كراسة 100 ورقة
+      - كراس80 ورقة مع الغلاف الملون المقوى
+      - الكراسة الخامة النظيفة
+      - كراس 60 ورقه جوده ممتازه
+      - كراس 100 ورقة ملون ومسطر
+      - كراس 100 ورقة
+      - كراس 100 ملون تري دي
+      - كراسة 100 ورقة رسم + تسطير
+      - كراسه الحساب
+      - كراسة مرسومة
+      - الكراسات متوفــرات في جميـع فـروعـنـا
 
   - code: sanitary_pads_10
     name_en: Sanitary pads (pack of 10)
@@ -1061,6 +1267,11 @@ canonical_items:
       - ليلاس بأجنحة
       - ليلاس بدون أجنحة
       - باكو فوط
+      - تشكيلة فوط صحية ليلاس سوبر
+      - ليلاس الكبير كرتونه
+      - فوط MAXI Vellia
+      - Lilas Maternité Super
+      - Lilas Normale
 
   - code: cooking_gas_11kg
     name_en: Cooking gas cylinder (11kg refill)
@@ -1138,6 +1349,13 @@ canonical_items:
   # outright — "عبوة الـ 7 لترات أو ما يعرف بالـ بانقة". Confirmed by a native
   # speaker 2026-08-19, along with the earlier ruling that دبة means bear or
   # fat and is not a container at all.
+      - تعبئة إسطوانة غاز طهي عبوة 11 كيلو
+      - أسطوانة الغاز المنزلي
+      - الأسطوانة بوزن 15 كيلو جرام
+      - أسطوانات الغاز المنزلي 11 كجم
+      - البمبلة الليمية متع 11 كيلوو
+      - اسطوانة غاز النيل 40 كيلو
+      - تعبئة أسطوانة الغاز سعة 15 كيلو
   - code: drinking_water_7l
     name_en: Drinking water (7L jug)
     name_local: بانقة ماء ٧ لتر
@@ -1185,6 +1403,14 @@ canonical_items:
   # containing them chain-linkable at all: the linker costs both baskets on the
   # day before the changeover and refuses to anchor one it cannot price in full,
   # so without observations for these the link could never be established.
+      - بانقة 15 لتر
+      - دجلة نص لتر
+      - نبع صافي نص لتر
+      - ستيكة النبع لتر ونص
+      - استيكة 500 ML
+      - مياه ليبيا 0.5 لتر
+      - بانقات 7 لتر
+      - بانقه الميه الواحدة
   - code: ballpoint_pen
     name_en: Ballpoint pen
     name_local: قلم جاف
@@ -1248,6 +1474,8 @@ canonical_items:
       - أقلام الحبر
       - أقلام الرصاص
       - بيك كريستال
+      - بيروات جمله
+      - اقلام حبر باركر (بيرو)
 
   - code: school_backpack
     name_en: School backpack
@@ -1303,6 +1531,26 @@ canonical_items:
       - شنطة بعجلات
       # Promoted from the reporter corpus by qeema:corpus:promote.
       - شنطة بعجلات الجرار
+      - حقيبة ظهر جلد مميزة
+      - حقائب مدرسية ذات ثلاث قطع
+      - حقائب ظهر ثلاثة قطع بجودة ممتازة
+      - حقائب مدرسية Adidas بألوان مختلفة
+      - حقائب مدرسية الحجم كبير
+      - شنطه مدرسيه
+      - شنطة كبيرة للمدرسة
+      - حقيبة ظهر مدرسية سيمبل
+      - حقيبة مدرسية واسعة
+      - حقيبة مدرسية adidas Backpack
+      - شناتي روضه ومدارس
+      - شنطة مدرسية موديل جديد
+      - حقائب مدرسية بجميع الأحجام والموديلات الجديدة
+      - شنطه مدرسيه روضه
+      - حقيبة مدرسية كبار وروضة
+      - شنط ظهر بموديلات عصرية
+      - حقائب مدرسية جملة وقطاعي
+      - الشنط المدرسية
+      - طقم حقيبتنا المدرسية
+      - شنط الدرس والمدرسة
 
   - code: bath_soap_bar
     name_en: Bath soap (bar)
@@ -1364,6 +1612,7 @@ canonical_items:
 # Child-weighted, NOT a general CPI. Weights are the share of a household's
 # child-related outlay each item represents, and must sum to 1.0 exactly.
 # Quantities are what the basket physically contains and drive the cost.
+      - LUX Botanicals Bright Skin
 basket:
   name: Child Affordability Basket
   version: 1
