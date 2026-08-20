@@ -256,11 +256,12 @@ def main() -> int:
                 i = j + 1
             npos = sum(labels)
             nneg = len(labels) - npos
-            auc = (sum(r for r, lab in zip(ranks, labels) if lab) - npos * (npos + 1) / 2) / (
-                npos * nneg
-            )
+            auc = (
+                sum(r for r, lab in zip(ranks, labels, strict=True) if lab) - npos * (npos + 1) / 2
+            ) / (npos * nneg)
+            print("\nCONFIDENCE AS A SIGNAL")
             print(
-                f"\nCONFIDENCE AS A SIGNAL\n  AUC separating basket wordings from distractors: {auc:.3f}"
+                f"  AUC separating basket wordings from distractors: {auc:.3f}"
                 "  (0.5 = no information)"
             )
 

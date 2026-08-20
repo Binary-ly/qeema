@@ -78,6 +78,9 @@ exclude_lines = [
 
 [tool.ruff]
 line-length = 100
+# Notebook cells use shell magics (!pip, %cd), which are notebook syntax
+# rather than Python and trip the linter on every line.
+extend-exclude = ["notebooks"]
 target-version = "py311"
 src = ["src", "tests"]
 
