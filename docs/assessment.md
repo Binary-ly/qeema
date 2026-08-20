@@ -383,6 +383,42 @@ behaviour.
 costing, and the last time a quantity moved without its unit the published figure
 came out a thousand times too high.
 
+### 3,887 strings, and an honest verdict on what that buys
+
+Asked to reach 3,838 consecutive correct — the count that puts a 95% Wilson
+lower bound at 99.9% — the one property in this repository where a number that
+size is both attainable and meaningful is the **normalisation contract**.
+
+`normalise()` exists twice: in Python for the matcher, in PHP for seeding and
+the Postgres trigram queries. The Python module calls that duplication dangerous
+and it is right — text normalised one way at index time and another at query
+time simply fails to match, and nothing errors. It was guarded by **22
+hand-written fixtures**.
+
+Both implementations were run over every distinct real string the repository
+holds — catalogue variants, corpus wordings, distractors, evaluation rows.
+**3,887 strings, 3,887 agreements, zero disagreements**, now recorded in
+`contracts/text-normalisation-corpus.json` and asserted by both suites.
+
+**And then it was tested against the thing it was meant to strengthen, which is
+where it stops being a good story.** Each of the eight character folds was
+disabled in turn:
+
+| Injected drift | 22 fixtures | 3,887 real strings |
+|---|---|---|
+| أ إ آ ة ى ؤ ئ unfolded | caught | caught |
+| **ٱ (alef wasla) unfolded** | **caught** | **missed** |
+
+The fixtures win, eight to seven. They were written to cover every fold on
+purpose, one case each; real text contains only what people write, and nobody
+writes alef wasla. **Volume does not subsume design.**
+
+So this is a complement, not a replacement: it covers digits, punctuation and
+glued sizes as they actually co-occur, and checks idempotence over 3,887 strings
+rather than a handful. It is worth keeping and it is not what the target asked
+for. The target asked for the matcher to be right 3,838 times running, and the
+matcher is right 443 times out of 488.
+
 **A sixth was tried and rejected on the numbers.** Libyan sellers write sizes
 glued to words — `الفاخر50ك`, `25كيلو` — and the normaliser leaves them as a
 single token that matches nothing, while the spaced form `الفاخر 50ك` tokenises
