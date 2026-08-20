@@ -51,7 +51,14 @@
       "حليب معقم الريحان",
       "حليب معقم الزهرات",
       "حليب معقم النسيم",
-      "حليب معقم جودي"
+      "حليب معقم جودي",
+      "حليب معقم 1 لتر",
+      "حليب ليتي",
+      "حليب الريحان حكة كبيرة",
+      "الحليب الليبي المبستر",
+      "حليب البستان",
+      "حليب الندى",
+      "حليب لاسيه"
     ],
     "baby_cereal_400g": [
       "سيريلاك قمح بالحليب",
@@ -133,13 +140,18 @@
       "دقيق الأغراض المنزلية الربيع",
       "دقيق الأغراض المنزلية الصفوة",
       "دقيق الأغراض المنزلية الريحان",
-      "فارينة"
+      "فارينة",
+      "دقيق الزهرة",
+      "دقيق ليبيكا"
     ],
     "bakery_flour_50kg": [
       "دقيق المخابز الربيع",
       "دقيق المخابز الصفوة",
       "دقيق المخابز الفاخر",
-      "قنطار الدقيق"
+      "قنطار الدقيق",
+      "قنطار دقيق",
+      "دقيق مخابز إفرنجية",
+      "دقيق معجنات وبيتزا"
     ],
     "rice_1kg": [
       "رز مصري كيلو",
@@ -184,7 +196,8 @@
       "أرز الحبة القصيرة الأسرة",
       "أرز الحبة الطويلة سيلا",
       "أرز الحبة القصيرة",
-      "أرز الحبة الطويلة"
+      "أرز الحبة الطويلة",
+      "ارز البركة حبة قصيرة"
     ],
     "pasta_500g": [
       "مكرونة البركة",
@@ -193,18 +206,36 @@
       "مكرونة الصفوة",
       "مكرونة الفضة",
       "مكرونة سبيقا",
-      "مكرونه سباغيتي نص كيلو"
+      "مكرونه سباغيتي نص كيلو",
+      "مكرونة خرز",
+      "مكرونة ببوش",
+      "مكرونة جوهرة",
+      "مكرونة ساروا",
+      "مكرونة نورا",
+      "مكرونة اسبرينقو",
+      "مكرونة الطرف",
+      "مكرونة البسمة",
+      "مكرونة إيطالية"
     ],
     "couscous_1kg": [
       "كسكسي الأميرة",
       "كسكسي الوردة البيضاء",
       "كسكسي جاهز كيس ١ك",
-      "كسكسي دياري"
+      "كسكسي دياري",
+      "كسكسي رندة",
+      "كسكسي البسمة",
+      "كسكسي البركة",
+      "كسكسي السنبلة"
     ],
     "sugar_1kg": [
       "سكر الصحى",
       "سكر الصفوة",
-      "سكر كيس كيلو"
+      "سكر كيس كيلو",
+      "سكر الملك",
+      "سكر المعمورة",
+      "سكر رهف الأصلي",
+      "سكر النخبة",
+      "سكر كيس كيلو دستة"
     ],
     "cooking_oil_1l": [
       "زيت عافية لتر",
@@ -253,7 +284,21 @@
     "olive_oil_1l": [
       "زيت زيتون بكر لتر",
       "زيت زيتون محلي السوق المحلي",
-      "زيت زيتون مستورد مستورد"
+      "زيت زيتون مستورد مستورد",
+      "زيت زيتون بعلي",
+      "زيت زيتون مروي",
+      "زيت زيتون درجة أولى",
+      "زيت زيتون آخر عصرة",
+      "زيت زيتون متع الموسم الحالي",
+      "زيت زيتون مسلاته",
+      "زيت زيتون سرت",
+      "زيت زيتون ترهونة",
+      "زيت الجبل الغربي",
+      "زيت زيتون يفرن",
+      "زيت النهر",
+      "زيت زيتون بكر ممتاز",
+      "معصرة زيت زيتون",
+      "زيت زيتون بالضمان"
     ],
     "eggs_30": [
       "طبق بيض ٣٠",
@@ -316,7 +361,8 @@
       "taba9 da7i",
       "da7i 30 7abba",
       "tabag da7i",
-      "da7i watani"
+      "da7i watani",
+      "بيض ليبي"
     ],
     "chicken_1kg": [
       "كيلو جاج",
@@ -367,7 +413,10 @@
       "تن جنزور (زيت الزيتزن) جنزور",
       "تن ديانا مستورد",
       "تن كالفو",
-      "قوطيه تونه ١٨٥ غرام"
+      "قوطيه تونه ١٨٥ غرام",
+      "تن الأمير 160ج",
+      "تن الأمير 140ج",
+      "تونة مرام رقائق"
     ],
     "tomatoes_1kg": [
       "كيلو طماطم",
@@ -416,7 +465,11 @@
       "طماطم معجون الريحان",
       "طماطم معجون الصفوة",
       "طماطم معجون بيتي",
-      "معجون طماطم قوطيه صغيره"
+      "معجون طماطم قوطيه صغيره",
+      "معجون طماطم الزهرات",
+      "معجون طماطم 400 غرام للعلبة",
+      "معجون طماطم الزهور",
+      "معجون الطماطم من العين"
     ],
     "ors_sachet": [
       "اكياس الجفاف",
@@ -788,7 +841,17 @@
       "بانقه الميه",
       "عبوة الماء ذات الـ 7 لتر",
       "قنينة 7 لتر",
-      "دستة مياه"
+      "دستة مياه",
+      "بانقة مياه",
+      "بانقة المية",
+      "بانقة الماء",
+      "مياه دجلة",
+      "مياه النبع",
+      "مياه الصافية",
+      "ستيكة دجلة",
+      "الاستيكة",
+      "مياه نص ليترة",
+      "ميه اكواب 30 طاسة"
     ]
   },
   "prefixes": [
@@ -2034,7 +2097,37 @@
     "بنادول جوينت",
     "لبن رائب",
     "عصائر معلبة",
-    "شكلاطة"
+    "شكلاطة",
+    "شامبو صن سيلك",
+    "شامبو NOXES",
+    "صابون البسمة للأواني",
+    "معقم ومطهر الأيادي",
+    "أكياس قمامة",
+    "رول مطبخ",
+    "صابون غسالة أوتوماتيك 2 كيلو",
+    "سائل جلي",
+    "أقراص للجلاية",
+    "شامبو الشيب بزيت الأركان",
+    "صبغة شعر",
+    "نسكافيه 50ج",
+    "دوريتوس",
+    "شوكولاتة إكسو",
+    "عصير جودي 1 لتر",
+    "تمر دقلة ليبي",
+    "فاكهة القشطة",
+    "مكينة تحلية مياه منزلية",
+    "فلاتر مياه",
+    "زيت زيتون سوري",
+    "بسيسة",
+    "حليب مجفف",
+    "كاكاو نسكويك",
+    "سردينيا الميجا",
+    "بسكويت القرضابية بالتمر",
+    "لبنة",
+    "مرقاز",
+    "لحم قعود",
+    "معجون طماطم إيراني براميل",
+    "مج شاي"
   ],
   "regions": {
     "drinking_water_20l": {
@@ -3362,6 +3455,310 @@
     "20 قرش": {
       "attested": "yes",
       "source": "https://www.facebook.com/100071512733361/videos/28314008738185360/"
+    },
+    "زيت زيتون بعلي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/198563356539605/"
+    },
+    "زيت زيتون مروي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/198563356539605/"
+    },
+    "زيت زيتون درجة أولى": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/198563356539605/"
+    },
+    "زيت زيتون آخر عصرة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/1097984814074071/posts/2005148650024345/"
+    },
+    "زيت زيتون متع الموسم الحالي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/198563356539605/"
+    },
+    "زيت زيتون مسلاته": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/989316108618225/"
+    },
+    "زيت زيتون سرت": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/989316108618225/posts/1608577426692087/"
+    },
+    "زيت زيتون ترهونة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/989316108618225/posts/1620231562193340/"
+    },
+    "زيت الجبل الغربي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61573137213377/videos/3276121419196669/"
+    },
+    "زيت زيتون يفرن": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61573137213377/videos/3276121419196669/"
+    },
+    "زيت النهر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/Alshagra.Altybah/videos/877519405398325/"
+    },
+    "زيت زيتون بكر ممتاز": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/Alshagra.Altybah/videos/877519405398325/"
+    },
+    "معصرة زيت زيتون": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/GhosnAlZaitunlibya/videos/8763425423721126/"
+    },
+    "زيت زيتون بالضمان": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/610368890855008/"
+    },
+    "بانقة مياه": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/Teleqram90/posts/1617213813104639/"
+    },
+    "بانقة المية": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61557273982945/posts/122316396566242466/"
+    },
+    "بانقة الماء": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/LibyaAlhadathLive/posts/1554210913412686/"
+    },
+    "مياه دجلة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/DajlaWaterLibya/posts/802331292482184/"
+    },
+    "مياه النبع": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/450022947708230/"
+    },
+    "مياه الصافية": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/450022947708230/"
+    },
+    "ستيكة دجلة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61557273982945/posts/122316396566242466/"
+    },
+    "الاستيكة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/"
+    },
+    "مياه نص ليترة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/450022947708230/"
+    },
+    "ميه اكواب 30 طاسة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/450022947708230/"
+    },
+    "كسكسي دياري": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61551426913167/posts/122176573424047563/"
+    },
+    "كسكسي رندة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61551426913167/posts/122176573424047563/"
+    },
+    "كسكسي البسمة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61551426913167/posts/122176573424047563/"
+    },
+    "كسكسي البركة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61551426913167/posts/122176573424047563/"
+    },
+    "كسكسي السنبلة": {
+      "attested": "yes",
+      "source": "https://m.facebook.com/61551426913167/photos/122180973638047563/"
+    },
+    "مكرونة خرز": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100067602273544/photos/300811048394008/"
+    },
+    "مكرونة ببوش": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100067602273544/photos/300811048394008/"
+    },
+    "مكرونة جوهرة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100067602273544/photos/300811048394008/"
+    },
+    "مكرونة ساروا": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100067602273544/photos/300811048394008/"
+    },
+    "مكرونة نورا": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100067602273544/photos/300811048394008/"
+    },
+    "مكرونة اسبرينقو": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61553556450714/"
+    },
+    "مكرونة الطرف": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/mhmd.bwshlyf.79941/videos/540401845640869/"
+    },
+    "مكرونة البسمة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100075906654365/"
+    },
+    "مكرونة إيطالية": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100075906654365/"
+    },
+    "تن الأمير 160ج": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100080999880171/posts/588038208216120/"
+    },
+    "تن الأمير 140ج": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100080999880171/posts/588038208216120/"
+    },
+    "تونة مرام رقائق": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/SirtBywnAbnayha/posts/1348803977287238/"
+    },
+    "حليب معقم 1 لتر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/Lohoom.Libya/photos/1890127361245564/"
+    },
+    "حليب ليتي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100080999880171/posts/588038208216120/"
+    },
+    "حليب الريحان حكة كبيرة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/SirtBywnAbnayha/posts/1348803977287238/"
+    },
+    "الحليب الليبي المبستر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100072405849245/posts/627001126390077/"
+    },
+    "حليب البستان": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100072405849245/posts/627001126390077/"
+    },
+    "حليب الندى": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100072405849245/posts/627001126390077/"
+    },
+    "حليب لاسيه": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/AljaiedCompany/posts/1834085603561470/"
+    },
+    "سكر الملك": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/posts/1289169506544136/"
+    },
+    "سكر المعمورة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/posts/1051132803681142/"
+    },
+    "سكر رهف الأصلي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/SirtBywnAbnayha/posts/1348803977287238/"
+    },
+    "قنطار دقيق": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/Fawaselmedia/photos/556582209420410/"
+    },
+    "دقيق مخابز إفرنجية": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/1326853212516857/"
+    },
+    "دقيق معجنات وبيتزا": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/1326853212516857/"
+    },
+    "دقيق الزهرة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/SirtBywnAbnayha/posts/1348803977287238/"
+    },
+    "دقيق ليبيكا": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100075906654365/"
+    },
+    "ارز البركة حبة قصيرة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100075906654365/"
+    },
+    "بيض ليبي": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/posts/1289169506544136/"
+    },
+    "بكم": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/posts/1289169506544136/"
+    },
+    "كم السعر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/posts/1289169506544136/"
+    },
+    "بي كم السعر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100072405849245/posts/627001126390077/"
+    },
+    "وين متوفر": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100072405849245/posts/627001126390077/"
+    },
+    "سعر القطعة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/posts/1289169506544136/"
+    },
+    "سعر الدستة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/posts/1051132803681142/"
+    },
+    "سعر الصندوق": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/posts/1051132803681142/"
+    },
+    "بسعر حرق": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/61573137213377/videos/3276121419196669/"
+    },
+    "بالضمان": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/610368890855008/"
+    },
+    "متع": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/198563356539605/"
+    },
+    "بنة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/1097984814074071/posts/2005148650024345/"
+    },
+    "ضوق واحكم": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/groups/989316108618225/posts/1608577426692087/"
+    },
+    "معجون طماطم الزهرات": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100068254690134/photos/1765842922367514/"
+    },
+    "معجون طماطم 400 غرام للعلبة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100068254690134/photos/1765842922367514/"
+    },
+    "معجون طماطم الزهور": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/Alzohour.Group/videos/1141930381210349/"
+    },
+    "معجون الطماطم من العين": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100083034976517/"
+    },
+    "سكر النخبة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/"
+    },
+    "سكر كيس كيلو دستة": {
+      "attested": "yes",
+      "source": "https://www.facebook.com/100063532953804/"
     }
   },
   "_open_questions": [
@@ -3372,7 +3769,9 @@
     "دحي spellings: only 'دحي' and 'طبق دحي' were observed in the wild. The other دحي rows were built by taking frames already attested in this item (طبق X، X ٣٠ حبة، X وطني) and swapping the head word in. Please prune any that a Libyan would not write — particularly دحية، الدحي، دحي عادي، and the Arabizi rows.",
     "Does دحي take طبق the way بيض does, or is the tray called something else?",
     "بيض is kept because Libyan price bulletins print it (البيض العادي، طبق البيض) — but it is now demoted below دحي in the sampling weights. Is that the right balance, or should بيض be cut back further?",
-    "كراسة vs دفتر — a 7x price difference hiding behind two words the catalogue treats as synonyms. school_notebook_80p lists both. On Libyan stationery pages in August 2026, دفتر 80 ورقة sells 5 for 1 dinar (0.20 each) at two independent shops, while a كراسة 60 ورقة is 1.25 and قرطاسية ماتا markets a كراسة 80 ورقة دبل غلاف as a premium line. So دفتر appears to be the cheap stapled exercise book and كراسة the bound one — but the same pages also use دفتر for sketchbooks and 180-sheet ledgers, so the split is not clean. Until it is settled the reference price of 2.30 is a price for an unspecified object. Ask a native speaker which word names the book a primary schoolchild is required to buy."
+    "كراسة vs دفتر — a 7x price difference hiding behind two words the catalogue treats as synonyms. school_notebook_80p lists both. On Libyan stationery pages in August 2026, دفتر 80 ورقة sells 5 for 1 dinar (0.20 each) at two independent shops, while a كراسة 60 ورقة is 1.25 and قرطاسية ماتا markets a كراسة 80 ورقة دبل غلاف as a premium line. So دفتر appears to be the cheap stapled exercise book and كراسة the bound one — but the same pages also use دفتر for sketchbooks and 180-sheet ledgers, so the split is not clean. Until it is settled the reference price of 2.30 is a price for an unspecified object. Ask a native speaker which word names the book a primary schoolchild is required to buy.",
+    "drinking_water_7l — HOLD LIFTED 2026-08-20. The hold said only بانقة itself was attested and the size and container phrasings around it were model-generated. Libyan Facebook now attests them verbatim: \"بانقة مياه 7 لتر وصل سعرها اليوم في المنطقه الغربيه إلى 5 دينار\", \"بانقة المية بدت ب4\", \"بانقة الماء ٥ ديناااار\", and a western-region marketers group naming the brands دجلة، النبع، الصافية. The 4.00 reference is corroborated by several independent posts; 5 in the west and 3.5 wholesale bracket it. Also learned: الاستيكة is the shrink-wrapped multipack (6 dinar at one Gharyan shop, 0.50 per قنينة), which is a different price point from the بانقة and must not be conflated with it.",
+    "harissa_can — still only 3 wordings after a targeted sweep, and that is a finding rather than a gap in effort. Libyan grocery pages barely advertise هريسة: searches for it return cooking shows, not price posts. The two brands that did surface (سيكام, and a \"هريسة تونسية علبة ص\") suggest it is sold as an everyday staple nobody markets. It is basketed, so its wordings matter; they will have to come from a reporter or a shelf photograph, not from search."
   ],
   "_measured_confusions": {
     "دقيق المخابز الصفوة": "matched wheat_flour_1kg at 0.735 — a 25kg sack, not a kilo",
@@ -3411,7 +3810,6 @@
     "why": "These wordings are now catalogue variants in countries/ly.yaml, so the matcher knows them. That is the point — a held-out split measured +19.1 points of top-1 on wordings it had never seen — but it has a cost that must not be forgotten: a matching score computed against the promoted part of this corpus is now measuring memorisation, not generalisation. The three held-back items still carry open questions and remain a clean test set, as does any real market data."
   },
   "hold": [
-    "drinking_water_7l",
     "eggs_30",
     "sanitary_pads_10"
   ],
@@ -3449,6 +3847,13 @@
     "قرش",
     "paku",
     "shrit",
-    "banga"
+    "banga",
+    "طاسة",
+    "صندوق",
+    "شوال",
+    "قطعة",
+    "استيكة",
+    "تنكة",
+    "عصرة"
   ]
 }

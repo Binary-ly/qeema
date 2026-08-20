@@ -153,6 +153,15 @@ canonical_items:
       - حليب معقم الزهرات
       - حليب معقم النسيم
       - حليب معقم جودي
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - حليب معقم 1 لتر
+      - حليب ليتي
+      - حليب الريحان حكة كبيرة
+      - الحليب الليبي المبستر
+      - حليب البستان
+      - حليب الندى
+      - حليب لاسيه
+      - حليب مبستر
 
   - code: infant_formula_400g
     name_en: Infant formula (400g tin)
@@ -289,6 +298,10 @@ canonical_items:
       - دقيق المخابز الصفوة
       - دقيق المخابز الفاخر
       - قنطار الدقيق
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - دقيق مخابز إفرنجية
+      - دقيق معجنات وبيتزا
+      - شوال دقيق
 
   - code: wheat_flour_1kg
     name_en: Wheat flour
@@ -349,6 +362,9 @@ canonical_items:
       - دقيق الأغراض المنزلية الصفوة
       - دقيق الأغراض المنزلية الريحان
       - فارينة
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - دقيق الزهرة
+      - دقيق ليبيكا
 
   - code: olive_oil_1l
     name_en: Olive oil (1 litre)
@@ -372,6 +388,20 @@ canonical_items:
       - زيت زيتون بكر لتر
       - زيت زيتون محلي السوق المحلي
       - زيت زيتون مستورد مستورد
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - زيت زيتون بعلي
+      - زيت زيتون مروي
+      - زيت زيتون درجة أولى
+      - زيت زيتون آخر عصرة
+      - زيت زيتون مسلاته
+      - زيت زيتون ترهونة
+      - زيت زيتون سرت
+      - زيت الجبل الغربي
+      - زيت زيتون يفرن
+      - زيت النهر
+      - زيت زيتون بكر ممتاز
+      - معصرة زيت زيتون
+      - زيت زيتون متع الموسم الحالي
 
   - code: tomato_paste_400g
     name_en: Tomato paste (400g)
@@ -393,6 +423,11 @@ canonical_items:
       - طماطم معجون الصفوة
       - طماطم معجون بيتي
       - معجون طماطم قوطيه صغيره
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - معجون طماطم الزهرات
+      - معجون طماطم الزهور
+      - معجون الطماطم من العين
+      - معجون طماطم قوطية 400 غرام
 
   - code: pasta_500g
     name_en: Pasta (500g)
@@ -416,6 +451,16 @@ canonical_items:
       - مكرونة الفضة
       - مكرونة سبيقا
       - مكرونه سباغيتي نص كيلو
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - مكرونة خرز
+      - مكرونة ببوش
+      - مكرونة جوهرة
+      - مكرونة ساروا
+      - مكرونة نورا
+      - مكرونة اسبرينقو
+      - مكرونة الطرف
+      - مكرونة البسمة
+      - مكرونة إيطالية
 
   - code: couscous_1kg
     name_en: Couscous (1kg)
@@ -435,6 +480,12 @@ canonical_items:
       - كسكسي الوردة البيضاء
       - كسكسي جاهز كيس ١ك
       - كسكسي دياري
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - كسكسي رندة
+      - كسكسي البسمة
+      - كسكسي البركة
+      - كسكسي السنبلة
+      - كسكسي لمتنا
 
   - code: sugar_1kg
     name_en: Sugar (1kg)
@@ -452,6 +503,12 @@ canonical_items:
       - سكر الصحى
       - سكر الصفوة
       - سكر كيس كيلو
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - سكر الملك
+      - سكر المعمورة
+      - سكر رهف الأصلي
+      - سكر النخبة
+      - دستة سكر
 
   - code: rice_1kg
     name_en: Rice
@@ -512,6 +569,8 @@ canonical_items:
       - أرز الحبة الطويلة سيلا
       - أرز الحبة القصيرة
       - أرز الحبة الطويلة
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - ارز البركة حبة قصيرة
 
   - code: cooking_oil_1l
     name_en: Cooking oil
@@ -607,6 +666,15 @@ canonical_items:
       - تن ديانا مستورد
       - تن كالفو
       - قوطيه تونه ١٨٥ غرام
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - تن الأمير
+      - تن الأمير 160ج
+      - تونة مرام رقائق
+      - تن وطني
+      - تونة معلبة قوطية
+      - تن مستورد
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - بيض ليبي
 
   - code: chicken_1kg
     name_en: Chicken
@@ -679,6 +747,9 @@ canonical_items:
       - هريسة ( علبة ) الحطاب
       - هريسة ( علبة ) بسمة
       - هريسه حاره قوطيه
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - هريسة سيكام
+      - هريسة تونسية علبة
 
   - code: tomatoes_1kg
     name_en: Tomatoes
@@ -930,6 +1001,10 @@ canonical_items:
       - kashkoul silk
       - daftar madrasi kbir
       - krassa A4 ghlaf m9awwa
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - دفتر 80 ورقة
+      - كراسة 60 ورقة
+      - كراسة دبل غلاف
 
   - code: sanitary_pads_10
     name_en: Sanitary pads (pack of 10)
@@ -1004,6 +1079,11 @@ canonical_items:
       - غاز الطهو
       - غاز الطهي
       - أسطوانة غاز الطهي
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - فوط صحية ليلاس سوبر
+      - ليلاس بأجنحة
+      - ليلاس بدون أجنحة
+      - باكو فوط
 
   # Seven litres, not twenty. No Libyan bottler found sells a 20L format:
   # Al-Safia (est. 2004) publishes 0.33L, 0.5L, 1.5L, 7L, 15L and 230ml cups,
@@ -1077,6 +1157,25 @@ canonical_items:
       - pensan azra9
       - galam madrasa 3adi
       - bako a9lam zor9 10 7abbat
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - بيرو
+      - بيروات
+      - بيرو ازرق
+      - بيرو احمر
+      - بيرو جاف
+      - قلم حبر جاف
+      - باكو بيروات
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - بانقة مياه
+      - بانقة المية
+      - بانقه الميه
+      - بانقة الماء
+      - مياه دجلة
+      - مياه النبع
+      - مياه الصافية
+      - ستيكة دجلة
+      - استيكة مياه
+      - مياه نص ليترة
 
   - code: school_backpack
     name_en: School backpack
@@ -1126,6 +1225,10 @@ canonical_items:
       - shantet real madrid
       - شناطي مدرسية
       - حقائب مدرسية
+      # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
+      - شناتي
+      - شنطة روضة
+      - شنطة بعجلات
 
   - code: bath_soap_bar
     name_en: Bath soap (bar)
