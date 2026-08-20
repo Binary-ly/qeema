@@ -21,6 +21,12 @@ use Pgvector\Laravel\Vector;
  * names *and* its known variants, so that when a human review adds a new way of
  * spelling something, re-embedding actually improves future retrieval rather
  * than leaving the vector unchanged.
+ *
+ * @property array{quantity: float|int, unit_code: string}|null $pack_size
+ *                                                                         What one pack holds, when the item's own code states a size its
+ *                                                                         default_quantity does not carry — a 400g tin declared as one pack. Used to
+ *                                                                         tell look-alike items apart by a size the reporter stated; never for
+ *                                                                         costing, which is what default_quantity is for.
  */
 final class CanonicalItem extends Model
 {
@@ -31,7 +37,7 @@ final class CanonicalItem extends Model
 
     protected $fillable = [
         'country_id', 'code', 'name_en', 'name_local', 'category',
-        'default_unit_code', 'default_quantity',
+        'default_unit_code', 'default_quantity', 'pack_size',
         'embedding', 'embedding_model', 'embedding_updated_at', 'is_active',
     ];
 
@@ -41,6 +47,7 @@ final class CanonicalItem extends Model
             'embedding' => Vector::class,
             'embedding_updated_at' => 'datetime',
             'default_quantity' => 'decimal:4',
+            'pack_size' => 'array',
             'is_active' => 'boolean',
         ];
     }

@@ -175,7 +175,7 @@ make, and **recall@k** measures the one it does.
 
 | | on 488 unseen real wordings |
 |---|---|
-| top-1 | 89.34% (436/488) |
+| top-1 | 90.78% (443/488) |
 | top-2 | 98.57% (481/488) |
 | top-3 | 98.77% (482/488) |
 | **top-5** | **99.59%** (486/488), 95% CI [98.5%, **99.9%**] |
@@ -191,8 +191,8 @@ the strongest true claim available about this matcher.
 
 | | |
 |---|---|
-| Top-1 on wordings **not already in the catalogue** | **89.3%** (436/488), 95% CI **[86.3%, 91.8%]** |
-| Top-1 across all positives | 90.3% (537) — 49 were already catalogue variants, so this measures memorisation |
+| Top-1 on wordings **not already in the catalogue** | **90.8%** (443/488), 95% CI **[87.9%, 93.0%]** |
+| Top-1 across all positives | 91.6% (537) — 49 were already catalogue variants, so this measures memorisation |
 | Real non-basket products **wrongly auto-resolved** | **0 of 485** |
 | Real non-basket products refused | **1 of 485** |
 | Positives auto-resolved without a human | **0 of 488** |
@@ -258,7 +258,7 @@ tenth of submissions, and everything else belongs in a human queue. That is a
 defensible operating policy today.
 
 **Why the fuzzy tier cannot be pushed there yet.** The confidence score separates
-correct matches from distractors at **AUC 0.873** — real information, nowhere near
+correct matches from distractors at **AUC 0.883** — real information, nowhere near
 the ~0.99 that 99.9% precision at useful coverage would need. Raising it is a
 calibration and embedding problem, not a vocabulary one, which is why
 `ml/notebooks/finetune_colab.ipynb` exists.
@@ -345,6 +345,43 @@ rather than assumed:
 | Fusion weight | No effect at any setting |
 | Test-set label audit | ~3 points are a specification question; left unchanged |
 | Fitting the calibrator | **Not attempted — it needs real human review decisions, which need the pilot** |
+
+### A sixth lever, built rather than rejected: the size the reporter stated
+
+The largest error class was two items sharing a head noun and differing only by
+size — a 50 kg trade sack against a 1 kg bag, sixty times apart in price. About
+one query in seven **states** the size, so the evidence was in the text all
+along.
+
+Measured first, as everything here is now. Against `default_quantity` the signal
+picked the right sibling **33 times out of 52** — worse than useless, since it
+would have introduced nearly as many errors as it removed. The cause was not the
+idea: seven items declare `1 pack` while their own code states a real quantity,
+so a 400 g tin is stored as one pack and the size lived in the code *string*
+rather than in the data. Given a `pack_size` field carrying the real content, the
+same measurement gives **45 out of 45**.
+
+| | before | after |
+|---|---|---|
+| top-1 on 488 unseen | 89.3% | **90.8%** |
+| distractor separation | 0.873 | **0.883** |
+| wrongly auto-resolved | 0 / 485 | 0 / 485 |
+
+Both moved the right way, which is the part that matters: retrieval accuracy is
+easy to buy by blurring items together, and that destroys the ability to refuse.
+
+**It is wired end to end, not into the benchmark.** The service is stateless and
+Laravel owns the catalogue, so a signal that only existed in the evaluation
+harness would be a number the product does not have. `units.aliases` and
+`canonical_items.pack_size` are columns; the importer fills them from the country
+file; `MlClient` sends them with every catalogue; the request schema accepts them
+and the cache fingerprint covers them, so an edited alias cannot serve a stale
+index. Both fields default to empty, so an older caller gets exactly its previous
+behaviour.
+
+`default_quantity` was deliberately left alone. It multiplies through basket
+costing, and the last time a quantity moved without its unit the published figure
+came out a thousand times too high.
 
 **A sixth was tried and rejected on the numbers.** Libyan sellers write sizes
 glued to words — `الفاخر50ك`, `25كيلو` — and the normaliser leaves them as a

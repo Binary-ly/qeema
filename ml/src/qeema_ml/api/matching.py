@@ -31,6 +31,7 @@ from qeema_ml.matching.matcher import (
     MatcherConfig,
 )
 from qeema_ml.matching.normalise import normalise
+from qeema_ml.matching.packsize import UnitTable
 from qeema_ml.matching.semantic import SemanticIndex, SentenceTransformerEmbedder
 
 logger = logging.getLogger(__name__)
@@ -129,6 +130,16 @@ def _catalogue_fingerprint(catalogue: CatalogueIn) -> str:
         digest.update(b"\x00")
         digest.update((variant.normalized_text or variant.text).encode())
         digest.update(b"\x01")
+
+    # Sizes are part of the catalogue: an edited alias or pack changes which
+    # item a query resolves to, so a cached index built without it is stale.
+    for unit in catalogue.units:
+        digest.update(f"{unit.code}|{unit.factor_to_base}|{','.join(unit.aliases)}".encode())
+        digest.update(b"\x02")
+
+    for pack in catalogue.packs:
+        digest.update(f"{pack.canonical_item_id}|{pack.quantity}|{pack.unit_code}".encode())
+        digest.update(b"\x03")
 
     return digest.hexdigest()
 
@@ -236,6 +247,23 @@ class VariantIn(BaseModel):
     normalized_text: str | None = None
 
 
+class UnitIn(BaseModel):
+    """One unit of measure and the words that mean it."""
+
+    code: str
+    base_unit_code: str | None = None
+    factor_to_base: float = 1.0
+    aliases: list[str] = Field(default_factory=list)
+
+
+class PackIn(BaseModel):
+    """What one pack of an item holds, in its own unit."""
+
+    canonical_item_id: int
+    quantity: float
+    unit_code: str
+
+
 class CatalogueIn(BaseModel):
     """The catalogue to match against.
 
@@ -244,6 +272,10 @@ class CatalogueIn(BaseModel):
     """
 
     variants: list[VariantIn] = Field(default_factory=list)
+    #: Both default to empty, so a caller that has not been updated gets exactly
+    #: the behaviour it had before: no size evidence, and no error.
+    units: list[UnitIn] = Field(default_factory=list)
+    packs: list[PackIn] = Field(default_factory=list)
 
 
 class MatchRequest(BaseModel):
@@ -320,10 +352,20 @@ def _build_catalogue(catalogue: CatalogueIn) -> CatalogueIndexes:
         if key:
             exact.setdefault(key, (variant.canonical_item_id, variant.canonical_item_code))
 
+    units = UnitTable.from_units([u.model_dump() for u in catalogue.units])
+    packs: dict[int, tuple[float, str]] = {}
+
+    for pack in catalogue.packs:
+        converted = units.to_base(pack.quantity, pack.unit_code)
+        if converted is not None:
+            packs[pack.canonical_item_id] = converted
+
     return CatalogueIndexes(
         lexical=LexicalIndex.from_rows(rows),
         semantic=_semantic_index(catalogue),
         exact=exact,
+        packs=packs,
+        units=units,
     )
 
 

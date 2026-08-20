@@ -93,13 +93,13 @@ index:
 # Units
 # ---------------------------------------------------------------------------
 units:
-  - { code: kg,    name: Kilogram,   name_local: كيلوغرام, dimension: mass,   base_unit_code: kg,    factor_to_base: 1 }
-  - { code: g,     name: Gram,       name_local: غرام,     dimension: mass,   base_unit_code: kg,    factor_to_base: 0.001 }
-  - { code: l,     name: Litre,      name_local: لتر,      dimension: volume, base_unit_code: l,     factor_to_base: 1 }
-  - { code: ml,    name: Millilitre, name_local: مليلتر,   dimension: volume, base_unit_code: l,     factor_to_base: 0.001 }
-  - { code: piece, name: Piece,      name_local: قطعة,     dimension: count,  base_unit_code: piece, factor_to_base: 1 }
-  - { code: pack,  name: Pack,       name_local: علبة,     dimension: count,  base_unit_code: piece, factor_to_base: 1 }
-  - { code: dozen, name: Dozen,      name_local: دزينة,    dimension: count,  base_unit_code: piece, factor_to_base: 12 }
+  - { code: kg,    name: Kilogram,   name_local: كيلوغرام, dimension: mass,   base_unit_code: kg,    factor_to_base: 1, aliases: [كيلوغرام, كيلوجرام, كيلو, كيلوا, كجم, كغم, كغ, ك, kg] }
+  - { code: g,     name: Gram,       name_local: غرام,     dimension: mass,   base_unit_code: kg,    factor_to_base: 0.001, aliases: [غرام, جرام, غم, جم, غ, g, gm] }
+  - { code: l,     name: Litre,      name_local: لتر,      dimension: volume, base_unit_code: l,     factor_to_base: 1, aliases: [لتر, لترات, ليتر, l, ltr] }
+  - { code: ml,    name: Millilitre, name_local: مليلتر,   dimension: volume, base_unit_code: l,     factor_to_base: 0.001, aliases: [مليلتر, ملي, مل, ml, cc] }
+  - { code: piece, name: Piece,      name_local: قطعة,     dimension: count,  base_unit_code: piece, factor_to_base: 1, aliases: [قطعة, قطعه, حبة, حبه, حبات, piece, pcs] }
+  - { code: pack,  name: Pack,       name_local: علبة,     dimension: count,  base_unit_code: piece, factor_to_base: 1, aliases: [علبة, علبه, عبوة, عبوه, قوطية, قوطيه, باكو, كيس, pack] }
+  - { code: dozen, name: Dozen,      name_local: دزينة,    dimension: count,  base_unit_code: piece, factor_to_base: 12, aliases: [دستة, دسته, دزينة, dozen] }
 
 # ---------------------------------------------------------------------------
 # Locations
@@ -197,6 +197,9 @@ canonical_items:
     category: infant_nutrition
     default_unit_code: pack
     default_quantity: 1
+    # What the tin actually holds. `default_quantity` above drives
+    # costing and must not move; this is a matching signal only.
+    pack_size: { quantity: 400, unit_code: g }
     variants:
       - حليب اطفال
       - حليب أطفال
@@ -320,6 +323,9 @@ canonical_items:
     category: infant_nutrition
     default_unit_code: pack
     default_quantity: 1
+    # What the tin actually holds. `default_quantity` above drives
+    # costing and must not move; this is a matching signal only.
+    pack_size: { quantity: 400, unit_code: g }
     variants:
       - سيريلاك
       - سريلاك
@@ -616,6 +622,9 @@ canonical_items:
     category: staples
     default_unit_code: pack
     default_quantity: 1
+    # What the tin actually holds. `default_quantity` above drives
+    # costing and must not move; this is a matching signal only.
+    pack_size: { quantity: 400, unit_code: g }
     # The same story: tomato paste matched fresh tomatoes at 0.739, and paste and
     # fresh tomatoes do not cost the same, so the confusion moved a wrong price
     # toward a real index. Catalogued, unbasketed.
@@ -666,6 +675,9 @@ canonical_items:
     category: staples
     default_unit_code: pack
     default_quantity: 1
+    # What the tin actually holds. `default_quantity` above drives
+    # costing and must not move; this is a matching signal only.
+    pack_size: { quantity: 500, unit_code: g }
     # Catalogued, not basketed. Every wording under this code came off a
     # real Libyan commodity bulletin and was filed as a distractor purely
     # because an 18-item catalogue did not stock the product.
@@ -1002,6 +1014,9 @@ canonical_items:
     category: protein
     default_unit_code: pack
     default_quantity: 1
+    # What the tin actually holds. `default_quantity` above drives
+    # costing and must not move; this is a matching signal only.
+    pack_size: { quantity: 185, unit_code: g }
     # Catalogued, not basketed. Every wording under this code came off a
     # real Libyan commodity bulletin and was filed as a distractor purely
     # because an 18-item catalogue did not stock the product.
@@ -1436,6 +1451,9 @@ canonical_items:
     category: hygiene
     default_unit_code: pack
     default_quantity: 1
+    # What the tin actually holds. `default_quantity` above drives
+    # costing and must not move; this is a matching signal only.
+    pack_size: { quantity: 10, unit_code: piece }
     variants:
       # ليلاس is the brand Libyan shops actually stock, and باكو is the unit it
       # is sold in. These four carry sources; the rest of this item stays on hold.
@@ -1461,6 +1479,9 @@ canonical_items:
     category: fuel
     default_unit_code: piece
     default_quantity: 1
+    # What the tin actually holds. `default_quantity` above drives
+    # costing and must not move; this is a matching signal only.
+    pack_size: { quantity: 11, unit_code: kg }
     variants:
       - غاز
       - اسطوانة غاز

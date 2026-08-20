@@ -52,6 +52,7 @@ from qeema_ml.matching.matcher import (
     MatcherConfig,
 )
 from qeema_ml.matching.normalise import normalise
+from qeema_ml.matching.packsize import UnitTable
 from qeema_ml.matching.semantic import SemanticIndex, SentenceTransformerEmbedder
 
 REPO = Path(__file__).resolve().parents[2]
@@ -92,10 +93,28 @@ def build_catalogue(embedder: SentenceTransformerEmbedder) -> tuple[CatalogueInd
         embeddings=np.asarray(vectors, dtype=np.float32),
     )
 
+    # What one pack of each item holds, in base units. `pack_size` when the
+    # item declares it — seven of them state a real size their default_quantity
+    # does not carry — and default_quantity otherwise.
+    units = UnitTable.from_units(config.get("units") or [])
+    packs: dict[int, tuple[float, str]] = {}
+    for item_id, item in enumerate(config["canonical_items"], start=1):
+        declared = item.get("pack_size") or {
+            "quantity": item.get("default_quantity"),
+            "unit_code": item.get("default_unit_code"),
+        }
+        if declared.get("quantity") is None or declared.get("unit_code") is None:
+            continue
+        converted = units.to_base(float(declared["quantity"]), str(declared["unit_code"]))
+        if converted is not None:
+            packs[item_id] = converted
+
     catalogue = CatalogueIndexes(
         lexical=LexicalIndex.from_rows(rows),
         semantic=semantic,
         exact=exact,
+        packs=packs,
+        units=units,
     )
 
     return catalogue, set(exact)

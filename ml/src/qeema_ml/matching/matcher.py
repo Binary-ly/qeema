@@ -11,6 +11,8 @@ from numpy.typing import NDArray
 from qeema_ml.matching.fusion import ConfidenceCalibrator, FusedCandidate, fuse
 from qeema_ml.matching.lexical import LexicalIndex
 from qeema_ml.matching.normalise import normalise
+from qeema_ml.matching.packsize import UnitTable, parse_sizes
+from qeema_ml.matching.packsize import adjustment as size_adjustment
 from qeema_ml.matching.semantic import Embedder, SemanticIndex
 
 
@@ -46,6 +48,11 @@ class CatalogueIndexes:
     semantic: SemanticIndex | None = None
     #: normalised text -> canonical item id, for the exact-match shortcut
     exact: dict[str, tuple[int, str]] = field(default_factory=dict)
+    #: canonical item id -> what one pack holds, in base units. Optional: an
+    #: item that does not declare it simply gets no size evidence either way.
+    packs: dict[int, tuple[float, str]] = field(default_factory=dict)
+    #: the country's unit vocabulary, so a stated size can be read at all
+    units: UnitTable | None = None
 
 
 class HybridMatcher:
@@ -199,6 +206,17 @@ class HybridMatcher:
 
         if not fused:
             return MatchDecision([], "reject", "No candidate items found.")
+
+        # A stated size is hard evidence, and it is the only signal that
+        # separates a 50 kg trade sack from a 1 kg bag of the same thing. It
+        # applies to about one query in seven and stays silent on the rest.
+        if catalogue.units is not None and catalogue.packs:
+            stated = parse_sizes(normalised, catalogue.units)
+            if stated:
+                fused = {
+                    item_id: score + size_adjustment(stated, catalogue.packs.get(item_id))
+                    for item_id, score in fused.items()
+                }
 
         candidates = [
             FusedCandidate(

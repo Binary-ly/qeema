@@ -157,6 +157,10 @@ final class CountryConfigImporter
                 [
                     'name' => (string) $unit['name'],
                     'name_local' => $unit['name_local'] ?? null,
+                    // How the unit is actually written. The formal name is not
+                    // what a reporter types; the short form and the glued form
+                    // are, and the matcher cannot read a size without them.
+                    'aliases' => isset($unit['aliases']) ? array_values((array) $unit['aliases']) : null,
                     'dimension' => (string) $unit['dimension'],
                     'base_unit_code' => (string) $unit['base_unit_code'],
                     'factor_to_base' => (float) $unit['factor_to_base'],
@@ -212,6 +216,10 @@ final class CountryConfigImporter
                     'category' => (string) $data['category'],
                     'default_unit_code' => (string) $data['default_unit_code'],
                     'default_quantity' => (float) ($data['default_quantity'] ?? 1),
+                    // What one pack actually holds, when the item's own code
+                    // states a size its default_quantity does not carry. Used
+                    // only to disambiguate look-alike items; never for costing.
+                    'pack_size' => isset($data['pack_size']) ? (array) $data['pack_size'] : null,
                     'is_active' => true,
                 ],
             );

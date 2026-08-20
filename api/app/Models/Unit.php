@@ -17,6 +17,11 @@ use InvalidArgumentException;
  *
  * Normalisation happens here rather than in the estimator so that there is
  * exactly one place in the codebase that knows a kilo is a thousand grams.
+ *
+ * @property list<string>|null $aliases
+ *                                      How the unit is actually written. Nobody types the formal name; they type
+ *                                      the short form, or glue it to the digits, and a size cannot be read
+ *                                      without knowing which words count as this unit.
  */
 final class Unit extends Model
 {
@@ -24,13 +29,13 @@ final class Unit extends Model
     use HasFactory;
 
     protected $fillable = [
-        'country_id', 'code', 'name', 'name_local',
+        'country_id', 'code', 'name', 'name_local', 'aliases',
         'dimension', 'base_unit_code', 'factor_to_base',
     ];
 
     protected function casts(): array
     {
-        return ['factor_to_base' => 'float'];
+        return ['factor_to_base' => 'float', 'aliases' => 'array'];
     }
 
     /** @return BelongsTo<Country, $this> */

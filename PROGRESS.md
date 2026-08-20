@@ -4713,8 +4713,8 @@ reproducible rather than anecdotal.
 
 | | |
 |---|---|
-| Top-1 on wordings **not already in the catalogue** | **89.3%** (436/488), 95% CI **[86.3%, 91.8%]** |
-| Top-1 across all 537 positives | 90.3% — 49 were already variants, so that figure measures memorisation |
+| Top-1 on wordings **not already in the catalogue** | **90.8%** (443/488), 95% CI **[87.9%, 93.0%]** |
+| Top-1 across all 537 positives | 91.6% — 49 were already variants, so that figure measures memorisation |
 | Real non-basket products **wrongly auto-resolved** | **0 of 123** |
 | Real non-basket products refused | **0 of 123** |
 | Correct matches auto-resolved without a human | **0 of 29** |

@@ -8,6 +8,7 @@ namespace App\Services\Ml;
 
 use App\Models\CanonicalItem;
 use App\Models\Country;
+use App\Models\Unit;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -74,7 +75,7 @@ final class MlClient implements MlClientInterface
                 ->connectTimeout((float) $config['connect_timeout'])
                 ->post('/v1/match', [
                     'text' => $variants[0]['text'] ?? 'warm',
-                    'catalogue' => ['variants' => $variants],
+                    'catalogue' => ['variants' => $variants] + $this->sizeContextFor($country),
                     'top_k' => 1,
                 ])
                 ->successful();
@@ -103,7 +104,7 @@ final class MlClient implements MlClientInterface
 
         $payload = [
             'text' => $text,
-            'catalogue' => ['variants' => $this->catalogueFor($country)],
+            'catalogue' => ['variants' => $this->catalogueFor($country)] + $this->sizeContextFor($country),
         ];
 
         if ($topK !== null) {
@@ -131,7 +132,7 @@ final class MlClient implements MlClientInterface
 
         $payload = [
             'texts' => $texts,
-            'catalogue' => ['variants' => $this->catalogueFor($country)],
+            'catalogue' => ['variants' => $this->catalogueFor($country)] + $this->sizeContextFor($country),
         ];
 
         if ($topK !== null) {
@@ -422,5 +423,66 @@ final class MlClient implements MlClientInterface
     {
         Cache::forget(self::BREAKER_KEY);
         Cache::forget(self::FAILURE_KEY);
+    }
+
+    /**
+     * Unit vocabulary and pack sizes, so the matcher can read a size a reporter
+     * stated and know what each item holds.
+     *
+     * Sent with the catalogue because the service is stateless and a size signal
+     * is part of the catalogue. An older service, or a country whose file
+     * declares neither, simply sees no size evidence and behaves exactly as it
+     * did before — which is what makes this safe to roll out.
+     *
+     * @return array{units: list<array<string, mixed>>, packs: list<array<string, mixed>>}
+     */
+    public function sizeContextFor(Country $country): array
+    {
+        return Cache::remember(
+            "qeema:ml:sizes:{$country->id}",
+            now()->addMinutes(10),
+            static function () use ($country): array {
+                $units = [];
+
+                foreach (Unit::query()->where('country_id', $country->id)->get() as $unit) {
+                    $aliases = $unit->aliases ?? [];
+
+                    if ($unit->name_local !== null && $unit->name_local !== '') {
+                        $aliases[] = $unit->name_local;
+                    }
+
+                    $units[] = [
+                        'code' => $unit->code,
+                        'base_unit_code' => $unit->base_unit_code,
+                        'factor_to_base' => (float) $unit->factor_to_base,
+                        'aliases' => array_values(array_unique($aliases)),
+                    ];
+                }
+
+                $packs = [];
+
+                $items = CanonicalItem::query()
+                    ->where('country_id', $country->id)
+                    ->where('is_active', true)
+                    ->get();
+
+                foreach ($items as $item) {
+                    // `pack_size` when the item states a content size its
+                    // default_quantity does not carry — a 400g tin stored as
+                    // one pack — and the declared pack otherwise.
+                    $size = $item->pack_size;
+                    $quantity = $size['quantity'] ?? $item->default_quantity;
+                    $unitCode = $size['unit_code'] ?? $item->default_unit_code;
+
+                    $packs[] = [
+                        'canonical_item_id' => $item->id,
+                        'quantity' => (float) $quantity,
+                        'unit_code' => (string) $unitCode,
+                    ];
+                }
+
+                return ['units' => $units, 'packs' => $packs];
+            },
+        );
     }
 }
