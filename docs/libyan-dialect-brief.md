@@ -59,6 +59,41 @@ Roughly 700 exist. Confirmed, with Arabic spellings seen in sources:
 - **قربة** = water container.
 - **قوطية** = tin/can — widespread in Libya and Tunisia; confirm register.
 
+### Attested 20 August 2026, each with a source
+
+Copied verbatim from pages that were fetched, not written or normalised here.
+Every one is recorded in `_attestation` in `countries/corpus/ly.json` with its
+URL, so any of them can be argued with.
+
+| Word | Means | Register |
+|---|---|---|
+| **بانقة** | the 7-litre household water jug | Universal. Also `بانقة بنزينة`, so it is a jerrycan generally, not water-specific |
+| **بانقه** | same word, without the tā marbūṭa | How people actually type it |
+| **ميه** | ماء | `بانقه الميه` — the colloquial spelling wins in citizen posts |
+| **قنينة** | bottle / jug | A speaker in **Ubari** used this where Tripoli says بانقة. Possible north/south split, unconfirmed |
+| **دستة** | a twelve-pack | A *unit of sale*, not a container. `دستة مياه` = 12 half-litre bottles |
+| **كراسة** | school notebook | The retail price list uses this, **not** `دفتر` |
+| **مباري** | pencil sharpener | MSA is `مبراة`. Not a catalogue item; recorded anyway |
+| **ستيكة** | the sticker on a water jug | Used as the mark of genuine bottled water: *"لو تاخذها بدون ستيكر تكتشف انها مياه بئر"* — without it, you find it is well water |
+| **أسطوانة غاز الطهي** | LPG cylinder | Brega's own wording, confirming §9's ruling against `قروره غاز` |
+| **طهو** vs **طهي** | cooking | Both appear; §9 flagged a possible east/west split and this does not settle it |
+
+**A ruling this closed.** `دبة` was removed as a water container in August after
+a speaker said it means *bear* or *fat*, leaving the item with no word for the
+jug at all. `بانقة` is that word — and the size was wrong too. No Libyan bottler
+sells a 20-litre format: Al-Safia publishes 0.33L, 0.5L, 1.5L, **7L**, **15L**
+and 230ml cups. The catalogue item is now `drinking_water_7l`.
+
+## 6b. Prices are a dialect source
+
+Chasing a wrong water price produced more attested vocabulary than any query
+aimed at vocabulary did. Price reporting forces people to name the thing, the
+size and the unit in one sentence — `بانقة مياه 7 لتر وصل سعرها اليوم إلى 4
+دينار` carries the word, the format and the register at once.
+
+Search for a **price**, harvest the **words**. It is the most productive query
+pattern found so far.
+
 ## 7. Real Libyan commercial context (verified)
 
 - Mobile operators, seen on a live Libyan store: **المدار**, **ليبيانا**,
@@ -66,8 +101,18 @@ Roughly 700 exist. Confirmed, with Arabic spellings seen in sources:
 - Currency: **دينار ليبي**, written **د.ل**. Subdivided into 1000 **درهم**, not
   100 — so three decimal places.
 - LPG: **البريقة** (Brega) is the real distributor.
-- Live Libyan e-commerce: **big.ly** (has فواكة، خضروات، مواد غذائية، حلويات),
-  **ly.opensooq.com** (السوق المفتوح), **matjar-libya.com**.
+- Live Libyan e-commerce: **ly.opensooq.com** (السوق المفتوح),
+  **matjar-libya.com**.
+- ~~**big.ly** has فواكة، خضروات، مواد غذائية، حلويات~~ — **no longer true.**
+  Fetched 20 August 2026: the live catalogue is phone cards, vouchers and
+  services only, and `/kids` is empty. Search results still show grocery pages
+  with prices — a Primalac 400g tin at 45.00 د.ل — but those are **stale index
+  entries for products the shop no longer lists**, and that figure was very
+  nearly used as a reference price. Treat a price in a search snippet as a lead
+  to verify, never as a source.
+- **البريقة** (Brega) publishes official LPG prices directly: 11kg refill 1.50
+  د.ل, 15kg 2.00. The street price is around 60, which is worth knowing before
+  trusting either number alone.
 
 ## 8. How to research, given the platforms are closed
 
@@ -95,6 +140,20 @@ site:facebook.com بقالة بنغازي
 معنى كلمة <word> باللهجة الليبية
 اللهجة الليبية الشرقية كلمات
 ```
+
+Added 20 August 2026, after these outperformed everything above:
+
+```
+سعر <product> ليبيا 2026            # a price query returns the word AND the price
+"<dialect word>" سعر دينار ليبيا     # quote the candidate to test whether it is real
+أسعار <category> في ليبيا اليوم <month> 2026
+"اقتصاد المسار" رصد ميداني أسعار     # finds the field surveys themselves
+```
+
+The quoted-word pattern is the useful one for verification: search `"بانقة"
+سعر دينار ليبيا` and either Libyans are using the word about money or they are
+not. It separates a word that exists from a word a model produced, which is the
+distinction this whole file is for.
 
 ## 9. Ground truth from a Libyan speaker — read this twice
 
@@ -125,6 +184,19 @@ news uses `بومبة غاز` for the Brega cylinder booking system.
 **Works**
 - **WebSearch is the workhorse.** It surfaces OpenSooq and Facebook content in
   titles and snippets even where fetching the site fails.
+- **A scraping proxy changes some of this and not all of it.** With one
+  configured (Bright Data, added 19 August), `almashhadlibya.com`,
+  `lananews.com`, `libyaalahrar.tv` and `big.ly` all fetch cleanly where a
+  plain request would be blocked. `ly.opensooq.com` still yields nothing
+  useful — it is client-rendered, so the proxy returns the shell without the
+  listings. Facebook remains a login wall. **The snippets are still where the
+  dialect is.**
+- **اقتصاد المسار (Almasar Economy)** — the single most useful Libyan price
+  source found. A Libyan economics desk running dated field surveys — رصد
+  ميداني — of Tripoli retail, republished as articles by `almashhadlibya.com`.
+  It prices bottled water, school supplies, bread, fuel, cement, chicken and
+  eggs: most of what WFP and the Ministry bulletin miss. See
+  [data-sources.md](data-sources.md).
 - `ly.sogarab.com` — Libyan classifieds, reachable.
 - `big.ly`, `matjar-libya.com` — reachable but thin on groceries.
 - `libyaakhbar.com`, `eanlibya.com` — Libyan news, quotes market prices.
