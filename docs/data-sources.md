@@ -316,8 +316,48 @@ hygiene — which is most of the gap this platform exists to fill. It is dated,
 attributable and recurring, so a price taken from it can be checked and can be
 re-taken next month.
 
+### Its Telegram channel is the machine-readable way in
+
+`https://t.me/s/almasartvlibya` — the `/s/` preview path — **fetches cleanly**,
+where the app link does not. 2.87K subscribers, and the price posts are tagged
+`#اقتصاد_المسار` so they can be filtered from general news. On 20 August 2026
+alone it carried red meat at 09:28, fish at 09:34 and vegetables at 09:59.
+
+**The catch, and it is the whole engineering problem.** The prices are rendered
+into a **graphic**. The caption gives the date and the category — *"أسعار
+الخضروات ليوم الخميس 20 أغسطس في محال البيع بالتجزئة"* — and nothing else. A
+text scrape gets you a dated index of price cards and not one number.
+
+That is not a reason to dismiss it. A daily, dated, categorised feed of price
+cards from a named market is exactly what `PartnerFileImporter` exists for; it
+needs a person or an OCR pass between the channel and the importer. The 20
+August vegetable card, transcribed by hand from the image, reads:
+
+| Item | LYD/kg | | Item | LYD/kg |
+|---|---|---|---|---|
+| شبت / كزبرة / معدنوس | 0.25 | | طماطم "شمسي" درجة أولى | 3.00 |
+| بصل أخضر "الربطة" | 2.00 | | خيار | 4.00 |
+| دلاع وطني | 2.00 | | سلاطة خضراء | 4.50 |
+| بصل "يابس" | 2.50 | | بطاطا | 5.00 |
+| قلعاوي وطني | 2.50 | | باذنجان | 5.00 |
+| كوسة | 6.00 | | فلفل أخضر حار | 6.00 |
+| تين شوكي / هندي | 7.00 | | عنب مصري | 12.00 |
+
+Footer: *"المصدر: رصد ميداني لاقتصاد المسار في سوق الحي الإسلامي للخضروات
+والفواكه بطرابلس"* — a named market, not a national average.
+
+### What that card corrected
+
+`tomatoes_1kg` had just been set to **6.75** from WFP's March–May median. The
+card puts it at **3.00** on 20 August. Both are right: tomatoes are in season.
+
+An authoritative source, correctly read, was wrong for today by 2.25× — and
+nothing in the pipeline would have caught it, because a stale number looks
+exactly like a fresh one. `as_of` is not decoration, and produce is where it
+bites hardest.
+
 **Its limits, stated.** Tripoli only. No licence is published, so it can be
-cited but not redistributed. And it is a media organisation rather than a
+cited but not redistributed. Prices are images, so ingestion is not automatic. And it is a media organisation rather than a
 statistical agency: the figures are a field survey, not a sampling frame, and
 the articles say so themselves — *"الأسعار قابلة للتغير بحسب المحل والعروض"*.
 

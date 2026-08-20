@@ -402,7 +402,9 @@
       "goffa tmatem",
       "tmatem tounsi",
       "tmatem sou9 el khodra",
-      "kilo w nos tmatem"
+      "kilo w nos tmatem",
+      "طماطم شمسي",
+      "طماطم درجة أولى"
     ],
     "harissa_can": [
       "هريسة ( علبة ) الحطاب",
@@ -1979,7 +1981,18 @@
     "ياخي عندكم وظايف",
     "١٢٣٤",
     "٢ حبات",
-    "٥٠"
+    "٥٠",
+    "دلاع وطني",
+    "قلعاوي وطني",
+    "تين شوكي",
+    "بصل يابس",
+    "بصل أخضر",
+    "سلاطة خضراء",
+    "كوسة",
+    "معدنوس",
+    "عنب مصري",
+    "خيار",
+    "باذنجان"
   ],
   "regions": {
     "drinking_water_20l": {
@@ -3036,6 +3049,61 @@
       "attested": "yes",
       "source": "https://www.facebook.com/OnlyLibya/posts/1448078177356436/",
       "says": "The sticker on a water jug, used by a citizen as the mark of genuine bottled water: \"لو تاخذها بدون ستيكر تكتشف انها مياه بئر\" — without it you find it is well water."
+    },
+    "طماطم شمسي": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. شمسي — sun-ripened, the grade marker Tripoli retail uses."
+    },
+    "طماطم درجة أولى": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. درجة أولى — first grade, the same grading the Ministry bulletin uses."
+    },
+    "دلاع وطني (NOT in corpus — no catalogue item)": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. دلاع = watermelon, and وطني = locally grown. Confirms both the dialect brief entry for دلاع and the native-speaker ruling that \"local\" is وطني, not بلدي and not عربي."
+    },
+    "قلعاوي وطني (NOT in corpus — no catalogue item)": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. قلعاوي — a Libyan pepper variety. Absent from the corpus entirely."
+    },
+    "تين شوكي / هندي (NOT in corpus — no catalogue item)": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. Prickly pear, given with both names on the same card — the card itself treats them as interchangeable."
+    },
+    "بصل يابس (NOT in corpus — no catalogue item)": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. يابس — dry onion, as against بصل أخضر. A state, used as the product name."
+    },
+    "بصل أخضر الربطة (NOT in corpus — no catalogue item)": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. الربطة — sold by the bunch. A unit of sale, matching the Ministry bulletin's ربطة for herbs."
+    },
+    "سلاطة خضراء (NOT in corpus — no catalogue item)": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. سلاطة for lettuce, where MSA would be خس."
+    },
+    "كوسة (NOT in corpus — no catalogue item)": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. Courgette."
+    },
+    "معدنوس (NOT in corpus — no catalogue item)": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. Parsley — معدنوس, not بقدونس. Also in the Ministry bulletin as معدنوس وطني."
+    },
+    "عنب مصري (NOT in corpus — no catalogue item)": {
+      "attested": "yes",
+      "source": "https://t.me/almasartvlibya",
+      "says": "Almasar TV daily #اقتصاد_المسار vegetable price card, Thursday 20 August 2026, field survey in سوق الحي الإسلامي, Tripoli. Egyptian grapes — origin used as part of the product name, as with زيت زيتون مستورد."
     }
   },
   "_open_questions": [

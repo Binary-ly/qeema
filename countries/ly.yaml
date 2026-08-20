@@ -1286,7 +1286,7 @@ demo:
     cooking_oil_1l: 9.67
     eggs_30: 24.75
     chicken_1kg: 31.0
-    tomatoes_1kg: 6.75
+    tomatoes_1kg: 3.0
     ors_sachet: 1.5
     paracetamol_suspension_60ml: 8.0
     amoxicillin_suspension_60ml: 14.0
@@ -1436,21 +1436,36 @@ demo:
             the March-May 2026 observations carrying priceflag=actual.
             CC BY-IGO 3.0.
     tomatoes_1kg:
-      value: 6.75
-      as_of: 2026-05
-      confidence: single-source
+      value: 3.0
+      as_of: 2026-08-20
+      confidence: corroborated
       note: >-
-        Replaced a guessed 4.0. WFP is one source, but it is a UN agency's own
-        field collection under an open licence, which is a different kind of
-        single source from one news article.
+        **Seasonality, caught the hard way.** This was briefly set to 6.75 from
+        WFP's March-May median — an authoritative source, correctly read, and
+        wrong for August by a factor of 2.25 because tomatoes are in season. A
+        stale figure from a good source is still a stale figure, and nothing in
+        the pipeline would have noticed.
+        The lesson for the basket generally: `as_of` is not decoration. A price
+        more than a season old should be treated as unsourced until re-checked,
+        and produce is the category where that bites hardest.
       sources:
+        - url: https://t.me/almasartvlibya
+          date: 2026-08-20
+          kind: field-survey
+          says: >-
+            Almasar TV's daily #اقتصاد_المسار price card for Thursday 20 August
+            2026, "السعر للكيلو الواحد", sourced to "رصد ميداني لاقتصاد المسار
+            في سوق الحي الإسلامي للخضروات والفواكه بطرابلس": طماطم "شمسي" درجة
+            أولى at 3.0 dinars a kilo. Read from the card image, which the
+            caption does not repeat in text.
         - url: https://data.humdata.org/dataset/wfp-food-prices-for-libya
           date: 2026-05-15
           kind: official-dataset
           says: >-
-            WFP Libya food prices, series "Tomatoes, KG", Tripoli centre, median of
-            the March-May 2026 observations carrying priceflag=actual.
-            CC BY-IGO 3.0.
+            WFP Libya food prices, "Tomatoes, KG", Tripoli centre, median of
+            March-May 2026 at 6.75. Retained deliberately as the out-of-season
+            comparison rather than deleted: the gap between the two is the
+            seasonal swing, which is information.
 
     school_notebook_80p:
       value: 2.3

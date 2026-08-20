@@ -78,6 +78,28 @@ URL, so any of them can be argued with.
 | **أسطوانة غاز الطهي** | LPG cylinder | Brega's own wording, confirming §9's ruling against `قروره غاز` |
 | **طهو** vs **طهي** | cooking | Both appear; §9 flagged a possible east/west split and this does not settle it |
 
+### From one daily price card, 20 August 2026
+
+Almasar TV's vegetable card (`t.me/almasartvlibya`, field survey in سوق الحي
+الإسلامي, Tripoli) carried more usable vocabulary than any vocabulary-hunting
+query has:
+
+| Word | Means | Note |
+|---|---|---|
+| **دلاع وطني** | locally grown watermelon | Confirms `دلاع` in §6 **and** §9's ruling that "local" is `وطني` — not `بلدي`, not `عربي` |
+| **قلعاوي** | a Libyan pepper variety | Absent from the corpus entirely |
+| **تين شوكي / هندي** | prickly pear | The card gives both names as interchangeable |
+| **بصل يابس** | dry onion | A state used as the product name, against `بصل أخضر` |
+| **الربطة** | the bunch | A unit of sale. Matches the Ministry bulletin's `ربطة` for herbs |
+| **سلاطة خضراء** | lettuce | `سلاطة`, where MSA is `خس` |
+| **معدنوس** | parsley | Not `بقدونس` |
+| **طماطم "شمسي"** | sun-ripened tomatoes | A grade marker, alongside `درجة أولى` |
+| **عنب مصري** | Egyptian grapes | Origin as part of the product name, like `زيت زيتون مستورد` |
+
+All eleven are now in `_attestation`, and the non-basket ones are real
+distractors — a category an invented list cannot supply, because inventing a
+plausible Libyan vegetable nobody sells is easy and inventing `قلعاوي` is not.
+
 **A ruling this closed.** `دبة` was removed as a water container in August after
 a speaker said it means *bear* or *fat*, leaving the item with no word for the
 jug at all. `بانقة` is that word — and the size was wrong too. No Libyan bottler
