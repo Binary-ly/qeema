@@ -212,6 +212,90 @@ def main() -> int:
             f"  <- the damaging failure"
         )
 
+    # ------------------------------------------------------------------
+    # The number a price index actually lives on
+    # ------------------------------------------------------------------
+    # Top-1 asks "was the best guess right". A price monitor does not publish
+    # best guesses. It publishes what it auto-resolved and sends the rest to a
+    # human, so the question that matters is: of everything that goes out
+    # WITHOUT being looked at, what share is correct — counting a distractor
+    # that got auto-resolved as the error it is.
+    #
+    # That number can be driven as high as you like by refusing to auto-resolve
+    # anything, which is what the platform does today. So it is meaningless on
+    # its own and is reported here against the coverage it was bought at.
+    if distractors:
+        pos_conf = [
+            (
+                d.best.confidence if d.best else 0.0,
+                d.best.canonical_item_code == r["expected"] if d.best else False,
+            )
+            for r, d in unseen_rows
+        ]
+        noise_conf = [d.best.confidence if d.best else 0.0 for d in noise]
+
+        # Base-rate-free summary of the same thing. This test set is ~52%
+        # distractors, far more than production would be, so the precision
+        # column below is pessimistic in absolute terms. AUC is not: it asks
+        # only whether a correct match tends to score above a distractor, and
+        # 0.5 means the confidence carries no information at all.
+        labels = [1] * len(pos_conf) + [0] * len(noise_conf)
+        scores = [c for c, _ in pos_conf] + list(noise_conf)
+        if len(set(labels)) == 2:
+            order = sorted(range(len(scores)), key=lambda i: scores[i])
+            ranks, i = [0.0] * len(scores), 0
+            while i < len(order):
+                j = i
+                while j + 1 < len(order) and scores[order[j + 1]] == scores[order[i]]:
+                    j += 1
+                avg = (i + j) / 2 + 1
+                for k in range(i, j + 1):
+                    ranks[order[k]] = avg
+                i = j + 1
+            npos = sum(labels)
+            nneg = len(labels) - npos
+            auc = (sum(r for r, l in zip(ranks, labels) if l) - npos * (npos + 1) / 2) / (
+                npos * nneg
+            )
+            print(
+                f"\nCONFIDENCE AS A SIGNAL\n  AUC separating basket wordings from distractors: {auc:.3f}"
+                "  (0.5 = no information)"
+            )
+
+        print("\nPRECISION OF WHAT GETS PUBLISHED UNREVIEWED, BY THRESHOLD")
+        print("  threshold  coverage   published  correct  precision")
+        best_at_999 = None
+        for t in (0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 0.99):
+            acc_pos = [ok for c, ok in pos_conf if c >= t]
+            acc_noise = sum(1 for c in noise_conf if c >= t)
+            published = len(acc_pos) + acc_noise
+            correct = sum(acc_pos)
+            if published == 0:
+                print(f"  {t:>8.2f}   {0.0:7.1%}   {0:>9}  {0:>7}     n/a")
+                continue
+            precision = correct / published
+            coverage = len(acc_pos) / len(pos_conf) if pos_conf else 0.0
+            flag = ""
+            if precision >= 0.999 and best_at_999 is None:
+                best_at_999 = (t, coverage, published)
+                flag = "  <- 99.9%"
+            print(
+                f"  {t:>8.2f}   {coverage:7.1%}   {published:>9}  {correct:>7}   "
+                f"{precision:6.1%}{flag}"
+            )
+        if best_at_999:
+            t, cov, n = best_at_999
+            print(
+                f"\n  99.9% precision is reached at threshold {t:.2f}, covering {cov:.1%} "
+                f"of wordings ({n} published unreviewed)."
+            )
+        else:
+            print(
+                "\n  99.9% precision is NOT reached at any threshold on this set. The "
+                "confidence score does not yet separate right from wrong sharply enough,"
+                "\n  which is what fitting the calibrator is for."
+            )
+
     print("\nMISSES ON UNSEEN TEXT")
     shown = 0
     for row, decision in unseen_rows:
