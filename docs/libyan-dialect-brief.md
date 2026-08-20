@@ -278,6 +278,54 @@ report it. The percentage is not the reason: on 29 rows one row is three and a
 half points, and the intervals overlap almost entirely. `Tomatoes (paste)` still
 goes to `tomatoes_1kg`, so the failure mode is narrowed, not closed.
 
+## 6e. The catalogue could not say "eggs" in Libyan
+
+Collecting 63 real shop strings into `ml/data/facebook/` and running the matcher
+over them took one command and found two defects the existing evaluation could
+not reach.
+
+**`دحي الاستيكة` resolved to `ballpoint_pen`** at 0.66. دحي is the ordinary
+Libyan word for eggs. `eggs_30` carried **five** catalogue variants — بيض, طبق
+بيض, بيض طبق, eggs, egg tray — and not one of them Libyan, while 62 wordings
+including six دحي forms sat in the reporter corpus where the matcher never looks.
+دحي had even been attested, to a Libyan news article *about the word*, and filed
+under the key `الدحي (NOT in corpus — proposed)`, where it stayed.
+
+The cause is structural, not an oversight. `qeema:corpus:promote` moves reviewed
+wordings into the catalogue and **refuses items the corpus lists under `hold`**.
+That refusal is correct — 58 of the 62 egg wordings are unverified. But the
+consequence went unnoticed: the three held items were the only three where the
+catalogue was thinner than the corpus, by 57, 34 and 14 wordings, and one of them
+is the most frequently reported food in the country. The nine attested wordings
+are now in by hand, and the item stays on hold for the rest.
+
+**`زيت زيتون غرياني` resolved to `cooking_oil_1l`.** Origin is part of the
+product name in Libyan usage — §6 already recorded دلاع وطني and عنب مصري — and
+غرياني was simply absent.
+
+### And a mistake of my own, which is why there is now a test
+
+The script that appends variants to a country file located each item's
+`variants:` line and inserted after it. That is right for the block style almost
+every item uses and wrong for the two written inline as `variants: [a, b]`: for
+those the search ran **past the item entirely** and landed in the next one.
+
+Nine egg wordings went into `canned_tuna_185g`. Four sanitary-pad wordings went
+into `cooking_gas_11kg` — so a woman reporting the price of ليلاس pads would have
+been matched, confidently, to an 11kg gas cylinder. Ten water wordings went into
+`ballpoint_pen`. Every version of the file parsed cleanly and every check passed,
+because nothing was checking *placement*.
+
+`api/tests/Feature/Country/CatalogueVariantPlacementTest.php` now checks it, and
+the corpus is what makes it checkable: the corpus already says which item each
+wording belongs to, so a wording the corpus assigns to X must not appear in the
+catalogue under Y. It found the ballpoint_pen case on its first run — an instance
+I had not spotted by hand.
+
+A misfiled variant is worse than a missing one. A missing variant sends a report
+to the review queue; a misfiled one sends it confidently to a product with a
+different price.
+
 ## 7. Real Libyan commercial context (verified)
 
 - Mobile operators, seen on a live Libyan store: **المدار**, **ليبيانا**,
