@@ -4696,15 +4696,16 @@ reproducible rather than anecdotal.
 
 | | |
 |---|---|
-| Top-1 on wordings **not already in the catalogue** | **93.1%** (27/29), 95% CI **[78.0%, 98.1%]** |
-| Top-1 across all 78 positives | 97.4% — but 49 were already variants, so that figure measures memorisation |
+| Top-1 on wordings **not already in the catalogue** | **96.6%** (28/29), 95% CI **[82.8%, 99.4%]** |
+| Top-1 across all 78 positives | 98.7% — but 49 were already variants, so that figure measures memorisation |
 | Real non-basket products **wrongly auto-resolved** | **0 of 123** |
 | Real non-basket products refused | **0 of 123** |
 | Correct matches auto-resolved without a human | **0 of 29** |
 
 The headline is the first row and the interval is wide, because the unseen
-sample is 29 wordings. Reporting 93.1% without it would invite a confidence the
-data does not support.
+sample is 29 wordings. Reporting 96.6% without it would invite a confidence the
+data does not support — it was 93.1% until a Facebook harvest on 20 August 2026
+fixed exactly one string, and one row is worth three and a half points here.
 
 The distractors are the part an invented list cannot supply: 123 real products
 the basket does not contain — cement, reinforcing bar, sheep feed, thirty

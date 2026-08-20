@@ -208,6 +208,76 @@ to a purchase — `docs/do-no-harm.md` commits to taking the words and the price
 and leaving the people, and a shop advertising a price is the one case where
 that is straightforward.
 
+## 6d. Second sweep: aiming at the matcher's measured weak points
+
+The first Facebook sweep took whatever it found. This one started from the
+matcher's own failures, and that is the whole difference.
+
+**The diagnosis.** Ten of twenty-seven catalogue items carried 59 wordings
+between them; the other seventeen carried 674. They were the nine items added on
+2026-08-15 from moved distractors, plus water. And the corpus's own recorded
+confusions came straight out of that thinness — `سكر الصفوة` had matched
+**ors_sachet**, `تن الصياد مستورد` had matched **amoxicillin**. Sugar had three
+wordings, so anything unfamiliar landed anywhere at all.
+
+### Two traps worth writing down
+
+**The corpus is not the catalogue.** `countries/corpus/ly.json` is *reporter
+simulation* — its own header says so. What the matcher actually matches against
+is `canonical_items[].variants` in `countries/ly.yaml`. Eighty-plus wordings
+went into the corpus first and moved the measured score by exactly nothing,
+twice, before the run printed the same "759 distinct normalised variants" both
+times and gave it away. Harvest for the matcher, edit the country file.
+
+**Never let an evaluation string become a catalogue variant.** The port now
+normalises every candidate against `ml/data/real-text/*.json` and drops matches.
+It caught `كسكسي دياري`. Without that check the headline would have improved by
+memorising its own test.
+
+### What the sweep found
+
+| Word | Means | Why it matters |
+|---|---|---|
+| **بعلي** / **مروي** | rain-fed / irrigated | The first thing a Libyan says about olive oil, and a price difference |
+| **عصرة** | a pressing | *"زيت زيتون آخر عصرة"* — freshness sold by pressing, not by date |
+| **بنة** | flavour, the good kind | *"زيت بنه"*, *"صنة وبنه"* |
+| **متع** | of, belonging to | *"متع الموسم الحالي"*. The Libyan possessive, and it will appear in reports |
+| **ضوق واحكم** | taste and judge | Sales register, worth recognising and ignoring |
+| **بانقة مياه 7 لتر** | the 7-litre water jug | Verbatim, repeatedly. This **lifted the hold** on `drinking_water_7l` |
+| **الاستيكة** | the shrink-wrapped multipack | 6 dinar; a *different price point* from the بانقة and must not be merged with it |
+| **خرز** / **ببوش** | bead / snail pasta | Shapes used as the product name |
+| **حكة** | a large tin | *"حليب الريحان (حُكة كبيرة)"* |
+| **إفرنجية** | European-style | A flour grade: *"دقيق مخابز إفرنجية (للفينو والتوست)"* |
+| **يابس** | dry | Of onions, and of anything sold dried |
+
+Origin is part of the name, again: **مسلاته**, **ترهونة**, **سرت**, **الجبل
+الغربي**, **يفرن** all appear as the identifying word for an olive oil, exactly
+as `دلاع وطني` and `عنب مصري` did in §6.
+
+### How a buyer writes, which is how a reporter will type
+
+Shop ads are a marketing register. The comments under them are not, and the
+comments are the closer match to what a reporter types into a phone:
+
+> *"بكم"* · *"كم السعر"* · *"بي كم السعر"* · *"وين متوفر"* · *"وين نلقاه"* ·
+> *"نبي حليب اطفال بدون زيت نخيل"*
+
+**نبي** — I want. If a price field only ever sees `12.50`, none of this matters;
+the moment there is a free-text box, all of it arrives.
+
+### The result, stated carefully
+
+Eighty-six attested wordings went into the catalogue. On real text nobody in
+this project wrote, top-1 on **unseen** wordings went from **93.1% (27/29) to
+96.6% (28/29)**, and nothing was wrongly auto-resolved out of 123 real
+non-basket products either before or after.
+
+That is **one string**. `تن جنزور (زيت الذرة) وطني` stopped resolving to cooking
+oil — a real fix to the modifier-beats-head-noun failure, and the reason to
+report it. The percentage is not the reason: on 29 rows one row is three and a
+half points, and the intervals overlap almost entirely. `Tomatoes (paste)` still
+goes to `tomatoes_1kg`, so the failure mode is narrowed, not closed.
+
 ## 7. Real Libyan commercial context (verified)
 
 - Mobile operators, seen on a live Libyan store: **المدار**, **ليبيانا**,

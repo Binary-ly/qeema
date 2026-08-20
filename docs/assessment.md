@@ -169,8 +169,8 @@ made a distractor rather than a generous positive.
 
 | | |
 |---|---|
-| Top-1 on wordings **not already in the catalogue** | **93.1%** (27/29), 95% CI **[78.0%, 98.1%]** |
-| Top-1 across all positives | 97.4% (78) — but 49 were already catalogue variants, so this measures memorisation |
+| Top-1 on wordings **not already in the catalogue** | **96.6%** (28/29), 95% CI **[82.8%, 99.4%]** |
+| Top-1 across all positives | 98.7% (78) — but 49 were already catalogue variants, so this measures memorisation |
 | Real non-basket products **wrongly auto-resolved** | **0 of 123** |
 | Real non-basket products refused | **0 of 123** |
 | Positives auto-resolved without a human | **0 of 29** |
@@ -178,13 +178,23 @@ made a distractor rather than a generous positive.
 The honest number is the first row, and the interval is wide because the unseen
 sample is 29 wordings. It is not a claim about thousands.
 
+**On 20 August 2026 this moved from 93.1% (27/29) to 96.6% (28/29), and that is
+one string.** Eighty-six wordings attested on public Libyan shop pages were
+added to the catalogue, and `تن جنزور (زيت الذرة) وطني` — a Libyan tuna brand
+whose head noun `تن` had been losing to the `زيت الذرة` in its own name — stopped
+resolving to cooking oil. One row on a 29-row set moves the headline three and a
+half points and the confidence intervals overlap almost entirely. The change
+worth reporting is that a known failure mode was closed, not that the percentage
+went up. None of the 86 wordings appears in the evaluation set; that is checked
+before any of them is added.
+
 **What improved.** In April 2025 the same bulletin produced 16 correct matches
 out of 60, because 41 of those products were not in the catalogue at all. The
-catalogue has since grown from 133 variants to 758, and coverage is no longer
+catalogue has since grown from 133 variants to 843, and coverage is no longer
 the binding failure.
 
 **What did not improve, at all.** Nothing auto-resolves and nothing is refused —
-the two structural findings from 2025 are unchanged. Every one of 29 correct
+the two structural findings from 2025 are unchanged. Every one of the correct
 matches still went to the review queue, and so did all 123 products that belong
 in no basket. Growing the catalogue fixed coverage; it did not touch
 calibration, and the section below explains why it cannot.
