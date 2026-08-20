@@ -167,6 +167,28 @@ means `rice_1kg` is a judgement; every string being real is a fact. Where a
 mapping was arguable — chicken liver against a `chicken_1kg` item — the row was
 made a distractor rather than a generous positive.
 
+### The number that matches how the platform works
+
+Nothing auto-resolves. Every submission goes to a human who picks from a
+candidate list, so top-1 measures a decision the platform does not currently
+make, and **recall@k** measures the one it does.
+
+| | on 488 unseen real wordings |
+|---|---|
+| top-1 | 89.34% (436/488) |
+| top-2 | 98.57% (481/488) |
+| top-3 | 98.77% (482/488) |
+| **top-5** | **99.59%** (486/488), 95% CI [98.5%, **99.9%**] |
+
+For **two** wordings in 488 the right item is absent from the list entirely:
+`وجبة مسحوق الارز` and `تن المعمورة كثلة درجه اولى`. For everything else the
+reviewer is shown the answer and only has to recognise it.
+
+This is not 99.9% top-1 and should not be read as it. It is the honest statement
+that a reviewer working this queue finds the right item in the list 99.6% of the
+time, which is what determines whether the review step is workable — and it is
+the strongest true claim available about this matcher.
+
 | | |
 |---|---|
 | Top-1 on wordings **not already in the catalogue** | **89.3%** (436/488), 95% CI **[86.3%, 91.8%]** |

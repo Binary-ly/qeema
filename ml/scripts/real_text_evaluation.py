@@ -200,6 +200,30 @@ def main() -> int:
     )
     print(f"  actions on unseen {dict(unseen_actions)}")
 
+    # ------------------------------------------------------------------
+    # What the reviewer is actually shown
+    # ------------------------------------------------------------------
+    # Nothing auto-resolves today: every submission goes to a human who picks
+    # from a candidate list. So top-1 is the number for a decision the platform
+    # does not currently make, and recall@k is the number for the one it does.
+    # A reviewer who is shown the right answer can choose it; one who is not
+    # has to type it themselves.
+    print("\nRECALL@k — whether the right item is in the list a reviewer sees")
+    for k in (1, 2, 3, 5):
+        hits = 0
+        for row, decision in unseen_rows:
+            codes = [
+                c.canonical_item_code
+                for c in (decision.candidates or [])  # type: ignore[attr-defined]
+            ][:k]
+            if row["expected"] in codes:
+                hits += 1
+        lo, hi = wilson(hits, len(unseen_rows))
+        print(
+            f"  top-{k}  {hits / len(unseen_rows):6.2%}  ({hits}/{len(unseen_rows)})"
+            f"  95% CI [{lo:.1%}, {hi:.1%}]"
+        )
+
     if distractors:
         noise = matcher.match_many([r["text"] for r in distractors], catalogue)
         refused = sum(1 for d in noise if d.action == "reject")
