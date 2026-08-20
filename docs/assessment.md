@@ -383,6 +383,37 @@ behaviour.
 costing, and the last time a quantity moved without its unit the published figure
 came out a thousand times too high.
 
+### The ceiling, measured rather than asserted
+
+Asked to reach 3,838 consecutive correct — 100% — the question that settles it is
+not how hard anyone tries. It is whether the remaining errors *can* be fixed.
+
+All 45 were classified by a single mechanical rule: does the string contain a
+token that distinguishes the two readings?
+
+| | count | |
+|---|---|---|
+| In principle fixable | 31 | the token is there and the catalogue lacks it — `شكارة دقيق`, `طماطم علبة كبيرة`, `اقلام جاف ملونة` |
+| **Irreducible** | **14** | the string carries no such token |
+
+The irreducible fourteen are twelve `طماطم` + a brand and two `حليب` + a brand.
+`طماطم غاليه` is a brand on the bare word for tomato: the tin is never named, and
+the label exists only because the post appeared in a grocery aisle rather than a
+vegetable market. `حليب بريزدن` is the same for drinking milk against infant
+formula. A native speaker reading the string alone cannot resolve them either.
+
+| | |
+|---|---|
+| now | 443/488 = **90.8%** |
+| ceiling, if every fixable error were fixed | 474/488 = **97.1%** |
+| target | 488/488 = **100%** |
+
+**The target sits above the ceiling.** Not far above a hard problem — above the
+information present in the text. That is why 3,838 consecutive correct is not a
+matter of more data or a better model, and it is the honest end of this line of
+work. The way past it is not a matcher change: it is asking the reporter, or
+photographing the shelf.
+
 ### 3,887 strings, and an honest verdict on what that buys
 
 Asked to reach 3,838 consecutive correct — the count that puts a 95% Wilson
