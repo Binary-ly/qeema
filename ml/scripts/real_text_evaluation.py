@@ -227,8 +227,10 @@ def main() -> int:
     if distractors:
         pos_conf = [
             (
-                d.best.confidence if d.best else 0.0,
-                d.best.canonical_item_code == r["expected"] if d.best else False,
+                d.best.confidence if d.best else 0.0,  # type: ignore[attr-defined]
+                d.best.canonical_item_code == r["expected"]  # type: ignore[attr-defined]
+                if d.best  # type: ignore[attr-defined]
+                else False,
             )
             for r, d in unseen_rows
         ]
@@ -254,7 +256,7 @@ def main() -> int:
                 i = j + 1
             npos = sum(labels)
             nneg = len(labels) - npos
-            auc = (sum(r for r, l in zip(ranks, labels) if l) - npos * (npos + 1) / 2) / (
+            auc = (sum(r for r, lab in zip(ranks, labels) if lab) - npos * (npos + 1) / 2) / (
                 npos * nneg
             )
             print(
