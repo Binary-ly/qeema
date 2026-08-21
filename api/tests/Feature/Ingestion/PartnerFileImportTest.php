@@ -203,12 +203,73 @@ describe('number and date formats partners actually use', function () {
         expect((float) Submission::query()->firstOrFail()->raw_price)->toBe(6.5);
     });
 
-    it('reads a thousands separator', function () {
+    /*
+    | "1,250" used to be read here as one thousand two hundred and fifty, and
+    | that assertion lived in this file as `it('reads a thousands separator')`.
+    |
+    | It is not safe in a three-decimal currency. The dinar has three minor
+    | units, so Libyan sellers write twenty dinars as "20,000" — Dat Essawary
+    | Pharmacy's whole catalogue is rendered that way, confirmed against the
+    | site's own "1 - 200" price filter, and a second independent sweep of
+    | Libyan sellers found the same convention. Under the old rule every one of
+    | those prices arrived a thousand times too high, which is exactly the defect
+    | that once put a 13,000 LYD basket on the dashboard.
+    |
+    | Reading it the other way is no better: it turns a genuine 1,250 into 1.25,
+    | the same error pointing the other way. Nothing in the string settles it, so
+    | the row goes back to the partner, who knows what they meant.
+    */
+    it('refuses a separator that could be either mark, rather than guessing', function () {
         $path = csvFile("Product,Price,Market\nGas cylinder,\"1,250\",Tripoli\n");
+
+        $batch = (new PartnerFileImporter)->import($this->source, $path, defaultMapping());
+
+        expect(Submission::query()->count())->toBe(0)
+            ->and($batch->rejected_count)->toBe(1);
+    });
+
+    it('tells the partner both readings so they can resolve it', function () {
+        $path = csvFile("Product,Price,Market\nPanadol,\"20,000\",Tripoli\n");
+
+        $batch = (new PartnerFileImporter)->import($this->source, $path, defaultMapping());
+        $errors = $batch->errorRows();
+
+        expect($errors)->toHaveCount(1)
+            ->and($errors[0]['column'])->toBe('Price')
+            ->and($errors[0]['message'])->toContain('20000')
+            ->and($errors[0]['message'])->toContain('20.000')
+            ->and($errors[0]['message'])->toContain('LYD');
+    });
+
+    it('still reads a thousands separator where the currency has two decimals', function () {
+        // The rule is a property of the currency, not of this codebase. The
+        // bolivar has two minor units, so "1,250" there is unambiguous and must
+        // keep working — otherwise a fix for Libya quietly breaks Venezuela.
+        (new CountryConfigImporter)->import(
+            (new CountryConfigLoader)->load(base_path('../countries/ve.yaml'))
+        );
+
+        $venezuela = Country::query()->where('code', 'VE')->firstOrFail();
+        $source = Source::query()
+            ->where('country_id', $venezuela->id)
+            ->where('type', Source::TYPE_PARTNER_UPLOAD)
+            ->firstOrFail();
+
+        $path = csvFile("Product,Price,Market\nHarina,\"1,250\",Caracas\n");
+
+        (new PartnerFileImporter)->import($source, $path, defaultMapping());
+
+        expect((float) Submission::query()->firstOrFail()->raw_price)->toBe(1250.0);
+    });
+
+    it('reads a grouped number that carries more than one comma', function () {
+        // Two commas cannot be decimal marks, so nothing is ambiguous here even
+        // in a three-decimal currency.
+        $path = csvFile("Product,Price,Market\nBakery flour,\"1,234,500\",Tripoli\n");
 
         (new PartnerFileImporter)->import($this->source, $path, defaultMapping());
 
-        expect((float) Submission::query()->firstOrFail()->raw_price)->toBe(1250.0);
+        expect((float) Submission::query()->firstOrFail()->raw_price)->toBe(1234500.0);
     });
 
     it('reads both separators together', function () {

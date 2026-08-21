@@ -46,12 +46,25 @@ final class RowValidator
             $errors[] = $this->error($rowNumber, $mapping->column('item'), 'Item is missing.');
         }
 
-        $price = $this->parsePrice($mapping->value($row, 'price'));
+        $priceRaw = $mapping->value($row, 'price');
+        $price = $this->parsePrice($priceRaw);
         if ($price === null) {
+            // "not a number" would be a lie for the ambiguous case, and a partner
+            // told their perfectly good number is not a number has no idea what
+            // to change. Say which two readings are in play and let them pick.
             $errors[] = $this->error(
                 $rowNumber,
                 $mapping->column('price'),
-                sprintf('Price "%s" is not a number.', (string) $mapping->value($row, 'price')),
+                $priceRaw !== null && $this->hasAmbiguousSeparator($this->numericSkeleton($priceRaw))
+                    ? sprintf(
+                        'Price "%s" could mean either %s or %s in %s, which has three decimal places. '
+                        .'Write it without a thousands separator, or with a dot as the decimal mark.',
+                        $priceRaw,
+                        str_replace(',', '', $this->numericSkeleton($priceRaw)),
+                        str_replace(',', '.', $this->numericSkeleton($priceRaw)),
+                        $this->country->currency_code,
+                    )
+                    : sprintf('Price "%s" is not a number.', (string) $priceRaw),
             );
         } elseif ($price <= 0.0) {
             $errors[] = $this->error($rowNumber, $mapping->column('price'), 'Price must be greater than zero.');
@@ -135,11 +148,59 @@ final class RowValidator
     }
 
     /**
+     * Reduce a written number to digits, separators and sign.
+     *
+     * Arabic-Indic and Eastern Arabic-Indic digits fold to ASCII; currency
+     * symbols and spaces go. What survives still has to be interpreted.
+     */
+    private function numericSkeleton(string $value): string
+    {
+        $clean = $value;
+
+        for ($i = 0; $i <= 9; $i++) {
+            $clean = str_replace([mb_chr(0x0660 + $i, 'UTF-8'), mb_chr(0x06F0 + $i, 'UTF-8')], (string) $i, $clean);
+        }
+
+        return (string) preg_replace('/[^\d.,\-]/u', '', $clean);
+    }
+
+    /**
+     * True when a lone comma before three digits could be either mark.
+     *
+     * "1,250" is a thousands separator nearly everywhere, and this is where it
+     * is not. The dinar carries three minor units, so a Libyan price list writes
+     * twenty dinars as "20,000" — Dat Essawary Pharmacy renders its whole
+     * catalogue that way, and the site's own "1 - 200" price filter confirms the
+     * reading. Two separate sweeps of Libyan sellers found the same convention.
+     *
+     * So the string has two readings a thousand apart and nothing in it settles
+     * which. Guessing "group" turns twenty dinars into twenty thousand, which is
+     * how a basket costing 13,000 LYD once reached the dashboard. Guessing
+     * "decimal" turns a genuine 1,250 into 1.25, which is the same error
+     * pointing the other way.
+     *
+     * A row this class cannot read is a row it hands back, so the partner — who
+     * knows what they meant — resolves it. That is the whole design: return the
+     * bad rows with a useful message rather than decide on their behalf.
+     *
+     * Only a *lone* comma is ambiguous. "1,234,500" is grouped beyond doubt, and
+     * anything carrying a dot as well is settled by which mark comes last.
+     */
+    private function hasAmbiguousSeparator(string $skeleton): bool
+    {
+        return ($this->country->currency_minor_units ?? 2) === 3
+            && substr_count($skeleton, ',') === 1
+            && ! str_contains($skeleton, '.')
+            && preg_match('/,\d{3}$/', $skeleton) === 1;
+    }
+
+    /**
      * Parse a number as a partner might have written it.
      *
      * Handles thousands separators, a comma decimal mark, currency symbols and
      * Arabic-Indic digits — all of which appear in real files and none of which
-     * mean the row is wrong.
+     * mean the row is wrong. Returns null when the row genuinely cannot be read,
+     * including the ambiguous case above.
      */
     private function parsePrice(?string $value): ?float
     {
@@ -147,16 +208,13 @@ final class RowValidator
             return null;
         }
 
-        $clean = $value;
-
-        for ($i = 0; $i <= 9; $i++) {
-            $clean = str_replace([mb_chr(0x0660 + $i, 'UTF-8'), mb_chr(0x06F0 + $i, 'UTF-8')], (string) $i, $clean);
-        }
-
-        // Strip everything that is not a digit, separator or sign.
-        $clean = (string) preg_replace('/[^\d.,\-]/u', '', $clean);
+        $clean = $this->numericSkeleton($value);
 
         if ($clean === '' || $clean === '-') {
+            return null;
+        }
+
+        if ($this->hasAmbiguousSeparator($clean)) {
             return null;
         }
 
@@ -172,6 +230,7 @@ final class RowValidator
         } elseif ($lastComma !== false) {
             // A lone comma with exactly three trailing digits is a thousands
             // separator ("1,250"); otherwise it is a decimal mark ("12,50").
+            // In a three-decimal currency the first case never reaches here.
             $clean = preg_match('/,\d{3}$/', $clean) === 1
                 ? str_replace(',', '', $clean)
                 : str_replace(',', '.', $clean);
