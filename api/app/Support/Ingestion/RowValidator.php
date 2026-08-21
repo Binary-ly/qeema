@@ -167,17 +167,17 @@ final class RowValidator
     /**
      * True when a lone comma before three digits could be either mark.
      *
-     * "1,250" is a thousands separator nearly everywhere, and this is where it
-     * is not. The dinar carries three minor units, so a Libyan price list writes
-     * twenty dinars as "20,000" — Dat Essawary Pharmacy renders its whole
-     * catalogue that way, and the site's own "1 - 200" price filter confirms the
-     * reading. Two separate sweeps of Libyan sellers found the same convention.
+     * "1,250" is a thousands separator nearly everywhere, and in a currency with
+     * three minor units it is not: twenty of that currency is written "20,000".
+     * Retailers really do render whole catalogues that way — two independent
+     * sweeps of shop listings found the convention, and one storefront's own
+     * "1 - 200" price filter settles how its numbers are meant to be read.
      *
-     * So the string has two readings a thousand apart and nothing in it settles
-     * which. Guessing "group" turns twenty dinars into twenty thousand, which is
-     * how a basket costing 13,000 LYD once reached the dashboard. Guessing
-     * "decimal" turns a genuine 1,250 into 1.25, which is the same error
-     * pointing the other way.
+     * So the string has two readings a thousand apart and nothing in it decides
+     * between them. Guessing "group" turns twenty into twenty thousand, which is
+     * how a basket cost three orders of magnitude too large once reached the
+     * dashboard. Guessing "decimal" turns a genuine 1,250 into 1.25 — the same
+     * error pointing the other way.
      *
      * A row this class cannot read is a row it hands back, so the partner — who
      * knows what they meant — resolves it. That is the whole design: return the
