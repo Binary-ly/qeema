@@ -166,6 +166,27 @@ it('never gives one item exclusive ownership of a head noun two items share', fu
      * not resolve confidently to either. It belongs in the review queue, which
      * is exactly where an ambiguous word should go when the two readings differ
      * in price by a factor of sixty.
+     *
+     * ---
+     *
+     * This test used to read `variants` alone, and that hole let the very
+     * example above back in.
+     *
+     * `CountryConfigImporter` seeds each item's `name_en` and `name_local` as
+     * variant rows too, deliberately, so a reporter typing the catalogue name
+     * hits the lexical index. So the effective variant set is larger than the
+     * `variants:` key — and `طماطم` was removed from tomatoes' `variants` while
+     * remaining its `name_local`, which the importer then wrote straight back as
+     * a variant. The fix was measured, recorded above, and quietly undone by an
+     * importer doing exactly what it says it does.
+     *
+     * It cost 2.4 points of top-1. Because rapidfuzz scores `token_set_ratio`,
+     * a one-word entry whose token set is a subset of the query scores a perfect
+     * 1.0 — so bare `طماطم` matched *every* string containing the word, and
+     * `معجون طماطم البستان` resolved to fresh tomatoes at lexical 1.0 while the
+     * paste item, holding the exact variant `معجون طماطم`, came second.
+     *
+     * So the set checked here has to be the set the importer builds.
      */
     foreach (countryCodes() as $code) {
         /** @var array<string, mixed> $config */
@@ -181,10 +202,17 @@ it('never gives one item exclusive ownership of a head noun two items share', fu
         }
 
         foreach ($config['canonical_items'] as $item) {
-            foreach ($item['variants'] ?? [] as $variant) {
+            // Exactly what CountryConfigImporter turns into variant rows.
+            $effective = array_filter([
+                (string) $item['name_en'],
+                isset($item['name_local']) ? (string) $item['name_local'] : null,
+                ...($item['variants'] ?? []),
+            ]);
+
+            foreach ($effective as $variant) {
                 $normalised = normaliseWording((string) $variant);
 
-                if (str_contains($normalised, ' ')) {
+                if ($normalised === '' || str_contains($normalised, ' ')) {
                     continue;   // only bare, single-word variants can be this trap
                 }
 

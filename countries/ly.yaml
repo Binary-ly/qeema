@@ -1235,7 +1235,7 @@ canonical_items:
 
   - code: tomatoes_1kg
     name_en: Tomatoes
-    name_local: طماطم
+    name_local: طماطم طازجة
     category: produce
     default_unit_code: kg
     default_quantity: 1
@@ -1725,7 +1725,6 @@ canonical_items:
     default_quantity: 7
     variants:
       - بانقة
-      - ماء
       - مياه
       - ماء شرب
       - مياه معدنية
@@ -1750,7 +1749,6 @@ canonical_items:
       - مياه النبع
       - مياه الصافية
       - ستيكة دجلة
-      - الاستيكة
       - مياه نص ليترة
       - ميه اكواب 30 طاسة
       - بانقة المية
