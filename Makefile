@@ -87,6 +87,10 @@ lint: ## Lint and statically analyse both services
 	# never saw this; a fresh clone on a stock PHP does, every time.
 	cd $(API_DIR) && ./vendor/bin/pint --test && ./vendor/bin/phpstan analyse --no-progress --memory-limit=1G
 	cd $(ML_DIR) && .venv/bin/ruff check src tests && .venv/bin/ruff format --check src tests
+	# mypy is a CI gate and was missing here, so `make verify` could pass on a
+	# type error the pipeline would then reject. src only, matching CI: the
+	# tests are not annotated to the same standard.
+	cd $(ML_DIR) && .venv/bin/mypy src
 
 .PHONY: fix
 fix: ## Auto-fix formatting in both services
@@ -109,8 +113,20 @@ check-country-agnostic: ## Fail if country-specific literals leaked into code (c
 check-workflows: ## Fail on duplicate keys that would make a CI workflow invalid
 	@bash infra/scripts/check-workflows.sh
 
+.PHONY: check-openapi
+check-openapi: ## Fail if the published spec has drifted from the source it is generated from
+	cd $(API_DIR) && php artisan qeema:openapi --check
+
+# Every CI gate that does not need Docker. The two exceptions are deliberate and
+# worth knowing: the compose job (image build, stack boot, Playwright) is
+# `make test-e2e` against a running stack, and CI additionally greps the tree for
+# secret-shaped values — a check that lives only in the workflow file.
+#
+# The help text used to read "Everything CI runs", which was false: mypy and the
+# OpenAPI drift check were both gates and neither was reachable from here, so a
+# green verify could still fail the pipeline.
 .PHONY: verify
-verify: lint test check-country-agnostic check-workflows ## Everything CI runs, locally
+verify: lint test check-country-agnostic check-workflows check-openapi ## Every CI gate except the Docker build and e2e
 
 # ----------------------------------------------------------------- data ----
 

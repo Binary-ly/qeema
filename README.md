@@ -169,11 +169,15 @@ coverage reported honestly. The platform gets less confident, not broken.
 ## Testing
 
 ```bash
-make verify      # everything CI runs
+make verify      # every CI gate except the image build and end-to-end
 make test-php    # Pest, 80% coverage gate
 make test-ml     # pytest, 80% coverage gate
 make test-e2e    # Playwright, including the offline-sync path
 ```
+
+`make verify` runs both linters, PHPStan, mypy, both suites with their coverage
+gates, and the constraint checks. It deliberately stops short of building images,
+so the one-command-boot job is `make test-e2e` against a running stack.
 
 Tests run against **real PostgreSQL** with pgvector and pg_trgm. SQLite cannot
 host either, and testing the matcher against a different engine than production

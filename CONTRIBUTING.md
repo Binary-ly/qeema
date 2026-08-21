@@ -76,14 +76,21 @@ CPPFLAGS="-I$(brew --prefix pcre2)/include" pecl install pcov
 ## The development loop
 
 ```bash
-make verify      # lint + both test suites + constraint checks — what CI runs
+make verify      # every CI gate except the image build and end-to-end
 make test-php    # Pest with the 80% coverage gate
 make test-ml     # pytest with the 80% coverage gate
 make fix         # auto-fix formatting in both services
 ```
 
-Run `make verify` before opening a pull request. It is the same set of checks CI
-runs, so a green local run means a green pipeline.
+Run `make verify` before opening a pull request. It runs both linters, PHPStan,
+mypy, both suites with their coverage gates and the constraint checks — every gate
+CI applies except two, which need Docker or live only in the workflow file: the
+compose job that builds the images and runs the end-to-end suite (`make test-e2e`
+against a running stack), and a grep for secret-shaped values.
+
+That gap used to be wider. `make verify` omitted mypy and the OpenAPI drift check
+while both were failing the pipeline, so a green local run genuinely could go red
+in CI.
 
 ---
 
