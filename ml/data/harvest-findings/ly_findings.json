@@ -1,0 +1,2254 @@
+{
+  "prices": [
+    {
+      "item": "sanitary_pads_10",
+      "value": 9.0,
+      "currency": "LYD",
+      "says": "Product page reads: 'Every Day Fresh 10 Maxi Night ... 18112 ... PIECE ... د.ل.‏ 9,000  InStock ... متوفر في المخزن (38 الكمية)'. The site writes dinars in 3-decimal form: its own price filter buckets on this category are '1 - 200 (42 items)' / '200 - 500 (0)', so 9,000 = 9.000 LYD, not 9000.",
+      "url": "https://dsm.ly/ar-ly/all-products/every-day-fresh-10-maxi-night-2",
+      "date": "2026-08-21",
+      "location": "Libya (Dat Essawary Pharmacy, dsm.ly; banner: 'التوصيل المجاني للطلبات عبر الإنترنت بقيمة 50 دينار ليبي فما فوق')",
+      "pack": "pack of 10 maxi night pads"
+    },
+    {
+      "item": "sanitary_pads_10",
+      "value": 9.0,
+      "currency": "LYD",
+      "says": "Category listing reads: 'Every Day Normal Extra Dry with Chamomile Extract 20pcs — Every Day — د.ل.‏ 9,000  InStock'.",
+      "url": "https://dsm.ly/ar-ly/personal-care/sanitary-pads-2",
+      "date": "2026-08-21",
+      "location": "Libya (Dat Essawary Pharmacy, dsm.ly)",
+      "pack": "pack of 20"
+    },
+    {
+      "item": "sanitary_pads_10",
+      "value": 13.0,
+      "currency": "LYD",
+      "says": "Category listing reads: 'Every Day HyperDry Super Maxi Night 18pcs — Every Day — د.ل.‏ 13,000  InStock'.",
+      "url": "https://dsm.ly/ar-ly/personal-care/sanitary-pads-2",
+      "date": "2026-08-21",
+      "location": "Libya (Dat Essawary Pharmacy, dsm.ly)",
+      "pack": "pack of 18"
+    },
+    {
+      "item": "sanitary_pads_10",
+      "value": 13.0,
+      "currency": "LYD",
+      "says": "Category listing reads: 'Every Day Sensitive Maxi Night Super 18pcs — Every Day — د.ل.‏ 13,000  InStock'.",
+      "url": "https://dsm.ly/ar-ly/personal-care/sanitary-pads-2",
+      "date": "2026-08-21",
+      "location": "Libya (Dat Essawary Pharmacy, dsm.ly)",
+      "pack": "pack of 18"
+    },
+    {
+      "item": "sanitary_pads_10",
+      "value": 14.0,
+      "currency": "LYD",
+      "says": "Category listing reads: 'Every Day Fresh Super Ultra Plus Lightly Scented — Every Day — د.ل.‏ 14,000  InStock'. Count is not printed in the product name.",
+      "url": "https://dsm.ly/ar-ly/personal-care/sanitary-pads-2",
+      "date": "2026-08-21",
+      "location": "Libya (Dat Essawary Pharmacy, dsm.ly)",
+      "pack": "count not stated on the listing"
+    },
+    {
+      "item": "sanitary_pads_10",
+      "value": 4.75,
+      "currency": "LYD",
+      "says": "Product page reads: 'فوط صحية ، قطن نسائي ليلاس العادي ، النزيف — Sold By: متجر رياض — 4.75 د.ل – 9.75 د.ل نطاق السعر: من 4.75 د.ل خلال 9.75 د.ل — النوع: المخصص للنزيف / العادي'. Two variants share one range; the page does not say which variant is which price, and it does not state a pad count.",
+      "url": "https://riad.ly/product/%D9%81%D9%88%D8%B7-%D8%B5%D8%AD%D9%8A%D8%A9-%D8%8C-%D9%82%D8%B7%D9%86-%D9%86%D8%B3%D8%A7%D8%A6%D9%8A-%D9%84%D9%8A%D9%84%D8%A7%D8%B3-%D8%A7%D9%84%D8%B9%D8%A7%D8%AF%D9%8A-%D8%8C-%D8%A7%D9%84%D9%86%D8%B2/",
+      "date": "2026-08-21",
+      "location": "Libya (متجر رياض / riad.ly)",
+      "pack": "count NOT stated on the page — do not assume 10"
+    },
+    {
+      "item": "bath_soap_bar",
+      "value": 5.0,
+      "currency": "LYD",
+      "says": "Product page reads: 'صابون بروتكس طبي 90 جرام — Sold By: متجر رياض — 5.00 د.ل — النوع: الوردي / الاخضر / الأحمر ... صنع في تركيا'.",
+      "url": "https://riad.ly/product/%D8%B5%D8%A7%D8%A8%D9%88%D9%86-%D8%A8%D8%B1%D9%88%D8%AA%D9%83%D8%B3-%D8%B7%D8%A8%D9%8A-90-%D8%AC%D8%B1%D8%A7%D9%85/",
+      "date": "2026-08-21",
+      "location": "Libya (متجر رياض / riad.ly)",
+      "pack": "single 90 g bar"
+    },
+    {
+      "item": "bath_soap_bar",
+      "value": 50.0,
+      "currency": "LYD",
+      "says": "Category listing reads: 'D2S Exfoliating Soap 125gr — D2S — د.ل.‏ 50,000  OutOfStock' (= 50.000 LYD). PREMIUM DERMOCOSMETIC BAR — do not pool with the everyday bar price.",
+      "url": "https://dsm.ly/ar-ly/personal-care/body-bath-2",
+      "date": "2026-08-21",
+      "location": "Libya (Dat Essawary Pharmacy, dsm.ly)",
+      "pack": "single 125 g bar"
+    },
+    {
+      "item": "bath_soap_bar",
+      "value": 53.0,
+      "currency": "LYD",
+      "says": "Category listing reads: 'SOAP CLARIFYING EXFOLIATING — MAGICLEAR — د.ل.‏ 53,000  InStock' (= 53.000 LYD). PREMIUM DERMOCOSMETIC BAR — do not pool with the everyday bar price.",
+      "url": "https://dsm.ly/ar-ly/personal-care/body-bath-2",
+      "date": "2026-08-21",
+      "location": "Libya (Dat Essawary Pharmacy, dsm.ly)",
+      "pack": "single bar"
+    },
+    {
+      "item": "paracetamol_suspension_60ml",
+      "value": 13.0,
+      "currency": "LYD",
+      "says": "PANADOL BABY & INFANT 100 ML ALFA — د.ل.‏ 13,000  InStock (site formats LYD with 3 decimals, so 13,000 = 13.000 LYD)",
+      "url": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2",
+      "date": "2026-08-21",
+      "location": "Tripoli",
+      "pack": "100 ml bottle"
+    },
+    {
+      "item": "paracetamol_suspension_60ml",
+      "value": 19.0,
+      "currency": "LYD",
+      "says": "ADOL 250MG\\5ML SYRUP — د.ل.‏ 19,000  InStock",
+      "url": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2",
+      "date": "2026-08-21",
+      "location": "Tripoli",
+      "pack": "syrup bottle, 250 mg/5 ml (volume not stated on listing)"
+    },
+    {
+      "item": "paracetamol_suspension_60ml",
+      "value": 20.0,
+      "currency": "LYD",
+      "says": "PARACETAMOL 250MG/5ML ORANGE FLAVOR — د.ل.‏ 20,000  InStock",
+      "url": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2",
+      "date": "2026-08-21",
+      "location": "Tripoli",
+      "pack": "suspension bottle, 250 mg/5 ml (volume not stated on listing)"
+    },
+    {
+      "item": "paracetamol_suspension_60ml",
+      "value": 55.0,
+      "currency": "LYD",
+      "says": "CALPOL SIXPLUS SUSP STRAWBERRY FLAVOUR — د.ل.‏ 55,000  InStock",
+      "url": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2",
+      "date": "2026-08-21",
+      "location": "Tripoli",
+      "pack": "Calpol Six Plus suspension bottle (imported premium brand — top of range)"
+    },
+    {
+      "item": "ors_sachet",
+      "value": 20.0,
+      "currency": "LYD",
+      "says": "ORS ELECTROLYTE POWDER 10SACHETS SUGAR FREE — 33195 — PACKET — د.ل.‏ 20,000  InStock. Description: 'Rehydration electrolyte drink'. Application: 'Dissolve one sachet in water and drink as needed.'",
+      "url": "https://dsm.ly/all-products/ors-electrolyte-powder-10sachets-sugar-free-2",
+      "date": "2026-08-21",
+      "location": "Tripoli",
+      "pack": "packet of 10 sachets"
+    },
+    {
+      "item": "ors_sachet",
+      "value": 2.0,
+      "currency": "LYD",
+      "says": "DERIVED, not printed on the page: the page states 20.000 LYD for a PACKET of 10 sachets, so 2.00 LYD per sachet.",
+      "url": "https://dsm.ly/all-products/ors-electrolyte-powder-10sachets-sugar-free-2",
+      "date": "2026-08-21",
+      "location": "Tripoli",
+      "pack": "1 sachet (unit price derived from the 10-sachet packet)"
+    },
+    {
+      "item": "amoxicillin_suspension_60ml",
+      "value": 10.0,
+      "currency": "LYD",
+      "says": "اومكسيل شراب 125-250 بسعر 10-15 دينار فقط  (post dated September 29, 2018; value recorded is the stated floor of a 10–15 LYD range covering both the 125 and 250 strengths)",
+      "url": "https://www.facebook.com/alwledphrmacy/photos/%D8%AA%D8%AE%D9%81%D9%8A%D8%B6%D8%A7%D8%AA-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D9%88%D9%84%D9%8A%D8%AF%D8%A3%D8%AF%D9%88%D9%8A%D8%A9-%D9%85%D8%B6%D8%A7%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B3%D9%83%D9%86%D8%A7%D8%AA%D8%A7%D9%88%D8%AC%D9%85%D9%86%D8%AA%D9%8A%D9%86-%D8%B4%D8%B1%D8%A7%D8%A8-156%D8%A8%D8%B3%D8%B9%D8%B1-15-20-%D8%AF/862065553999332/",
+      "date": "2018-09-29",
+      "location": "Benghazi",
+      "pack": "Amoxil syrup bottle, 125 mg/5 ml or 250 mg/5 ml"
+    },
+    {
+      "item": "amoxicillin_suspension_60ml",
+      "value": 15.0,
+      "currency": "LYD",
+      "says": "اوجمنتين شراب 156بسعر 15-20 دينار فقط  (post dated September 29, 2018; Augmentin 156 = amoxicillin + clavulanic acid paediatric suspension; value is the stated floor of a 15–20 LYD range)",
+      "url": "https://www.facebook.com/alwledphrmacy/photos/%D8%AA%D8%AE%D9%81%D9%8A%D8%B6%D8%A7%D8%AA-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D9%88%D9%84%D9%8A%D8%AF%D8%A3%D8%AF%D9%88%D9%8A%D8%A9-%D9%85%D8%B6%D8%A7%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B3%D9%83%D9%86%D8%A7%D8%AA%D8%A7%D9%88%D8%AC%D9%85%D9%86%D8%AA%D9%8A%D9%86-%D8%B4%D8%B1%D8%A7%D8%A8-156%D8%A8%D8%B3%D8%B9%D8%B1-15-20-%D8%AF/862065553999332/",
+      "date": "2018-09-29",
+      "location": "Benghazi",
+      "pack": "Augmentin 156 mg/5 ml suspension bottle"
+    },
+    {
+      "item": "paracetamol_suspension_60ml",
+      "value": 9.0,
+      "currency": "LYD",
+      "says": "شراب بنادول للرضع و الاطفال 9 دينار  (post dated April 2, 2018, صيدلية السكة)",
+      "url": "https://www.facebook.com/elskkapharmacy/posts/%D8%B9%D8%B1%D8%B6-%D8%AE%D8%A7%D8%B5-%D9%85%D9%86-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D8%B3%D9%83%D8%A9-%D8%AA%D8%AE%D9%81%D9%8A%D8%B6-%D9%81%D9%8A-%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%A8%D9%86%D8%A7%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%A7%D8%B5%D9%84%D9%8A-%D8%B5%D9%86%D8%A7%D8%B9%D8%A9-%D8%A7%D9%86%D8%AC%D9%84%D9%8A%D8%B2%D9%8A%D8%A9-%D9%85%D9%86-%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF/235667900334232/",
+      "date": "2018-04-02",
+      "location": null,
+      "pack": "Panadol Baby & Infant syrup bottle"
+    },
+    {
+      "item": "uht_milk_1l",
+      "value": 6.75,
+      "currency": "LYD",
+      "says": "جدول أسعار الحليب واللبن والزبادي – الخميس 9 يوليو 2026 … حليب معقم جودي | لتر | 6.75 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 لتر (retail carton)"
+    },
+    {
+      "item": "uht_milk_1l",
+      "value": 6.75,
+      "currency": "LYD",
+      "says": "حليب معقم النسيم | لتر | 6.75 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 لتر (retail carton)"
+    },
+    {
+      "item": "uht_milk_1l",
+      "value": 6.75,
+      "currency": "LYD",
+      "says": "حليب معقم الجيد | لتر | 6.75 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 لتر (retail carton)"
+    },
+    {
+      "item": "uht_milk_1l",
+      "value": 7.0,
+      "currency": "LYD",
+      "says": "حليب معقم الريحان | لتر | 7 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 لتر (retail carton)"
+    },
+    {
+      "item": "uht_milk_1l",
+      "value": 7.0,
+      "currency": "LYD",
+      "says": "حليب معقم الزهرات | لتر | 7 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 لتر (retail carton)"
+    },
+    {
+      "item": "school_notebook_80p",
+      "value": 1.25,
+      "currency": "LYD",
+      "says": "بلغ سعر الكراسة ذات 60 ورقة نحو 1.25 دينار للجودة المتوسطة، و1.5 دينار للجودة العالية",
+      "url": "https://almashhadlibya.com/economic-news/134246",
+      "date": "2026-08-17",
+      "location": "طرابلس",
+      "pack": "60 page (60 ورقة), single, medium quality — NOT 80 page"
+    },
+    {
+      "item": "school_notebook_80p",
+      "value": 1.5,
+      "currency": "LYD",
+      "says": "بلغ سعر الكراسة ذات 60 ورقة نحو 1.25 دينار للجودة المتوسطة، و1.5 دينار للجودة العالية",
+      "url": "https://almashhadlibya.com/economic-news/134246",
+      "date": "2026-08-17",
+      "location": "طرابلس",
+      "pack": "60 page (60 ورقة), single, high quality"
+    },
+    {
+      "item": "school_notebook_80p",
+      "value": 3.25,
+      "currency": "LYD",
+      "says": "أما الكراسة ذات 100 ورقة «مسطرة / جودة عالية»، فتتراوح بين 3 و3.5 دنانير",
+      "url": "https://almashhadlibya.com/economic-news/134246",
+      "date": "2026-08-17",
+      "location": "طرابلس",
+      "pack": "100 page (100 ورقة), ruled, high quality, single — midpoint of stated 3–3.5 range"
+    },
+    {
+      "item": "school_notebook_80p",
+      "value": 1.25,
+      "currency": "LYD",
+      "says": "فيما تراوح سعر “الكراسة” المكونة من “60 ورقة” ما بين 1.25 دينار و1.5 دينار، بينما سجل سعر “الكراسة” المكونة من 100 ورقة ما بين 3 دنانير و3.5 دنانير",
+      "url": "https://x.com/almasartvlibya/status/2089303945411715343",
+      "date": "2026-08-17",
+      "location": "طرابلس",
+      "pack": "60 page, single — Almasar TV field survey of Tripoli retail markets, post timestamped 10:50 AM Aug 17 2026"
+    },
+    {
+      "item": "school_notebook_80p",
+      "value": 1.25,
+      "currency": "LYD",
+      "says": "كراسة 60 ورقة ماجلان — 1.25 د.ل",
+      "url": "https://riad.ly/",
+      "date": "2026-08-21",
+      "location": null,
+      "pack": "60 page, single. Live Libyan storefront listing observed on this date (no post date exists; price is current-as-of-access)"
+    },
+    {
+      "item": "school_notebook_80p",
+      "value": 4.0,
+      "currency": "LYD",
+      "says": "كراسة رسومات حساب 100 ورقة مسطرة جاهزة — 4.00 د.ل",
+      "url": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/?stock_status=instock&per_row=3&shop_view=grid",
+      "date": "2026-08-21",
+      "location": null,
+      "pack": "100 page, ruled, pre-decorated maths exercise book, single. Live storefront listing"
+    },
+    {
+      "item": "school_notebook_80p",
+      "value": 15.0,
+      "currency": "LYD",
+      "says": "ورصدت مراسلة لـ (وال) أن ثمن دستة الكراس المدرسي بلغت 15 دينارا",
+      "url": "https://www.lananews.com/ar/?p=443664",
+      "date": "2025-09-20",
+      "location": null,
+      "pack": "دستة (dozen/bundle) of school exercise books — 2025 figure, NOT 2026. Libyan News Agency (LANA)"
+    },
+    {
+      "item": "ballpoint_pen",
+      "value": 0.75,
+      "currency": "LYD",
+      "says": "قلم حبر ناتاراج صناعة هندية 0.7 سلس — 0.75 د.ل",
+      "url": "https://riad.ly/",
+      "date": "2026-08-21",
+      "location": null,
+      "pack": "single pen (0.7mm, Indian-made Nataraj). Live Libyan storefront listing"
+    },
+    {
+      "item": "ballpoint_pen",
+      "value": 1.5,
+      "currency": "LYD",
+      "says": "فيما تراوح سعر قلم الحبر المدرسي ما بين 0.5 دينار و1.5 دينار",
+      "url": "https://x.com/almasartvlibya/status/2089303945411715343",
+      "date": "2026-08-17",
+      "location": "طرابلس",
+      "pack": "single school ballpoint — 1.5 LYD is the TOP of the stated 0.5–1.5 range, not the typical price"
+    },
+    {
+      "item": "ballpoint_pen",
+      "value": 0.5,
+      "currency": "LYD",
+      "says": "فيما تتراوح أسعار أقلام الحبر بين 0.5 ودينار ونصف، بحسب المسار",
+      "url": "https://almashhadlibya.com/economic-news/134246",
+      "date": "2026-08-17",
+      "location": "طرابلس",
+      "pack": "single, bottom of the ordinary range"
+    },
+    {
+      "item": "ballpoint_pen",
+      "value": 4.0,
+      "currency": "LYD",
+      "says": "وسجلت أقلام الحبر من الدرجة الأولى «مدرسية» أسعارًا تتراوح بين 3 و5 دنانير",
+      "url": "https://almashhadlibya.com/economic-news/134246",
+      "date": "2026-08-17",
+      "location": "طرابلس",
+      "pack": "single, first-grade 'school' ink pen — midpoint of stated 3–5 range. Premium tier, separate from the 0.5–1.5 ordinary tier"
+    },
+    {
+      "item": "ballpoint_pen",
+      "value": 3.0,
+      "currency": "LYD",
+      "says": "قلم حبر 4 ألوان 0.7 مم مسكة مطاط — 3.00 د.ل",
+      "url": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/?stock_status=instock&per_row=3&shop_view=grid",
+      "date": "2026-08-21",
+      "location": null,
+      "pack": "ONE pen with 4 colour barrels (multi-colour ballpoint), not a pack of 4. Live storefront listing"
+    },
+    {
+      "item": "school_backpack",
+      "value": 34.0,
+      "currency": "LYD",
+      "says": "حقيبة دعسوقة روضة وتأهيل — 34.00 د.ل",
+      "url": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/?stock_status=instock&per_row=3&shop_view=grid",
+      "date": "2026-08-21",
+      "location": null,
+      "pack": "single bag, kindergarten/pre-school size — cheapest real school backpack found on a Libyan storefront"
+    },
+    {
+      "item": "school_backpack",
+      "value": 78.0,
+      "currency": "LYD",
+      "says": "حقيبة فنون درجة أولى مع مقلمة للإعدادي والثانوي — 78.00 د.ل",
+      "url": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/?stock_status=instock&per_row=3&shop_view=grid",
+      "date": "2026-08-21",
+      "location": null,
+      "pack": "single bag + pencil case, prep/secondary school"
+    },
+    {
+      "item": "school_backpack",
+      "value": 89.75,
+      "currency": "LYD",
+      "says": "حقيبة شبابية طيارة جيشية It’s ok مناسبة للإعدادي والثانوي — 89.75 د.ل",
+      "url": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/?stock_status=instock&per_row=3&shop_view=grid",
+      "date": "2026-08-21",
+      "location": null,
+      "pack": "single bag, teen prep/secondary"
+    },
+    {
+      "item": "school_backpack",
+      "value": 124.75,
+      "currency": "LYD",
+      "says": "حقيبة فاخرة للصف الأول والثاني مع اسفنج حماية الظهر – سوستة وجودة عالية — 124.75 د.ل",
+      "url": "https://riad.ly/",
+      "date": "2026-08-21",
+      "location": null,
+      "pack": "single bag, grades 1–2, padded back. Live storefront listing"
+    },
+    {
+      "item": "school_backpack",
+      "value": 119.75,
+      "currency": "LYD",
+      "says": "حقيبة فاخرة مناسبة للصف الأول والثاني مع اسفنج لحماية الظهر — السعر الأصلي هو: 125.00 د.ل. 119.75 د.ل السعر الحالي",
+      "url": "https://riad.ly/",
+      "date": "2026-08-21",
+      "location": null,
+      "pack": "single bag, grades 1–2, discounted from 125.00"
+    },
+    {
+      "item": "school_backpack",
+      "value": 175.0,
+      "currency": "LYD",
+      "says": "تراوح سعر الحقائب المدرسية ما بين 100 و250 دينار بحسب الأنواع",
+      "url": "https://www.lananews.com/ar/?p=443664",
+      "date": "2025-09-20",
+      "location": null,
+      "pack": "single bag — midpoint of a stated 100–250 range. 2025 figure, NOT 2026. Libyan News Agency (LANA)"
+    },
+    {
+      "item": "eggs_30",
+      "value": 15,
+      "currency": "LYD",
+      "says": "قفز سعر طبق البيض اليوم السبت في محال البيع بالتجزئة بنسبة 15.38%، مسجلًا 15 دينارًا للطبق بطرابلس، مقابل 13 دينارًا للطبق مطلع أغسطس الحالي.",
+      "url": "https://www.facebook.com/almasartv.ly/posts/1025948580435414/",
+      "date": "2026-08-15",
+      "location": "طرابلس / Tripoli",
+      "pack": "طبق (retail tray). The post says 'للطبق' without a count; the Libyan retail طبق is 30 eggs and the same outlet's other reporting says 'طبق البيض المكون من 30 بيضة'. Count NOT stated on this page."
+    },
+    {
+      "item": "eggs_30",
+      "value": 165,
+      "currency": "LYD",
+      "says": "ارتفع سعر الصندوق في محال الجملة بنسبة 22.2%، مسجلًا 165 دينارًا، مقابل 135 دينارًا للطبق بداية الشهر الحالي.",
+      "url": "https://www.facebook.com/almasartv.ly/posts/1025948580435414/",
+      "date": "2026-08-15",
+      "location": "طرابلس / Tripoli",
+      "pack": "صندوق = WHOLESALE BOX of trays, count not stated. NOT a tray price. Do not compare with the 15 LYD retail figure and do not divide — the post itself confusingly writes 'للطبق' when giving the 135 comparison."
+    },
+    {
+      "item": "eggs_30",
+      "value": 12,
+      "currency": "LYD",
+      "says": "القرضابية للتسوق / الله يبارك / بيض ليبي \" دحي \" درجة اولى كبير / بسعر 12 دينار / نقبل التعامل بجميع الخدمات المصرفية / العنوان سرت المدينة. مجمع القرضابية التجاري",
+      "url": "https://www.facebook.com/100068361228313/posts/1361243739497654/",
+      "date": "2026-08-03",
+      "location": "سرت / Sirte",
+      "pack": "NOT STATED on the post. The shop writes only 'بيض ليبي دحي درجة اولى كبير بسعر 12 دينار'. A commenter asks 'كيف صار مش كان 22' which fits a tray, but the tray is inferred, not written. Treat pack as unconfirmed."
+    },
+    {
+      "item": "chicken_1kg",
+      "value": 14,
+      "currency": "LYD",
+      "says": "السلام عليكم ورحمة الله وبركاته سعر كيلو الدجاج الحي اليوم الخميس 13/8/2026 14دينار / تسعيرة الدجاج في طرابلس وضواحيها",
+      "url": "https://www.facebook.com/tk.aldwajn/posts/1678713376531942/",
+      "date": "2026-08-13",
+      "location": "طرابلس وضواحيها / Tripoli and suburbs",
+      "pack": "1 kg LIVE weight (الدجاج الحي). This is the farm-gate live bird price, not meat. The same daily board quotes الدجاج المدبوح (dressed, بدون أحشاء) around 19.40–19.50 LYD/kg wholesale in the same week."
+    },
+    {
+      "item": "chicken_1kg",
+      "value": 15,
+      "currency": "LYD",
+      "says": "🐔 أفخاذ دجاج طازجة • الكيلو بـ 15 دينار. • متوفرة بحجم صغير وبحجم كبير.",
+      "url": "https://www.facebook.com/100089962107275/videos/1389515823063305/",
+      "date": "2026-07-28",
+      "location": "بنغازي / Benghazi",
+      "pack": "1 kg, fresh chicken THIGHS (أفخاذ طازجة), retail counter price"
+    },
+    {
+      "item": "chicken_1kg",
+      "value": 30,
+      "currency": "LYD",
+      "says": "🍖 صدور دجاج طازجة • الكيلو بـ 30 دينار.",
+      "url": "https://www.facebook.com/100089962107275/videos/1389515823063305/",
+      "date": "2026-07-28",
+      "location": "بنغازي / Benghazi",
+      "pack": "1 kg, fresh chicken BREAST (صدور طازجة), retail counter price"
+    },
+    {
+      "item": "chicken_1kg",
+      "value": 15,
+      "currency": "LYD",
+      "says": "🍗 أجنحة دجاج طازجة • الكيلو بـ 15 دينار.",
+      "url": "https://www.facebook.com/100089962107275/videos/1389515823063305/",
+      "date": "2026-07-28",
+      "location": "بنغازي / Benghazi",
+      "pack": "1 kg, fresh chicken WINGS (أجنحة طازجة), retail counter price"
+    },
+    {
+      "item": null,
+      "value": 35,
+      "currency": "LYD",
+      "says": "🥩 كبدة دجاج طازجة • عرض اليوم: الكيلو بـ 35 دينار.",
+      "url": "https://www.facebook.com/100089962107275/videos/1389515823063305/",
+      "date": "2026-07-28",
+      "location": "بنغازي / Benghazi",
+      "pack": "1 kg fresh chicken LIVER. Recorded deliberately as a NEGATIVE: this is offal, not chicken_1kg, and at 35 LYD/kg it is the dearest line on the same board."
+    },
+    {
+      "item": "drinking_water_7l",
+      "value": 5.0,
+      "currency": "LYD",
+      "says": "#أوباري ارتفاع سعر عبوة المياه (7 لتر) إلى 5 دنانير، لتصبح أغلى من البنزين، في ظل استمرار شح المياه الذي يزيد من معاناة المواطنين في الجنوب.",
+      "url": "https://www.facebook.com/61586196458996/posts/122135126631206548/",
+      "date": "2026-07-02",
+      "location": "أوباري / Ubari",
+      "pack": "7L bottle (بانقة / عبوة 7 لتر)",
+      "market": "street"
+    },
+    {
+      "item": "drinking_water_7l",
+      "value": 3.0,
+      "currency": "LYD",
+      "says": "سجلت أسعار مياه الشرب ارتفاعا لافتا خلال اليومين الماضيين حتى وصل سعر عبوة الـ 7 لترات أو ما يعرف بالـ \"بانقة\" إلى 3 دنانير بنسبة بلغت 50%، بعد أن كان سعر العبوة لا يتجاوز الدينارين",
+      "url": "https://libyaalahrar.tv/2026/04/03/%d8%a3%d8%b3%d8%b9%d8%a7%d8%b1-%d9%85%d9%8a%d8%a7%d9%87-%d8%a7%d9%84%d8%b4%d8%b1%d8%a8-%d8%aa%d8%b4%d8%aa%d8%b9%d9%84-%d9%85%d8%a7-%d9%87%d9%8a-%d8%a7%d9%84%d8%a3%d8%b3%d8%a8%d8%a7%d8%a8/",
+      "date": "2026-04-03",
+      "location": null,
+      "pack": "7L bottle (بانقة / عبوة 7 لتر)",
+      "market": "street"
+    },
+    {
+      "item": null,
+      "value": 7.0,
+      "currency": "LYD",
+      "says": "استقرت دستة المياه المكونة من 12 عبوة بسعة نصف لتر عند 7 دنانير، بزيادة تتراوح بين 40% و70% مقارنة بمطلع يوليو الماضي، عندما كان سعر الدستة يتراوح بين 4 و5 دنانير",
+      "url": "https://almashhadlibya.com/economic-news/134313",
+      "date": "2026-08-18",
+      "location": "طرابلس / Tripoli",
+      "pack": "dozen (دستة) of 12 x 0.5L bottles — NOT the 7L item",
+      "market": "street"
+    },
+    {
+      "item": null,
+      "value": 8.0,
+      "currency": "LYD",
+      "says": "وكان سعر دستة المياه قد شهد ارتفاعًا أكبر خلال الأسبوع الأخير من يوليو 2026، بعدما تراوح بين 8 و10 دنانير في طرابلس، عقب توقف عدة مصانع عن تشغيل خطوط الإنتاج بسبب انقطاع الكهرباء",
+      "url": "https://almashhadlibya.com/economic-news/134313",
+      "date": "2026-08-18",
+      "location": "طرابلس / Tripoli",
+      "pack": "dozen (دستة) of 12 x 0.5L bottles — NOT the 7L item; page states a range of 8–10 LYD for the last week of July 2026",
+      "market": "street"
+    },
+    {
+      "item": null,
+      "value": 0.75,
+      "currency": "LYD",
+      "says": "وعلى مستوى البيع بالتجزئة، بلغ سعر عبوة المياه سعة نصف لتر 0.750 دينار في محال السلع الغذائية، بزيادة قدرها 50%، بينما يصل سعر العبوة الواحدة في المقاهي إلى دينار.",
+      "url": "https://almashhadlibya.com/economic-news/134313",
+      "date": "2026-08-18",
+      "location": "طرابلس / Tripoli",
+      "pack": "single 0.5L bottle (retail grocery); same page gives 1.00 LYD for the same bottle in cafés — NOT the 7L item",
+      "market": "street"
+    },
+    {
+      "item": null,
+      "value": 4.1,
+      "currency": "LYD",
+      "says": "قفز سعر دستة مياه الشرب سعة نصف لتر للعبوة بنسبة 20% من 3.400 دنانير إلى 4.100 دنانير",
+      "url": "https://libyaalahrar.tv/2026/04/03/%d8%a3%d8%b3%d8%b9%d8%a7%d8%b1-%d9%85%d9%8a%d8%a7%d9%87-%d8%a7%d9%84%d8%b4%d8%b1%d8%a8-%d8%aa%d8%b4%d8%aa%d8%b9%d9%84-%d9%85%d8%a7-%d9%87%d9%8a-%d8%a7%d9%84%d8%a3%d8%b3%d8%a8%d8%a7%d8%a8/",
+      "date": "2026-04-03",
+      "location": null,
+      "pack": "dozen (دستة) of 0.5L bottles — NOT the 7L item",
+      "market": "street"
+    },
+    {
+      "item": null,
+      "value": 3.0,
+      "currency": "LYD",
+      "says": "فإنها مياه تركية المنشأ تتوفر في السوق بعبوات سعة 0.5 لتر وبسعر لا يتجاوز 3 دنانير للدستة الكاملة",
+      "url": "https://libyaalahrar.tv/2026/04/03/%d8%a3%d8%b3%d8%b9%d8%a7%d8%b1-%d9%85%d9%8a%d8%a7%d9%87-%d8%a7%d9%84%d8%b4%d8%b1%d8%a8-%d8%aa%d8%b4%d8%aa%d8%b9%d9%84-%d9%85%d8%a7-%d9%87%d9%8a-%d8%a7%d9%84%d8%a3%d8%b3%d8%a8%d8%a7%d8%a8/",
+      "date": "2026-04-03",
+      "location": null,
+      "pack": "dozen of 0.5L Turkish-origin bottles — NOT the 7L item; article treats this as an FX-arbitrage anomaly",
+      "market": "street"
+    },
+    {
+      "item": "cooking_gas_11kg",
+      "value": 1.5,
+      "currency": "LYD",
+      "says": "السيد المواطن: نود إعلامكم بأن سعر تعبئة أسطوانة الغاز المنزلي هو: - الأسطوانة بوزن 15 كيلو جرام: 2.00 دينار. - الأسطوانة بوزن 11 كيلو جرام: 1.50 دينار.",
+      "url": "https://www.facebook.com/brega.company.bmc/posts/798662992457067/",
+      "date": "2024-07-12",
+      "location": null,
+      "pack": "11kg cylinder REFILL (تعبئة) at a Brega immediate-fill point",
+      "market": "official"
+    },
+    {
+      "item": "cooking_gas_11kg",
+      "value": 1.5,
+      "currency": "LYD",
+      "says": "سعر تعبئة الأسطوانة ذات الوزن 15 كيلوجرامًا يبلغ 2 دينار ليبي. سعر تعبئة الأسطوانة ذات الوزن 11 كيلوجرامًا يبلغ 1.5 دينار ليبي.",
+      "url": "https://almashhadlibya.com/economic-news/109154",
+      "date": "2025-10-19",
+      "location": null,
+      "pack": "11kg cylinder REFILL (تعبئة), Brega official tariff",
+      "market": "official"
+    },
+    {
+      "item": "cooking_gas_11kg",
+      "value": 70.0,
+      "currency": "LYD",
+      "says": "تشهد مدينة أجدابيا أزمة حادة في إمدادات غاز الطهو، حيث احتشد المواطنون في طوابير طويلة أمام نقطة التعبئة الفورية، وسط ارتفاع سعر الأسطوانة في السوق السوداء إلى ما بين 70 و120 ديناراً.",
+      "url": "https://almashhadlibya.com/economic-news/117520",
+      "date": "2026-02-02",
+      "location": "أجدابيا / Ajdabiya",
+      "pack": "household cooking-gas cylinder; page states a range of 70–120 LYD and does NOT state the weight (Brega household sizes are 11kg and 15kg)",
+      "market": "street"
+    },
+    {
+      "item": null,
+      "value": 240.0,
+      "currency": "LYD",
+      "says": "حددت الشركة قيمة الضمان المالي للأسطوانة بـ 240 دينارًا ليبيًا. هذا المبلغ لا يُعتبر سعر بيع، بل هو تأمين يُسترد بالكامل عند إعادة الأسطوانة للشركة.",
+      "url": "https://almashhadlibya.com/economic-news/120393",
+      "date": "2026-03-04",
+      "location": null,
+      "pack": "refundable cylinder deposit (ضمان مالي) under the Brega booking system — explicitly NOT a sale price",
+      "market": "official"
+    },
+    {
+      "item": null,
+      "value": 900.0,
+      "currency": "LYD",
+      "says": "انتقد الخبير النفطي سالم الشيخ عدم تدخل شركة البريقة لتسويق النفط من أجل حل أزمة أسطوانات الغاز، التي وصل سعرها إلى 900 دينار للواحدة بالسوق السوداء",
+      "url": "https://alwasat.ly/news/libya/486353",
+      "date": "2025-08-11",
+      "location": null,
+      "pack": "empty/whole gas cylinder as hardware, weight not stated — this is the scarcity price of the steel bottle itself, NOT a gas refill",
+      "market": "street"
+    },
+    {
+      "item": "tomatoes_1kg",
+      "value": 7,
+      "currency": "LYD",
+      "says": "طماطم (درجة أولى) | 1 كيلو جرام | 7 دل | 0%  — من النشرة اليومية لشبكة ليبيا التجارية بتاريخ الخميس 9 يوليو 2026",
+      "url": "https://almashhadlibya.com/economic-news/131520",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg, retail (قطاعي), grade 1"
+    },
+    {
+      "item": "tomatoes_1kg",
+      "value": 4,
+      "currency": "LYD",
+      "says": "طماطم (درجة ثانية) | 1 كيلو جرام | 4 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131520",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg, retail (قطاعي), grade 2"
+    },
+    {
+      "item": "tomatoes_1kg",
+      "value": 3.8,
+      "currency": "LYD",
+      "says": "تراجع سعر الطماطم من الدرجة الأولى في 22 أبريل إلى 95 دينارًا للصندوق (25 كغم) في الجملة بما يعادل 3.80 دينار للكيلوغرام",
+      "url": "https://alwasat.ly/news/libya/516256",
+      "date": "2026-04-22",
+      "location": null,
+      "pack": "wholesale crate (قابية/صندوق) of 25 kg at 95 LYD; per-kg figure stated by the source itself"
+    },
+    {
+      "item": "tomatoes_1kg",
+      "value": 7,
+      "currency": "LYD",
+      "says": "و7 إلى 8 دينارات في القطاعي (للدرجة الأولى، 22 أبريل)",
+      "url": "https://alwasat.ly/news/libya/516256",
+      "date": "2026-04-22",
+      "location": null,
+      "pack": "1 kg, retail (قطاعي), grade 1 — source gives a 7–8 range, low end recorded"
+    },
+    {
+      "item": "tomatoes_1kg",
+      "value": 3.4,
+      "currency": "LYD",
+      "says": "وفي 23 أبريل واصلت الأسعار انخفاضها، حيث بلغ سعر الدرجة الأولى 85 دينارًا للصندوق (3.40 دينار للكيلوغرام) و6 إلى 7 دينارات في القطاعي",
+      "url": "https://alwasat.ly/news/libya/516256",
+      "date": "2026-04-23",
+      "location": null,
+      "pack": "wholesale crate of 25 kg at 85 LYD; per-kg figure stated by the source"
+    },
+    {
+      "item": "tomatoes_1kg",
+      "value": 1.52,
+      "currency": "LYD",
+      "says": "بينما تراجعت الدرجة الثانية إلى 38 دينارًا للصندوق (1.52 دينار للكيلوغرام) مع استقرار نسبي في القطاعي عند 3 إلى 4.5 دينار",
+      "url": "https://alwasat.ly/news/libya/516256",
+      "date": "2026-04-23",
+      "location": null,
+      "pack": "wholesale crate of 25 kg at 38 LYD, grade 2"
+    },
+    {
+      "item": "tomato_paste_400g",
+      "value": 2.75,
+      "currency": "LYD",
+      "says": "كما حدد الصندوق أسعار بيع هذه السلع للمستهلك النهائي عبر الجمعيات ... و2.75 دينار لعبوة معجون الطماطم",
+      "url": "https://alwasat.ly/news/libya/522303",
+      "date": "2026-06-22",
+      "location": "بنغازي",
+      "pack": "one tin (عبوة) — subsidised consumer price via consumer co-ops; the source does NOT state the gram weight, so this is NOT confirmed to be a 400g tin"
+    },
+    {
+      "item": "tomato_paste_400g",
+      "value": 2.6,
+      "currency": "LYD",
+      "says": "فيما حدد سعر علبة معجون الطماطم عند 2.6 دينار (سعر بيع السلع من الصندوق إلى الجمعيات الاستهلاكية)",
+      "url": "https://alwasat.ly/news/libya/522303",
+      "date": "2026-06-22",
+      "location": "بنغازي",
+      "pack": "one tin (علبة) — price from the Price Stabilisation Fund to co-ops, i.e. below retail; gram weight not stated"
+    },
+    {
+      "item": "wheat_flour_1kg",
+      "value": 3.25,
+      "currency": "LYD",
+      "says": "دقيق (الأغراض المنزلية) الربيع | 1 كيلو جرام | 3.25 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg bag (retail)"
+    },
+    {
+      "item": "wheat_flour_1kg",
+      "value": 3.5,
+      "currency": "LYD",
+      "says": "دقيق الأغراض المنزلية الفاخر | 1 كيلو جرام | 3.5 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg bag (retail), 'الفاخر' premium grade"
+    },
+    {
+      "item": "wheat_flour_1kg",
+      "value": 3.0,
+      "currency": "LYD",
+      "says": "دقيق الأغراض المنزلية الريحان | 1 كيلو جرام | 3 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg bag (retail)"
+    },
+    {
+      "item": "rice_1kg",
+      "value": 6.5,
+      "currency": "LYD",
+      "says": "أرز الحبة القصيرة الصحى | 1 كيلو جرام | 6.5 دل | 0% (same 6.5 for الأسرة and المبروك)",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg bag, short grain"
+    },
+    {
+      "item": "rice_1kg",
+      "value": 6.0,
+      "currency": "LYD",
+      "says": "أرز الحبة القصيرة الصفوة | 1 كيلو جرام | 6 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg bag, short grain"
+    },
+    {
+      "item": "rice_1kg",
+      "value": 7.0,
+      "currency": "LYD",
+      "says": "أرز الحبة الطويلة الصحى | 1 كيلو جرام | 7 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg bag, long grain"
+    },
+    {
+      "item": "rice_1kg",
+      "value": 12.5,
+      "currency": "LYD",
+      "says": "أرز حبة طويلة أبو بنت | 1 كيلو جرام | 12.5 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg bag, premium imported long grain"
+    },
+    {
+      "item": "rice_1kg",
+      "value": 16.5,
+      "currency": "LYD",
+      "says": "أرز الحبة الطويلة سيلا | 1 كيلو جرام | 16.5 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg bag, Sella parboiled basmati — top of the range"
+    },
+    {
+      "item": "sugar_1kg",
+      "value": 4.5,
+      "currency": "LYD",
+      "says": "سكر الصحى | 1 كيلو جرام | 4.5 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg bag"
+    },
+    {
+      "item": "couscous_1kg",
+      "value": 6.5,
+      "currency": "LYD",
+      "says": "كسكسي الأميرة | 1 كيلو جرام | 6.5 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg pack"
+    },
+    {
+      "item": "couscous_1kg",
+      "value": 6.75,
+      "currency": "LYD",
+      "says": "كسكسي الوردة البيضاء | 1 كيلو جرام | 6.75 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg pack"
+    },
+    {
+      "item": "couscous_1kg",
+      "value": 8.5,
+      "currency": "LYD",
+      "says": "كسكسي دياري | 1 كيلو جرام | 8.5 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "1 kg pack, Tunisian import"
+    },
+    {
+      "item": "pasta_500g",
+      "value": 4.5,
+      "currency": "LYD",
+      "says": "مكرونة الجيد | 500 جرام | 4.5 دل | 0%",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "500 g pack — the ONLY 500 g pasta line in the bulletin"
+    },
+    {
+      "item": null,
+      "value": 2.25,
+      "currency": "LYD",
+      "says": "مكرونة الفضة | 400 جرام | 2.25 دل (same 2.25 for الريحان، الصفوة، البركة)",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "400 g pack — NOT pasta_500g, do not scale"
+    },
+    {
+      "item": null,
+      "value": 3.75,
+      "currency": "LYD",
+      "says": "مكرونة الوردة البيضاء | 400 جرام | 3.75 دل (same 3.75 for سبيقا)",
+      "url": "https://almashhadlibya.com/economic-news/131524",
+      "date": "2026-07-09",
+      "location": null,
+      "pack": "400 g pack — NOT pasta_500g"
+    },
+    {
+      "item": "wheat_flour_1kg",
+      "value": 3.25,
+      "currency": "LYD",
+      "says": "دقيق الأغراض المنزلية (الناعم) | كيلو جرام | 3.250 د.ل — official bulletin of وزارة الاقتصاد والتجارة via شبكة ليبيا للتجارة",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "1 kg bag, fine (الناعم)"
+    },
+    {
+      "item": "wheat_flour_1kg",
+      "value": 2.5,
+      "currency": "LYD",
+      "says": "دقيق الأغراض المنزلية (الربع) | كيلو جرام | 2.500 د.ل",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "1 kg bag, 'الربع' grade — grade name, flagged as uncertain"
+    },
+    {
+      "item": null,
+      "value": 2.75,
+      "currency": "LYD",
+      "says": "دقيق الأغراض المنزلية (السميد) | كيلو جرام | 2.750 د.ل",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "1 kg bag of SEMOLINA flour — deliberately not labelled wheat_flour_1kg"
+    },
+    {
+      "item": "sugar_1kg",
+      "value": 3.25,
+      "currency": "LYD",
+      "says": "سكر محلي | كيلو جرام | 3.250 د.ل",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "1 kg, local"
+    },
+    {
+      "item": "sugar_1kg",
+      "value": 5.0,
+      "currency": "LYD",
+      "says": "سكر مستورد | كيلو جرام | 5.000 د.ل",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "1 kg, imported"
+    },
+    {
+      "item": "couscous_1kg",
+      "value": 9.5,
+      "currency": "LYD",
+      "says": "كسكسي دراكو | كيلو جرام | 9.500 د.ل",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "1 kg pack"
+    },
+    {
+      "item": null,
+      "value": 2.25,
+      "currency": "LYD",
+      "says": "كسكسي محلي | 400 جرام | 2.250 د.ل",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "400 g — NOT couscous_1kg"
+    },
+    {
+      "item": null,
+      "value": 5.0,
+      "currency": "LYD",
+      "says": "كسكسي مستورد | 500 جرام | 5.000 د.ل",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "500 g couscous — NOT pasta_500g and NOT couscous_1kg"
+    },
+    {
+      "item": null,
+      "value": 5.0,
+      "currency": "LYD",
+      "says": "أرز محلي | 400 جرام | 5.000 د.ل — and أرز مستورد | 400 جرام | 5.000 د.ل",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "400 g — NOT rice_1kg. Scaling this to a kilo would give 12.5, badly wrong versus the 6-7 LYD retail kilo."
+    },
+    {
+      "item": null,
+      "value": 3.5,
+      "currency": "LYD",
+      "says": "مكرونة محلية (سباغيتي) | 400 جرام | 3.500 د.ل; مكرونة محلية (لوبيا) 400 جرام 4.000; مكرونة مستوردة 400 جرام 5.000",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "400 g — NOT pasta_500g"
+    },
+    {
+      "item": null,
+      "value": 270.0,
+      "currency": "LYD",
+      "says": "دقيق المخابز (الناعم) | قنطار واحد | 270 د.ل — also دقيق المخابز (السميد) قنطار 242 د.ل and دقيق المخابز (الربع) قنطار 256 د.ل",
+      "url": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "date": "2026-03-02",
+      "location": "طرابلس",
+      "pack": "1 قنطار of BAKERY flour ≈ 100 kg (see pack_words) — NOT a 50 kg sack. Left unlabelled on purpose: the merge must decide whether to derive bakery_flour_50kg from it, and if so it is roughly half, ~135 LYD."
+    }
+  ],
+  "dialect": [
+    {
+      "term": "كرتونة",
+      "gloss": "carton — the wholesale unit for pads",
+      "note": "'ليلاس الكبير كرتونه 100 دينار فيها 12 كيس' — one carton = 12 كيس. Also spelled كرتونه without the ة.",
+      "source": "https://www.facebook.com/100078713630157/posts/995764163057362/"
+    },
+    {
+      "term": "كيس",
+      "gloss": "bag — the retail pack unit for pads",
+      "note": "A كرتونة contains 12 كيس; a shopper buys one كيس.",
+      "source": "https://www.facebook.com/groups/1338953932918230/posts/3615758671904400/"
+    },
+    {
+      "term": "البكيت",
+      "gloss": "the packet (from English 'packet')",
+      "note": "'فوط نسائيه يوميه البكيت 2ونص فيه 120حبه' — packet of 120 daily liners for 2.5 LYD.",
+      "source": "https://www.facebook.com/100064926000527/posts/1815987508542578/"
+    },
+    {
+      "term": "ونص",
+      "gloss": "'and a half' — written joined to the number, no space",
+      "note": "'2ونص' = 2.5 dinars, '1ونص' = 1.5 dinars. A price parser splitting on whitespace will miss this.",
+      "source": "https://www.facebook.com/100064926000527/posts/1815987508542578/"
+    },
+    {
+      "term": "حبة / حبه",
+      "gloss": "one piece — the count word for pads",
+      "note": "'صندوق 24 حبة', 'فوط نسائيه شهريه 25حبه', '120حبه'. Often written with no space before the number and with ه for ة.",
+      "source": "https://www.facebook.com/groups/197721582375484/posts/1378651164282514/"
+    },
+    {
+      "term": "صندوق",
+      "gloss": "box",
+      "note": "'فوط نسائية شهرية قطن 100/100 صندوق 24 حبة'.",
+      "source": "https://www.facebook.com/groups/197721582375484/posts/1378651164282514/"
+    },
+    {
+      "term": "الاستيكة",
+      "gloss": "the sleeve/strip — a shrink-wrapped multipack of soap bars",
+      "note": "'صابون لوكس الاستيكة 5.75 بدلا من 8 دينار' alongside 'صابون صلب لوكس الاصلي 6قطع بسعر التحطيم 5.75دينار' — so one استيكة = 6 bars. Not in the catalogue's pack vocabulary.",
+      "source": "https://www.facebook.com/groups/1105100419595579/posts/1740662472706034/"
+    },
+    {
+      "term": "قالب",
+      "gloss": "bar (of soap) — as opposed to سائل (liquid)",
+      "note": "Lucky (Libyan manufacturer) files its soap under 'صابون أيادي سائل وقالب'. But قالب صابون also means a soap MOULD — riad.ly sells 'قالب صابون سيلكون ... لصنع الصابون' as a craft item.",
+      "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+    },
+    {
+      "term": "صابون صلب",
+      "gloss": "solid soap = bar soap",
+      "note": "The clearest disambiguator from صابون سائل (liquid). 'صابون صلب لوكس الاصلي6قطع'.",
+      "source": "https://www.facebook.com/groups/1105100419595579/posts/1740662472706034/"
+    },
+    {
+      "term": "صابونة",
+      "gloss": "(a) a bar of soap; (b) Libyan slang for a small router/modem or a device casing",
+      "note": "HARD NEGATIVE. Seen as 'صابونة شارب 24 ... سعرها 300 دينار' and 'ركبت الشفرة في صابونة Jio 4g' — these are telecom devices, not soap. Matching on صابونة alone will produce false positives at 300 LYD.",
+      "source": "Google SERP for: site:facebook.com \"صابونة\" ليبيا سعر دينار طرابلس محل — the result links were Google redirect URLs and did not resolve to citable page URLs"
+    },
+    {
+      "term": "فوط حمّام / فوط حمَّام",
+      "gloss": "bath TOWELS — not pads and not soap",
+      "note": "HARD NEGATIVE, and the single most dangerous one for this item: 'فوط حمّام ... المقاس 50*90 بسعر 13 دينار'. The word فوط carries both senses; only the modifier separates them.",
+      "source": "https://www.facebook.com/100064872392775/photos/3191263480906308/"
+    },
+    {
+      "term": "فوط مسح",
+      "gloss": "wiping cloths / cleaning cloths",
+      "note": "Another فوط hard negative, sold by cleaning-supplies wholesalers.",
+      "source": "https://www.facebook.com/groups/369607156533327/"
+    },
+    {
+      "term": "فوط شهرية vs فوط يومية",
+      "gloss": "monthly pads vs daily liners",
+      "note": "Libyan sellers price and pack these as two different products: 'فوط نسائيه يوميه البكيت 2ونص فيه 120حبه' vs 'فوط نسائيه شهريه 25حبه 1ونص'. See notes — يومية should NOT map to sanitary_pads_10.",
+      "source": "https://www.facebook.com/100064926000527/posts/1815987508542578/"
+    },
+    {
+      "term": "بالأجنحة / بجوانح / بدون أجنحة",
+      "gloss": "with wings / winged / without wings",
+      "note": "Standard pad qualifier in Libyan product names; بجوانح is the colloquial variant of بأجنحة.",
+      "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+    },
+    {
+      "term": "سميك / ألترا / سوبر / ماكسي",
+      "gloss": "thick / ultra / super / maxi — pad thickness tiers",
+      "note": "'لاكي ليدي ألترا كبير – بالأجنحة سميك'. Latin 'MAXI' also appears untransliterated: 'فوط MAXI Vellia'.",
+      "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+    },
+    {
+      "term": "سعرها حرق / بسعر التحطيم / يابلاش",
+      "gloss": "'burning price' / 'smashing price' / 'dirt cheap'",
+      "note": "Libyan sale phrasing that sits right next to the number and will confuse a naive price extractor: 'سعرها حرق بنار سعر 100 دينار', 'بسعر التحطيم 5.75دينار'.",
+      "source": "https://www.facebook.com/groups/369607156533327/posts/3303999413094072/"
+    },
+    {
+      "term": "سعر المصرف نفس سعر الكاش",
+      "gloss": "'bank-card price is the same as the cash price'",
+      "note": "A distinctly Libyan price qualifier — sellers routinely quote two prices (cash vs bank transfer/card) and say so in the post. Where they differ, a scraper may pick the wrong one.",
+      "source": "https://www.facebook.com/groups/369607156533327/posts/3303999413094072/"
+    },
+    {
+      "term": "د.ل written with three decimals",
+      "gloss": "Libyan dinar with 1000 dirham subunits",
+      "note": "dsm.ly renders 9 LYD as 'د.ل.‏ 9,000'. The comma is a decimal separator here, not a thousands separator — confirmed by the site's own price filter buckets ('1 - 200' holding 42 of 42 items in the pads category).",
+      "source": "https://dsm.ly/ar-ly/personal-care/sanitary-pads-2"
+    },
+    {
+      "term": "صحيه / نسائيه / شهريه / يوميه",
+      "gloss": "ة written as ه",
+      "note": "Very common in Libyan shop posts: 'فوط صحيه ليلاس', 'فوط نسائيه شهريه'. Normalising ه/ة is required or half the real strings miss.",
+      "source": "https://www.facebook.com/100078713630157/posts/995764163057362/"
+    },
+    {
+      "term": "أمومة / لما بعد الولادة / النزيف",
+      "gloss": "maternity / postpartum / for heavy bleeding",
+      "note": "Distinct pad sub-products. 'لاكي ليدي سوبر أمومة', 'الفوط النسائيه لما بعد الولادة', and riad.ly's Lilas variant 'المخصص للنزيف'.",
+      "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+    },
+    {
+      "term": "لاكي ليدي",
+      "gloss": "Lucky Lady — a Libyan-made pad brand",
+      "note": "Made by شركة الربيع القابضة, Tripoli / وادي الربيع. Domestic brand, so likely the cheap end of the market. Sister brands لاكي بيبي (nappies), لاكي أدلت (adult), لاكي فريش, لاكي هوم.",
+      "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+    },
+    {
+      "term": "ليلاس / Lilas",
+      "gloss": "Lilas — the dominant imported pad brand in Libya",
+      "note": "Has a dedicated Libyan agency page (Lilas Libya - ليلاس ليبيا). Sizes written as 'ليلاس الكبير', 'ليلاس العادي', 'ليلاس سوبر'.",
+      "source": "https://www.facebook.com/Lilaslibyaagency/videos/1677009180284149/"
+    },
+    {
+      "term": "شراب",
+      "gloss": "syrup / oral liquid",
+      "note": "The default Libyan retail word for any liquid medicine. Written after the brand, not before: 'بنادول شراب', 'اوجمنتين شراب', 'ادول شراب'. A Qeema matcher keyed on 'syrup <brand>' word order will miss most Libyan listings.",
+      "source": "https://www.facebook.com/elskkapharmacy/posts/%D8%B9%D8%B1%D8%B6-%D8%AE%D8%A7%D8%B5-%D9%85%D9%86-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D8%B3%D9%83%D8%A9-%D8%AA%D8%AE%D9%81%D9%8A%D8%B6-%D9%81%D9%8A-%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%A8%D9%86%D8%A7%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%A7%D8%B5%D9%84%D9%8A-%D8%B5%D9%86%D8%A7%D8%B9%D8%A9-%D8%A7%D9%86%D8%AC%D9%84%D9%8A%D8%B2%D9%8A%D8%A9-%D9%85%D9%86-%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF/235667900334232/"
+    },
+    {
+      "term": "معلق",
+      "gloss": "suspension",
+      "note": "Appears in importer/manufacturer copy ('معلق شراب', 'باراسيتامول معلق') but almost never in Libyan retail pharmacy posts, which say شراب. Treat معلق as a wholesale-register synonym.",
+      "source": "https://www.mouradpharmacy.com/shop/paracetamol-amriya-120mg-5ml-120ml-susp-%D8%A8%D8%A7%D8%B1%D8%A7%D8%B3%D9%8A%D8%AA%D8%A7%D9%85%D9%88%D9%84-%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D8%B1%D9%8A%D8%A9-120%D9%85%D8%AC%D9%85-5%D9%85%D9%84-%D8%B4%D8%B1%D8%A7%D8%A8-%D9%85%D8%B9%D9%84%D9%82-120-%D9%85%D9%84-476818"
+    },
+    {
+      "term": "خافض للحرارة / خافض حرارة",
+      "gloss": "antipyretic, 'fever-lowerer'",
+      "note": "How paediatric paracetamol is actually described and searched for in Libya — far more common than the molecule name. 'دواء الحرارة' ('the fever medicine') is the colloquial form.",
+      "source": "https://www.facebook.com/100068937506288/photos/%D8%A8%D9%86%D8%A7%D8%AF%D9%88%D9%84-%D8%B4%D8%B1%D8%A7%D8%A8-%D9%84%D9%84%D8%AD%D8%B1%D8%A7%D8%B1%D8%A9-%D9%84%D9%84%D8%A7%D8%B7%D9%81%D8%A7%D9%84-%D8%A7%D9%84%D8%A7%D8%B5%D9%84%D9%8A-%D8%A7%D9%84%D9%81%D8%B1%D9%86%D8%B3%D9%8A%D8%A7%D9%84%D8%B3%D8%B9%D8%B15%D8%AF%D9%8A%D9%86%D8%A7%D8%B1%D8%A7%D9%84%D8%B9%D9%86%D9%88%D8%A7%D9%86_%D8%A7%D9%84%D9%85%D8%B1%D8%AC_%D8%AD%D9%8A_%D8%A7%D9%84500_%D8%A8%D8%AC%D8%A7%D9%86/257726615753974/"
+    },
+    {
+      "term": "للرضع و الاطفال",
+      "gloss": "for infants and children",
+      "note": "The standard qualifier that separates the paediatric liquid from the adult tablet on a Libyan price list. 'بنادول' alone is ambiguous; 'بنادول شراب للرضع و الاطفال' is unambiguously the item.",
+      "source": "https://www.facebook.com/elskkapharmacy/posts/%D8%B9%D8%B1%D8%B6-%D8%AE%D8%A7%D8%B5-%D9%85%D9%86-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D8%B3%D9%83%D8%A9-%D8%AA%D8%AE%D9%81%D9%8A%D8%B6-%D9%81%D9%8A-%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%A8%D9%86%D8%A7%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%A7%D8%B5%D9%84%D9%8A-%D8%B5%D9%86%D8%A7%D8%B9%D8%A9-%D8%A7%D9%86%D8%AC%D9%84%D9%8A%D8%B2%D9%8A%D8%A9-%D9%85%D9%86-%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF/235667900334232/"
+    },
+    {
+      "term": "محلول معالجة الجفاف",
+      "gloss": "oral rehydration solution, literally 'dehydration-treatment solution'",
+      "note": "The full formal name, used with the English abbreviation in brackets: 'محلول معالجة الجفاف (ORS)'. Shortened in trade copy to 'محلول جفاف'. Libyans rarely write 'أملاح الإماهة الفموية' (that is Gulf/Levant register).",
+      "source": "https://www.facebook.com/admin1.Nahawand/"
+    },
+    {
+      "term": "ساشت",
+      "gloss": "sachet (transliteration of French/English 'sachet')",
+      "note": "Used interchangeably with أكياس / كيس. Trade copy writes 'ساشت (عبوة 10 أكياس)' — sachet, pack of 10 bags. So a Qeema matcher for ors_sachet should accept ساشت, كيس, أكياس and the plain English 'sachet'.",
+      "source": "https://www.facebook.com/dryarahassan/photos/-%D8%AA%D8%B9%D9%84%D9%86-%D8%B4%D8%B1%D9%83%D8%A9-objective-pharm-%D8%B9%D9%86-%D8%A3%D8%AD%D8%AF%D8%AB-%D9%85%D9%86%D8%AA%D8%AC%D8%A7%D8%AA%D9%87%D8%A7-1%EF%B8%8F%E2%83%A3-%D9%85%D8%AD%D9%84%D9%88%D9%84-%D9%85%D8%B9%D8%A7%D9%84%D8%AC%D8%A9-%D8%A7%D9%84%D8%AC%D9%81%D8%A7%D9%81-%D8%B3%D8%A7%D8%B4%D8%AA-%D8%B9%D8%A8%D9%88%D8%A9-10/122131561455027915/"
+    },
+    {
+      "term": "ريهيدران / Rehydran",
+      "gloss": "Rehydran — a named ORS sachet brand used in Libyan paediatric practice",
+      "note": "Written as 'أكياس محلول معالجة الجفاف ريهيدران Rehydran Packs' with dosing 'كيس على 200 مل مياه سبق غليها' (one sachet to 200 ml of pre-boiled water). This is the concrete brand behind the generic ors_sachet item in Libya.",
+      "source": "https://ar-ar.facebook.com/%D9%82%D8%B1%D8%B7%D8%A7%D8%AC-%D9%84%D9%84%D8%AE%D8%AF%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%B7%D8%A8%D9%8A%D8%A9-235904059896338/"
+    },
+    {
+      "term": "بسعر",
+      "gloss": "'at a price of' — the price marker in Libyan pharmacy posts",
+      "note": "Almost every Libyan pharmacy price line is 'X بسعر N دينار فقط' or 'السعر N دينار'. The trailing فقط ('only') is near-obligatory in ad copy. Ranges are written bare with a hyphen: 'بسعر 15-20 دينار فقط'. Also seen: '#السعر5دينار' with no spaces, glued into a hashtag.",
+      "source": "https://www.facebook.com/alwledphrmacy/photos/%D8%AA%D8%AE%D9%81%D9%8A%D8%B6%D8%A7%D8%AA-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D9%88%D9%84%D9%8A%D8%AF%D8%A3%D8%AF%D9%88%D9%8A%D8%A9-%D9%85%D8%B6%D8%A7%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B3%D9%83%D9%86%D8%A7%D8%AA%D8%A7%D9%88%D8%AC%D9%85%D9%86%D8%AA%D9%8A%D9%86-%D8%B4%D8%B1%D8%A7%D8%A8-156%D8%A8%D8%B3%D8%B9%D8%B1-15-20-%D8%AF/862065553999332/"
+    },
+    {
+      "term": "د.ل.‏ 20,000",
+      "gloss": "20.000 LYD — the comma is a DECIMAL separator, not a thousands separator",
+      "note": "CRITICAL PARSING TRAP. Libya's largest online pharmacy (dsm.ly) renders every price as 'د.ل.‏ N,000' with three decimal places. 'د.ل.‏ 20,000' is twenty dinars, not twenty thousand. Any scraper reading these as integers will overstate Libyan medicine prices by 1000x.",
+      "source": "https://dsm.ly/all-products/ors-electrolyte-powder-10sachets-sugar-free-2"
+    },
+    {
+      "term": "الاصلي / صناعة انجليزية / فرنسي",
+      "gloss": "'the original' / 'English-made' / 'French'",
+      "note": "Country-of-manufacture and anti-counterfeit markers are part of the product name in Libyan listings, because parallel imports of the same brand differ in price: 'بنادول شراب للحرارة للاطفال الاصلي الفرنسي' vs 'البنادول الاصلي صناعة انجليزية'. dsm.ly does the same in English: '(UK BOOK)', '(Australia)', '(FRANCE-TUN)', 'ALFA' (the local importer).",
+      "source": "https://www.facebook.com/al.fayruzp/posts/%D8%B4%D8%B1%D8%A7%D8%A8-%D8%A8%D9%86%D8%A7%D8%AF%D9%88%D9%84-%D9%84%D9%84%D8%AD%D8%B1%D8%A7%D8%B1%D9%87-%D9%88%D9%85%D8%B3%D9%83%D9%86-%D9%84%D9%84%D8%A7%D9%84%D9%85-%D9%84%D9%84%D8%A7%D8%B7%D9%81%D8%A7%D9%84-%D9%81%D8%B1%D9%86%D8%B3%D9%8A-%D8%B5%D9%84%D8%A7%D8%AD%D9%8A%D8%A9-%D8%A8%D8%B9%D9%8A%D8%AF%D9%87-%D8%AC%D8%AF%D8%A7-%D9%81%D9%82%D8%B7-75-%D8%AF%D9%8A%D9%86%D8%A7%D8%B1/1636508436737265/"
+    },
+    {
+      "term": "اومكسيل / اموكسيل / أموكسيكلاف",
+      "gloss": "Amoxil / co-amoxiclav — Arabic spellings of the amoxicillin brands",
+      "note": "Amoxil is spelled BOTH اومكسيل and اموكسيل in Libyan pharmacy copy; the اومكسيل variant is the one that appears on actual price lists and is missing from most transliteration tables. Augmentin is اوجمنتين and is glossed by Libyan pharmacists as أموكسيكلاف.",
+      "source": "https://www.facebook.com/alwledphrmacy/photos/%D8%AA%D8%AE%D9%81%D9%8A%D8%B6%D8%A7%D8%AA-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D9%88%D9%84%D9%8A%D8%AF%D8%A3%D8%AF%D9%88%D9%8A%D8%A9-%D9%85%D8%B6%D8%A7%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B3%D9%83%D9%86%D8%A7%D8%AA%D8%A7%D9%88%D8%AC%D9%85%D9%86%D8%AA%D9%8A%D9%86-%D8%B4%D8%B1%D8%A7%D8%A8-156%D8%A8%D8%B3%D8%B9%D8%B1-15-20-%D8%AF/862065553999332/"
+    },
+    {
+      "term": "strength-as-name (156 / 312 / 457 / 125 / 250 / 600)",
+      "gloss": "the mg/5ml strength used as the product identifier",
+      "note": "Libyan antibiotic-syrup listings identify the product by bare strength number with no unit: 'اوجمنتين شراب 156', 'اومكسيل شراب 125-250', 'اوجمنتين شراب ٦٠٠'. The number is the whole SKU. Arabic-Indic digits (٦٠٠، ٤٥٧) appear alongside Western ones, sometimes in the same post.",
+      "source": "https://www.facebook.com/groups/121377801697925/"
+    },
+    {
+      "term": "سيتامول",
+      "gloss": "Sitamol / Cetamol — a Tunisian-made paracetamol syrup",
+      "note": "A cheap Tunisian-manufactured paracetamol syrup sold in Libya as 'شراب سيتامول', distinct from Panadol/Adol. Libyan pharmacists contrast it with بنادول by concentration ('السيتال شراب تركيز 250 مجم'). Related local names seen in the same market: بارالفيت Paralvit, دوليبران Doliprane, بروفيمول Brufemol.",
+      "source": "https://www.facebook.com/alwledphrmacy/photos/%D8%B9%D8%B1%D8%B6-%D8%AE%D8%A7%D8%B5-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D9%88%D9%84%D9%8A%D8%AF%D8%AF%D9%88%D8%A7%D8%A1-%D8%A7%D9%84%D8%AD%D8%B1%D8%A7%D8%B1%D8%A9-%D8%B4%D8%B1%D8%A7%D8%A8-%D8%B3%D9%8A%D8%AA%D8%A7%D9%85%D9%88%D9%84-%D8%B5%D9%86%D8%A7%D8%B9%D8%A9-%D8%AA%D9%88%D9%86%D8%B3%D9%8A%D8%A9-%D8%AA%D8%AD%D8%AA-%D9%85%D8%AE%D8%A7%D8%A8%D8%B1-%D9%81%D8%B1%D9%86%D8%B3%D9%8A%D8%A9%D9%85%D9%85%D8%AA%D8%A7/757534757785746/"
+    },
+    {
+      "term": "حكة / الحكّة",
+      "gloss": "a metal tin/can",
+      "note": "Libyan container word used for BOTH a 400 g milk-powder tin and a small evaporated-milk can — it carries no size and no infant/adult signal. Seen as 'حليب دانا حكه كبيره', 'حليب المعمورة حكه كبيره', '16 دينار الحكه 400جرام'. A matcher must not treat 'حكة حليب' as evidence of infant formula.",
+      "source": "https://www.facebook.com/halibi.nutrition/posts/205835316648658/"
+    },
+    {
+      "term": "استيكة",
+      "gloss": "shrink-wrapped tray / multipack",
+      "note": "The wholesale unit above the carton: 'سعر اللّتر الواحد 2.5 دينار الاستيــكة 30' = 2.5 LYD per 1 L carton, 30 LYD for the shrink-pack (12). Also used for eggs ('استيكة دحي'). Prices quoted per استيكة must never be recorded as unit prices.",
+      "source": "https://www.facebook.com/alkomscenter/posts/1190110644769330/"
+    },
+    {
+      "term": "معقم",
+      "gloss": "sterilised = UHT / long-life",
+      "note": "The standard Libyan retail label for drinking UHT milk; the official price bulletin uses 'حليب معقم … لتر'. This is the token that positively marks uht_milk_1l.",
+      "source": "https://almashhadlibya.com/economic-news/131524"
+    },
+    {
+      "term": "مبستر",
+      "gloss": "pasteurised (chilled fresh milk)",
+      "note": "A separate line item from معقم in Libyan price bulletins and pricing decrees, and cheaper. NOT uht_milk_1l.",
+      "source": "https://ltnet.gov.ly/ar/wp-content/uploads/2023/03/%D8%A7%D9%84%D8%B9%D8%AF%D8%AF-%D8%B1%D9%82%D9%85-1-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9.pdf"
+    },
+    {
+      "term": "حليب مركز",
+      "gloss": "evaporated / concentrated milk",
+      "note": "Sold in 170 ml cans by the same brands that sell UHT litres (الزهرات, جودي). Neither drinking milk nor formula. Distinct from 'حليب مكثف محلى' (sweetened condensed).",
+      "source": "https://almashhadlibya.com/economic-news/131524"
+    },
+    {
+      "term": "المقوي",
+      "gloss": "fortified / enriched",
+      "note": "Attaches to Nido ('حليب نيدو المقوي', 'حليبي المقوي') — a DRINKING milk powder. Fortification language is not evidence of infant formula.",
+      "source": "https://www.instagram.com/p/DOQwb0BDf6y/"
+    },
+    {
+      "term": "رقم 1 / رقم 2 / رقم 3",
+      "gloss": "stage 1 / 2 / 3",
+      "note": "The single most reliable infant-formula marker in Libyan shop text. Appears with no 'رضع' or 'اطفال' token at all: 'حليب نستوجين … رقم 1 … رقم 2', 'بريمالاك 3', 'حليب اطفال الماني رقم 3'. Stage 2 and 3 are still infant formula for Qeema's purposes.",
+      "source": "https://www.facebook.com/Kribamarket/posts/136836031358846/"
+    },
+    {
+      "term": "رضع / للرضع",
+      "gloss": "infants, for infants",
+      "note": "Unambiguous. 'حليب للرضع', 'غذاء حليب مكمل للرضع', 'تركيبة للرضع'. Contrast with 'اطفال', which is ambiguous (see disambiguation).",
+      "source": "https://www.facebook.com/p/Hero-Baby-Libya-61563429915152/"
+    },
+    {
+      "term": "حليب علاجي",
+      "gloss": "therapeutic / specialty formula",
+      "note": "Pharmacy shelf category covering AR (anti-reflux), CMA (cow's-milk allergy), amino-acid formulas: 'لينالاك AR للارتجاع', 'برميلاك CMA', 'الفامينو'. Still infant formula but priced far above the 400 g standard tin (comments cite 100+ LYD) — must not be averaged into infant_formula_400g.",
+      "source": "https://www.facebook.com/groups/977537839656144/"
+    },
+    {
+      "term": "لحوس",
+      "gloss": "Libyan roasted-flour weaning gruel",
+      "note": "A local (non-Nestlé) infant/toddler cereal-type food, e.g. 'لحوس الامين' from لبدة للصناعات الغذائية. A plausible baby_cereal_400g sibling but sold in different pack sizes — flagged, not labelled.",
+      "source": "https://www.tiktok.com/@sehatypharma/photo/7439392357910318392"
+    },
+    {
+      "term": "دل / د.ل",
+      "gloss": "Libyan dinar",
+      "note": "The bulletin writes '6.75 دل'; e-commerce writes '45.00 د.ل'. Both are LYD. Beware: '16,000 دينار' / '2,000د.ع' in the same Arabic search space are Iraqi dinar, not Libyan.",
+      "source": "https://big.ly/kids"
+    },
+    {
+      "term": "المدعوم",
+      "gloss": "subsidised",
+      "note": "Libya has run subsidised infant-formula distribution through designated pharmacies; subsidised prices sit far below market and should never be merged with retail. (2024 scheme: 13–26 LYD across 82 pharmacies.)",
+      "source": "https://alwasat.ly/news/libya/445865"
+    },
+    {
+      "term": "كراسة / كراس (pl. كراسات، كراريس)",
+      "gloss": "the ordinary school exercise book",
+      "note": "This is THE Libyan word. Every 2026 Libyan price survey and every Libyan stationery storefront uses كراسة for the everyday school notebook; none of them uses دفتر for it. The masculine singular كراس is equally current ('دستة الكراس المدرسي', 'مصانع الكراس المحلية'). Price band 0.50–4.0 LYD by page count and quality.",
+      "source": "https://x.com/almasartvlibya/status/2089303945411715343"
+    },
+    {
+      "term": "دستة",
+      "gloss": "a bundle/dozen of exercise books — the normal Libyan retail unit",
+      "note": "Critically NOT always 12. Observed as 10 ('دستة 10 كراسات 9دينار'), and quoted at 7, 9, 10 and 15 LYD across shops and years. Families buy by the دستة, not singly, so any per-unit cost model must divide by the stated count, never assume 12.",
+      "source": "https://www.facebook.com/100063493386325/"
+    },
+    {
+      "term": "سفار / أسفار (تغليف)",
+      "gloss": "the plastic jacket or cover slipped over a كراسة",
+      "note": "A separate purchase, not the notebook. 'سفار كراسه ب 2 دينار' — a cover can cost as much as the notebook it covers. مكتبة السفير lists a whole category 'أسفار تغليف'. Must be a hard negative for school_notebook_80p.",
+      "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D8%B1%D8%B3%D9%85/"
+    },
+    {
+      "term": "بيروة / بيرواات",
+      "gloss": "biro, ballpoint pen (from the brand Biro)",
+      "note": "Libyan colloquial for a cheap ballpoint. Seen advertised at 20 قرش (0.20 LYD) alongside 'كراسة 60 ورقة 1.25'. A likely miss for the catalogue — it does not look like قلم at all.",
+      "source": "https://www.facebook.com/taurus.libya12/videos/1891140118526961/"
+    },
+    {
+      "term": "جاف / قلم جاف / أقلام جافة",
+      "gloss": "ballpoint ('dry' pen), as opposed to gel, fountain or felt",
+      "note": "جاف is an ADJECTIVE on قلم حبر, not a noun. Full form 'قلم الحبر الجاف'. Libyan shops use قلم جاف and قلم حبر interchangeably for the same product; المسار's survey word is 'قلم الحبر المدرسي'.",
+      "source": "https://www.facebook.com/100063746191113/"
+    },
+    {
+      "term": "الكركت",
+      "gloss": "correction pen / correction fluid (from English 'correct-it')",
+      "note": "riad.ly files it in the same category name as pens: 'أقلام الحبر والكركت'. It is NOT a writing pen — hard negative for ballpoint_pen.",
+      "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/%D8%A3%D9%82%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%AD%D8%A8%D8%B1/"
+    },
+    {
+      "term": "مباراة / مباري",
+      "gloss": "pencil sharpener (MSA مبراة)",
+      "note": "The Libyan plural مباري appears in the national price survey: 'وبالنسبة إلى مباري أقلام الرصاص، تراوحت أسعار الأنواع العادية بين 0.250 ودينار واحد'. Distractor.",
+      "source": "https://almashhadlibya.com/economic-news/134246"
+    },
+    {
+      "term": "استيكة / محاية",
+      "gloss": "eraser — both words in live Libyan use",
+      "note": "استيكة is the colloquial, محاية the shop-catalogue word ('محاية ممتازة 2B لا تثرك أثر'). Distractor.",
+      "source": "https://riad.ly/"
+    },
+    {
+      "term": "شنطة / شناطي (pl.)",
+      "gloss": "bag; شنطة مدرسية = school bag",
+      "note": "شنطة (colloquial) and حقيبة (formal) are both fully Libyan and interchangeable for a school backpack. riad.ly's own category is 'الحقائب والشناطي', using both.",
+      "source": "https://riad.ly/"
+    },
+    {
+      "term": "محفظة مدرسية",
+      "gloss": "school bag — but NOT Libyan usage",
+      "note": "Searching محفظة مدرسية + ليبيا returned almost entirely Algerian (prices in دج/3900da), Moroccan (مراكش) and Iraqi (٦ الاف) sellers. In Libya محفظة means a wallet. Treating محفظة مدرسية as a Libyan school_backpack wording risks importing Maghrebi listings and their currencies.",
+      "source": "https://www.facebook.com/61588606462263/videos/1565070587895687/"
+    },
+    {
+      "term": "كشكول",
+      "gloss": "notebook — Egyptian/Iraqi/Levantine, NOT Libyan",
+      "note": "Every كشكول + ليبيا hit was Egyptian (priced in جنيه: 'الباكو اتناشر كشكول بمية تسعة وتسعين جنيه'), Iraqi (مكتبة كشكول في بغداد), or a book title/place name. Zero Libyan retail use for an exercise book. Should not be a Libyan wording for school_notebook_80p.",
+      "source": "https://www.facebook.com/MOSTAFA.SMRT/videos/1605942507826460/"
+    },
+    {
+      "term": "قرش",
+      "gloss": "used loosely for any sub-dinar amount",
+      "note": "Libyan sellers write '0.50 قرش', '0.75 قرش', '20 قرش', '١.٤٩ قرش' meaning 0.50 / 0.75 / 0.20 / 1.49 LYD. The word does not mean 1/100 here — it is a filler for 'and change'. Parsing '1.49 قرش' as 0.0149 LYD would be a costing error.",
+      "source": "https://www.facebook.com/rokn.altofola/videos/1139356214845884/"
+    },
+    {
+      "term": "مكتبة",
+      "gloss": "stationery shop (not only 'library'/'bookshop')",
+      "note": "In Libya مكتبة is the ordinary word for the shop that sells كراسات and أقلام — مكتبة الخطوة الأولى, مكتبة المهندس, مكتبة السفير. قرطاسية is the synonym. Both name shops, not products.",
+      "source": "https://alsafeergroup.ly/"
+    },
+    {
+      "term": "مقلمة / جزدان (تزدان)",
+      "gloss": "pencil case",
+      "note": "Distractor for school_backpack — frequently bundled with bags ('حقيبة فنون درجة أولى مع مقلمة').",
+      "source": "https://alsafeergroup.ly/product/%D8%AD%D9%82%D9%8A%D8%A8%D8%A9-%D8%A8%D9%86%D8%A7%D8%AA-%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9-5-%D9%81%D9%8A-1-%D9%84%D9%88%D9%84%D9%88-%D9%83%D8%A7%D8%AA%D9%8A/"
+    },
+    {
+      "term": "دبوس / خياطة",
+      "gloss": "stapled / sewn binding of a كراسة",
+      "note": "The Libyan quality axis for exercise books. 'كراس 60 ورقة دبوس' (stapled, cheapest) vs 'كراسة 100 ورقة الحجم..B4 الكبير خياطة..وليس دبوس' (sewn, dearer). Binding plus page count explains most of the price spread inside كراسة.",
+      "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D9%88-%D9%85%D8%B0%D9%83%D8%B1%D8%A7%D8%AA/page/9/"
+    },
+    {
+      "term": "دحي",
+      "gloss": "eggs (collective)",
+      "note": "The ordinary everyday Libyan word for eggs, used across Tripoli, Benghazi, Sirte, Misrata, Zliten, Sabha and Zawiya in the pages seen. Shops, news pages and government-price commentary all use it — this is not slang, it is the default. Also spelled with the definite article as الدحي, and occasionally الدحى with alif maqsura. بيض is understood but reads as formal/MSA; many posts write both, e.g. 'بيض ليبي \"دحي\"' and 'طبق البيض \"الدحي\"'.",
+      "source": "https://www.facebook.com/100068361228313/posts/1361243739497654/"
+    },
+    {
+      "term": "دحية / دحيه",
+      "gloss": "a single egg",
+      "note": "Singulative of دحي. Seen as '30 دحيه' for a tray count and 'تكلفة الدحية الوحدة' for unit cost.",
+      "source": "https://www.facebook.com/groups/1358584387589029/posts/6927281234052622/"
+    },
+    {
+      "term": "استيكة / أستيكة / الاستيكة",
+      "gloss": "the egg tray / flat (the moulded pack of 30)",
+      "note": "THIS IS THE PEN BUG. استيكة in Egyptian and Levantine Arabic means an eraser/rubber, which is why 'دحي الاستيكة' was matched to a ballpoint pen. In Libyan it is the flat pulp tray, and it is fully interchangeable with طبق: 'الطبق (الاستيكة)', 'استيكة دحي السعر 10 دينار', 'اخر سعر استيكة الدحي كم وصلت'. It also generalises to other tray-packed produce — 'استيكة الطماطم' is a flat of tomatoes — so the disambiguator has to be the following noun, not استيكة itself.",
+      "source": "https://www.facebook.com/dth2011/posts/1414533327366761/"
+    },
+    {
+      "term": "طبق / طبق دحي / طبق البيض",
+      "gloss": "tray of eggs; the standard retail unit",
+      "note": "The most common way a price is quoted: 'سعر الطبق 12 دينار'. The count is usually left implicit — the Libyan طبق is 30. When a count is written it comes as a bare numeral, e.g. 'طبق فيه 30طرف' or 'طبق دحي سمان 30 دحيه'. Fractions occur: 'طبق ونص'. Plural طبقين = two trays.",
+      "source": "https://www.facebook.com/100090724004196/videos/1267973775536462/"
+    },
+    {
+      "term": "طرف / طروف",
+      "gloss": "piece, unit — the counter used for individual eggs",
+      "note": "'طبق فيه 30طرف' = a tray containing 30 pieces. This is how pack count actually gets written when it gets written at all.",
+      "source": "https://www.facebook.com/mhamoodrmih/videos/1689715261697688/"
+    },
+    {
+      "term": "كرتونة دحي / كرتونة الدحي",
+      "gloss": "egg box / carton",
+      "note": "Real, but ambiguous in practice: most hits are the EMPTY carton reused for crafts or as a rough measure in catering ads, not an egg sale. Treat as weak evidence for eggs_30 unless a price accompanies it.",
+      "source": "https://www.facebook.com/groups/1284780428213298/posts/28443266781937962/"
+    },
+    {
+      "term": "صندوق",
+      "gloss": "wholesale box of egg trays",
+      "note": "The wholesale tier. At 165 LYD on 2026-08-15 while a retail tray was 15 LYD, so it is roughly a dozen trays — but the count is not printed and must never be inferred into a per-tray figure.",
+      "source": "https://www.facebook.com/almasartv.ly/posts/1025948580435414/"
+    },
+    {
+      "term": "دحي عربي / بيض عربي",
+      "gloss": "free-range or 'baladi' eggs",
+      "note": "A distinct, dearer grade — advertised as 'خالي من علفه وخالي من حظائر' (no feed, no cages) at 20–23 LYD a tray while cage eggs were 12. Same pack, different product tier. Also دحي بلدي and دحي وطني (domestic Libyan, as opposed to imported).",
+      "source": "https://www.facebook.com/mhamoodrmih/videos/1057537283276391/"
+    },
+    {
+      "term": "دحي سمان",
+      "gloss": "QUAIL eggs",
+      "note": "Distractor. Sold in trays of 30 exactly like hen eggs and at a similar-looking number (15 LYD), so it will match on shape. Per the brief these are not eggs_30.",
+      "source": "https://www.facebook.com/mhamoodrmih/videos/25099871009715865/"
+    },
+    {
+      "term": "مخصب / تجميع جديد",
+      "gloss": "fertilised (hatching) eggs / newly collected",
+      "note": "The clearest signal that a tray is NOT food. Breeder trays — دحي براهما, دحي رومي, دحي براهمي زهري — are advertised as مخصب and priced 20–24 LYD, right in the table-egg range. مخصب or a breed name should veto eggs_30.",
+      "source": "https://www.facebook.com/groups/902838654756785/posts/1429830672057578/"
+    },
+    {
+      "term": "بيض المائدة",
+      "gloss": "table eggs",
+      "note": "The trade/official register — used by the producers' union (شعبة بيض المائدة) and ministry reporting, not by shoppers. Also بيض مغلف = packaged eggs, which carried a premium (30 LYD vs 25 for loose in one report).",
+      "source": "https://www.facebook.com/tamamlibya1/"
+    },
+    {
+      "term": "الدجاج الحي vs الدجاج المدبوح",
+      "gloss": "live-weight chicken vs slaughtered/dressed chicken",
+      "note": "The single biggest trap on chicken. The daily Tripoli boards quote الدجاج الحي per kg (14 LYD on 2026-08-13) and الدجاج المدبوح بدون أحشاء separately (~19.40–19.50 wholesale the same week). They are not the same kilo. مدبوح is Libyan for slaughtered; بدون أحشاء = without offal.",
+      "source": "https://www.facebook.com/tk.aldwajn/posts/1678713376531942/"
+    },
+    {
+      "term": "فروج",
+      "gloss": "broiler chicken — BUT also a fish name in Libyan seafood trade",
+      "note": "Hard negative. On Tripoli fish-shop pages فروج appears in lists beside مناني، جغالي، شولة، رقيد، حوت, all fish/seafood. A rule that maps فروج → chicken will misfire on every seafood post. حوت = fish generally in Libyan, not whale.",
+      "source": "https://www.facebook.com/MarinaFish2019/posts/789428035116098/"
+    },
+    {
+      "term": "صدور / افخاذ / أجنحة / ورك",
+      "gloss": "breasts / thighs / wings / leg quarter",
+      "note": "Cut drives a 2x spread on the same day at the same shop: thighs and wings 15 LYD/kg, breast 30 LYD/kg (Benghazi, 2026-07-28). Any single stored chicken_1kg number is really a cut choice in disguise.",
+      "source": "https://www.facebook.com/100089962107275/videos/1389515823063305/"
+    },
+    {
+      "term": "كبدة دجاج / قوانص",
+      "gloss": "chicken liver / gizzards",
+      "note": "Offal, explicit distractors. Note liver at 35 LYD/kg was dearer than breast at 30 on the same board, so price plausibility will not catch this — only the word will.",
+      "source": "https://www.facebook.com/100089962107275/videos/1389515823063305/"
+    },
+    {
+      "term": "طازج / طازة / مبرد / مجمد",
+      "gloss": "fresh / fresh (colloquial) / chilled / frozen",
+      "note": "طازة is the colloquial form of طازج. مبرد (chilled) and مجمد (frozen) are contrasted explicitly and repeatedly in ads — 'مبرد ليس مجمد' — because frozen is the cheap tier.",
+      "source": "https://www.facebook.com/MarinaFish2019/posts/1229508922301402/"
+    },
+    {
+      "term": "دجاج برازيلي / مستورد / وطني",
+      "gloss": "Brazilian / imported / domestic chicken",
+      "note": "Imported frozen birds are priced PER BIRD by gram band (1000/1100/1200/1300/1400/1600), never per kg — e.g. 'دجاج برازيلي الوزن 1100 السعر 9 دينار'. Only fresh domestic chicken is sold per kilo.",
+      "source": "https://www.facebook.com/p/%D8%B4%D8%B1%D9%83%D8%A9-%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D9%82-%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF-%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%BA%D8%B0%D8%A7%D8%A6%D9%8A%D9%87-%D9%88%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%B4%D9%8A-%D9%88-%D8%A7%D9%84%D8%AD%D9%88%D9%85-%D8%A7%D9%84%D9%85%D8%AC%D9%85%D8%AF%D9%87-100068503892289/"
+    },
+    {
+      "term": "تن vs تونة",
+      "gloss": "tuna",
+      "note": "تن is what shops actually write ('تن الجيد', 'تن السفينة', 'تن وادي الكوف', 'تن بيتي', 'تن امريكانا', 'تن المضياف', 'تن الصفوة'); تونة is the fuller/formal form and is what news and consumers write. Both are common. علبة and عبوة both mean the tin/pack.",
+      "source": "https://www.facebook.com/100077434014556/videos/1279936056978710/"
+    },
+    {
+      "term": "185 جرام / 185 غرام / 185 غ / 185g",
+      "gloss": "the 185 gram tin",
+      "note": "All four spellings occur in the wild, including bare Latin '185g'. The neighbouring sizes on the same shelves are 65, 140, 160, 180, 200, 400, 900 and 1700 g — 180 g in particular is a near-miss that must not collapse into 185. Decimal prices are written with either a dot or a comma (2.75 / 2,75).",
+      "source": "https://www.facebook.com/100068943770380/videos/2514875135634915/"
+    },
+    {
+      "term": "بزيت زيتون vs زيت نباتي",
+      "gloss": "in olive oil vs in vegetable oil",
+      "note": "The same 185 g tin carries two prices depending on the oil (2.75 vs 2.50 in one shop list). The oil is part of the pack spec, not a garnish.",
+      "source": "https://www.facebook.com/100080999880171/"
+    },
+    {
+      "term": "يلوفين / اليلوفين",
+      "gloss": "yellowfin",
+      "note": "Transliterated species grade that appears in tuna branding (تن يلوفن وادي الكوف, تونة الوفاء نوع اليلوفين).",
+      "source": "https://www.facebook.com/alwafa.tuna.ly/photos/820350830093161/"
+    },
+    {
+      "term": "حرق / سعر حرق / كزيوني",
+      "gloss": "'burn' price = a deep discount; كزيوني = knockout/bargain (Libyan slang)",
+      "note": "Ubiquitous in offer posts ('سعر حرق 20دينار', 'بسعر كزيووووني', 'كتيبة حرق الأسعار'). Signals a promotional price, not a normal shelf price — worth flagging rather than treating as the going rate.",
+      "source": "https://www.facebook.com/mhamoodrmih/videos/1057537283276391/"
+    },
+    {
+      "term": "بانقة",
+      "gloss": "the standard Libyan household drinking-water bottle, 5–7 litres; also spelled بانقا / بانقه",
+      "note": "Libya Al-Ahrar glosses it explicitly: 'عبوة الـ 7 لترات أو ما يعرف بالـ بانقة'. A Libyan machinery dealer advertises a 'خط تعبئه مياه الشرب حجم 5 -7 لتر بسعر انتاجيه 2000 بانقه بالساعه', confirming the word spans 5L and 7L, so بانقة alone does NOT pin the size to 7L. Not a Facebook-only coinage — it is the ordinary retail word.",
+      "source": "https://libyaalahrar.tv/2026/04/03/%d8%a3%d8%b3%d8%b9%d8%a7%d8%b1-%d9%85%d9%8a%d8%a7%d9%87-%d8%a7%d9%84%d8%b4%d8%b1%d8%a8-%d8%aa%d8%b4%d8%aa%d8%b9%d9%84-%d9%85%d8%a7-%d9%87%d9%8a-%d8%a7%d9%84%d8%a3%d8%b3%d8%a8%d8%a7%d8%a8/"
+    },
+    {
+      "term": "دستة",
+      "gloss": "a dozen — the standard selling unit for 0.5L bottles (12 عبوة)",
+      "note": "Almost every 2026 Libyan water price headline quotes the دستة, not the بانقة. A دستة price (7–10 LYD) looks similar in magnitude to a بانقة price (3–5 LYD) and is easy to mis-assign — this is the single biggest confusion risk for drinking_water_7l.",
+      "source": "https://almashhadlibya.com/economic-news/134313"
+    },
+    {
+      "term": "عبوة",
+      "gloss": "container / pack — generic, always qualified by size (عبوة 7 لتر، عبوة نصف لتر، عبوة 300 ملي)",
+      "note": "The most common neutral head-word in news copy. Never size-bearing on its own.",
+      "source": "https://www.facebook.com/61586196458996/posts/122135126631206548/"
+    },
+    {
+      "term": "قنينة",
+      "gloss": "bottle — used for the 7L water bottle especially in the south (Ubari/Sabha) and in TV captions",
+      "note": "'الخمس دنانير لقنينة 7 لتر' (Ubari). Used without a size just as often, in which case it is unsafe to map to the 7L item.",
+      "source": "https://www.facebook.com/sefrly/videos/1936503043682965/"
+    },
+    {
+      "term": "قارورة",
+      "gloss": "bottle — but in Libyan usage قارورة الغاز also means a gas cylinder",
+      "note": "IMPORTANT CROSS-ITEM TRAP: 'قارورة ماء' is a water bottle while 'قارورة غاز' is a cooking-gas cylinder. Any matcher keying on قارورة alone will cross-wire drinking_water_7l and cooking_gas_11kg. Also note 'فرشاة تنظيف قارورة الماء' (bottle-cleaning brush, 55 LYD) is a hard negative.",
+      "source": "https://www.instagram.com/offersbakers.libya/reel/DcL2HvvgEG8/"
+    },
+    {
+      "term": "أسطوانة صفراء / أسطوانة زرقاء",
+      "gloss": "yellow cylinder = 11kg; blue cylinder = 15kg",
+      "note": "Brega's own wording encodes the weight in the colour: 'سعر أسطوانة الغاز الزرقاء، حجم 15 كجم (( 2 )) دينار' / 'سعر أسطوانة الغاز الصفراء، حجم 11 كجم ((1.50)) دينار'. So a post saying only 'الصفراء' is still specifying the 11kg item.",
+      "source": "https://www.facebook.com/brega.company.bmc/posts/885625983760767/"
+    },
+    {
+      "term": "أنبوبة",
+      "gloss": "gas cylinder (Egyptian-flavoured term, used in pan-Arab TV coverage of Libya)",
+      "note": "'أنابيب غاز الطهي ... خمسين دينارا للانبوبة الواحدة'. Appears alongside أسطوانة in the same reports; worth carrying as a synonym.",
+      "source": "https://www.facebook.com/Alhadath.Libyaa/videos/834635806230738/"
+    },
+    {
+      "term": "أسطوانة الفايبر",
+      "gloss": "fibreglass (composite) gas cylinder, the lightweight import type",
+      "note": "Distinct product from the steel 11kg cylinder; appears in supply-crisis discussion.",
+      "source": "https://www.facebook.com/almashhadlibya/posts/1563985021726968/"
+    },
+    {
+      "term": "نقطة التعبئة الفورية",
+      "gloss": "Brega 'immediate-fill point' — the official outlet where the subsidised refill price applies",
+      "note": "The phrase is the reliable marker that a quoted gas price is the official/subsidised one rather than the street one.",
+      "source": "https://www.facebook.com/brega.company.bmc/videos/1735462464568021/"
+    },
+    {
+      "term": "الضمان المالي",
+      "gloss": "refundable financial guarantee / deposit on a gas cylinder — 240 LYD in 2026, raised from 50 LYD",
+      "note": "NOT a price. It is the largest gas-related number a Libyan sees in 2026 and is routinely mistaken for one; the news copy has to say so explicitly ('لا يُعتبر سعر بيع').",
+      "source": "https://almashhadlibya.com/economic-news/120393"
+    },
+    {
+      "term": "صهريج / خزان (مياه)",
+      "gloss": "water tanker truck / tank load — sold by the barrel or by the 12,000-litre load",
+      "note": "Tobruk's municipal tariff (26 Mar 2026): 85 LYD for a 55–60 barrel (12,000L) tanker; other reports put a خزان at 120–140 LYD and up to 200 LYD. Entirely separate market from bottled water — a strong hard negative in the hundreds-of-dinars range.",
+      "source": "https://www.facebook.com/100088168586308/posts/921482024134075/"
+    },
+    {
+      "term": "قرش (plural قروش)",
+      "gloss": "1/1000 of a dinar in colloquial price talk — '75 قرشاً لنصف لتر'",
+      "note": "Sub-dinar water prices are quoted in قروش, and in writing as 0.750 دينار. A parser must treat '75 قرش' and '0.750 دينار' as the same figure.",
+      "source": "https://www.facebook.com/100044226354110/posts/1562729755211221/"
+    },
+    {
+      "term": "قابية (pl. قوابي)",
+      "gloss": "the wooden/plastic crate that fresh vegetables are sold in; for tomatoes it holds roughly 10–28 kg depending on the crate",
+      "note": "STRONGEST FRESH SIGNAL FOUND. Used only of fresh produce, never of a tin. A vendor states it outright: 'قابية الطماطم هادي فيها خمسة وعشرين كيلو الى ثمانية وعشرين كيلو'. Also spelled قابيه / القابيا. Any string containing قابية is fresh with very high confidence.",
+      "source": "https://www.facebook.com/61576557455308/videos/2739595233083217/"
+    },
+    {
+      "term": "قوطية",
+      "gloss": "tin / can (Libyan-Tunisian, from Italian 'scatola'/Maltese)",
+      "note": "Paste signal. 'معجون طماطم بنكهة أصلية قوطية بوزن 800 غم'. Pairs with كارتون for the case.",
+      "source": "https://www.instagram.com/p/DYCJgVTDB0N/"
+    },
+    {
+      "term": "ستيكة",
+      "gloss": "a shrink-wrapped tray/sleeve of tins, normally 12 or 24",
+      "note": "Paste signal — a retail multipack unit that only exists for canned goods. 'سعر العلبة: 1.5 دينار فقط الستيكة (12 علبة): 17 دينار'. Never used of fresh produce.",
+      "source": "https://www.instagram.com/reel/DZZzn4qIQ_w/"
+    },
+    {
+      "term": "صندوق",
+      "gloss": "box / case",
+      "note": "AMBIGUOUS — DO NOT USE AS A DISAMBIGUATOR. Used for a case of paste tins ('كرتونة (صندوق معجون الطماطم) المكونة من 24 علبة سعة 400 غرام') AND for the 25 kg wholesale crate of fresh tomatoes ('95 دينارًا للصندوق (25 كغم)'). Only the accompanying number disambiguates it.",
+      "source": "https://alwasat.ly/news/libya/516256"
+    },
+    {
+      "term": "صلصة",
+      "gloss": "sauce; in Libya used as a straight synonym for tomato paste",
+      "note": "Paste, never fresh. A Libyan recipe writes the gloss explicitly: 'معجون طماطم (صلصة)'. Compound 'معجون صلصة الطماطم' also occurs. CAVEAT: bare صلصة is not uniquely tomato — 'الهريسة الليبية هي صلصة حارة' uses it of harissa. So صلصة طماطم = paste; صلصة alone = paste or harissa, but never fresh tomatoes.",
+      "source": "https://www.instagram.com/reel/DZfy6R3E_KN/"
+    },
+    {
+      "term": "معجون",
+      "gloss": "paste",
+      "note": "The unambiguous paste word. 'معجون طماطم' / 'معجون الطماطم' is the standard commercial and official term (used by the Ministry of Economy and the Price Stabilisation Fund).",
+      "source": "https://alwasat.ly/news/libya/522303"
+    },
+    {
+      "term": "مركزة / تركيز عالٍ 28–30%",
+      "gloss": "concentrated / high concentration",
+      "note": "Paste signal. Concentration percentage is printed on paste tins and appears in ad copy: 'صلصة طماطم أرابيلا جودة مميزة وتركيز عالٍ 28–30%'.",
+      "source": "https://www.facebook.com/delicianaturelle/videos/1097828935051240/"
+    },
+    {
+      "term": "دسته / حافظة / كارتون / كرتونة",
+      "gloss": "dozen / pack / carton",
+      "note": "All paste-side multipack units. 'سعر القطعة 2.50 دينار سعر الدسته 30 دينار'.",
+      "source": "https://www.facebook.com/Alasga1/photos/1190715516423975/"
+    },
+    {
+      "term": "طماطة",
+      "gloss": "tomato",
+      "note": "NEGATIVE FINDING — this is NOT the Libyan form. Every search hit for طماطة returned Iraqi and Gulf pages (prices in دينار عراقي, ريال, Mosul/Kirkuk/Karbala). Libyan sources use طماطم exclusively, occasionally طماط. Including طماطة in a Libyan matcher would import Iraqi noise.",
+      "source": "https://www.facebook.com/FallujahTV/videos/1250094533954618/"
+    },
+    {
+      "term": "بندورة",
+      "gloss": "tomato (Levantine)",
+      "note": "NEGATIVE FINDING — zero Libyan hits. Not Libyan usage.",
+      "source": "https://almashhadlibya.com/economic-news/131520"
+    },
+    {
+      "term": "طماط",
+      "gloss": "clipped variant of طماطم",
+      "note": "Appears in Libyan brand copy: 'طماط No.1'. Worth matching as a variant.",
+      "source": "https://www.facebook.com/100063762083935/videos/1233791772206172/"
+    },
+    {
+      "term": "هريسة",
+      "gloss": "hot red-pepper paste",
+      "note": "THREE-WAY POLYSEMY. (1) the chilli paste — 'معجون فلفل أحمر حار'; (2) in the Levant/Jordan a semolina sweet — 'هريسة المنجد ... كعك معاني... حلبة'; (3) apparently the fresh hot pepper itself in Libyan vegetable price lists, where هريسة is priced per unit alongside كوسا and باذنجان. Only (1) is harissa_can.",
+      "source": "https://www.instagram.com/reel/DaLlan0sARx/"
+    },
+    {
+      "term": "هريسة عربية",
+      "gloss": "'Arab harissa' — the traditional home-made Libyan harissa",
+      "note": "Common synonym in Libyan usage, distinguishing home/traditional harissa from the imported tinned kind. 'متوفر هريسه عربيه منشوره في الشمس وفيها تومه' (sun-dried, with garlic). Related synonyms: دبس الفليفلة, شطة.",
+      "source": "https://www.facebook.com/groups/374365929848587/"
+    },
+    {
+      "term": "هريسة وطنية",
+      "gloss": "'national'/local harissa",
+      "note": "Sold loose alongside fresh produce in Libyan buy/sell listings, priced at 10 dinars in the same list as 'طماطم درجة اولى 4 كيلو'. This is the domestic artisanal form, not a branded tin — evidence that Libyan harissa circulates outside the packaged-goods channel.",
+      "source": "https://www.facebook.com/groups/Shopping.in.Libya/posts/25240025405614534/"
+    },
+    {
+      "term": "إيطالي / إيطالية",
+      "gloss": "Italian",
+      "note": "Functions as a paste signal in Libya. Fresh tomatoes sold in Libya are local (جالو، درنة) or Egyptian; tinned paste is overwhelmingly Italian-imported or made to Italian spec. So 'طماطم إيطالية .. 400 جــرام' and 'طماطم غـالـيـة إطالي' both mean paste.",
+      "source": "https://www.facebook.com/100070142256724/videos/1006200755392733/"
+    },
+    {
+      "term": "طماطم جالو / الطماطم الدرناوي",
+      "gloss": "Jalu tomatoes / Derna tomatoes",
+      "note": "Fresh signal — Libyan growing-region origin markers, used only of fresh produce.",
+      "source": "https://www.facebook.com/61576557455308/videos/2739595233083217/"
+    },
+    {
+      "term": "درجة أولى / درجة ثانية",
+      "gloss": "grade one / grade two",
+      "note": "Fresh signal — the official Libya Trade Network bulletin grades fresh tomatoes and prices the two grades separately (7 vs 4 LYD/kg on 2026-07-09). Paste is never graded this way.",
+      "source": "https://almashhadlibya.com/economic-news/131520"
+    },
+    {
+      "term": "كاتشب طماطم ليبي",
+      "gloss": "Libby's tomato ketchup",
+      "note": "FALSE FRIEND / HARD NEGATIVE. 'ليبي' here is the brand Libby's (ليبيز), not the nationality adjective 'Libyan'. A naive matcher keying on ليبي + طماطم will pull in Gulf ketchup listings. Confirmed by the retailer's own brand field: 'العلامة التجارية: ليبيز'.",
+      "source": "https://alshallalmarket.com/products/libbys-tomato-ketchup-760-g"
+    },
+    {
+      "term": "كزيوني / كزيووووني",
+      "gloss": "knock-down, dirt-cheap price",
+      "note": "Libyan sales slang, endlessly elongated with repeated waws. Appears in almost every promo post from western-Libyan grocery pages. A tokeniser that does not collapse repeated letters will miss it.",
+      "source": "https://www.facebook.com/100092466742433/videos/2329181374173157/"
+    },
+    {
+      "term": "يابلاش / يا بلاش",
+      "gloss": "'practically free'",
+      "note": "Price-promo intensifier, not a product word.",
+      "source": "https://www.facebook.com/100092466742433/videos/1557606729427826/"
+    },
+    {
+      "term": "لحقوووو ع / لحقوو ع",
+      "gloss": "'hurry, catch it' (لحقوا على)",
+      "note": "Standard opener for a stock-arrival post; the product name follows immediately, so it is a useful anchor for extraction.",
+      "source": "https://www.facebook.com/61565829187313/videos/1527390622421355/"
+    },
+    {
+      "term": "مقرونة",
+      "gloss": "pasta",
+      "note": "Libyan/Tunisian form. Coexists with مكرونة (bulletins, shop pages), معكرونة (MSA), مكرونه/مقرونه (final ه). All four must map to pasta.",
+      "source": "https://www.facebook.com/100034315701874/posts/1524498158704026/"
+    },
+    {
+      "term": "فرينة / فارينة / فرينا",
+      "gloss": "flour, from French 'farine'",
+      "note": "Used interchangeably with دقيق and طحين. Attaches to any size — 'شكارة دقيق الصفوة فارينة 5 كيلو'. Carries NO size information at all.",
+      "source": "https://www.facebook.com/100092466742433/videos/1383291840139229/"
+    },
+    {
+      "term": "دقيق الأغراض المنزلية vs دقيق المخابز",
+      "gloss": "household-purpose flour vs bakery flour",
+      "note": "THE reliable distinguisher for the flour problem. Official Libyan bulletins always price 'الأغراض المنزلية' per كيلو جرام and 'المخابز' per قنطار. If a string carries المنزلية → wheat_flour_1kg; if it carries المخابز → the bulk item.",
+      "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+    },
+    {
+      "term": "الفاخر / الممتاز / النخبة / الصفوة / الناعم",
+      "gloss": "premium / fine flour grades",
+      "note": "Grade words appear on BOTH sizes — 'دقيق ليبي فاخر شكارة 50 كيلو' and 'دقيق الأغراض المنزلية الفاخر 1 كيلو جرام'. Grade is NOT a size signal. Note الصفوة and الريحان are also brand names.",
+      "source": "https://almashhadlibya.com/economic-news/131524"
+    },
+    {
+      "term": "الربع",
+      "gloss": "a Libyan flour grade (coarser bread flour)",
+      "note": "TRAP: reads like 'the quarter'. In both bulletins it sits alongside الناعم and السميد as a grade, priced per kilo and per قنطار. Do not parse as a quantity.",
+      "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+    },
+    {
+      "term": "سميد",
+      "gloss": "semolina",
+      "note": "Sold both as دقيق الأغراض المنزلية (السميد) at 1 kg and as دقيق المخابز (السميد) by the قنطار. It is its own product — should not collapse into wheat_flour_1kg.",
+      "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+    },
+    {
+      "term": "حبة طويلة / حبة قصيرة / حبه مكركبه",
+      "gloss": "long grain / short grain / clumpy-round grain",
+      "note": "Rice descriptors. All are rice_1kg when a kilo is named. 'مكركبة' is distinctively Libyan.",
+      "source": "https://www.facebook.com/SNALR0926619233/videos/399327785505046/"
+    },
+    {
+      "term": "مبروشة / دراري / خشن",
+      "gloss": "hand-rolled / a couscous grade / coarse",
+      "note": "Couscous descriptors. 'مبروشة' (from برش, to grate) marks artisanal couscous and commands a much higher kilo price (9.50 vs 4).",
+      "source": "https://www.facebook.com/photo.php?fbid=122162147708923246&set=a.122093031380923246&type=3"
+    },
+    {
+      "term": "لوبيا",
+      "gloss": "a pasta shape name in Libyan pasta catalogues",
+      "note": "TRAP: لوبيا normally means black-eyed beans. In 'مكرونة محلية (لوبيا) 400 جرام' it is the cut/shape. Context word مكرونة must win.",
+      "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+    },
+    {
+      "term": "أبو بنت / ابو البنات",
+      "gloss": "Uncle Ben's rice, transliterated",
+      "note": "Two spellings for the same brand, both meaning long-grain rice. Not a person.",
+      "source": "https://almashhadlibya.com/economic-news/131524"
+    },
+    {
+      "term": "درهم",
+      "gloss": "milleme, 1/1000 of a Libyan dinar",
+      "note": "'كيلو سكر 250 درهم (0.25 دينار)'. Appears mainly in nostalgia posts. If read as a modern dirham the figure is wrong by orders of magnitude.",
+      "source": "https://www.facebook.com/groups/450209864484437/posts/1038419188996832/"
+    },
+    {
+      "term": "قرش",
+      "gloss": "piastre; also used loosely for a small sum",
+      "note": "'سعر الشكارة الواحدة 75 قرش' for empty sacks. Also appears as a Tunisian-dinar subunit in cross-border price comparisons.",
+      "source": "https://www.facebook.com/groups/1841603272534248/posts/26562779653323267/"
+    },
+    {
+      "term": "دل / د.ل / دينار / دنانير",
+      "gloss": "Libyan dinar, four written forms",
+      "note": "'دل' with no dots is very common in shop posts. Also seen glued to the number: '15دينار', '26دينار', '3,250دينار'.",
+      "source": "https://www.facebook.com/SNALR0926619233/videos/1552292036040682/"
+    },
+    {
+      "term": "توا",
+      "gloss": "now / right now",
+      "note": "Libyan. 'توا وقته' = 'now is its season'. Marks a post as current, useful as a freshness hint.",
+      "source": "https://www.facebook.com/SNALR0926619233/videos/399327785505046/"
+    },
+    {
+      "term": "جملة / جملة الجملة / قطاعي",
+      "gloss": "wholesale / deep wholesale / retail",
+      "note": "Three price tiers that appear in the same post. 'سعر القطاعي' is the retail column in official bulletins. A scraper that grabs the جملة الجملة figure and labels it retail will under-report.",
+      "source": "https://www.facebook.com/61572272370869/videos/27509166612076757/"
+    },
+    {
+      "term": "محلي / مستورد",
+      "gloss": "local / imported",
+      "note": "Doubles the price of sugar (3.25 vs 5.00) and rice at identical pack sizes. Should be preserved as a variant axis, not averaged away.",
+      "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+    },
+    {
+      "term": "بازين / المبكبكة / المرفوسة / العصبان / رشدة",
+      "gloss": "Libyan dishes made from flour, pasta or rice",
+      "note": "DISTRACTOR class. 'رشدة دقيق فارينة' is a noodle dish, not a flour product. Recipe posts mention 'نص كيلو' and product names but sell nothing.",
+      "source": "https://www.facebook.com/groups/348725517320921/posts/1385113593682103/"
+    },
+    {
+      "term": "خدمة مصنع / خدمة نظيفة",
+      "gloss": "factory-made / cleanly prepared",
+      "note": "Quality claim on home-produced couscous sold by the kilo.",
+      "source": "https://www.facebook.com/groups/257760978875021/posts/1333098611341247/"
+    }
+  ],
+  "disambiguation": [
+    {
+      "observation": "A stage number is the disambiguator that actually works. Libyan sellers routinely write 'حليب <brand> رقم N' with no 'رضع' and no 'اطفال' anywhere in the string. If a matcher learns 'حليب + brand + رقم 1|2|3' it resolves the majority of formula listings without needing an infant token.",
+      "evidence": "حليب نستوجين صناعة فرنسية رقم 1 غذاء حليب للرضع رقم 2 غذاء حليب مكمل للرضع",
+      "source": "https://www.facebook.com/Kribamarket/posts/136836031358846/"
+    },
+    {
+      "observation": "The second reliable disambiguator is an explicit age band inside the product title — Libyan e-commerce titles carry it even when the brand alone would be ambiguous.",
+      "evidence": "Primalac، رقم 1 لعمر من 0 - 6 شهور، مدعم بالحديد 400ج",
+      "source": "https://big.ly/Infant-Formula-1-Primalac"
+    },
+    {
+      "observation": "'اطفال' is NOT a disambiguator. Libyan shops label Nido — a general drinking milk powder — as 'حليب اطفال', in 300 g, 400 g and 1800 g tins. So 'حليب اطفال <brand>' can be either side of the confusion; only 'رضع' is safe.",
+      "evidence": "حليب اطفال نيدو 1800 جرام السعر 86 دينار",
+      "source": "https://www.facebook.com/groups/134460623938400/posts/1259136641470787/"
+    },
+    {
+      "observation": "Same page, same brand, explicitly aged 1–3 years: this is growing-up/drinking milk being sold under the 'حليب الاطفال' banner. A pattern-matcher keying on 'حليب الاطفال' would price a 15 LYD milk powder as a 32 LYD formula tin.",
+      "evidence": "توفرت كمية جديدة من حليب الاطفال نيدو للاطفال من عمر 1 سنة الى 3 سنوات … السعر السابق 19.500 ❌",
+      "source": "https://www.instagram.com/p/DOQwb0BDf6y/"
+    },
+    {
+      "observation": "Pack size does not disambiguate either. Plain full-fat drinking milk powder is sold in Libya in the SAME 400 g tin as infant formula, at roughly a third of the price (10–16 LYD vs ~28–45 LYD). Any rule of the form 'حليب + 400 جرام → infant_formula_400g' is wrong.",
+      "evidence": "حليب بودرة اورين ٤٠٠ جرام أقل سعر : 15 دينار",
+      "source": "https://www.facebook.com/groups/522522179712473/posts/1188232429808108/"
+    },
+    {
+      "observation": "Second instance of the same 400 g drinking-powder trap, from a different city (Benghazi, السلماني الشرقي), at 10 LYD.",
+      "evidence": "حليب بودرة ✨ اورين ✨ 400 جرام السعر 10 دينار",
+      "source": "https://www.facebook.com/AlJaroushi0/photos/1364913255653124/"
+    },
+    {
+      "observation": "Third instance, a Tripoli own-brand: a 400 g tin described only as 'حليب بودرة درجة أولى كامل الدسم عبوة العلبة 400 جرام'. 'كامل الدسم' is the token that saves it — full-fat is a drinking-milk descriptor and never appears on infant formula.",
+      "evidence": "HALEBONA حليب بودرة درجة أولى كامل الدسم عبوة العلبة 400 جرام المكان. طرابلس",
+      "source": "https://m.facebook.com/582716762251916/posts/584600605396865/"
+    },
+    {
+      "observation": "Positive markers for drinking milk on the liquid side: 'معقم' (UHT) and 'لتر'. The official Libyan bulletin uses exactly this form, so 'حليب معقم <brand>' → uht_milk_1l is safe, and 'حليب مبستر' (pasteurised) and 'حليب مركز' (evaporated, 170 ml) are safe negatives.",
+      "evidence": "حليب معقم جودي | لتر | 6.75 دل … حليب مركز جودي | 170 مل | 3 دل",
+      "source": "https://almashhadlibya.com/economic-news/131524"
+    },
+    {
+      "observation": "BRANDS THAT SELL BOTH SIDES — Nestlé is the worst offender: نيدو (drinking milk powder, also marketed for 1–3 year olds) vs نان / نستوجين (infant formula) vs سيريلاك (baby cereal). A bare 'حليب نستله' string is unresolvable.",
+      "evidence": "حليب الاطفال نستوجين من نستلة … نحن نهتم بطفلك متوفر في صيدليات و أسواق ليبيا",
+      "source": "https://www.facebook.com/100061924995903/posts/2983961541666706/"
+    },
+    {
+      "observation": "BRANDS THAT SELL BOTH SIDES — the Libyan dairy houses جودي، النسيم، الجيد، الزهرات، الريحان each sell 'حليب معقم' by the litre AND 'حليب مركز' by the 170 ml can under one brand name, so brand alone never fixes the product; the qualifier (معقم / مركز / مبستر) does.",
+      "evidence": "حليب معقم الزهرات | لتر | 7 دل … حليب مركز الزهرات | 170 مل | 3.25 دل",
+      "source": "https://almashhadlibya.com/economic-news/131524"
+    },
+    {
+      "observation": "BRANDS THAT SELL BOTH SIDES — دانا (Dana) sells UHT litres ('حليب دانا كامل الدسم 1 لتر') and a canned product referred to only as 'حليب دانا حكه كبيره'. The word حكة supplies a container but not a category.",
+      "evidence": "حليب دانا كامل الدسم 1 لتر 🔴سعر القطعة 2.5 دينار 🔴سعر الصندوق 29 دينار",
+      "source": "https://www.facebook.com/DanaDairyLibya/"
+    },
+    {
+      "observation": "Libyan formula brand gazetteer worth adding to the catalogue, all seen on Libyan seller/pharmacy pages: بريمالاك Primalac (incl. Premium and CMA), بيبيلاك Bebelac, نستوجين Nestogen, نان NAN (incl. Comfort), ابتاميل Aptamil, إس 26 / S-26, SMA, سيليا Celia (Newtsern), ليبتوميل Laptomil, بيدياميل Pediamil, الديلاك Delac, هيرو بيبي Hero Baby, نوفالاك Novalac, نيورالاك Neuralac, فيتالي Vitaly, لينالاك Linalac AR, الفامينو Alfamino.",
+      "evidence": "شركة فارماليس ليبيا تعلن عن وصول حليب بريمالاك بـ جميع الأرقام",
+      "source": "https://www.facebook.com/OnlyLibya/posts/1147615578607290/"
+    },
+    {
+      "observation": "Cross-currency trap in the same Arabic search space: 'حليب الأطفال … بسعر 2,000د.ع' and '16,000 دينار' are Iraqi dinar listings that surface on identical queries. Any harvested formula price must be checked for a Libyan seller before the number is trusted.",
+      "evidence": "سيريلاك قمح من 6 اشهر سعر 2,000د.ع",
+      "source": "https://www.instagram.com/p/DbyOMSDs_2N/"
+    },
+    {
+      "brand": "غالية (Ghalia)",
+      "sells": "paste",
+      "evidence": "The brand owner's own page titles the product video '#غالية نشارك معكم مراحل تصنيع معجون الطماطم من غالية في افضل المصانع الإيطالية' — 'we show you the stages of manufacturing TOMATO PASTE from Ghalia in the best Italian factories'. A distributor's copy for the same product reads 'طماطم #غاليه من المعمورة ... مصنوعة وفق معايير ايطالية مع اختيار طماطم ذات جودة عالية لانتاج معجون'. Owner is شركة المعمورة لاستيراد المواد الغذائية, described on its own page as 'واحدة من أكبر شركات تصنيع المواد الغذائية في ليبيا'. Retail listing 'طماطم غـالـيـة إطالي' at Mecca Mall confirms it is sold as an Italian tinned line. RESOLVED: any 'طماطم غالية' string is tomato paste, never fresh.",
+      "source": "https://www.facebook.com/Almamoura.Co/videos/739818281586883/"
+    },
+    {
+      "brand": "غالية — the ordinary adjective, NOT a brand",
+      "sells": "unknown",
+      "evidence": "CRITICAL TRAP, and the reason this string family is so hard. غالية is also the everyday Arabic feminine adjective 'expensive'. Public comment threads about food inflation are full of the bare sentence 'الطماطم غاليه' meaning 'tomatoes are expensive': 'والله ما فاهمين ... الطماطم غاليه في كل مكان في العالم'; 'حتى مصر طماطم غاليه'; 'حبيبي الطماطم غالية في العالم كلو'. So 'طماطم غالية' is THREE-WAY ambiguous: (a) the paste brand, (b) fresh tomatoes described as expensive, (c) a bare complaint about prices that is not a product mention at all. Disambiguator that works: the brand reading is nearly always written with the hashtag (#غاليه / #غالية), with 'إيطالي', or with a seller/mall name; the adjective reading appears in a full sentence with a verb or a place ('في كل مكان', 'حتى مصر'). Sense (c) should be excluded from the catalogue entirely.",
+      "source": "https://www.facebook.com/abaadnews/videos/1415663976489327/"
+    },
+    {
+      "brand": "الجيد (Aljaied)",
+      "sells": "paste",
+      "evidence": "Retail ad uses the bare-brand form and the tin spec in the same breath: 'طماطم علبة وزن400جرام سعرالعلبة2.50دينار' under the hashtag #طماطم_الجيد_أقل_سعر. The importer's own announcement: 'تعــلن شركة الجيد لإستيراد المواد الغذائية عن وصول ... سعر بيع صنف معجون طماطم الجيد للمستهلك 2.5 دينار'. A wholesale list prices 'طماطم الجيد(12 علبة) :24 د. ل'. RESOLVED: paste.",
+      "source": "https://www.facebook.com/AljaiedCompany/videos/425498095387081/"
+    },
+    {
+      "brand": "الرضا (Al-Rida)",
+      "sells": "both",
+      "evidence": "شركة الرضا للصناعات الغذائية makes BOTH a tomato line and a harissa line, and the shop post makes the sequence explicit: 'هريسة الفلفل الأحمر من رضا / أنتاج ليبي : بعد #طماطم 🍅 #الرضا جديد ... #هريسة 🌶 #الرضا'. i.e. 'after Al-Rida tomato, new: Al-Rida harissa'. The 'طماطم الرضا' being referenced is a manufactured packaged line (a food-industries company launching a product), not fresh produce. Post is a business page (سوق إعليوة للتسوق, Zliten), dated 23 December 2024. NOTE: the harissa is 'صناعة ليبية بالكامل و يستعملوا في الفلفل من المزارع الليبية' — a genuinely Libyan-made harissa.",
+      "source": "https://www.facebook.com/100070142256724/posts/874744601540274/"
+    },
+    {
+      "brand": "صاحب الجبل",
+      "sells": "paste",
+      "evidence": "Appears under the explicit header 'طماطم معجون' in a Tripoli Mall wholesale list: 'طماطم صاحب الجبل (24 علبة) :69 د. ل'. The unit '(24 علبة)' is a case of tins.",
+      "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+    },
+    {
+      "brand": "ميجور (Major)",
+      "sells": "paste",
+      "evidence": "Same list, same 'طماطم معجون' header: 'طماطم ميجور(24 علبة) :48 د. ل'.",
+      "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+    },
+    {
+      "brand": "بلدنا",
+      "sells": "paste",
+      "evidence": "Same list: 'طماطم بلدنا(12 علبة) :23 د. ل'.",
+      "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+    },
+    {
+      "brand": "الأميرة",
+      "sells": "paste",
+      "evidence": "Same list: 'طماطم الاميرة(24 علبة):48 د. ل' and 'طماطم الاميرة(12 علبة):24 د. ل'. CAUTION: 'هريسة الأميرة' is separately a Libyan-style harissa brand sold in Egypt (wa7et-siwa.com), so الأميرة alone does not fix the product — it fixes the form only in combination with طماطم or هريسة.",
+      "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+    },
+    {
+      "brand": "باكنا",
+      "sells": "paste",
+      "evidence": "Same list: 'طماطم باكنا(12 علبة) : 21 د. ل'.",
+      "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+    },
+    {
+      "brand": "الزهرات",
+      "sells": "paste",
+      "evidence": "'معجون طماطم \"الزهرات\" (حلال) الوزن: 400 غرام للعلبة' and separately 'متوفر الآن معجون طماطم \"الزهرات\".. منتج إيطالي طعم إيطالي أصيل'. Exactly the 400g tin the catalogue item describes.",
+      "source": "https://www.facebook.com/100068254690134/posts/2020387533579717/"
+    },
+    {
+      "brand": "القبطان (Captain)",
+      "sells": "paste",
+      "evidence": "Importer announcement: 'تعلن شركة الواحات المتجددة لاستيراد المواد الغذائية عن توفر كميات من معجون الطماطم \"القبطان\"، إيطالي الصنع، بسعر بيع للمستهلك 1 دينار ليبي'.",
+      "source": "https://www.facebook.com/alwahat.ly/photos/1418959854828987/"
+    },
+    {
+      "brand": "الطيبات",
+      "sells": "paste",
+      "evidence": "'معجون طماطم الطيبات من المنتجات المميزة لدينا ... يصنف من أفضل منتجات معجون الطماطم لدى الأسوق في ليبيا'.",
+      "source": "https://www.facebook.com/61572509173455/posts/122171440550750305/"
+    },
+    {
+      "brand": "لمتنا",
+      "sells": "paste",
+      "evidence": "'ملعقة وحدة من معجون🍅طماطم #لمتنا تغير طعم الطبخة كاملة' — 'one spoonful of Lamtna tomato paste'. Sold by the قطعة (2.50 LYD) and by the دسته (30 LYD).",
+      "source": "https://www.facebook.com/Alasga1/photos/1190715516423975/"
+    },
+    {
+      "brand": "أصيل (Aseel)",
+      "sells": "paste",
+      "evidence": "شركة أصيل announced 'قريباً 🇱🇾 مصنع معجون طماطم' — a tomato paste factory. Brand copy elsewhere pairs 'طماطم أصيل' with 'صلصة طماطم غنية بلونها، نكهتها، وجودتها'. The bare string 'طماطم أصيل' is therefore paste, but only resolvable via the brand.",
+      "source": "https://www.facebook.com/Aseel.Group218/posts/200935586029502/"
+    },
+    {
+      "brand": "السلدور",
+      "sells": "paste",
+      "evidence": "Market page: 'كيف وصل كميه من طماطم السلدور طماطم الرقم 1 في سوق الليبي ... متوفر داخل ميرا ماركت', with 'طماطم معجون ايطالي بسعر' in the same page's related copy. Confidence: good, not absolute — the co-occurrence is on the page rather than inside the one sentence.",
+      "source": "https://www.facebook.com/100063510251256/videos/1501000424766422/"
+    },
+    {
+      "brand": "عزيز (Aziz)",
+      "sells": "paste",
+      "evidence": "'معجون عزيز معجون طماطم بنكهة أصلية قوطية بوزن 800 غم السعر: (( 1.750 دينار )) سعر الكارتون 12 قوطية'. Note the 800g tin — a real pack size alongside the 400g one.",
+      "source": "https://www.instagram.com/p/DYCJgVTDB0N/"
+    },
+    {
+      "brand": "أرابيلا (Arabella)",
+      "sells": "paste",
+      "evidence": "'وصل حديثًا صلصة طماطم أرابيلا جودة مميزة وتركيز عالٍ 28–30% ✨ العبوة الصغيرة المميزة 70 غم'. A 70g single-use tin — another pack size to expect.",
+      "source": "https://www.facebook.com/delicianaturelle/videos/1097828935051240/"
+    },
+    {
+      "brand": "التونسا / Altunsa",
+      "sells": "paste",
+      "evidence": "Product label reproduced in the ad: 'altunsa معجون طماطم DOMATES SALÇASI / TOMATO PASTE'. Turkish import, distributed in Tripoli ('واخيرا العرض وصل لي العاصمة الحبيبة طرابلس').",
+      "source": "https://www.instagram.com/reel/DYPUIgVAqDP/"
+    },
+    {
+      "brand": "البستان",
+      "sells": "paste",
+      "evidence": "'عرض خاص وجديد معجون طماطم البستان نوعية محلية جديدة بوزن ...' — note 'نوعية محلية', a locally-produced paste.",
+      "source": "https://www.instagram.com/p/DWwSwoijD6O/"
+    },
+    {
+      "brand": "نابولي (Napoli)",
+      "sells": "paste",
+      "evidence": "'طماطم نابولي 400 جرام' listed in the same ad as 'صلصة طماطم' copy — the 400g tin.",
+      "source": "https://www.instagram.com/p/DPB3DcrjGaT/"
+    },
+    {
+      "brand": "No.1 / طماط No.1",
+      "sells": "paste",
+      "evidence": "'طماط No.1 .. الجودة المضمونة لطبخاتك اللذيذة' with the page's own text 'على بركة الله تم وصول معجون ... وسعر العلبة' — arriving stock of معجون sold by the علبة.",
+      "source": "https://www.facebook.com/100063762083935/videos/1233791772206172/"
+    },
+    {
+      "brand": "Jana Rosa",
+      "sells": "paste",
+      "evidence": "'Jana Rosa معجون الطماطم الغداء الليبي اجود المنتجات بمعايير عالمية' with a Libyan +218 sales number.",
+      "source": "https://www.instagram.com/p/DTaZ66RDKTa/"
+    },
+    {
+      "brand": "توسان (Tousan)",
+      "sells": "paste",
+      "evidence": "Aldaaysi Markets: 'معجون الطماطم من علامة توسان'.",
+      "source": "https://www.instagram.com/reel/DZ7h5Mrot-B/"
+    },
+    {
+      "brand": "حكة",
+      "sells": "unknown",
+      "evidence": "Appears twice as 'ستيكة طماطم حكة' and 'الحكية 1.5 دينار'. The unit ستيكة puts it firmly on the paste side, but I could not open a page where the brand name and the word معجون appear together, so I am not asserting the brand attribution. Recorded as unresolved rather than guessed.",
+      "source": "https://www.facebook.com/100092466742433/videos/826306386644450/"
+    },
+    {
+      "brand": "حدائق إشبيلية / Hadayiq Ishbielia (Aspalyaz)",
+      "sells": "harissa",
+      "evidence": "A real Libyan cannery — its own product labels read 'بلد المنشأ: ليبيا/الزاوية (Libya/Al-Zawiya)'. Its harissa copy: 'وصفة ليبية أصلية ✓ فلفل حار طبيعي 100% ✓ نكهة غنية وعميقة ✓ مثالية للطهي والتغميس ✓ الوزن الصافي: 185 غرام'. This is the clearest evidence found that a packaged Libyan harissa SKU exists at all — 185g, not the 380g/400g the catalogue might assume.",
+      "source": "https://www.facebook.com/Aspalyaz/"
+    },
+    {
+      "brand": "الوطن القبلي (Cap Bon)",
+      "sells": "harissa",
+      "evidence": "Tunisian harissa brand, the reference product in Libya: 'عندنا في ليبيا هريسة الوطن القبلي علبة الكبيرة ٥دينار'. The comparison brand كوجينا (Cucina) appears in the same thread but priced in UAE dirhams, so it is not a Libyan retail datum.",
+      "source": "https://www.facebook.com/100058088589845/posts/802697841676495/"
+    },
+    {
+      "brand": "الحطاب",
+      "sells": "harissa",
+      "evidence": "Libyan market-watch TikTok discusses 'هريسة الحطاب' and whether its price matches its quality. Form is clear (harissa); I did not open a page giving pack or price.",
+      "source": "https://www.tiktok.com/@sada_alaswaq/video/7566533934092160312"
+    },
+    {
+      "brand": "ليبي / Libby's",
+      "sells": "unknown",
+      "evidence": "HARD NEGATIVE, not a tomato-paste or fresh brand. 'كاتشب طماطم ليبي 760 جم' is Libby's KETCHUP; the retailer's brand field says 'العلامة التجارية: ليبيز'. Any rule that reads ليبي as 'Libyan' next to طماطم will mislabel Gulf ketchup listings as Libyan tomato products.",
+      "source": "https://alshallalmarket.com/products/libbys-tomato-ketchup-760-g"
+    },
+    {
+      "brand": "AMBIGUITY RULE — bare 'طماطم' + brand",
+      "sells": "unknown",
+      "evidence": "The canonical example of the problem is a Tripoli Mall wholesale list headed 'طماطم معجون ❤️' and then itemised as 'طماطم صاحب الجبل (24 علبة) :69 د. ل / طماطم ميجور(24 علبة) :48 د. ل / طماطم الجيد(12 علبة) :24 د. ل ...'. Every item drops the word معجون and keeps only 'طماطم + brand'. A customer replies in the same bare form: 'طماطم الجيد خديناه امس ب 21 ونص علاش الفرق ف السعر'. CONCLUSION: Libyans do NOT reliably add a container word to the string itself — the header carries it once and the line items inherit it. So the string in isolation genuinely is undecidable, and the fix is not a container-word rule but a BRAND GAZETTEER plus two numeric tells: (1) a count-of-tins unit — (24 علبة), (12 علبة), ستيكة, قوطية, دسته, كارتون — is paste; (2) قابية, درجة أولى/ثانية, or a per-kilo price is fresh. Price magnitude also separates them in 2026: fresh runs 2–13 LYD per kg while a paste tin runs 1–3 LYD, so a 'طماطم X بـ2.5 دينار' with no unit is more likely a tin than a kilo, but this is probabilistic, not decisive.",
+      "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+    },
+    {
+      "brand": "PRICE-UNIT RULE — does the unit itself disambiguate?",
+      "sells": "unknown",
+      "evidence": "YES, and this is the most reliable signal found. Fresh tomatoes are priced per كيلو or per قابية/صندوق (25 kg): 'طماطم (درجة أولى) | 1 كيلو جرام | 7 دل'; '95 دينارًا للصندوق (25 كغم)'; 'قابيه طماطم 10.00 فقط'. Paste is priced per علبة/قوطية/قطعة and per ستيكة/دسته/كرتونة/صندوق-of-24: 'سعر العلبة: 1.5 دينار فقط الستيكة (12 علبة): 17 دينار'; 'كرتونة (صندوق معجون الطماطم) المكونة من 24 علبة سعة 400 غرام'. The one word that crosses over and must NOT be used alone is صندوق, which means both a 24-tin case and a 25 kg produce crate.",
+      "source": "https://almashhadlibya.com/economic-news/131520"
+    },
+    {
+      "brand": "HARISSA THINNESS — confirmed",
+      "sells": "unknown",
+      "evidence": "The previous round's finding holds up. Across five targeted searches (site:facebook.com Libya + هريسة + price/shop terms; Libyan online stores; Libyan food-trader groups; canned/factory harissa) the Libyan commercial web returns almost nothing: two of those searches returned ZERO organic results. What dominates instead is (a) home-cooking recipe content — 'الهريسة الليبية -بطريقة احترافية', 'هريسة من الصفر وبأبسط طريقة ... بتغنيكم عن الجاهز وما في داعي تشتروها بعد اليوم' ('this saves you from the ready-made kind, no need to ever buy it again'), 'الهريسه على الطريقه الليبيه المقادير ١ كيلو فلفل احمر حار'; and (b) EGYPTIAN e-commerce selling Libyan-style harissa to expatriates (karimolive.shop, bonomar.com, wa7et-siwa.com, amazon.eg) priced in EGP, which is not Libyan retail. Inside Libya, harissa moves as an artisanal good — 'هريسه وطنيه 10 دينار' listed among fresh produce, 'هريسه عربيه منشوره في الشمس وفيها تومه' offered in a food-traders group. Only ONE packaged Libyan SKU was found (حدائق إشبيلية, Al-Zawiya, 185g) plus imported Tunisian الوطن القبلي and one company line (الرضا). VERDICT: harissa_can being the thinnest catalogue item reflects the real market, not a harvesting failure — Libyans make هريسة at home, and the packaged tin is a marginal product. Expect the item to stay thin, and expect its wordings to skew toward 'هريسة عربية' and 'هريسة وطنية' rather than brand names.",
+      "source": "https://www.facebook.com/royakitchen/videos/1361512955569799/"
+    }
+  ],
+  "notebook_question": [
+    {
+      "finding": "كراسة and دفتر are NOT synonyms in Libyan retail. Libyan stationery shops file them as two different product categories. مكتبة السفير (Tripoli, .ly storefront) has a category 'كراسات و مذكرات' with 243 products, and a separate category 'اوراق و دفاتر ملاحظات' with 45, plus 'السجلات والدفاتر' under office supplies. A shopper looking for a school exercise book goes to the كراسات shelf; دفتر sits with the loose-leaf pads and record books.",
+      "evidence": "كراسات و مذكرات (243); لوحات الميدان و الرسم (6); محايات (56); مساطر (57) ... اوراق و دفاتر ملاحظات (45); حقائب لابتوب (15)",
+      "source": "https://alsafeergroup.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/6/",
+      "price_seen": "n/a — category structure"
+    },
+    {
+      "finding": "THE CLINCHER — same shop, same page count, 4.4x the price. riad.ly (Libyan store, prices in د.ل) sells 'كراسة 100 ورقة مسطرة' at 2.50 د.ل and 'دفتر ملاحظات عربي 100 ورقة' at 11.00 د.ل. Both are 100 sheets. The price gap is not page count and not quality drift — it is two different products. Decisively, the دفتر listing uses الكراسة as its own size yardstick ('حجم ورقة الكراسة' = the size of a كراسة page), which only makes sense if the shop and its customers treat كراسة and دفتر as distinct, contrasting things.",
+      "evidence": "دفتر ملاحظات عربي 100 ورقة مع اغلاق مقاس A5 حجم ورقة الكراسة ... 11.00 د.ل  //  كراسة 100 ورقة مسطرة مع اسم العنوان ... 2.50 د.ل",
+      "source": "https://riad.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A-100-%D9%88%D8%B1%D9%82%D8%A9-%D9%85%D8%B9-%D8%A7%D8%BA%D9%84%D8%A7%D9%82-%D9%85%D9%82%D8%A7%D8%B3-a5-%D8%AD/",
+      "price_seen": "دفتر 100 ورقة = 11.00 LYD vs كراسة 100 ورقة = 2.50 LYD (4.4x)"
+    },
+    {
+      "finding": "كراسة = the thin stapled exercise book a pupil writes in, bought by the dozen. دفتر = a bound notebook, a spiral memo pad, or a punched loose-leaf refill pad — a stationery article, often for adults/office/university. Where a Libyan shop does sell a دفتر product, it is a refill pad: 'دفتر ورق مسطر مخرم 50 ورقة' at 6.00 د.ل for FEWER sheets than a 1.25 د.ل كراسة of 60 sheets. Fewer pages, 4.8x the price.",
+      "evidence": "دفتر ورق مسطر مخرم 50 ورقة UNI PAPER SA-8053 A4. 6.00 د.ل السعر الأصلي هو: 6.00 د.ل. 3.00 د.ل السعر الحالي هو: 3.00 د.ل. + Free Shipping. A4 70 GSM",
+      "source": "https://alsafeergroup.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D9%88%D8%B1%D9%82-%D9%85%D8%B3%D8%B7%D8%B1-%D9%85%D8%AE%D8%B1%D9%85-50-%D9%88%D8%B1%D9%82%D8%A9-uni-paper-sa-8053-a4/",
+      "price_seen": "دفتر 50 ورقة A4 = 6.00 LYD (on offer 3.00) vs كراسة 60 ورقة = 1.25 LYD"
+    },
+    {
+      "finding": "The two 2026 Libyan national price surveys — Almasar TV's own field survey of Tripoli retail markets (17 Aug 2026) and Al-Mashhad's write-up of it — quote the school notebook exclusively as الكراسة, with page count as the price variable. The word دفتر does not appear once in either. If Libyans used the two words for the same thing, a national price survey would have used both.",
+      "evidence": "فيما تراوح سعر “الكراسة” المكونة من “60 ورقة” ما بين 1.25 دينار و1.5 دينار، بينما سجل سعر “الكراسة” المكونة من 100 ورقة ما بين 3 دنانير و3.5 دنانير",
+      "source": "https://x.com/almasartvlibya/status/2089303945411715343",
+      "price_seen": "كراسة 60 ورقة = 1.25–1.5 LYD; كراسة 100 ورقة = 3–3.5 LYD (Tripoli, 17 Aug 2026)"
+    },
+    {
+      "finding": "When دفتر IS attached to a school item in Libya, it marks a specialised or premium book, never the plain exercise book: دفتر رسم (drawing pad), دفتر مربعات فرنسي 180 صفحة, دفتر العلوم A4 40 ورقة at 6.75 د.ل, دفتر تحضير دروس (a teacher's lesson-prep book), دفتر المتابعة اليومية بين المدرسة والاسرة, دفتر الدرجات والمتابعة. Every one of these is a distinct product that should be a hard negative for school_notebook_80p.",
+      "evidence": "دفتر رسم كرافت فاخر (A4) فيه 50 ورقة 150 ( جرام ) يجن بـ لون بيج أو أصفر دافي ومناسبات لجميع أنواع الرسم، ويجي بسلك",
+      "source": "https://www.facebook.com/safeeralmaaref/photos/1349129407393737/",
+      "price_seen": "دفتر العلوم A4 40 ورقة = 6.75 LYD (riad.ly) — 40 sheets at 5x a 60-sheet كراسة"
+    },
+    {
+      "finding": "The ~7x gap the catalogue observed is therefore real and structural, and it lines up almost exactly: كراسة spans roughly 0.50–4.0 LYD (0.50 قرش market offers up to a 100-page ruled book), دفتر spans roughly 3–11 LYD. Treating them as synonyms averages two different products and will mis-cost the school basket by 4–7x in either direction. RECOMMENDATION: keep كراسة/كراس/كراسات/كراريس on school_notebook_80p; move bare دفتر off it, and only admit دفتر when qualified as a school subject book.",
+      "evidence": "دستة 10 كراسات 9دينار -كراسة 100 ورقة ب 2 دينار -سفار كراسه ب 2 دينار",
+      "source": "https://www.facebook.com/100063493386325/",
+      "price_seen": "كراسة band 0.50–4.0 LYD vs دفتر band 3.0–11.0 LYD"
+    },
+    {
+      "finding": "Neither word is regional within Libya — كراسة is used identically in Tripoli, Benghazi, Misrata, Janzour and Sabha listings. The regional word is كشكول, and it is NOT Libyan: every كشكول hit was Egyptian (priced in جنيه), Iraqi (بغداد, الف دينار), or a book title. It should not be a Libyan wording for this item.",
+      "evidence": "مكتبة سمارت هيجيبك لحد عندي. وتعال خد الستة كشكول ايفور بمية. الباكو اتناشر كشكول بمية تسعة وتسعين جنيه",
+      "source": "https://www.facebook.com/MOSTAFA.SMRT/videos/1605942507826460/",
+      "price_seen": "Egyptian pounds, not LYD — wrong country"
+    },
+    {
+      "finding": "Price variance INSIDE كراسة is quality/binding/page count, and Libyan shops explain it to customers explicitly. مكتبة الصفاء made a video whose whole subject is the difference between the 0.50-dinar كراسة and the 1-dinar one. So a wide كراسة price band is expected and legitimate — it is not evidence of a synonym problem.",
+      "evidence": "فيديو بسيط يوضح الفرق بين كراسة الخمسين قرش والدينار",
+      "source": "https://www.facebook.com/100066506596485/videos/773214358906963/",
+      "price_seen": "0.50 LYD vs 1.00 LYD كراسة tiers"
+    },
+    {
+      "finding": "Sanity check on the stored 2.3 LYD for an 80-page book: no Libyan source quotes an 80-page كراسة directly (60 and 100 are the standard sizes; 80 exists but is rarely priced separately). Interpolating the two 2026 Tripoli anchors — 60 ورقة at 1.25–1.5 and 100 ورقة at 2.50–3.5 — puts an 80-page كراسة at roughly 1.9–2.5 LYD. The stored 2.3 LYD is sound and now multiply sourced.",
+      "evidence": "الكراسات: 60 - 80 - 100 ورقة | مسطر - مربعات",
+      "source": "https://almashhadlibya.com/economic-news/134246",
+      "price_seen": "interpolated 1.9–2.5 LYD for 80 page"
+    },
+    {
+      "finding": "TRAP ENCOUNTERED — Google attached a live 2026-looking price snippet ('بـــ1 دينـــار فقط سعر كراسة 60 ورقة ... سعر دستة كراسات بــ10 د.ل') to a مكتبة المهندس - جنزور post. Opening the page showed the post is dated November 22, 2021, and its comments are marked 4y. The snippet is the page's standing intro text, not the post. The price was discarded; only the wording was kept. This is the same failure mode the brief warned about.",
+      "evidence": "‎مكتبة المهندس - 2 - جنزور‎'s Post ... November 22, 2021 · Shared with Public ... دفتر المتابعة اليومية بين المدرسة والاسرة متوفر الان",
+      "source": "https://www.facebook.com/100080115368453/posts/2012490982268440/",
+      "price_seen": "discarded — post is 2021, not 2026"
+    }
+  ],
+  "pack_words": [
+    {
+      "word": "شكارة (also شكاره، الشكارة)",
+      "means": "sack — a woven bag. SIZE IS NOT FIXED: observed at 5 kg, 7 kg, 20 kg, 25 kg and 50 kg, and even used for a 1 kg rice bag.",
+      "attaches_to": "دقيق، فرينة، سميد، رز، سكر، شعير، خبزة (bran), فحم (charcoal)",
+      "example": "شكارة دقيق 50 كيلو / شكارة دقيق الصفوة فارينة 5 كيلو / شكارة رز كيلو ب10",
+      "source": "https://www.facebook.com/100092466742433/videos/2329181374173157/"
+    },
+    {
+      "word": "شوال",
+      "means": "sack / gunny sack — synonym of شكارة, slightly more wholesale-flavoured",
+      "attaches_to": "دقيق، رز، (عدس، بلح in neighbouring dialects)",
+      "example": "دقيق شوال 50 ك المروه / رز شوال النوران الوزن 20 كيلو",
+      "source": "https://www.facebook.com/albark.food/"
+    },
+    {
+      "word": "كيس (plural أكياس)",
+      "means": "bag — size-neutral, used for both the 1 kg retail bag and the 50 kg sack",
+      "attaches_to": "سكر، رز، دقيق، بطاطا",
+      "example": "كيس سكر 50 كيلوا ب 75 دينار / وكيس الرز والله مهو فايت 6.50 / سكر الشهد ال 3 أكياس ب 10 دل",
+      "source": "https://www.facebook.com/100044423415139/posts/2165444517047742/"
+    },
+    {
+      "word": "قنطار",
+      "means": "bulk bakery-flour unit ≈ 100 kg (roughly 4 × 25 kg sacks). NOT a 50 kg sack.",
+      "attaches_to": "دقيق المخابز only",
+      "example": "دقيق المخابز (الناعم) | قنطار واحد | 270 د.ل; 'قنطار الدقيق من 220 إلى 270 دينار'",
+      "source": "https://www.libyaakhbar.com/business-news/2739864.html",
+      "note": "Derived, not assumed: a 25 kg sack is quoted at 65 LYD in the same discussion where the قنطار is 270 (4 × 65 = 260); and a separate ministry decree gives قنطار 190 with the kilo at 2.00 (190/100 ≈ 1.9). Both point to ~100 kg. Mapping قنطار straight onto bakery_flour_50kg would roughly double the price."
+    },
+    {
+      "word": "استيكة (also الإستيكة، الاستيكا، استيكه، ستيك)",
+      "means": "a shrink-wrapped stack/bale of identical retail units — the standard Libyan wholesale display unit",
+      "attaches_to": "دقيق 1 كيلو، سكر 1 كيلو، رز 1 كيلو، مكرونة، طماطم، بيض",
+      "example": "دقيق الزهرة 1 كيلو سعر الاستيكة 21 دينار / سكر كيلو 2.75 سعر الإستيكة27 دينار / نص استيكة ب12",
+      "source": "https://www.facebook.com/sooqmoner/posts/948879783932834/",
+      "note": "HIGH-RISK: posts routinely give the unit price and the استيكة price side by side. The stack holds roughly 8-12 units, so mistaking one for the other inflates a price ~10x. 'نص استيكة' = half a stack."
+    },
+    {
+      "word": "دستة",
+      "means": "dozen / bundle sold as one wholesale line",
+      "attaches_to": "دقيق 1 كيلو، سكر 1 كيلو، علب بهارات",
+      "example": "سكر 1 كيلو السعر 2.750 دينار الدستة 27.50 دينار / اقل كمية لجملة الجملة 50 دستة",
+      "source": "https://www.facebook.com/AltarhouniSonsMarket/posts/540843369614351/",
+      "note": "Same 10x inflation risk as استيكة. 'نص الدستة' = half a dozen."
+    },
+    {
+      "word": "كرتونة / الكرتونة",
+      "means": "carton — outer case holding many packs",
+      "attaches_to": "مكرونة، شعيرية، كسكسي، بسكويت، صابون، علب",
+      "example": "كرتونة مكرونة فرحه 32 كرتونة شعيرية نوبو 50",
+      "source": "https://www.facebook.com/groups/294183881724819/posts/1749207772889082/"
+    },
+    {
+      "word": "باكو (also باكوا، الباكو)",
+      "means": "packet / pack (from Italian 'pacco')",
+      "attaches_to": "دقيق، مقرونة، حليب، كيكة، ويفر",
+      "example": "باكوا دقيق ب3 دينار / تقارنو في باكو فيه مقرونة حجمها كبير / وزن الباكو 5 كيلو / الباكو فيه 50 قطعه",
+      "source": "https://www.facebook.com/groups/181405942268392/posts/4227944927614453/",
+      "note": "Ambiguous: sometimes the consumer packet, sometimes a 5 kg bundle or a 50-piece case. Always look for an explicit weight."
+    },
+    {
+      "word": "علبة / عبوة",
+      "means": "tin or packaged container / a packed unit of stated weight",
+      "attaches_to": "كسكسي، مكرونة، رز، معجون طماطم، حليب، بهارات",
+      "example": "عبوة 12 كيلو (كسكسي) / كسكسي مستورد 500 جرام للعبوة / سعر الأرز للعبوة (400 جرام)",
+      "source": "https://www.facebook.com/groups/479628305757295/posts/2390785141308259/",
+      "note": "عبوة is the official bulletin's word for 'pack of stated size' — the single most reliable size carrier in formal text."
+    },
+    {
+      "word": "قطعة (سعر القطعة، القطعه)",
+      "means": "one single unit — the retail piece price",
+      "attaches_to": "دقيق 1 كيلو، سكر 1 كيلو، كسكسي",
+      "example": "دقيق 1 كيلو سعر القطعه1.00 دينار / سكر 1 كيلو سعر القطعة 3 دينار / كسكسي لمتنا سعر القطعة 5 دينار",
+      "source": "https://www.facebook.com/AltarhouniSonsMarket/posts/313218529043504/",
+      "note": "The correct field to read when both قطعة and استيكة/دستة appear."
+    },
+    {
+      "word": "صندوق",
+      "means": "case / box",
+      "attaches_to": "زيت، طماطم",
+      "example": "صندوق الزيت 33 دينار / سعر الصندوق 30 دينار",
+      "source": "https://www.facebook.com/100066945967325/posts/1820463211399776/"
+    },
+    {
+      "word": "حكة / حكية",
+      "means": "a tin (of tuna, tomato paste)",
+      "attaches_to": "تن، طماطم",
+      "example": "حكية تن ب10 / حكة التن متفوتش 7.50",
+      "source": "https://www.facebook.com/100083129442103/posts/900841202696853/",
+      "note": "Distinctively Libyan; distractor class for my items but worth the catalogue."
+    },
+    {
+      "word": "شيشة",
+      "means": "a large can/jerrycan of oil",
+      "attaches_to": "زيت",
+      "example": "نبي شكارة رز وشيشة زيت",
+      "source": "https://www.facebook.com/groups/389576691124324/posts/27911380185183937/"
+    },
+    {
+      "word": "رطل",
+      "means": "pound (weight)",
+      "attaches_to": "شاي، بن",
+      "example": "رطل شاي / 10رطل بن",
+      "source": "https://www.facebook.com/groups/294183881724819/posts/1749207772889082/"
+    },
+    {
+      "word": "طرف / طرفين",
+      "means": "a piece / bundle",
+      "attaches_to": "خميرة، المقروض (a pastry)",
+      "example": "طرفين خميرة ب1 دينار ونص / كم سعر طرف المقروض توا",
+      "source": "https://www.facebook.com/groups/181405942268392/posts/4227944927614453/"
+    },
+    {
+      "word": "خيش / جوت / بولتين",
+      "means": "sack MATERIALS: jute/hessian vs woven polythene",
+      "attaches_to": "سكر (and sacks generally)",
+      "example": "نوعين من أنواع أكياس السكر، بولتين والجوت. الجوت اللي نفسها شكارة الخيش... والإثنين 50Kg",
+      "source": "https://www.facebook.com/groups/684533221925765/posts/2461658614213208/",
+      "note": "Material, not size — both are 50 kg. A rule keying on خيش/جوت as a size cue would be wrong."
+    },
+    {
+      "word": "نص كيلو",
+      "means": "half a kilo = 500 g",
+      "attaches_to": "مقرونة، لحمة، and recipe quantities generally",
+      "example": "مفهمتش ليش مش نص كيلو اللي تجي لليبيا",
+      "source": "https://www.facebook.com/100034315701874/posts/1524498158704026/",
+      "note": "Directly relevant to pasta_500g — a 500 g pack may be written 'نص كيلو' with no digits at all."
+    },
+    {
+      "word": "ربع كيلو",
+      "means": "quarter kilo = 250 g",
+      "attaches_to": "شاي، سكر، بهارات",
+      "example": "شاي الزهرة ربع كيلو 5.5",
+      "source": "https://www.facebook.com/100064038490274/posts/520343832222511/"
+    },
+    {
+      "word": "الوزن / حجم / مقاس",
+      "means": "size-introducer words: 'weight' / 'size' / 'measure'",
+      "attaches_to": "any product",
+      "example": "رز شوال النوران الوزن 20 كيلو / دقيق النخبة فارينة حجم 5 كيلو / علب بهارات مقاس كيلو",
+      "source": "https://www.facebook.com/100066269989918/videos/479009978564602/",
+      "note": "High-value anchors: the number that follows one of these is almost always the pack size, not a price."
+    },
+    {
+      "word": "جوال",
+      "means": "sack (Sudanese/Egyptian usage)",
+      "attaches_to": "عدس، بلح، بصل، سكر",
+      "example": "جوال عدس (25 كجم) / جوال السكر زنة (٥٠) كيلو",
+      "source": "https://www.facebook.com/mdinatalti/posts/1491795762990267/",
+      "note": "DISTRACTOR MARKER: جوال plus prices 'بالألف جنيه' signals a Sudanese post, not a Libyan one. Useful for filtering the corpus."
+    },
+    {
+      "word": "جركانة",
+      "means": "jerrycan (Sudanese)",
+      "attaches_to": "زيت فول",
+      "example": "جركانه زيت فول 42 ألف",
+      "source": "https://www.facebook.com/100069540396121/posts/891771316484207/",
+      "note": "Same non-Libyan marker."
+    }
+  ]
+}

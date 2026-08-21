@@ -56,7 +56,11 @@ from qeema_ml.matching.packsize import UnitTable
 from qeema_ml.matching.semantic import SemanticIndex, SentenceTransformerEmbedder
 
 REPO = Path(__file__).resolve().parents[2]
-COUNTRY = REPO / "countries" / "ly.yaml"
+# Overridable so the same evaluation set can be run against two catalogues.
+# Measuring a catalogue change means holding the eval set fixed and varying only
+# the catalogue; without this the two runs differ in both and the delta means
+# nothing.
+COUNTRY = Path(os.environ.get("QEEMA_EVAL_COUNTRY", str(REPO / "countries" / "ly.yaml")))
 
 
 def build_catalogue(embedder: SentenceTransformerEmbedder) -> tuple[CatalogueIndexes, set[str]]:

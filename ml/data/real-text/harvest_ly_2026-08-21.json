@@ -1,0 +1,2572 @@
+[
+  {
+    "text": "فوط صحية نسائية",
+    "expected": "sanitary_pads_10",
+    "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+  },
+  {
+    "text": "Every Day Fresh Super Ultra Plus Lightly Scented",
+    "expected": "sanitary_pads_10",
+    "source": "https://dsm.ly/ar-ly/personal-care/sanitary-pads-2"
+  },
+  {
+    "text": "Every Day HyperDry Super Maxi Night 18pcs",
+    "expected": "sanitary_pads_10",
+    "source": "https://dsm.ly/ar-ly/personal-care/sanitary-pads-2"
+  },
+  {
+    "text": "فوط صحية ، قطن نسائي ليلاس العادي ، النزيف",
+    "expected": "sanitary_pads_10",
+    "source": "https://riad.ly/product/%D9%81%D9%88%D8%B7-%D8%B5%D8%AD%D9%8A%D8%A9-%D8%8C-%D9%82%D8%B7%D9%86-%D9%86%D8%B3%D8%A7%D8%A6%D9%8A-%D9%84%D9%8A%D9%84%D8%A7%D8%B3-%D8%A7%D9%84%D8%B9%D8%A7%D8%AF%D9%8A-%D8%8C-%D8%A7%D9%84%D9%86%D8%B2/"
+  },
+  {
+    "text": "المخصص للنزيف",
+    "expected": "sanitary_pads_10",
+    "source": "https://riad.ly/product/%D9%81%D9%88%D8%B7-%D8%B5%D8%AD%D9%8A%D8%A9-%D8%8C-%D9%82%D8%B7%D9%86-%D9%86%D8%B3%D8%A7%D8%A6%D9%8A-%D9%84%D9%8A%D9%84%D8%A7%D8%B3-%D8%A7%D9%84%D8%B9%D8%A7%D8%AF%D9%8A-%D8%8C-%D8%A7%D9%84%D9%86%D8%B2/"
+  },
+  {
+    "text": "فوط lilas الصحيه",
+    "expected": "sanitary_pads_10",
+    "source": "https://www.facebook.com/LilasLibya/videos/229647422577471/"
+  },
+  {
+    "text": "فوط نسائيه شهريه 25حبه",
+    "expected": "sanitary_pads_10",
+    "source": "https://www.facebook.com/100064926000527/posts/1815987508542578/"
+  },
+  {
+    "text": "تشكيله من الفوط الصحية",
+    "expected": "sanitary_pads_10",
+    "source": "https://www.facebook.com/groups/296643254781823/posts/1644724726640329/"
+  },
+  {
+    "text": "فوط نسائيه يوميه",
+    "expected": null,
+    "source": "https://www.facebook.com/100064926000527/posts/1815987508542578/"
+  },
+  {
+    "text": "فوط صحية للاستخدام اليومي",
+    "expected": null,
+    "source": "https://www.facebook.com/100069235521119/posts/564798154057328/"
+  },
+  {
+    "text": "لاكي ليدي سوبر أمومة ليلي -بالأجنحة حجم كبير",
+    "expected": null,
+    "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+  },
+  {
+    "text": "لاكي ليدي سوبر أمومة – بدون أجنحة حجم عادي",
+    "expected": null,
+    "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+  },
+  {
+    "text": "لاكي ليدي سوبر أمومة – بدون أجنحة حجم كبير",
+    "expected": null,
+    "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+  },
+  {
+    "text": "الفوط النسائيه لما بعد الولادة للأمهات من Chicco",
+    "expected": null,
+    "source": "https://www.facebook.com/Alweqaya.Chicco.Libya/photos/352498909673847/"
+  },
+  {
+    "text": "Sani Sensitive Day & Night No.3 Large",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/personal-care/sani-sensitive-day-night-no-3-large-2"
+  },
+  {
+    "text": "Sani Sensitive Pants No.2 (Medium)",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/personal-care/sani-sensitive-pants-no-2-medium-2"
+  },
+  {
+    "text": "Sani Sensitive Pants No.1 Small",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/personal-care/sani-sensitive-pants-no-1-small-2"
+  },
+  {
+    "text": "Sani Sensitive Thin & Absorbent No.2 (Medium)",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/personal-care/sani-sensitive-thin-absorbent-no-2-medium-2"
+  },
+  {
+    "text": "Sani Sensitive Extra Protection No.3 Large",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/personal-care/sani-sensitive-extra-protection-no-3-large-2"
+  },
+  {
+    "text": "مناديل لاكي ليدي المبللة",
+    "expected": null,
+    "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+  },
+  {
+    "text": "فوط حمَّام",
+    "expected": null,
+    "source": "https://www.facebook.com/100064872392775/posts/3191214484244541/"
+  },
+  {
+    "text": "فوط حمّام الخامة ممتازة وبعدّة ألوان المقاس 50*90",
+    "expected": null,
+    "source": "https://www.facebook.com/100064872392775/photos/3191263480906308/"
+  },
+  {
+    "text": "طقم 3 فوط قطنية ناعمة",
+    "expected": null,
+    "source": "https://www.facebook.com/Qserlibya/posts/782337755155361/"
+  },
+  {
+    "text": "فوط مسح نوعية ناعمة حجم صغير وكبير",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/369607156533327/"
+  },
+  {
+    "text": "حفاضات الأطفال نونو",
+    "expected": null,
+    "source": "https://www.facebook.com/avan.mall.libya/videos/900534773035435/"
+  },
+  {
+    "text": "حفاظات صب",
+    "expected": null,
+    "source": "https://www.facebook.com/rokn.altofola/videos/1453987988654366/"
+  },
+  {
+    "text": "حفاظات الأطفال",
+    "expected": null,
+    "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+  },
+  {
+    "text": "لاكي أدلت لبس",
+    "expected": null,
+    "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+  },
+  {
+    "text": "صابون بروتكس طبي 90 جرام",
+    "expected": "bath_soap_bar",
+    "source": "https://riad.ly/product/%D8%B5%D8%A7%D8%A8%D9%88%D9%86-%D8%A8%D8%B1%D9%88%D8%AA%D9%83%D8%B3-%D8%B7%D8%A8%D9%8A-90-%D8%AC%D8%B1%D8%A7%D9%85/"
+  },
+  {
+    "text": "صابون لوكس",
+    "expected": "bath_soap_bar",
+    "source": "https://big.ly/Soap-Lux"
+  },
+  {
+    "text": "صابونه دوف الاصليه Dove",
+    "expected": "bath_soap_bar",
+    "source": "https://www.facebook.com/100077114905820/posts/826013483312474/"
+  },
+  {
+    "text": "صابون اليد Fa",
+    "expected": "bath_soap_bar",
+    "source": "https://big.ly/Soap-Fa"
+  },
+  {
+    "text": "D2S Exfoliating Soap 125gr",
+    "expected": "bath_soap_bar",
+    "source": "https://dsm.ly/ar-ly/brands/d2s/d2s-exfoliating-soap-125gr-2"
+  },
+  {
+    "text": "SOAP CLARIFYING EXFOLIATING",
+    "expected": "bath_soap_bar",
+    "source": "https://dsm.ly/ar-ly/brands/magiclear/soap-clarifying-exfoliating-2"
+  },
+  {
+    "text": "SEBAMED CLEANSING BAR 150G",
+    "expected": "bath_soap_bar",
+    "source": "https://dsm.ly/ar-ly/brands/sebamed/sebamed-cleansing-bar-150g-2"
+  },
+  {
+    "text": "MELA UNIFYING EXFOLIATING BAR 150 g",
+    "expected": "bath_soap_bar",
+    "source": "https://dsm.ly/ar-ly/brands/topicrem/mela-unifying-exfoliating-bar-150-g"
+  },
+  {
+    "text": "صابون الاستحمام السائل من \" BeLUX \"",
+    "expected": null,
+    "source": "https://www.facebook.com/TripoliMall.ly/photos/a.723335067835891/1364552093714182/"
+  },
+  {
+    "text": "شامبو الاستحمام AZZURRA غسول الجسم تركي 750 مل",
+    "expected": null,
+    "source": "https://riad.ly/product/%d8%b4%d8%a7%d9%85%d8%a8%d9%88-%d8%a7%d9%84%d8%a7%d8%b3%d8%aa%d8%ad%d9%85%d8%a7%d9%85-azzurra-%d8%ba%d8%b3%d9%88%d9%84-%d8%a7%d9%84%d8%ac%d8%b3%d9%85-%d8%aa%d8%b1%d9%83%d9%8a-750-%d9%85%d9%84/"
+  },
+  {
+    "text": "صابون سائل غسيل الملابس توري باور جل عبوة 3.35 & 5 كيلو",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%B5%D8%A7%D8%A8%D9%88%D9%86-%D8%B3%D8%A7%D8%A6%D9%84-%D8%AA%D9%88%D8%B1%D9%8A-%D8%BA%D8%B3%D8%A7%D9%84%D8%A9-%D8%A8%D8%A7%D9%88%D8%B1-%D8%AC%D9%84-%D8%B9%D8%A8%D9%88%D8%A9-3-35-5-%D9%83%D9%8A/"
+  },
+  {
+    "text": "صابون سائل العملاق للصحون والأواني",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%B5%D8%A7%D8%A8%D9%88%D9%86-%D8%B3%D8%A7%D8%A6%D9%84-%D8%A7%D9%84%D8%B9%D9%85%D9%84%D8%A7%D9%82-%D9%84%D9%84%D8%B5%D8%AD%D9%88%D9%86-%D9%88%D8%A7%D9%84%D8%A3%D9%88%D8%A7%D9%86%D9%8A-%D8%A8%D8%AA/"
+  },
+  {
+    "text": "صابون سائل من Touri لغسيل الصحون 600 مل طوري",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%B5%D8%A7%D8%A8%D9%88%D9%86-%D8%B3%D8%A7%D8%A6%D9%84-%D9%85%D9%86-touri-%D9%84%D8%BA%D8%B3%D9%8A%D9%84-%D8%A7%D9%84%D8%B5%D8%AD%D9%88%D9%86-600-%D9%85%D9%84/"
+  },
+  {
+    "text": "صابون سائل Pril عبوة 600 جم",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%B5%D8%A7%D8%A8%D9%88%D9%86-%D8%B3%D8%A7%D8%A6%D9%84-pril-%D8%B9%D8%A8%D9%88%D8%A9-600-%D8%AC%D9%85/"
+  },
+  {
+    "text": "قالب صابون سيلكون مع زخرفة 6 فجوات لصنع الصابون والمنظفات MA93",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D9%85%D8%B3%D8%AA%D9%84%D8%B2%D9%85%D8%A7%D8%AA-%D8%B5%D9%86%D8%A7%D8%B9%D8%A9-%D8%A7%D9%84%D8%B4%D9%85%D9%88%D8%B9-%D9%88%D8%A7%D9%84%D9%82%D9%88%D8%A7%D9%84%D8%A8/%D9%82%D9%88%D8%A7%D9%84%D8%A8-%D8%A7%D9%84%D8%B5%D8%A7%D8%A8%D9%88%D9%86/page/3/"
+  },
+  {
+    "text": "علبة فارغة لوشن + صابون بلاستيك رأس ذهبي عبوة 250 مل",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%B9%D9%84%D8%A8%D8%A9-%D9%81%D8%A7%D8%B1%D8%BA%D8%A9-%D9%84%D9%88%D8%B4%D9%86-%D8%B5%D8%A7%D8%A8%D9%88%D9%86-%D8%A8%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D9%83-%D8%B1%D8%A3%D8%B3-%D8%B0%D9%87%D8%A8%D9%8A/"
+  },
+  {
+    "text": "صابون غسالة - تايد",
+    "expected": null,
+    "source": "https://big.ly/Tide-Clothes-Washer-Machine"
+  },
+  {
+    "text": "صابون غسالة - أريال",
+    "expected": null,
+    "source": "https://big.ly/Clothes-Washer-Machine-Ariel"
+  },
+  {
+    "text": "صابون غسالة - ديكسان",
+    "expected": null,
+    "source": "https://big.ly/Dixan-Liquid-for-Washer-Machine"
+  },
+  {
+    "text": "سائل الصابون الأحمر",
+    "expected": null,
+    "source": "https://big.ly/Liquid-Red-Soap-Dishs"
+  },
+  {
+    "text": "سائل الصابون الأخضر",
+    "expected": null,
+    "source": "https://big.ly/Liquid-Green-Soap-Clothes"
+  },
+  {
+    "text": "صابون غسالة أوتوماتيك",
+    "expected": null,
+    "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+  },
+  {
+    "text": "صابون يد سائل",
+    "expected": null,
+    "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+  },
+  {
+    "text": "منظف الحمامات",
+    "expected": null,
+    "source": "https://lucky.com.ly/ar/product-category/%D9%84%D8%A7%D9%83%D9%8A-%D9%84%D9%8A%D8%AF%D9%8A/"
+  },
+  {
+    "text": "صابون ملابس روكسول",
+    "expected": null,
+    "source": "https://www.facebook.com/100087598616853/videos/2743044652721805/"
+  },
+  {
+    "text": "صابون الاعشاب السبعة للشعر",
+    "expected": null,
+    "source": "https://www.facebook.com/100077425191236/"
+  },
+  {
+    "text": "صابون أيدي صناعة تركية 500مل",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/369607156533327/permalink/1517438815083483/"
+  },
+  {
+    "text": "CETAPHIL PRO ECZEMA-PRONE SKIN RESTORING BODY WASH 295ML",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/personal-care/body-bath-2"
+  },
+  {
+    "text": "SVR SPIRIAL DEO-DOUCHE 200ML",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/personal-care/body-bath-2"
+  },
+  {
+    "text": "Collistar TALASSO SCRUB 700g",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/personal-care/body-bath-2"
+  },
+  {
+    "text": "DA PROTECT ULTRA-RICH CLEANSING GEL 500 ml",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/personal-care/body-bath-2"
+  },
+  {
+    "text": "JOHNSONS VITA-RICH OIL INFUSION 24H",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/personal-care/body-bath-2"
+  },
+  {
+    "text": "بودرة جونسون بلوسوم للأطفال 100 قرام",
+    "expected": null,
+    "source": "https://riad.ly/product/%d8%a8%d9%88%d8%af%d8%b1%d8%a9-%d8%ac%d9%88%d9%86%d8%b3%d9%88%d9%86-%d8%a8%d9%84%d9%88%d8%b3%d9%88%d9%85-%d9%84%d9%84%d8%a3%d8%b7%d9%81%d8%a7%d9%84-100-%d9%82%d8%b1%d8%a7%d9%85/"
+  },
+  {
+    "text": "بخاخ معطر الجسم رجالي FOGG فوج 150 مل",
+    "expected": null,
+    "source": "https://riad.ly/product/l/"
+  },
+  {
+    "text": "بخاخ مزيل عرق Slazenger للرجال سبورت الأصلي",
+    "expected": null,
+    "source": "https://riad.ly/product/%d8%a8%d8%ae%d8%a7%d8%ae-%d9%85%d8%b2%d9%8a%d9%84-%d8%b9%d8%b1%d9%82-slazenger-%d9%84%d9%84%d8%b1%d8%ac%d8%a7%d9%84-%d8%b3%d8%a8%d9%88%d8%b1%d8%aa-%d8%a7%d9%84%d8%a3%d8%b5%d9%84%d9%8a/"
+  },
+  {
+    "text": "حنة معجون رويال أسود ، صنع الهند",
+    "expected": null,
+    "source": "https://riad.ly/product/%d8%ad%d9%86%d8%a9-%d9%85%d8%b9%d8%ac%d9%88%d9%86-%d8%b1%d9%88%d9%8a%d8%a7%d9%84-%d8%a3%d8%b3%d9%88%d8%af-%d8%8c-%d8%b5%d9%86%d8%b9-%d8%a7%d9%84%d9%87%d9%86%d8%af/"
+  },
+  {
+    "text": "قلامة اظافر فاخرة جودة عالية كروم",
+    "expected": null,
+    "source": "https://riad.ly/product/%d9%82%d9%84%d8%a7%d9%85%d8%a9-%d8%a7%d8%b8%d8%a7%d9%81%d8%b1-%d9%81%d8%a7%d8%ae%d8%b1%d8%a9-%d8%ac%d9%88%d8%af%d8%a9-%d8%b9%d8%a7%d9%84%d9%8a%d8%a9-%d9%83%d8%b1%d9%88%d9%85/"
+  },
+  {
+    "text": "مسك الطهارة سعة 6 مل",
+    "expected": null,
+    "source": "https://riad.ly/product/%d9%85%d8%b3%d9%83-%d8%a7%d9%84%d8%b7%d9%87%d8%a7%d8%b1%d8%a9-%d8%a7%d9%84%d8%a7%d8%a8%d9%8a%d8%b6-%d8%b3%d8%b9%d8%a9-6-%d9%85%d9%84/"
+  },
+  {
+    "text": "شامبو اطفال نونو 200 مل",
+    "expected": null,
+    "source": "https://riad.ly/product/%d8%b4%d8%a7%d9%85%d8%a8%d9%88-%d8%a7%d8%b7%d9%81%d8%a7%d9%84-%d9%86%d9%88%d9%86%d9%88-200-%d9%85%d9%84/"
+  },
+  {
+    "text": "زيت جونسون للأطفال ايطالي 200 مل",
+    "expected": null,
+    "source": "https://riad.ly/product/%d8%b2%d9%8a%d8%aa-%d8%ac%d9%88%d9%86%d8%b3%d9%88%d9%86-%d9%84%d9%84%d8%a3%d8%b7%d9%81%d8%a7%d9%84-%d8%a7%d9%8a%d8%b7%d8%a7%d9%84%d9%8a-200-%d9%85%d9%84/"
+  },
+  {
+    "text": "PARACETAMOL 250MG/5ML ORANGE FLAVOR",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "PANADOL BABY & INFANT 100 ML ALFA",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "ADOL 250MG\\5ML SYRUP",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "ADOL 250MG\\5ML JELPHAR",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://dsm.ly/ar-ly/all-products/adol-250mg5ml-jelphar"
+  },
+  {
+    "text": "شراب مسكن وخافض للحرارة يحتوي على باراسيتامول 250mg/5ml",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://dsm.ly/ar-ly/all-products/adol-250mg5ml-jelphar"
+  },
+  {
+    "text": "Paracetamol Galenica Senes 10mg/ml 100ml",
+    "expected": null,
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "ABBOTT BRUFEN PEDIATRIC SYRUP 100ML (100MG/5ML)",
+    "expected": null,
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "PARALVIT (PARACETAMOL) 150MG 10SUPPOSITORIE",
+    "expected": null,
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "PARALVIT (PARACETAMOL) 4-6KG 80MG 10SUPP",
+    "expected": null,
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "ADOL 125MG 10 SUPPOSITORIES",
+    "expected": null,
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "ADOL 250MG SUPPOSITORIES",
+    "expected": null,
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "DOLIPRANE 150MG 10 SUPP",
+    "expected": null,
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "DOLIPRANE 300MG (NSAID-2) 10 SUPP SANOFI",
+    "expected": null,
+    "source": "https://dsm.ly/child-care/baby-child-fever-pain-relief-2"
+  },
+  {
+    "text": "PANADOL ACTIFAST 20 TAB",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "PANADOL ADVANCE 16 TAB (UK BOOK)",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "PANADOL EXTRA 20TAB",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "PANADOL COLD & FLU 24 CAP DAY",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "PANADOL COLD&FLU TAB GREEN",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "PANADOL COLD+FLU ALL IN ONE",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "PANADOL SINUS-GSK 24TAB (AUSTRALIA)",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "PANADOL EXTRA OPTIZORB 24 TAB ALFA",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/medicines-treatments/panadol-extra-optizorb-24-tab-alfa"
+  },
+  {
+    "text": "PANADOL JOINT 24 TAB 2 STRIPS ALFA",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/panadol-joint-24-tab-2-strips-alfa"
+  },
+  {
+    "text": "PANADOL NIGHT 24TAB (Australia)",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/panadol-night-24tab-australia"
+  },
+  {
+    "text": "PANADOL MIGRAINE 30TAB GSK",
+    "expected": null,
+    "source": "https://dsm.ly/all-products/panadol-migraine-30tab-gsk"
+  },
+  {
+    "text": "Nopain 250mg 20 tab (Naproxen)",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "ASPEGIC ADULT 100G SACHETS (TUNISIA)",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "MOOV SPRAY",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "MYOFLAM CREAM FAST RELIEF 50ML",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "ARTHROGINE GEL 50ML",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/pain-relievers-2"
+  },
+  {
+    "text": "ORS ELECTROLYTE POWDER 10SACHETS SUGAR FREE",
+    "expected": "ors_sachet",
+    "source": "https://dsm.ly/all-products/ors-electrolyte-powder-10sachets-sugar-free-2"
+  },
+  {
+    "text": "ORS 13 EFFERVESCENT ORANGE FLAVOUR GERMANY",
+    "expected": null,
+    "source": "https://dsm.ly/all-products/ors-13-effervescent-orange-flavour-germany-2"
+  },
+  {
+    "text": "SMECTA DIOSMECTITE (FRANCE-TUN) 30 sachet",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/digestive-health-2"
+  },
+  {
+    "text": "OSMOLAX 10G SACHET",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/digestive-health-2"
+  },
+  {
+    "text": "RANI EFFERVESCENT SACHET",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/digestive-health-2"
+  },
+  {
+    "text": "Duphalac 66.5% 200ml Syrup (Tunisia)",
+    "expected": null,
+    "source": "https://dsm.ly/medicines-treatments/digestive-health-2"
+  },
+  {
+    "text": "MONICA BABY SYRUP HAIR GROWTH IN KIDS 150ML",
+    "expected": null,
+    "source": "https://dsm.ly/ar-ly/all-products/monica-baby-syrup-hair-growth-in-kids-150ml"
+  },
+  {
+    "text": "بنادول ادفانس \"الازرق\"",
+    "expected": null,
+    "source": "https://www.facebook.com/elskkapharmacy/posts/%D8%B9%D8%B1%D8%B6-%D8%AE%D8%A7%D8%B5-%D9%85%D9%86-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D8%B3%D9%83%D8%A9-%D8%AA%D8%AE%D9%81%D9%8A%D8%B6-%D9%81%D9%8A-%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%A8%D9%86%D8%A7%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%A7%D8%B5%D9%84%D9%8A-%D8%B5%D9%86%D8%A7%D8%B9%D8%A9-%D8%A7%D9%86%D8%AC%D9%84%D9%8A%D8%B2%D9%8A%D8%A9-%D9%85%D9%86-%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF/235667900334232/"
+  },
+  {
+    "text": "بنادول اكسترا \"الاحمر\"",
+    "expected": null,
+    "source": "https://www.facebook.com/elskkapharmacy/posts/%D8%B9%D8%B1%D8%B6-%D8%AE%D8%A7%D8%B5-%D9%85%D9%86-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D8%B3%D9%83%D8%A9-%D8%AA%D8%AE%D9%81%D9%8A%D8%B6-%D9%81%D9%8A-%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%A8%D9%86%D8%A7%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%A7%D8%B5%D9%84%D9%8A-%D8%B5%D9%86%D8%A7%D8%B9%D8%A9-%D8%A7%D9%86%D8%AC%D9%84%D9%8A%D8%B2%D9%8A%D8%A9-%D9%85%D9%86-%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF/235667900334232/"
+  },
+  {
+    "text": "بنادول شراب panadol syrup للأطفال من سن ثلاث شهور إلى خمس سنوات",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://www.facebook.com/datalsawarizliten/posts/%D8%A7%D9%84%D8%B3%D8%B9%D8%B1-%D8%A7%D9%84%D8%A7%D8%B5%D9%84%D9%8A-%D8%A8%D9%86%D8%A7%D8%AF%D9%88%D9%84-%D8%B4%D8%B1%D8%A7%D8%A8-panadol-syrup%D9%84%D9%84%D8%A3%D8%B7%D9%81%D8%A7%D9%84-%D9%85%D9%86-%D8%B3%D9%86-%D8%AB%D9%84%D8%A7%D8%AB-%D8%B4%D9%87%D9%88%D8%B1-%D8%A5%D9%84%D9%89-%D8%AE%D9%85%D8%B3-%D8%B3%D9%86%D9%88%D8%A7%D8%AA-%D9%83%D9%85%D8%A7-/1054829620154897/"
+  },
+  {
+    "text": "دواء الحرارة شراب سيتامول صناعة تونسية تحت مخابر فرنسية ممتاز لخفض الحرارة عند الأطفال",
+    "expected": "paracetamol_suspension_60ml",
+    "source": "https://www.facebook.com/alwledphrmacy/photos/%D8%B9%D8%B1%D8%B6-%D8%AE%D8%A7%D8%B5-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D9%88%D9%84%D9%8A%D8%AF%D8%AF%D9%88%D8%A7%D8%A1-%D8%A7%D9%84%D8%AD%D8%B1%D8%A7%D8%B1%D8%A9-%D8%B4%D8%B1%D8%A7%D8%A8-%D8%B3%D9%8A%D8%AA%D8%A7%D9%85%D9%88%D9%84-%D8%B5%D9%86%D8%A7%D8%B9%D8%A9-%D8%AA%D9%88%D9%86%D8%B3%D9%8A%D8%A9-%D8%AA%D8%AD%D8%AA-%D9%85%D8%AE%D8%A7%D8%A8%D8%B1-%D9%81%D8%B1%D9%86%D8%B3%D9%8A%D8%A9%D9%85%D9%85%D8%AA%D8%A7/757534757785746/"
+  },
+  {
+    "text": "سوبركس شراب 100",
+    "expected": null,
+    "source": "https://www.facebook.com/alwledphrmacy/photos/%D8%AA%D8%AE%D9%81%D9%8A%D8%B6%D8%A7%D8%AA-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D9%88%D9%84%D9%8A%D8%AF%D8%A3%D8%AF%D9%88%D9%8A%D8%A9-%D9%85%D8%B6%D8%A7%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B3%D9%83%D9%86%D8%A7%D8%AA%D8%A7%D9%88%D8%AC%D9%85%D9%86%D8%AA%D9%8A%D9%86-%D8%B4%D8%B1%D8%A7%D8%A8-156%D8%A8%D8%B3%D8%B9%D8%B1-15-20-%D8%AF/862065553999332/"
+  },
+  {
+    "text": "زوماكس شراب 200",
+    "expected": null,
+    "source": "https://www.facebook.com/alwledphrmacy/photos/%D8%AA%D8%AE%D9%81%D9%8A%D8%B6%D8%A7%D8%AA-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D9%88%D9%84%D9%8A%D8%AF%D8%A3%D8%AF%D9%88%D9%8A%D8%A9-%D9%85%D8%B6%D8%A7%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B3%D9%83%D9%86%D8%A7%D8%AA%D8%A7%D9%88%D8%AC%D9%85%D9%86%D8%AA%D9%8A%D9%86-%D8%B4%D8%B1%D8%A7%D8%A8-156%D8%A8%D8%B3%D8%B9%D8%B1-15-20-%D8%AF/862065553999332/"
+  },
+  {
+    "text": "سبترين شراب",
+    "expected": null,
+    "source": "https://www.facebook.com/alwledphrmacy/photos/%D8%AA%D8%AE%D9%81%D9%8A%D8%B6%D8%A7%D8%AA-%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9_%D8%A7%D9%84%D9%88%D9%84%D9%8A%D8%AF%D8%A3%D8%AF%D9%88%D9%8A%D8%A9-%D9%85%D8%B6%D8%A7%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B3%D9%83%D9%86%D8%A7%D8%AA%D8%A7%D9%88%D8%AC%D9%85%D9%86%D8%AA%D9%8A%D9%86-%D8%B4%D8%B1%D8%A7%D8%A8-156%D8%A8%D8%B3%D8%B9%D8%B1-15-20-%D8%AF/862065553999332/"
+  },
+  {
+    "text": "اوجمنتين شراب ٦٠٠",
+    "expected": "amoxicillin_suspension_60ml",
+    "source": "https://www.facebook.com/groups/121377801697925/"
+  },
+  {
+    "text": "هاي بيوتك شراب مضاد حيوي",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/121377801697925/"
+  },
+  {
+    "text": "أكياس محلول معالجة الجفاف ريهيدران Rehydran Packs",
+    "expected": "ors_sachet",
+    "source": "https://ar-ar.facebook.com/%D9%82%D8%B1%D8%B7%D8%A7%D8%AC-%D9%84%D9%84%D8%AE%D8%AF%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%B7%D8%A8%D9%8A%D8%A9-235904059896338/"
+  },
+  {
+    "text": "محلول جفاف سائل لعلاج الجفاف",
+    "expected": null,
+    "source": "https://www.facebook.com/libyaGyne/videos/%D8%B4%D8%B1%D9%83%D8%A7%D8%A6%D9%86%D8%A7-%D9%81%D9%89-libya-gyne-4%D8%B4%D8%B1%D9%83%D8%A9-%D8%A7%D9%84%D9%86%D8%A8%D9%84%D8%A7%D8%A1-%D9%84%D9%84%D8%A3%D8%AF%D9%88%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D8%AD%D8%B6%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%B7%D8%A8%D9%8A%D8%A9-%D9%88%D9%85%D8%B3%D8%AA%D9%84%D8%B2%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D9%85-%D9%88%D8%A7/24671230429180967/"
+  },
+  {
+    "text": "Paracetamol 1g/100ml Vem",
+    "expected": null,
+    "source": "https://www.facebook.com/100090110802671/posts/%D8%AC%D8%AF%D9%8A%D8%AF-%D8%B4%D8%B1%D9%83%D8%A9_%D8%A7%D9%84%D8%B9%D8%B2%D9%85-paracetamol-1g100ml-vem-%D8%B4%D8%B1%D9%83%D8%A9-%D8%A7%D9%84%D8%B9%D8%B2%D9%85-%D9%84%D8%A5%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF-%D8%A7%D9%84%D8%A2%D8%AF%D9%88%D9%8A%D8%A9-%D9%84%D9%84%D8%AA%D9%88%D8%A7%D8%B5%D9%84-0922/349906134689744/"
+  },
+  {
+    "text": "حليب معقم 1 لتر من أجود انواع الحليب",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/AljaiedCompany/posts/1840541976249166/"
+  },
+  {
+    "text": "الريحان معقم لتر",
+    "expected": "uht_milk_1l",
+    "source": "https://www.facebook.com/groups/1426194511193864/posts/2342906366189336/"
+  },
+  {
+    "text": "حليب مبستر",
+    "expected": null,
+    "source": "https://ltnet.gov.ly/ar/wp-content/uploads/2023/03/%D8%A7%D9%84%D8%B9%D8%AF%D8%AF-%D8%B1%D9%82%D9%85-1-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9.pdf"
+  },
+  {
+    "text": "حليب علبة 250 ml",
+    "expected": null,
+    "source": "https://ltnet.gov.ly/ar/wp-content/uploads/2023/03/%D8%A7%D9%84%D8%B9%D8%AF%D8%AF-%D8%B1%D9%82%D9%85-1-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9.pdf"
+  },
+  {
+    "text": "حليب كي دي دي واحد لتر بالفراولة",
+    "expected": null,
+    "source": "https://www.instagram.com/reel/DaJUGGNMM26/"
+  },
+  {
+    "text": "حليب لافيتا",
+    "expected": null,
+    "source": "https://www.facebook.com/100083303344206/posts/885607187559385/"
+  },
+  {
+    "text": "حليب زهرات 170 جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/100083303344206/posts/885607187559385/"
+  },
+  {
+    "text": "حليب نستوجين صناعة فرنسية رقم 1 غذاء حليب للرضع",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/Kribamarket/posts/136836031358846/"
+  },
+  {
+    "text": "حليب أطفال سويسري نستوجين رقم (1_2)",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/p/%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9-%D8%B7%D9%85%D8%B2%D9%8A%D9%86-%D8%A7%D9%84%D8%A3%D9%88%D9%84%D9%8A-100065363834855/"
+  },
+  {
+    "text": "حليب أطفال بيبيلاك رقم 2",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100089125892042/"
+  },
+  {
+    "text": "بريمالاك 1 - حليب الاطفال",
+    "expected": "infant_formula_400g",
+    "source": "https://big.ly/Infant-Formula-1-Primalac"
+  },
+  {
+    "text": "بريمالاك 2 - حليب الاطفال",
+    "expected": "infant_formula_400g",
+    "source": "https://big.ly/Infant-Formula-2-Primalac"
+  },
+  {
+    "text": "Primalac، رقم 1 لعمر من 0 - 6 شهور، مدعم بالحديد 400ج",
+    "expected": "infant_formula_400g",
+    "source": "https://big.ly/Infant-Formula-1-Primalac"
+  },
+  {
+    "text": "حليب بريمالاك بـ جميع الأرقام",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/OnlyLibya/posts/1147615578607290/"
+  },
+  {
+    "text": "حليب الديلاك لجميع الأرقام",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/100083360256157/photos/418696167585722/"
+  },
+  {
+    "text": "حليب أس 26 بجميع انواعه",
+    "expected": "infant_formula_400g",
+    "source": "https://www.instagram.com/p/DX1ocTxjchJ/"
+  },
+  {
+    "text": "حليب الأطفال NAN Comfort 2 (المخصص للرضع من عمر 6 إلى 12 شهراً)",
+    "expected": "infant_formula_400g",
+    "source": "https://www.instagram.com/p/DU9MTfGCv3r/"
+  },
+  {
+    "text": "حليب نوفالاك ١",
+    "expected": "infant_formula_400g",
+    "source": "https://www.instagram.com/p/DWZxikJFpVi/"
+  },
+  {
+    "text": "حليب فيتالي ١",
+    "expected": "infant_formula_400g",
+    "source": "https://www.instagram.com/p/DOq2g8-CF7D/"
+  },
+  {
+    "text": "حليب اطفال الماني رقم 3",
+    "expected": "infant_formula_400g",
+    "source": "https://www.facebook.com/GibouleeBlueLybia/posts/311806205910347/"
+  },
+  {
+    "text": "حليب برينتوميلك جونيور ون بلس",
+    "expected": null,
+    "source": "https://www.instagram.com/p/DWtYXNhkwYU/"
+  },
+  {
+    "text": "حليب ديليسيو غني بالكالسيوم لصحة و سلامة أطفالك",
+    "expected": null,
+    "source": "https://www.instagram.com/p/DNdHMONM7M2/"
+  },
+  {
+    "text": "سيريلاك CERELAC، مدعم بـ 16من نوع الفيتامينات والمعادن، للاطفال عمر 6 أشهر فما فوق عبوة وزن : 400 جرام",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.facebook.com/homyfordistribution/posts/492268096635229/"
+  },
+  {
+    "text": "سيريلاك سيريال للأطفال قمح 400",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.instagram.com/p/DNdHMONM7M2/"
+  },
+  {
+    "text": "السيريلاك بالرز والحليب",
+    "expected": "baby_cereal_400g",
+    "source": "https://www.instagram.com/reel/DcCmZsME0eB/"
+  },
+  {
+    "text": "لحوس الامين - لبدة للصناعات الغذائية",
+    "expected": null,
+    "source": "https://www.tiktok.com/@sehatypharma/photo/7439392357910318392"
+  },
+  {
+    "text": "حليب بودرة اورين ٤٠٠ جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/522522179712473/posts/1188232429808108/"
+  },
+  {
+    "text": "حليبي المقوي هو حليب مجفف كامل الدسم سريع الذوبان مدعم بالعناصر الغذائية الأساسية",
+    "expected": null,
+    "source": "https://www.facebook.com/halibi.nutrition/posts/205835316648658/"
+  },
+  {
+    "text": "HALEBONA حليب بودرة درجة أولى كامل الدسم عبوة العلبة 400 جرام",
+    "expected": null,
+    "source": "https://m.facebook.com/582716762251916/posts/584600605396865/"
+  },
+  {
+    "text": "حليب بودرة كامل الدسم سريع الذوبان وزن 400 جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1914934048745174/posts/4274425636129325/"
+  },
+  {
+    "text": "حليب اطفال نيدو 300 جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/basma.for.shopping/posts/274089814962956/"
+  },
+  {
+    "text": "حليب نيدو المقوي",
+    "expected": null,
+    "source": "https://www.instagram.com/p/DOQwb0BDf6y/"
+  },
+  {
+    "text": "حليب الاطفال نيدو للاطفال من عمر 1 سنة الى 3 سنوات",
+    "expected": null,
+    "source": "https://www.instagram.com/p/DOQwb0BDf6y/"
+  },
+  {
+    "text": "حليب يوري 400 جرام",
+    "expected": null,
+    "source": "https://www.facebook.com/basma.for.shopping/posts/274089814962956/"
+  },
+  {
+    "text": "حليب المعمورة حكه كبيره",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/522522179712473/posts/1188232429808108/"
+  },
+  {
+    "text": "حليب دانا حكه كبيره",
+    "expected": null,
+    "source": "https://www.facebook.com/GibouleeBlueLybia/posts/311806205910347/"
+  },
+  {
+    "text": "كراسة رسومات حساب 100 ورقة مسطرة جاهزة",
+    "expected": "school_notebook_80p",
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "كراسة 100 ورقة مسطرة مع اسم العنوان",
+    "expected": "school_notebook_80p",
+    "source": "https://riad.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D8%AA%D8%AD%D8%B6%D9%8A%D8%B1-%D8%AF%D8%B1%D9%88%D8%B3-%D9%81%D9%86%D9%88%D9%86/"
+  },
+  {
+    "text": "كراسة عربي رسومات جاهزة 60 ورقة ، لا تحتاج الى تزيين او تلوين",
+    "expected": "school_notebook_80p",
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "كراس 60 ورقة دبوس",
+    "expected": "school_notebook_80p",
+    "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D9%88-%D9%85%D8%B0%D9%83%D8%B1%D8%A7%D8%AA/page/9/"
+  },
+  {
+    "text": "كراس غلاف مقوى120ورقهub-24",
+    "expected": "school_notebook_80p",
+    "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D9%88-%D9%85%D8%B0%D9%83%D8%B1%D8%A7%D8%AA/"
+  },
+  {
+    "text": "دستة 10 كراسات 9دينار",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/100063493386325/"
+  },
+  {
+    "text": "دستة الكراسات ب 7 د.ل فقط",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/p/%D9%82%D8%B1%D8%B7%D8%A7%D8%B3%D9%8A%D8%A9-%D8%A7%D9%84%D9%82%D8%A8%D8%B3-100063938895942/"
+  },
+  {
+    "text": "الكراسة بسعر 0.75 قرش",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/rokn.altofola/videos/1139356214845884/"
+  },
+  {
+    "text": "متوفر لدينا كراسة جودة ممتازة سعر 1 دينار",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/search/مكتبة+السكة+للقرطاسية"
+  },
+  {
+    "text": "الفرق بين كراسة الخمسين قرش والدينار",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/100066506596485/videos/773214358906963/"
+  },
+  {
+    "text": "كراسة 100 ورقة الحجم..B4 الكبير خياطة..وليس دبوس إملاء. حساب. انجليزي",
+    "expected": "school_notebook_80p",
+    "source": "https://www.facebook.com/search/كراسة+100+ورقة+B4"
+  },
+  {
+    "text": "الكراسات وملحقاتها",
+    "expected": "school_notebook_80p",
+    "source": "https://riad.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D8%AA%D8%AD%D8%B6%D9%8A%D8%B1-%D8%AF%D8%B1%D9%88%D8%B3-%D9%81%D9%86%D9%88%D9%86/"
+  },
+  {
+    "text": "افتتاح مكتبة طيبة للادوات المكتبية وجميع المستلزمات المدرسية ( كتب - كراسات - أقلام - طباعة",
+    "expected": null,
+    "source": "https://www.facebook.com/ATEEQ2015LIBRARY/videos/779825897771495/"
+  },
+  {
+    "text": "دفتر ملاحظات عربي 100 ورقة مع اغلاق مقاس A5 حجم ورقة الكراسة",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A-100-%D9%88%D8%B1%D9%82%D8%A9-%D9%85%D8%B9-%D8%A7%D8%BA%D9%84%D8%A7%D9%82-%D9%85%D9%82%D8%A7%D8%B3-a5-%D8%AD/"
+  },
+  {
+    "text": "دفتر ورق مسطر مخرم 50 ورقة UNI PAPER SA-8053 A4",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D9%88%D8%B1%D9%82-%D9%85%D8%B3%D8%B7%D8%B1-%D9%85%D8%AE%D8%B1%D9%85-50-%D9%88%D8%B1%D9%82%D8%A9-uni-paper-sa-8053-a4/"
+  },
+  {
+    "text": "دفتر ورق مسطر مخرم 50 ورقة 80 جم lifestyle A4 SA-8050",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D9%88%D8%B1%D9%82-%D9%85%D8%B3%D8%B7%D8%B1-%D9%85%D8%AE%D8%B1%D9%85-50-%D9%88%D8%B1%D9%82%D8%A9-80-%D8%AC%D9%85-lifestyle-a4-sa-8050/"
+  },
+  {
+    "text": "ورق مسطر مخرم 45ورقة Quablock",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product/%D9%88%D8%B1%D9%82-%D9%85%D8%B3%D8%B7%D8%B1-%D9%85%D8%AE%D8%B1%D9%85-45%D9%88%D8%B1%D9%82%D8%A9-quablock/"
+  },
+  {
+    "text": "ورق مسطر مخرم 100 ورقة PAPERLONE LL01655",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product/%D9%88%D8%B1%D9%82-%D9%85%D8%B3%D8%B7%D8%B1-%D9%85%D8%AE%D8%B1%D9%85-100-%D9%88%D8%B1%D9%82%D8%A9-paperlone-ll01655/"
+  },
+  {
+    "text": "مذكرة محاضرات سلك حلزوني 80 ورقة حساب 1239-16",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D9%88-%D9%85%D8%B0%D9%83%D8%B1%D8%A7%D8%AA/page/2/"
+  },
+  {
+    "text": "كراس محاضرات 300 ورقة LEECOS S.A.R",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D9%88-%D9%85%D8%B0%D9%83%D8%B1%D8%A7%D8%AA/"
+  },
+  {
+    "text": "مذكرة محاضرات 120 ورقة THE WORLD SAR-14021",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D9%88-%D9%85%D8%B0%D9%83%D8%B1%D8%A7%D8%AA/page/8/"
+  },
+  {
+    "text": "سجل مسطر 200 ورقة",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product/%D8%B3%D8%AC%D9%84-%D9%85%D8%B3%D8%B7%D8%B1-200-%D9%88%D8%B1%D9%82%D8%A9/"
+  },
+  {
+    "text": "اوراق و دفاتر ملاحظات",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A%D8%A9/%D8%A7%D9%88%D8%B1%D8%A7%D9%82-%D9%88-%D8%AF%D9%81%D8%A7%D8%AA%D8%B1-%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A7%D8%AA/"
+  },
+  {
+    "text": "السجلات والدفاتر",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D9%83%D8%AA%D8%A8%D9%8A%D8%A9/%D8%A7%D9%84%D8%B3%D8%AC%D9%84%D8%A7%D8%AA-%D9%88%D8%A7%D9%84%D8%AF%D9%81%D8%A7%D8%AA%D8%B1/"
+  },
+  {
+    "text": "دفتر رسم كرافت فاخر (A4) فيه 50 ورقة 150 ( جرام )",
+    "expected": null,
+    "source": "https://www.facebook.com/safeeralmaaref/photos/1349129407393737/"
+  },
+  {
+    "text": "دفتر رسم ورق كانفس قماشي A4 خشن 280 قرام 10 ورقات مناسب لجميع الالوان",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D8%B1%D8%B3%D9%85-%D9%88%D8%B1%D9%82-%D9%83%D8%A7%D9%86%D9%81%D8%B3-%D9%82%D9%85%D8%A7%D8%B4%D9%8A-a4-%D8%AE%D8%B4%D9%86-280-%D9%82%D8%B1%D8%A7%D9%85-10-%D9%88%D8%B1%D9%82/"
+  },
+  {
+    "text": "دفتر العلوم حجم A4 – عدد 40 ورقة",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D8%A7%D9%84%D8%B1%D8%B3%D9%85/"
+  },
+  {
+    "text": "دفتر تحضير دروس فنون عربي & انجليزي",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D8%AA%D8%AD%D8%B6%D9%8A%D8%B1-%D8%AF%D8%B1%D9%88%D8%B3-%D9%81%D9%86%D9%88%D9%86/"
+  },
+  {
+    "text": "دفتر المتابعة اليومية بين المدرسة والاسرة",
+    "expected": null,
+    "source": "https://www.facebook.com/100080115368453/posts/2012490982268440/"
+  },
+  {
+    "text": "دفتر ملصقات تزيين الكراسة الترند شفافة وغير الشفافة",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D9%85%D9%84%D8%B5%D9%82%D8%A7%D8%AA-%D8%AA%D8%B2%D9%8A%D9%8A%D9%86-%D8%A7%D9%84%D9%83%D8%B1%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%B1%D9%86%D8%AF-%D8%B4%D9%81%D8%A7%D9%81/"
+  },
+  {
+    "text": "اكثر دفتر مستفز دفتر مربعات ماركة فرنسية جودة عالية ١٨٠ صفحة",
+    "expected": null,
+    "source": "https://www.facebook.com/100089892952083/videos/1859030025505309/"
+  },
+  {
+    "text": "كراسة الأشغال اليدوية والرسوم الزخرفية",
+    "expected": null,
+    "source": "https://www.facebook.com/safeeralmaaref/posts/1349316494041695/"
+  },
+  {
+    "text": "كراسة رسم حر فبريانو FABRIANO 29.7*42cm",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product/%D8%A8%D9%88%D8%B1%D8%AF-%D8%B1%D8%B3%D9%85-%D9%87%D9%86%D8%AF%D8%B3%D9%8A-a3-isomars/"
+  },
+  {
+    "text": "كراسة رسم بياني rotring A4 خطوط ومربعات واضحه",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%AF%D9%81%D8%AA%D8%B1-%D9%85%D9%84%D8%B5%D9%82%D8%A7%D8%AA-%D8%AA%D8%B2%D9%8A%D9%8A%D9%86-%D8%A7%D9%84%D9%83%D8%B1%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%AA%D8%B1%D9%86%D8%AF-%D8%B4%D9%81%D8%A7%D9%81/"
+  },
+  {
+    "text": "كراسة رسم 24 ورقة رسومات كيوت مقاس متوسط 28×20 سم",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D8%A7%D9%84%D8%B1%D8%B3%D9%85/"
+  },
+  {
+    "text": "كراسة لاصقة 5 ورقات",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/%D8%B7%D9%88%D8%A7%D8%A8%D8%B9-%D9%88%D9%85%D9%84%D8%B5%D9%82%D8%A7%D8%AA/"
+  },
+  {
+    "text": "كراسة الخط سعادتي في كتابي بخط اليد برواية قالون وحفص",
+    "expected": null,
+    "source": "https://www.facebook.com/search/مكتبة+بنغازي+كراسة+الخط"
+  },
+  {
+    "text": "كراسة المساعد الاسئلة والاجابة",
+    "expected": null,
+    "source": "https://www.facebook.com/search/مكتبة+الطالب+جامعة+ليبيا+المفتوحة"
+  },
+  {
+    "text": "كراسة تنقيط تعليميه",
+    "expected": null,
+    "source": "https://www.instagram.com/p/DWuYbphjlld/"
+  },
+  {
+    "text": "كراسات التلوين",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D8%A7%D9%84%D8%AA%D9%84%D9%88%D9%8A%D9%86/"
+  },
+  {
+    "text": "كراسات رسم",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D8%B1%D8%B3%D9%85/"
+  },
+  {
+    "text": "كراسات الرسامين",
+    "expected": null,
+    "source": "https://riad.ly/"
+  },
+  {
+    "text": "قلم حبر ناتاراج صناعة هندية 0.7 سلس",
+    "expected": "ballpoint_pen",
+    "source": "https://riad.ly/product/%D9%82%D9%84%D9%85-%D8%AD%D8%A8%D8%B1-%D9%86%D8%A7%D8%AA%D8%A7%D8%B1%D8%A7%D8%AC-0-7-%D8%B3%D9%84%D8%B3/"
+  },
+  {
+    "text": "قلم الحبر المدرسي",
+    "expected": "ballpoint_pen",
+    "source": "https://x.com/almasartvlibya/status/2089303945411715343"
+  },
+  {
+    "text": "أقلام الحبر من الدرجة الأولى «مدرسية»",
+    "expected": "ballpoint_pen",
+    "source": "https://almashhadlibya.com/economic-news/134246"
+  },
+  {
+    "text": "قلم الحبر الجاف الازرق او الاسود",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/100063746191113/"
+  },
+  {
+    "text": "اقلام جاف فابركاسيتل 0.7 + 0.1",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/safeeralmaaref/photos/2983007955247072/"
+  },
+  {
+    "text": "اقلام جاف لون ازرق بمدالية فلامينغو متدليه",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/safeeralmaaref/photos/2801290130085523/"
+  },
+  {
+    "text": "أفضل أنواع الأقلام الجافة الملونة من شركة digno الوكيل في ليبيا",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/mataboushiha/posts/734183296048312/"
+  },
+  {
+    "text": "علبة قلم جاف 0.7مم BSTAR-KLASSY-50PIC متعدد الالوان",
+    "expected": "ballpoint_pen",
+    "source": "https://alsafeergroup.ly/"
+  },
+  {
+    "text": "18 قلم حبر صغير + 4 أقلام حبر عادي",
+    "expected": "ballpoint_pen",
+    "source": "https://www.facebook.com/MutawakilS/posts/766148163841074/"
+  },
+  {
+    "text": "أقلام حبر",
+    "expected": "ballpoint_pen",
+    "source": "https://alsafeergroup.ly/"
+  },
+  {
+    "text": "انواع الاقلام الجاف والرصاص والاصباغ توفرت باشكال تجنن",
+    "expected": null,
+    "source": "https://www.facebook.com/100092466742433/videos/1550356235950838/"
+  },
+  {
+    "text": "قلم رصاص HB2 اتش بي 2 STAEDTLAR",
+    "expected": null,
+    "source": "https://riad.ly/product/%D9%82%D9%84%D9%85-%D8%B1%D8%B5%D8%A7%D8%B5-hb2-%D8%A7%D8%AA%D8%B4-%D8%A8%D9%8A-2-staedtlar/"
+  },
+  {
+    "text": "أقلام الرصاص",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/134246"
+  },
+  {
+    "text": "قلم رصاص ميكانيكي و مستلزماته",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-tag/%D9%83%D9%88%D9%84%D8%A7/"
+  },
+  {
+    "text": "أقلام الخط العربي",
+    "expected": null,
+    "source": "https://riad.ly/"
+  },
+  {
+    "text": "أقلام تصحيح",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D8%B1%D8%B3%D9%85/"
+  },
+  {
+    "text": "أقلام الحبر والكركت",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/%D8%A3%D9%82%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%AD%D8%A8%D8%B1/"
+  },
+  {
+    "text": "مجموعة اقلام حبر لمعه 8 الوان",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "اقلام الحبر السرية لا ترى إلا بالاضاءة الخاصة كيوت 2 اقلام",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "متوفر القلم الزجاج مع قلم حبر ريشة مع الاحبار الخاصة به",
+    "expected": null,
+    "source": "https://www.facebook.com/alshams.library/videos/738753983993475/"
+  },
+  {
+    "text": "أقلام التحديد (الفسفوري)",
+    "expected": null,
+    "source": "https://www.facebook.com/103331259538978/"
+  },
+  {
+    "text": "أقلام رصاص اسنان مبتكرة",
+    "expected": null,
+    "source": "https://www.facebook.com/thewhitewingsstationary/videos/2204267037053843/"
+  },
+  {
+    "text": "حقيبة فاخرة للصف الأول والثاني مع اسفنج حماية الظهر – سوستة وجودة عالية",
+    "expected": "school_backpack",
+    "source": "https://riad.ly/"
+  },
+  {
+    "text": "حقيبة ممتازة للصف الأول والثاني مع اسفنج حماية الظهر",
+    "expected": "school_backpack",
+    "source": "https://riad.ly/"
+  },
+  {
+    "text": "حقيبة فنون درجة أولى مع مقلمة للإعدادي والثانوي",
+    "expected": "school_backpack",
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "حقيبة شبابية طيارة جيشية It’s ok مناسبة للإعدادي والثانوي",
+    "expected": "school_backpack",
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "حقيبة ممتازة مناسبة للـ صف اول 2 جيب وللكبار لحمل اللابتوب",
+    "expected": "school_backpack",
+    "source": "https://riad.ly/product/%D8%AD%D9%82%D9%8A%D8%A8%D8%A9-%D9%85%D9%85%D8%AA%D8%A7%D8%B2%D8%A9-%D9%85%D9%86%D8%A7%D8%B3%D8%A8%D8%A9-%D9%84%D9%84%D9%80-%D8%B5%D9%81-%D8%A7%D9%88%D9%84-2-%D8%AC%D9%8A%D8%A8-%D9%88%D9%84%D9%84/"
+  },
+  {
+    "text": "حقيبة مدرسية GABOL",
+    "expected": "school_backpack",
+    "source": "https://alsafeergroup.ly/product/%D8%AD%D9%82%D9%8A%D8%A8%D8%A9-%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9-gabol-3/"
+  },
+  {
+    "text": "حقيبة مدرسية مجرورة بنات Trolls",
+    "expected": "school_backpack",
+    "source": "https://alsafeergroup.ly/product-tag/%D8%AD%D9%82%D9%8A%D8%A8%D8%A9/"
+  },
+  {
+    "text": "حقيبة أديدس سوداء Adidas",
+    "expected": "school_backpack",
+    "source": "https://alsafeergroup.ly/product-category/%D8%AD%D9%82%D8%A7%D8%A6%D8%A8-%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/"
+  },
+  {
+    "text": "حقائب مدرسية بجودة عالية وتصاميم عصرية ب45 دينار فقط لأي حقيبه",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/p/%D8%B9%D8%A7%D9%84%D9%85-%D8%A7%D9%84%D8%AD%D9%82%D8%A7%D8%A6%D8%A8-world-of-bags-61552331323698/"
+  },
+  {
+    "text": "حقائب مدرسية برنسيسا جودة ممتازة مجرورة",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/p/GT-for-bags-100059695074494/"
+  },
+  {
+    "text": "شنطة مدرسية 4 قطع مميزة",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1770851539703834/posts/24180474731648195/"
+  },
+  {
+    "text": "شنطة روضة 10 دينار",
+    "expected": "school_backpack",
+    "source": "https://www.facebook.com/taurus.libya12/videos/1891140118526961/"
+  },
+  {
+    "text": "الحقائب والشناطي",
+    "expected": "school_backpack",
+    "source": "https://riad.ly/"
+  },
+  {
+    "text": "حقيبة توت باق لون أسود للكلية والمعلمات مقاس 39*35 سم",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%AD%D9%82%D9%8A%D8%A8%D8%A9-%D8%AA%D9%88%D8%AA-%D8%A8%D8%A7%D9%82-%D9%84%D9%88%D9%86-%D8%A3%D8%B3%D9%88%D8%AF-%D9%84%D9%84%D9%83%D9%84%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%85%D8%A7/"
+  },
+  {
+    "text": "طقم الحقائب الأنيق (3 قطع) من قرطاسية ماتا.. رفيقك المثالي لكل يوم",
+    "expected": null,
+    "source": "https://www.facebook.com/mataboushiha/posts/1035187155947923/"
+  },
+  {
+    "text": "حقائب لابتوب",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-category/%D8%B4%D9%87%D8%A7%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%AA%D9%82%D8%AF%D9%8A%D8%B1/"
+  },
+  {
+    "text": "طقم رسم احترافي 42 قطعه من BOMEIJIA في حقيبة رسم",
+    "expected": null,
+    "source": "https://riad.ly/product/%D8%B7%D9%82%D9%85-%D8%B1%D8%B3%D9%85-%D8%A7%D8%AD%D8%AA%D8%B1%D8%A7%D9%81%D9%8A-42-%D9%82%D8%B7%D8%B9%D9%87-%D9%85%D9%86-keepsmiling-%D9%81%D9%8A-%D8%AD%D9%82%D9%8A%D8%A8%D8%A9/"
+  },
+  {
+    "text": "حقيبة مجرورة أولاد مدرسية 5 في 1 سبايدر مان",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product/%D8%AD%D9%82%D9%8A%D8%A8%D8%A9-%D8%A3%D9%88%D9%84%D8%A7%D8%AF-%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9-5-%D9%81%D9%8A-1-%D8%B3%D8%A8%D8%A7%D9%8A%D8%AF%D8%B1-%D9%85%D8%A7%D9%86/"
+  },
+  {
+    "text": "شنطة فطور",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product/%D8%AD%D9%82%D9%8A%D8%A8%D8%A9-%D8%A8%D9%86%D8%A7%D8%AA-%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9-5-%D9%81%D9%8A-1-%D9%84%D9%88%D9%84%D9%88-%D9%83%D8%A7%D8%AA%D9%8A/"
+  },
+  {
+    "text": "محفظة فطور -لانش بوكس-",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product/%D8%AD%D9%82%D9%8A%D8%A8%D8%A9-%D8%A8%D9%86%D8%A7%D8%AA-%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9-5-%D9%81%D9%8A-1-%D9%84%D9%88%D9%84%D9%88-%D9%83%D8%A7%D8%AA%D9%8A/"
+  },
+  {
+    "text": "شنطة كاملة للقرطاسية — 15 دينار فقط",
+    "expected": null,
+    "source": "https://www.facebook.com/100067041461239/videos/362839337845140/"
+  },
+  {
+    "text": "محاية ممتازة 2B لا تثرك أثر",
+    "expected": null,
+    "source": "https://riad.ly/"
+  },
+  {
+    "text": "مسطرة شخصية ستيتش دوائر زجزاج – 15 سم",
+    "expected": null,
+    "source": "https://riad.ly/"
+  },
+  {
+    "text": "طقم مساطر ضد الكسر هندسية 20 سم",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "غلاف كتب مدرسية شفاف كامل تلبيس 4 قطع",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "مقلمة أدوات فاخرة ايلسا أميرة الثلج 2 جيوب",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "ترمس رياضي شراب ممتاز مناسب للجيم والمدرسة 800 مل",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "ترمس اطفال درجة اولى مع مصفاة نكهة طوبو مص عبوة 500 مل",
+    "expected": null,
+    "source": "https://riad.ly/product-category/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9/page/14/"
+  },
+  {
+    "text": "مباري أقلام الرصاص",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/134246"
+  },
+  {
+    "text": "الممحاة العادية",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/134246"
+  },
+  {
+    "text": "الاستيكة5دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/search/قرطاسية_الصدارة+الاستيكة"
+  },
+  {
+    "text": "30 محاية بسعر 5 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/100064984060587/videos/1280432739902277/"
+  },
+  {
+    "text": "أسفار تغليف",
+    "expected": null,
+    "source": "https://alsafeergroup.ly/product-category/%D9%83%D8%B1%D8%A7%D8%B3%D8%A7%D8%AA-%D8%B1%D8%B3%D9%85/"
+  },
+  {
+    "text": "سفار كراسه ب 2 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/100063493386325/"
+  },
+  {
+    "text": "غلاف الكراسات",
+    "expected": null,
+    "source": "https://www.lananews.com/ar/?p=370933"
+  },
+  {
+    "text": "الزي المدرسي",
+    "expected": null,
+    "source": "https://www.instagram.com/p/DO06aldjpIm/"
+  },
+  {
+    "text": "مرايل مدرسية بالأزرق والأخضر",
+    "expected": null,
+    "source": "https://www.facebook.com/61581395661962/videos/1049403401170947/"
+  },
+  {
+    "text": "بنطلونات مدرسة للبنات والأولاد بـ19 دينار فقط",
+    "expected": null,
+    "source": "https://www.facebook.com/61581395661962/videos/1049403401170947/"
+  },
+  {
+    "text": "مستلزمات مدرسية متكاملة",
+    "expected": null,
+    "source": "https://www.facebook.com/61550528015791/videos/4092302571059687/"
+  },
+  {
+    "text": "أدوات مدرسية وحقائب بتشكيلات متنوعة",
+    "expected": null,
+    "source": "https://www.facebook.com/100064984060587/videos/1791784288113401/"
+  },
+  {
+    "text": "موسم القرطاسية والعودة إلى المدارس 2026 / 2027",
+    "expected": null,
+    "source": "https://www.facebook.com/MAkHRBA1/posts/1366380348805638/"
+  },
+  {
+    "text": "دحي دجاج وإلا حمام⁉️.. رجع سعر البيض في ليبيا للارتفاع: الطبق (الاستيكة) ب: 20 ديناراً ليبياً",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/dth2011/posts/1414533327366761/"
+  },
+  {
+    "text": "ارتفاع سعر طبق #الدحي إلى 26 دينار 🥚🔥 كم سعره في منطقتك⁉️",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/tumblr.Libya/posts/1470002788018196/"
+  },
+  {
+    "text": "اقل سعر في ليبيا🇱🇾 استيكة دحي السعر 10 دينار فقط! دحي ليبي حجم كبير",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/aljdydswq/videos/2528599717495214/"
+  },
+  {
+    "text": "قرب شهر رمضان اخر سعر استيكة الدحي كم وصلت",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/100085880140255/posts/870217195850944/"
+  },
+  {
+    "text": "استيكة الطماطم تنافس استيكة الدحى على الصدارة فى بطولة كاس الاسعار",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1646042952901356/posts/2233559690816343/"
+  },
+  {
+    "text": "طبق البيض \"الدحي\" 2 دينار هذا سعره عند السماسرة، عند الأسواق والجمعيات سعره 1.25",
+    "expected": null,
+    "source": "https://www.facebook.com/alfkr.alaghther/videos/339606002415590/"
+  },
+  {
+    "text": "ماهي أسعار لحوم الدجاج والبيض في الأسواق ؟ ... والله الدحي بعشرين دينار",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/LibyaAlhadathLive/posts/1348397643994015/"
+  },
+  {
+    "text": "قفز سعر طبق البيض اليوم السبت في محال البيع بالتجزئة بنسبة 15.38%، مسجلًا 15 دينارًا للطبق بطرابلس",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/almasartv.ly/posts/1025948580435414/"
+  },
+  {
+    "text": "ارتفع سعر الصندوق في محال الجملة بنسبة 22.2%، مسجلًا 165 دينارًا",
+    "expected": null,
+    "source": "https://www.facebook.com/almasartv.ly/posts/1025948580435414/"
+  },
+  {
+    "text": "وصول كميات من البيض العربي سعر حرق 20دينار داخل محل اليوم دحي عربي خالي من علفه وخالي من حظائر",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/mhamoodrmih/videos/1057537283276391/"
+  },
+  {
+    "text": "وصول كميات من البيض العربي طبق 20دينار فقط مضمون دحي عربي",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/mhamoodrmih/videos/1053594637116781/"
+  },
+  {
+    "text": "طبق ونص دحي عربي اهم شي مظمون مكان الزاوية",
+    "expected": "eggs_30",
+    "source": "https://www.facebook.com/groups/1903360539690293/"
+  },
+  {
+    "text": "كرتونه دحي طلع 12قعد",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1284780428213298/posts/28443266781937962/"
+  },
+  {
+    "text": "كرتونة الدحي وعجينة السيراميك حنديرو بيهم حاجة",
+    "expected": null,
+    "source": "https://www.instagram.com/reel/Dby1MIbI34x/"
+  },
+  {
+    "text": "يوجد لدينا دحي عربي 23 يوجد لدينا دحي سمان 15",
+    "expected": null,
+    "source": "https://www.facebook.com/mhamoodrmih/videos/25099871009715865/"
+  },
+  {
+    "text": "متوفر #الآن دحي سمان طبق فيه 30طرف",
+    "expected": null,
+    "source": "https://www.facebook.com/mhamoodrmih/videos/1689715261697688/"
+  },
+  {
+    "text": "متوفر كميات طبق دحي سمان 30 دحيه",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1358584387589029/posts/6927281234052622/"
+  },
+  {
+    "text": "متوفر استيكة دحي رومي مخصب تجميع جديد",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1358584387589029/posts/6927281234052622/"
+  },
+  {
+    "text": "متوفر طبق دحي بلدي للبيع مخصب بادن الله مكان زليتن",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1348509115769808/posts/1920034715283909/"
+  },
+  {
+    "text": "للبيع طبق دحي براهما سبرايت تجميع جديد الحارة على 20 دينار قصر بن غشير",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/902838654756785/posts/1429830672057578/"
+  },
+  {
+    "text": "متوفر دحي براهمي زهري",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1358584387589029/posts/10035574459889935/"
+  },
+  {
+    "text": "متوفر كتكوت عربي لبيع السعر 2.50",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1903360539690293/"
+  },
+  {
+    "text": "سعر كيلو الدجاج الحي اليوم الخميس 13/8/2026 14دينار",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/tk.aldwajn/posts/1678713376531942/"
+  },
+  {
+    "text": "صدور دجاج طازجة • الكيلو بـ 30 دينار",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/100089962107275/videos/1389515823063305/"
+  },
+  {
+    "text": "أجنحة دجاج طازجة • الكيلو بـ 15 دينار",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/100089962107275/videos/1389515823063305/"
+  },
+  {
+    "text": "كبدة دجاج طازجة • عرض اليوم: الكيلو بـ 35 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/100089962107275/videos/1389515823063305/"
+  },
+  {
+    "text": "دجاج كامل وزن 1.5 كجم (مفروق)",
+    "expected": null,
+    "source": "https://www.facebook.com/100089962107275/videos/1389515823063305/"
+  },
+  {
+    "text": "🔥صدور دجاج 2كيلو السعر 29 دينار فقط! 🇱🇾 اقل سعر في ليبيا",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1129132744670244/posts/1806742140242631/"
+  },
+  {
+    "text": "🔥دجاج سوبر 1100جرام 10 دينار فقط!",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1129132744670244/posts/1794889241427921/"
+  },
+  {
+    "text": "افخاذ دجاج ساديا 900 جم",
+    "expected": null,
+    "source": "https://www.facebook.com/FarajAlsheble/photos/1141660127945626/"
+  },
+  {
+    "text": "صدور دجاج ✨frozen chicken ✨ الحجم 2 كيلوا ✨✨ السعر 48 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/FarajAlsheble/photos/1141660127945626/"
+  },
+  {
+    "text": "أفخاذ دجاج كامل الصندوق 15 كيلو صلاحية جديدة السعر : 75 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/Almzinecompany/posts/661164867775305/"
+  },
+  {
+    "text": "دجاج برازيلي الوزن 1100 السعر 9 دينار دجاج برازيلي الوزن 1300 السعر 10",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%B4%D8%B1%D9%83%D8%A9-%D8%A7%D9%84%D8%B4%D8%B1%D9%88%D9%82-%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF-%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%BA%D8%B0%D8%A7%D8%A6%D9%8A%D9%87-%D9%88%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%B4%D9%8A-%D9%88-%D8%A7%D9%84%D8%AD%D9%88%D9%85-%D8%A7%D9%84%D9%85%D8%AC%D9%85%D8%AF%D9%87-100068503892289/"
+  },
+  {
+    "text": "دجاج برازيلي 1100 جرام ع 215 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%A7%D9%84%D8%B1%D9%8A%D8%B4-%D8%A7%D9%84%D8%B0%D9%87%D8%A8%D9%8A-%D9%84%D9%84%D8%AD%D9%88%D9%85-%D9%88%D8%A7%D9%84%D9%85%D8%AC%D9%85%D8%AF%D8%A7%D8%AA-61574859694692/"
+  },
+  {
+    "text": "صدور دجاج مجمد وطني 2,500 كيلو سعر 60.00 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/100083358781419/"
+  },
+  {
+    "text": "صدور دجاج #برازيلي صب درجة أولى خاليه من الجلد والعضم",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%A7%D9%84%D9%85%D8%B0%D8%A7%D9%82-%D8%A7%D9%84%D9%81%D8%B6%D9%8A-%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF-%D8%A7%D9%84%D9%84%D8%AD%D9%88%D9%85-%D8%A7%D9%84%D9%85%D8%AC%D9%85%D8%AF%D8%A9-%D9%88%D8%A7%D9%84%D8%AF%D9%88%D8%A7%D8%AC%D9%86-100066381354521/"
+  },
+  {
+    "text": "دجاج مجمد...أوزان من 1600/1400/1300/1200/1100/1000",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%A7%D9%84%D9%85%D8%B0%D8%A7%D9%82-%D8%A7%D9%84%D9%81%D8%B6%D9%8A-%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF-%D8%A7%D9%84%D9%84%D8%AD%D9%88%D9%85-%D8%A7%D9%84%D9%85%D8%AC%D9%85%D8%AF%D8%A9-%D9%88%D8%A7%D9%84%D8%AF%D9%88%D8%A7%D8%AC%D9%86-100066381354521/"
+  },
+  {
+    "text": "أفخاذ دجاج طازجة. أجنحة دجاج طازجة. صدور دجاج طازجة. كبدة دجاج طازجة. دجاج كامل طازج بأحجام مختلفة",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%A7%D9%84%D8%B4%D8%B9%D8%A7%D9%81%D9%8A-%D9%84%D9%84%D8%AF%D9%88%D8%A7%D8%AC%D9%86-%D9%88%D8%A7%D9%84%D9%84%D8%AD%D9%88%D9%85-%D8%A7%D9%84%D8%B7%D8%A7%D8%B2%D8%AC%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%AC%D9%85%D8%AF%D8%A9-100089962107275/"
+  },
+  {
+    "text": "عرض كزيوني هبرة فرع المهاري 🏙️ بسعر 70دينار فروج مناني جغالي شولة",
+    "expected": null,
+    "source": "https://www.facebook.com/MarinaFish2019/posts/789428035116098/"
+  },
+  {
+    "text": "طبعا وصلنا حوت وفروج ورقيد ربي يبارك",
+    "expected": null,
+    "source": "https://www.facebook.com/IthappensinTripoli/videos/2734526600238829/"
+  },
+  {
+    "text": "دجاج زمان فروج ملوكي طازج مبرد عدد 5 حبات ✅️ بسعر ( 4.99 ) دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/100063559634055/"
+  },
+  {
+    "text": "سمك السلمون طازج مبرد تبريد من دولة النرويج سعر الكيلو 80دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/MarinaFish2019/posts/789428035116098/"
+  },
+  {
+    "text": "سلمون 🍣 بلد المنشأ دولة النرويج 🇳🇴 مبرد فرش ليس مجمد ... الكيلو 140 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/MarinaFish2019/posts/1229508922301402/"
+  },
+  {
+    "text": "علبة التونة وزن 65 جرام = 1.250 دينار ・ وزن 185 جرام = 2.500 دينارين ونصف",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/AljaiedCompany/posts/1704589309844434/"
+  },
+  {
+    "text": "تن يلوفن وادي الكوف 185جرام بسعر 4.25 دينار",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/100063762275281/posts/4008101332581624/"
+  },
+  {
+    "text": "تن وادي الكوف 185 غ 7.5 دينــــــار فقط",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/groups/241283417796236/posts/1553153726609192/"
+  },
+  {
+    "text": "تن السفينة بعبوة 160 جرام 185 جرام ☺️ 200 جرام ☺️ وبسعر تخفيض",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/100068943770380/videos/2514875135634915/"
+  },
+  {
+    "text": "تن بيتي أتوفر بعبوة 185 جرام 🔥",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/100077434014556/videos/1279936056978710/"
+  },
+  {
+    "text": "تن الجيد ( 140 جرام ، و 160 جرام ، 180 جرام ) بسعر ممتاز",
+    "expected": null,
+    "source": "https://www.facebook.com/100077434014556/videos/1279936056978710/"
+  },
+  {
+    "text": "لان تونة الوفاء بـــ نوع اليلوفين حجم جديد بسعر أقل",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/alwafa.tuna.ly/photos/820350830093161/"
+  },
+  {
+    "text": "تونة مارسيليا جايكم بمفاجأة كبيرة الان سعر العبوة 3.75 دينار بدل من 4.25",
+    "expected": null,
+    "source": "https://www.facebook.com/okaz.lyb/posts/511105726148179/"
+  },
+  {
+    "text": "تونة الجيد 185 بزيت زيتون 2,75 زيت نباتي 2,50 160جرام ب2,00 دينار 65جرام دينار وربع",
+    "expected": "canned_tuna_185g",
+    "source": "https://www.facebook.com/100080999880171/"
+  },
+  {
+    "text": "أرخص تن وزنه 1700 جم في ليبيا",
+    "expected": null,
+    "source": "https://www.facebook.com/sada7alaswaq/videos/865302339358716/"
+  },
+  {
+    "text": "تن الجيد 400 جرام لحم التونة الفاخر لك ولعائلتك",
+    "expected": null,
+    "source": "https://www.facebook.com/AljaiedCompany/photos/2157484387888255/"
+  },
+  {
+    "text": "تن المحيط تونة عمانية عربية 100% . السعر 155 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/p/%D8%B4%D8%B1%D9%83%D8%A9-%D9%85%D8%B1%D9%85%D8%B1-%D9%84%D9%8A%D8%A8%D9%8A%D8%A7-%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF-%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%BA%D8%B0%D8%A7%D8%A6%D9%8A%D8%A9-100051497875997/"
+  },
+  {
+    "text": "سمك التونة العنيدة متوفرة الآن في السوبرماركت",
+    "expected": null,
+    "source": "https://www.instagram.com/reel/DYekH1vMBc8/"
+  },
+  {
+    "text": "نبي احسن نوع دجاج مستورد بالاسم",
+    "expected": "chicken_1kg",
+    "source": "https://www.facebook.com/groups/397782214462147/posts/1029008344672861/"
+  },
+  {
+    "text": "هل تعلمو ان سعر بانقة الماء 7 لتر وصل سعرها اليوم الى 4 دينار",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/100068232954117/photos/1405112365106515/"
+  },
+  {
+    "text": "بانقة مياه 7 لتر وصل سعرها اليوم إلى 4 دينار و لو تاخذها بدون ستيكر تكتشف انها مياه بئر",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/Benghaziagainstterrorism/posts/1590849922408495/"
+  },
+  {
+    "text": "\"السبعة لتر تولي بخمسة دينار\".. شكاوى من الارتفاع المفاجئ لأسعار مياه الشرب في أوباري",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/100087180566061/videos/1681193219653782/"
+  },
+  {
+    "text": "مواطن من مدينة #أوباري يتحدث بحرقة متعجباً من ارتفاع سعر المياه التي بلغت الخمس دنانير لقنينة 7 لتر",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/sefrly/videos/1936503043682965/"
+  },
+  {
+    "text": "مواطن يوثق ارتفاع سعر عبوة الماء ذات الـ 7 لتر إلى 4 دينار للواحدة",
+    "expected": "drinking_water_7l",
+    "source": "https://www.instagram.com/reel/DbVp3JoFYZ7/"
+  },
+  {
+    "text": "ارتفاع سعر عبوة المياه سعة 7 لترات إلى 4 دنانير مقابل دينارين اثنين في عدد من المحال",
+    "expected": "drinking_water_7l",
+    "source": "https://www.instagram.com/p/DbY9vR3oNcB/"
+  },
+  {
+    "text": "نشرو بانقه ماء 7 لتر بزوز دينار",
+    "expected": "drinking_water_7l",
+    "source": "https://www.facebook.com/groups/1282208018949983/posts/2391233281380779/"
+  },
+  {
+    "text": "أحد المواطنين يستنكر ارتفاع سعر مياه الشرب وبلوغها 4 دينار للقنينة الواحدة",
+    "expected": null,
+    "source": "https://www.facebook.com/laamplus/videos/27903956415894584/"
+  },
+  {
+    "text": "مواطن من أوباري: \"خمسة دنانير لقنينة المياه\".. استغلال",
+    "expected": null,
+    "source": "https://www.facebook.com/sefrly/videos/1759232588430838/"
+  },
+  {
+    "text": "استقر سعر دستة الماء المكونة من \"12 عبوة\" بسعة \"نصف لتر\" عند 7 دنانير",
+    "expected": null,
+    "source": "https://www.facebook.com/almasartv.ly/posts/1028617203501885/"
+  },
+  {
+    "text": "بلغ سعر عبوة المياه سعة نصف لتر 0.750 دينار في محال السلع الغذائية",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/134313"
+  },
+  {
+    "text": "قفز سعر دستة مياه الشرب سعة نصف لتر للعبوة بنسبة 20% من 3.400 دنانير إلى 4.100 دنانير",
+    "expected": null,
+    "source": "https://libyaalahrar.tv/2026/04/03/%d8%a3%d8%b3%d8%b9%d8%a7%d8%b1-%d9%85%d9%8a%d8%a7%d9%87-%d8%a7%d9%84%d8%b4%d8%b1%d8%a8-%d8%aa%d8%b4%d8%aa%d8%b9%d9%84-%d9%85%d8%a7-%d9%87%d9%8a-%d8%a7%d9%84%d8%a3%d8%b3%d8%a8%d8%a7%d8%a8/"
+  },
+  {
+    "text": "مياه تركية المنشأ تتوفر في السوق بعبوات سعة 0.5 لتر وبسعر لا يتجاوز 3 دنانير للدستة الكاملة",
+    "expected": null,
+    "source": "https://libyaalahrar.tv/2026/04/03/%d8%a3%d8%b3%d8%b9%d8%a7%d8%b1-%d9%85%d9%8a%d8%a7%d9%87-%d8%a7%d9%84%d8%b4%d8%b1%d8%a8-%d8%aa%d8%b4%d8%aa%d8%b9%d9%84-%d9%85%d8%a7-%d9%87%d9%8a-%d8%a7%d9%84%d8%a3%d8%b3%d8%a8%d8%a7%d8%a8/"
+  },
+  {
+    "text": "تُباع دستة المياه الصغيرة بـ8 دنانير في #طرابلس و7 دنانير في #بنغازي",
+    "expected": null,
+    "source": "https://www.facebook.com/61577432563728/videos/840629702467002/"
+  },
+  {
+    "text": "شهدت أسعار مياه الشرب في ليبيا ارتفاعًا ملحوظًا خلال الأسابيع الأخيرة",
+    "expected": null,
+    "source": "https://www.facebook.com/libya3f/posts/1479579440501243/"
+  },
+  {
+    "text": "بانقة ماء بلحنفية 10دينار",
+    "expected": null,
+    "source": "https://m.facebook.com/Daar.ALnazaka/photos/a.100259548017502/308353110541477/"
+  },
+  {
+    "text": "خط تعبئه مياه الشرب حجم 5 -7 لتر بسعر انتاجيه 2000 بانقه بالساعه",
+    "expected": null,
+    "source": "https://www.facebook.com/libyancommercialbroker/videos/955227084908117/"
+  },
+  {
+    "text": "خط تعبئة المياه المعدنية ، حجم عبوه 300 ملي / 500 ملي / 1.5 لتر ، القدرة الانتاجية 81000 الف عبوه بالساعة",
+    "expected": null,
+    "source": "https://www.facebook.com/libyancommercialbroker/videos/1071275434092097/"
+  },
+  {
+    "text": "فرشاة تنظيف قارورة الماء عدد ( 3 ) بسعر ( 55 ) دينار",
+    "expected": null,
+    "source": "https://www.instagram.com/offersbakers.libya/reel/DcL2HvvgEG8/"
+  },
+  {
+    "text": "مضخة مياه الشرب كهربائية: زر واحد، LED، شحن USB، أنبوب ستانلس، سيليكون BPA free. تناسب عبوات 2–5 جالون. 185 د.ل",
+    "expected": null,
+    "source": "https://www.matjar-libya.com/products/madkhat-miyah-al-shurb-kahraba-iy"
+  },
+  {
+    "text": "حُدد سعر صهاريج المياه سعة 55 إلى 60 برميل (خزان بسعة 12,000 لتر) بقيمة 85 دينارًا",
+    "expected": null,
+    "source": "https://www.facebook.com/100088168586308/posts/921482024134075/"
+  },
+  {
+    "text": "بلدية طبرق تعتمد أسعار بيع مياه الشرب .. وصل سعر الخزان إلى 120 و140 دينارا",
+    "expected": null,
+    "source": "https://alwasat.ly/news/libya/512568"
+  },
+  {
+    "text": "تواصل أزمة مياه الشرب في #طبرق وارتفاع أسعار مياه الصهاريج",
+    "expected": null,
+    "source": "https://www.facebook.com/AlMasarTV/videos/1042654368289036/"
+  },
+  {
+    "text": "الأسطوانة بوزن 11 كيلو جرام: 1.50 دينار.",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/brega.company.bmc/posts/798662992457067/"
+  },
+  {
+    "text": "سعر تعبئة الأسطوانة ذات الوزن 11 كيلوجرامًا يبلغ 1.5 دينار ليبي",
+    "expected": "cooking_gas_11kg",
+    "source": "https://almashhadlibya.com/economic-news/109154"
+  },
+  {
+    "text": "شركة البريقة لتسويق النفط تعلن فتح باب الحجز المبدئي لأسطوانات الغاز المنزلي 11 كجم لجميع مناطق ليبيا",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/100079624207223/videos/1478416269815976/"
+  },
+  {
+    "text": "سعر أسطوانة الغاز الزرقاء، حجم 15 كجم (( 2 )) دينار ليبي",
+    "expected": null,
+    "source": "https://www.facebook.com/brega.company.bmc/posts/885625983760767/"
+  },
+  {
+    "text": "الأسطوانة بوزن 15 كيلو جرام: 2.00 دينار.",
+    "expected": null,
+    "source": "https://www.facebook.com/brega.company.bmc/posts/798662992457067/"
+  },
+  {
+    "text": "ارتفاع سعر الأسطوانة في السوق السوداء إلى ما بين 70 و120 ديناراً",
+    "expected": "cooking_gas_11kg",
+    "source": "https://almashhadlibya.com/economic-news/117520"
+  },
+  {
+    "text": "سعر الأسطوانة بين 70 و90 دينارًا في السوق السوداء .. أزمة أسطوانات الغاز تعاني منها أغلب مدن الجنوب",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.facebook.com/network.salam/videos/483089992408372/"
+  },
+  {
+    "text": "ارتفاع سعر أسطوانة الغاز إلى 80 دينار واستمرار أزمة غاز الطهي .. تشهد مدينة درنة استمرار أزمة غاز الطهي",
+    "expected": "cooking_gas_11kg",
+    "source": "https://www.instagram.com/p/DT76pjADa7S/"
+  },
+  {
+    "text": "خبير نفطي: أسطوانة الغاز بـ900 دينار في السوق السوداء.. لماذا لا نصنعها في ليبيا؟",
+    "expected": null,
+    "source": "https://alwasat.ly/news/libya/486353"
+  },
+  {
+    "text": "حددت الشركة قيمة الضمان المالي للأسطوانة بـ 240 دينارًا ليبيًا. هذا المبلغ لا يُعتبر سعر بيع، بل هو تأمين يُسترد بالكامل عند إعادة الأسطوانة",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/120393"
+  },
+  {
+    "text": "الدبيبة يقرّ رفع سعر ضمان أسطوانة الغاز من 50 إلى 240 دينارًا قبل أيام من العيد",
+    "expected": null,
+    "source": "https://www.facebook.com/libya24tv/posts/1134571548710165/"
+  },
+  {
+    "text": "المفروض علي شركة البريقة استيرد كمية كبيرة من الخارج واستيرد أسطوانة الفايبر",
+    "expected": null,
+    "source": "https://www.facebook.com/almashhadlibya/posts/1563985021726968/"
+  },
+  {
+    "text": "توزيع أسطوانات غاز الطهي عبر نقاط التعبئة الفورية ونقاط البيع المباشر",
+    "expected": null,
+    "source": "https://www.facebook.com/brega.company.bmc/videos/1735462464568021/"
+  },
+  {
+    "text": "الحرس البلدي في طبرق: سعر أسطوانة غاز الطهي ديناران فقط",
+    "expected": null,
+    "source": "https://alwasat.ly/news/libya/238205"
+  },
+  {
+    "text": "طماطم بلدنا(12 علبة)",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+  },
+  {
+    "text": "طماطم الاميرة(24 علبة)",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+  },
+  {
+    "text": "طماطم باكنا(12 علبة)",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+  },
+  {
+    "text": "طماطم الجيد خديناه امس ب 21 ونص",
+    "expected": null,
+    "source": "https://www.facebook.com/mo3adhamza50/posts/1531013963734660/"
+  },
+  {
+    "text": "طماطم_الجيد_أقل_سعر",
+    "expected": null,
+    "source": "https://www.facebook.com/100063348391449/videos/805131525731721/"
+  },
+  {
+    "text": "معجون طماطم الجيد",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/AljaiedCompany/videos/425498095387081/"
+  },
+  {
+    "text": "ملعقة وحدة من معجون طماطم #لمتنا تغير طعم الطبخة",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/Alasga1/photos/1190715516423975/"
+  },
+  {
+    "text": "سعر القطعة 2.50 دينار سعر الدسته 30 دينار",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/Alasga1/photos/1190715516423975/"
+  },
+  {
+    "text": "كرتونة (صندوق معجون الطماطم) المكونة من 24 علبة سعة 400 غرام",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/AlMasarTV/posts/847526114898855/"
+  },
+  {
+    "text": "معجون الطماطم متوفر الآن بسعر مميز بسعر 2.50 دينار للقطعة فقط سعر ستيكة 29دينار",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/61572941883869/posts/122210291486764729/"
+  },
+  {
+    "text": "معجون عزيز معجون طماطم بنكهة أصلية قوطية بوزن 800 غم",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.instagram.com/p/DYCJgVTDB0N/"
+  },
+  {
+    "text": "سعر الكارتون 12 قوطية",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.instagram.com/p/DYCJgVTDB0N/"
+  },
+  {
+    "text": "صلصة طماطم أرابيلا جودة مميزة وتركيز عالٍ 28–30% العبوة الصغيرة المميزة 70 غم",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/delicianaturelle/videos/1097828935051240/"
+  },
+  {
+    "text": "معجون طماطم التون سا، المحضّر من طماطم موسمية طازجة",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/delicianaturelle/videos/1097828935051240/"
+  },
+  {
+    "text": "معجون طماطم البستان نوعية محلية جديدة",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.instagram.com/p/DWwSwoijD6O/"
+  },
+  {
+    "text": "علبة صلصة. او علبة ونص من الصلصة اللي هي معجون صلصة الطماطم",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.tiktok.com/@at_food_/video/7652037288054033685"
+  },
+  {
+    "text": "معجون طماطم (صلصة)",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.instagram.com/reel/DZfy6R3E_KN/"
+  },
+  {
+    "text": "عبوة معجون الطماطم",
+    "expected": "tomato_paste_400g",
+    "source": "https://alwasat.ly/news/libya/522303"
+  },
+  {
+    "text": "ستيكة طماطم حكة",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/100092466742433/videos/826306386644450/"
+  },
+  {
+    "text": "معجون طماطم Jana Rosa",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.instagram.com/p/DTaZ66RDKTa/"
+  },
+  {
+    "text": "مصنوعة وفق معايير ايطالية مع اختيار طماطم ذات جودة عالية لانتاج معجون",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/1964altaliea/videos/1315250017347397/"
+  },
+  {
+    "text": "طماطم غـالـيـة إطالي",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/groups/378229769816177/posts/1259454935026985/"
+  },
+  {
+    "text": "طماطم #غاليه من المعمورة لاستيراد المواد الغذائية و المواشي واللحوم",
+    "expected": null,
+    "source": "https://www.facebook.com/1964altaliea/videos/1315250017347397/"
+  },
+  {
+    "text": "طماطم غالية الغني عن التعريف مـتـوفـر الان",
+    "expected": null,
+    "source": "https://www.facebook.com/alhaya.mall.libya/posts/1118458653650677/"
+  },
+  {
+    "text": "مراحل تصنيع طماطم غالية",
+    "expected": null,
+    "source": "https://www.facebook.com/100093045900445/videos/1093024695516906/"
+  },
+  {
+    "text": "طماطم #غالية الراعي الرسمي لأغلب اصناف شهر رمضان",
+    "expected": null,
+    "source": "https://www.facebook.com/100057627512210/videos/391529916848905/"
+  },
+  {
+    "text": "كلنا نحبوه يكون طعمه غني ولونه متناسق والأهم الجودة اللي ما نتهاونوش فيها مع طماطم #غالية",
+    "expected": null,
+    "source": "https://www.facebook.com/Almamoura.Co/posts/1460843976043572/"
+  },
+  {
+    "text": "طماطم السلدور طماطم الرقم 1 في سوق الليبي",
+    "expected": null,
+    "source": "https://www.facebook.com/100063510251256/videos/1501000424766422/"
+  },
+  {
+    "text": "طماط No.1 .. الجودة المضمونة لطبخاتك اللذيذة",
+    "expected": null,
+    "source": "https://www.facebook.com/100063762083935/videos/1233791772206172/"
+  },
+  {
+    "text": "طماطم أصيل أصل الطعم وملك النكهة في كل وصفة",
+    "expected": null,
+    "source": "https://www.instagram.com/p/DPB3DcrjGaT/"
+  },
+  {
+    "text": "طماطم نابولي 400 جرام",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.instagram.com/p/DPB3DcrjGaT/"
+  },
+  {
+    "text": "تشكيلة معجون طماطم بسعر يا بلاش في صالة عرض #الحور_مول_للتسوق",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/61552625224954/videos/1519080686220789/"
+  },
+  {
+    "text": "قريباً مصنع معجون طماطم",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/Aseel.Group218/posts/200935586029502/"
+  },
+  {
+    "text": "8575 صندوقًا من معجون الطماطم منتهي الصلاحية",
+    "expected": "tomato_paste_400g",
+    "source": "https://www.facebook.com/LibyaAlhadathLive/videos/1200706225517480/"
+  },
+  {
+    "text": "طماطم (درجة ثانية) | 1 كيلو جرام",
+    "expected": "tomatoes_1kg",
+    "source": "https://almashhadlibya.com/economic-news/131520"
+  },
+  {
+    "text": "كيلو طماطم 2 دينار",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/100044423415139/posts/2557908317801358/"
+  },
+  {
+    "text": "قابية الطماطم هادي فيها خمسة وعشرين كيلو الى ثمانية وعشرين كيلو",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/61576557455308/videos/2739595233083217/"
+  },
+  {
+    "text": "25 كيلو طماطم بي 10 دينار بس طماطم ليبي من جالو",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/61576557455308/videos/2739595233083217/"
+  },
+  {
+    "text": "قابيه طماطم 10.00 فقط",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/100069790010518/posts/1095712672765056/"
+  },
+  {
+    "text": "طماطم جالو الحبه المتوسطه القابيه فيها 10 كيلو اب 10 دينار فقط",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/groups/Shopping.in.Libya/posts/9151582191552112/"
+  },
+  {
+    "text": "حبة طماطم بسعر دينار وربع",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/61581294091161/videos/2484469161983741/"
+  },
+  {
+    "text": "قابية الطماطم 100 دينار",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/100087581342958/videos/3201252453392280/"
+  },
+  {
+    "text": "كيلو الطماطم ضيف ثقيل على مائدة الليبيين",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/LibyaAlAhrarTV/videos/943166915376381/"
+  },
+  {
+    "text": "وكيلو الطماطم نبيعو فيه بخمسة دينار",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/MorningLibya/videos/764170046338842/"
+  },
+  {
+    "text": "تاجر في طبرق يبيع الطماطم الدرناوي بـ50 قرشًا للكيلو",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.instagram.com/reel/DbxigeDEjH6/"
+  },
+  {
+    "text": "وهادي الطماطم قدامك. تبيع خمسة وعشرين كيلو",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/municipalguard/videos/1607840053836305/"
+  },
+  {
+    "text": "شن أسعار الطماطم في منطقتك؟",
+    "expected": "tomatoes_1kg",
+    "source": "https://www.facebook.com/LibyaAlAhrarTV/videos/924756983626244/"
+  },
+  {
+    "text": "هريسة الرضا صناعة ليبية بالكامل و يستعملوا في الفلفل من المزارع الليبية",
+    "expected": "harissa_can",
+    "source": "https://www.facebook.com/100070142256724/posts/874744601540274/"
+  },
+  {
+    "text": "هريسه وطنيه 10, دينار فقط",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/Shopping.in.Libya/posts/25240025405614534/"
+  },
+  {
+    "text": "الهريسة الليبية هي صلصة حارة شهيرة تُحضّر أساسًا من الفلفل الأحمر الحار والثوم والتوابل وزيت الزيتون",
+    "expected": null,
+    "source": "https://www.facebook.com/chefhananelalem/videos/1033561609507395/"
+  },
+  {
+    "text": "هريسة ماركة كوجينا علبة صغيرة",
+    "expected": "harissa_can",
+    "source": "https://www.facebook.com/100058088589845/posts/802697841676495/"
+  },
+  {
+    "text": "هريسة 5 دنانير كوسا 2 دينار دلاع وطني 5 دنانير باذنجان 3.5 دنانير",
+    "expected": null,
+    "source": "https://www.instagram.com/reel/DaLlan0sARx/"
+  },
+  {
+    "text": "الهريسه على الطريقه الليبيه المقادير ١ كيلو فلفل احمر حار ١٠ فصوص ثوم ٤ م.ك زيت زيتون",
+    "expected": null,
+    "source": "https://www.instagram.com/reel/DWyPVfIDd2W/"
+  },
+  {
+    "text": "الهريسة الليبية -بطريقة احترافية -هريسة عربية-دبس الفليفلة -شطة",
+    "expected": null,
+    "source": "https://www.youtube.com/watch?v=51fSKJzdQOY"
+  },
+  {
+    "text": "هريسة من الصفر وبأبسط طريقة ... بتغنيكم عن الجاهز وما في داعي تشتروها بعد اليوم",
+    "expected": null,
+    "source": "https://www.facebook.com/royakitchen/videos/1361512955569799/"
+  },
+  {
+    "text": "الإقبال تاريخي علي هريسة المنجد ... كعك معاني... حلبة... كريزة",
+    "expected": null,
+    "source": "https://www.facebook.com/HlwyatAlmnjd/videos/736997109017897/"
+  },
+  {
+    "text": "كاتشب الطماطم ليبي 760 ج",
+    "expected": null,
+    "source": "https://leramarkets.com/en/lPVGnW"
+  },
+  {
+    "text": "ليبي كاتشب طماطم 580 جم",
+    "expected": null,
+    "source": "https://mvc-fresh.com/en/p1008046465"
+  },
+  {
+    "text": "كاتشب طماطم ضغاط ليبي 350جم",
+    "expected": null,
+    "source": "https://beatalmostahlik.net/product/10980-libs-tomato-ketchup-squeeze-350g"
+  },
+  {
+    "text": "صلصة الطماطم وصلصة البيتزا \"إزدهار\" متوفرتان الآن في ميغا مول",
+    "expected": null,
+    "source": "https://www.instagram.com/p/DWwSwoijD6O/"
+  },
+  {
+    "text": "صلصة الثوم مايونيز بصفار البيض",
+    "expected": null,
+    "source": "https://www.instagram.com/p/DTaZ66RDKTa/"
+  },
+  {
+    "text": "صلصة Agromonte: طعم طماطم \"الكرز\"",
+    "expected": null,
+    "source": "https://www.instagram.com/reel/DZcbVmBFFYP/"
+  },
+  {
+    "text": "عصير طماطم فريش",
+    "expected": null,
+    "source": "https://www.instagram.com/reel/DZfy6R3E_KN/"
+  },
+  {
+    "text": "طماطم مجففة",
+    "expected": null,
+    "source": "https://www.tiktok.com/@asmaasoma9517/video/7388459265645661458"
+  },
+  {
+    "text": "معجون طماطم أسْبَق | ASBAGH ... 400 غرام التعبئة: 16 عبوة / كرتون",
+    "expected": null,
+    "source": "https://www.facebook.com/amyr.jabry.nzhad/videos/1595033681978882/"
+  },
+  {
+    "text": "طماطم الموسم ALMAWSEM F1 متوفر لدي الموسم الذهبي للاستثمار الزراعي وبيع البذور",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1103869239636161/"
+  },
+  {
+    "text": "فلفل حار صنف كينار KENAR F1 باعلي المواصفات الانتاجية والتسويقية",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1103869239636161/"
+  },
+  {
+    "text": "بصل (درجة أولى) | 1 كيلو جرام | 3.5 دل",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131520"
+  },
+  {
+    "text": "بطاطا (درجة أولى) | 1 كيلو جرام | 5 دل",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131520"
+  },
+  {
+    "text": "فلفل أحمر (درجة أولى) | 1 كيلو جرام | 10 دل",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131520"
+  },
+  {
+    "text": "فلفل أخضر حار (درجة أولى) | 1 كيلو جرام | 8 دل",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131520"
+  },
+  {
+    "text": "فلفل حلو (درجة أولى) | 1 كيلو جرام | 8 دل",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131520"
+  },
+  {
+    "text": "باذنجان | 1 كيلو جرام | 8 دل",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131520"
+  },
+  {
+    "text": "كوسا | 1 كيلو جرام | 8 دل",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131520"
+  },
+  {
+    "text": "خيار | 1 كيلو جرام | 7 دل",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131520"
+  },
+  {
+    "text": "الطماطم غاليه في كل مكان في العالم",
+    "expected": null,
+    "source": "https://www.facebook.com/abaadnews/videos/1415663976489327/"
+  },
+  {
+    "text": "حتى مصر طماطم غاليه",
+    "expected": null,
+    "source": "https://www.facebook.com/61568608010444/videos/4693589590912282/"
+  },
+  {
+    "text": "حبيبي الطماطم غالية في العالم كلو عندنا بمصر تنباع تقسيط",
+    "expected": null,
+    "source": "https://www.facebook.com/61575926295984/videos/2154077112008178/"
+  },
+  {
+    "text": "دقيق ليبي فاخر شكارة ( 50 كيلو و 25 كيلو ) بسعر فرصة",
+    "expected": null,
+    "source": "https://www.facebook.com/100077434014556/videos/984892417487837/"
+  },
+  {
+    "text": "لحقوو ع شكارة دقيق القمح فاخر وصل عندنا ( 50 كيلو، 25 كيلو ) بسعر",
+    "expected": null,
+    "source": "https://www.facebook.com/100077434014556/videos/984892417487837/"
+  },
+  {
+    "text": "لحقووو ع شكارة دقيق الصفوة فارينة 5 كيلو عندنا الان متوفرة بسعر كزيوووني الشكارة",
+    "expected": null,
+    "source": "https://www.facebook.com/100092466742433/videos/1383291840139229/"
+  },
+  {
+    "text": "شكارة دقيق الفاخر 5 كيلو وصلت عندنا بكل انواعها و بسعر كزيووو",
+    "expected": null,
+    "source": "https://www.facebook.com/100092466742433/videos/1557606729427826/"
+  },
+  {
+    "text": "دقيق النخبة فارينة حجم 5 كيلو وبسعر يابلاش",
+    "expected": null,
+    "source": "https://www.facebook.com/100092466742433/videos/1557606729427826/"
+  },
+  {
+    "text": "دقيق الزهرة 1 كيلو سعر الاستيكة 21 دينار",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/sooqmoner/posts/948879783932834/"
+  },
+  {
+    "text": "سعر جملة الجملة - 25 فقط. ملاحظة :- اقل كمية لجملة الجملة 50 دستة",
+    "expected": null,
+    "source": "https://www.facebook.com/61572272370869/videos/27509166612076757/"
+  },
+  {
+    "text": "دقيق 1 كيلو سعر القطعه1.00 دينار سعر الاستيكة 7.50 دينار",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/AltarhouniSonsMarket/posts/313218529043504/"
+  },
+  {
+    "text": "متوفر الآن دقيق وادي الربيع - دقيق 1 كيلو بسعر ... 3,250دينار",
+    "expected": "wheat_flour_1kg",
+    "source": "https://www.facebook.com/AlosraForShopping/posts/1151655065588788/"
+  },
+  {
+    "text": "دقيق 5 كيلو بسعر ...15,750دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/AlosraForShopping/posts/1151655065588788/"
+  },
+  {
+    "text": "دقيق 25كيلو بسعر ... 74,00دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/AlosraForShopping/posts/1151655065588788/"
+  },
+  {
+    "text": "دقيق الوسام الذهبي – الأفضل للمخابز المحترفة - قوام مثالي – نكهة غنية – نتائج متقنة 25 كجم | 50 كجم للخبز ، والكيكات، والبيتزا، والمعجنات",
+    "expected": null,
+    "source": "https://www.facebook.com/alwesamaldahby/photos/1084598667156887/"
+  },
+  {
+    "text": "شاهد| مدون ينتقد ارتفاع سعر قنطار الدقيق من 220 إلى 270 دينار دون وجود أسباب حقيقية للارتفاع",
+    "expected": null,
+    "source": "https://www.facebook.com/100087180566061/posts/1052448161004526/"
+  },
+  {
+    "text": "فمعقولة قنطار دقيق اه يزيد خمسين دينار. هاي شكارة الخمسة وعشرين كيلو اليوم متكلفة بخمسة وستين دينار الفاخر. والداخلية ممكن اه على سبعة وستين ونص",
+    "expected": null,
+    "source": "https://www.facebook.com/61581294091161/videos/1843335696652631/"
+  },
+  {
+    "text": "صدر اليوم قرار الأسعار في السلع الأساسية من وزارة الإقتصاد والتجارة 1 : دقيق قنطار 190 دينار 2 : دقيق كيلو 2 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/100068686614938/posts/143315418025545/"
+  },
+  {
+    "text": "دقيق المخابز (الناعم) - قنطار واحد",
+    "expected": null,
+    "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+  },
+  {
+    "text": "دقيق الأغراض المنزلية (السميد) - كيلو جرام",
+    "expected": null,
+    "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+  },
+  {
+    "text": "دقيق الأغراض المنزلية الفاخر - 1 كيلو جرام",
+    "expected": "wheat_flour_1kg",
+    "source": "https://almashhadlibya.com/economic-news/131524"
+  },
+  {
+    "text": "دقيق الأغراض المنزلية الريحان - 1 كيلو جرام",
+    "expected": "wheat_flour_1kg",
+    "source": "https://almashhadlibya.com/economic-news/131524"
+  },
+  {
+    "text": "جماعة بازين ليكم المنشور دقيق شعير العربي صنع ليبي",
+    "expected": null,
+    "source": "https://www.facebook.com/100027313525952/videos/1510341460791987/"
+  },
+  {
+    "text": "متوفر حاليا :- توست، دقيق 5 كيلو خالي من الجلوتين، دقيق 1 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/100064392300498/posts/236693394920026/"
+  },
+  {
+    "text": "باكوا دقيق ب3 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/181405942268392/posts/4227944927614453/"
+  },
+  {
+    "text": "كيلوا سميد ب7 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/181405942268392/posts/4227944927614453/"
+  },
+  {
+    "text": "ستيك دقيف فرينا 9دينار فقط",
+    "expected": null,
+    "source": "https://www.facebook.com/100066945967325/posts/1820463211399776/"
+  },
+  {
+    "text": "ضياف ربي محتاجة تعونوني يلوكان بشكارة فرينة",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/2079005785595157/posts/3284164768412580/"
+  },
+  {
+    "text": "وشكارة سكر وشكارة دقيق وشكارة سميد",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1091846084724641/posts/1790700414839201/"
+  },
+  {
+    "text": "شكاره سميد زمان",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/601183754497066/posts/1641787690436662/"
+  },
+  {
+    "text": "يوجد100 شكارة دقيق فاضيات للبيع في مصراتھ سعر الشكارة الواحدة 75 قرش",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1841603272534248/posts/26562779653323267/"
+  },
+  {
+    "text": "شكارة خبزة مكسرة ونظيفة المكان الخمس السعر 25 غير قابل للنقاش",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/528371055979058/posts/1502017515281069/"
+  },
+  {
+    "text": "انخفاض سعر السكر كيس سكر 50 كيلوا ب 75 دينار فقط لاغير",
+    "expected": null,
+    "source": "https://www.facebook.com/100044423415139/posts/2165444517047742/"
+  },
+  {
+    "text": "كم سعر الجملة لكيس السكر 50 كيلوجرام",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/492048685604276/posts/1581450763330724/"
+  },
+  {
+    "text": "كم سعر جملة كيس السكر 50 كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1290434174725324/posts/2523382414763821/"
+  },
+  {
+    "text": "سكر باريز وزن : 50 كغم سكر أبيض فاخر مصنوع من قصب السكر الطبيعي",
+    "expected": null,
+    "source": "https://www.facebook.com/homyfordistribution/photos/203970192133698/"
+  },
+  {
+    "text": "هناك نوعين من أنواع أكياس السكر ، بولتين والجوت. الجوت اللي نفسها شكارة الخيش ،،، والبولتين الشكارة المعّتادة البيضاء، والإثنين 50Kg",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/684533221925765/posts/2461658614213208/"
+  },
+  {
+    "text": "سكر الخليج 1كيلو سعر الاستيكة ... 28.00 د.ل",
+    "expected": "sugar_1kg",
+    "source": "https://www.facebook.com/AltarhouniSonsMarket/posts/540843369614351/"
+  },
+  {
+    "text": "سكر 1 كيلو السعر 2.750 دينار الدستة 27.50 دينار",
+    "expected": "sugar_1kg",
+    "source": "https://www.facebook.com/AltarhouniSonsMarket/posts/540843369614351/"
+  },
+  {
+    "text": "سكر كيلو 2.75 سعر الإستيكة27 دينار",
+    "expected": "sugar_1kg",
+    "source": "https://www.facebook.com/100064038490274/posts/520343832222511/"
+  },
+  {
+    "text": "سعر سكر 1.50 للكيلو",
+    "expected": "sugar_1kg",
+    "source": "https://www.facebook.com/AltarhouniSonsMarket/photos/286021501763207/"
+  },
+  {
+    "text": "سكر الكيلو ب 4 وال5 كيلو ب 20 فقط",
+    "expected": null,
+    "source": "https://www.facebook.com/abdulla.kufra/posts/8782602045128003/"
+  },
+  {
+    "text": "سكر الشهد ال 3 أكياس ب 10 دل الاستيكا ب 33 دل",
+    "expected": null,
+    "source": "https://www.facebook.com/SNALR0926619233/videos/1552292036040682/"
+  },
+  {
+    "text": "سكر محلي - كيلو جرام / سكر مستورد - كيلو جرام",
+    "expected": "sugar_1kg",
+    "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+  },
+  {
+    "text": "كيلو سكر 250 درهم (0.25 دينار)",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/450209864484437/posts/1038419188996832/"
+  },
+  {
+    "text": "أرز الحبة القصيرة الصحى - 1 كيلو جرام",
+    "expected": "rice_1kg",
+    "source": "https://almashhadlibya.com/economic-news/131524"
+  },
+  {
+    "text": "ارز ابو البنات حبه طويله أمريكى الكيلو ب 8.50 دل",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/SNALR0926619233/videos/1552292036040682/"
+  },
+  {
+    "text": "تخفيض أرز النوران حبه مكركبه 1 كيلو توا وقته للعصبان سعر الكيلو 3 دينار سعر الاستيكا 29 دل",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/SNALR0926619233/videos/399327785505046/"
+  },
+  {
+    "text": "رز شوال النوران الوزن 20 كيلو السعر اقل سعر في ليبيا ب 100 دينار فقط يابلاش",
+    "expected": null,
+    "source": "https://www.facebook.com/100066269989918/videos/479009978564602/"
+  },
+  {
+    "text": "عندي شكارة رز السنبلة الذهبية حبة طويلة 25كيلو",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/285994986317297/posts/1466267358290048/"
+  },
+  {
+    "text": "لحقووو ع شكارة رز الخليج 5 كيلو بسعر كزيوووني",
+    "expected": null,
+    "source": "https://www.facebook.com/61565829187313/videos/1527390622421355/"
+  },
+  {
+    "text": "لحقوووو ع رز الامير الليبية حبة قصيرة بسعر كزيووووني عندنا متوفر",
+    "expected": null,
+    "source": "https://www.facebook.com/61565829187313/videos/1527390622421355/"
+  },
+  {
+    "text": "كيس الرز 25 كيلو كم سعره",
+    "expected": null,
+    "source": "https://www.facebook.com/mo3adhamza50/posts/622680250090912/"
+  },
+  {
+    "text": "اليوم خذيت نص استيكة ب12 شكارة رز كيلو ب10 حكية تن ب10",
+    "expected": null,
+    "source": "https://www.facebook.com/100083129442103/posts/900841202696853/"
+  },
+  {
+    "text": "حكة التن متفوتش 7.50 اغلى نوع وكيس الرز والله مهو فايت 6.50",
+    "expected": null,
+    "source": "https://www.facebook.com/100083129442103/posts/900841202696853/"
+  },
+  {
+    "text": "هل تعلم اخي المواطن انّا شكارة الرز اللي كانت ب 4 دينار حاليا ب 37 دينار وشكارة الدقيق 50 كيلو اللي كانت ب 5 دينار حاليا 45 دينار وباكو",
+    "expected": null,
+    "source": "https://www.facebook.com/Teachersinlibaya/posts/1067180029989667/"
+  },
+  {
+    "text": "فحم ليبي شكاره كبيره نفس شكارة الرز الوزن 7كيلو سعر جمله 26دينار المكان طبرق",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1658616244219410/posts/9802843256463294/"
+  },
+  {
+    "text": "ارز السيفين حبة طويلة",
+    "expected": null,
+    "source": "https://www.facebook.com/100063532953804/mentions/"
+  },
+  {
+    "text": "كيلو رز 5",
+    "expected": "rice_1kg",
+    "source": "https://www.facebook.com/61578553042312/videos/1535759698296593/"
+  },
+  {
+    "text": "أرز محلي - 400 جرام / أرز مستورد - 400 جرام",
+    "expected": null,
+    "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+  },
+  {
+    "text": "كسكسي ليبي للبيع خدمة مصنع نظيفه سعر الكيلو 4 دينار العنوان طرابلس",
+    "expected": "couscous_1kg",
+    "source": "https://www.facebook.com/groups/257760978875021/posts/1333098611341247/"
+  },
+  {
+    "text": "كسكسي دراري / مبروشة (كيلو): 9.50 د.ل",
+    "expected": "couscous_1kg",
+    "source": "https://www.facebook.com/photo.php?fbid=122162147708923246&set=a.122093031380923246&type=3"
+  },
+  {
+    "text": "بفضل من الله وصول كمية جديده من الكسكسي التونسي السنبلة الذهبيه خشن عبوة 12 كيلو الي مخزن الشركة",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/479628305757295/posts/2390785141308259/"
+  },
+  {
+    "text": "كسكسي الأميرة - 1 كيلو جرام",
+    "expected": "couscous_1kg",
+    "source": "https://almashhadlibya.com/economic-news/131524"
+  },
+  {
+    "text": "كسكسي الوردة البيضاء - 1 كيلو جرام",
+    "expected": "couscous_1kg",
+    "source": "https://almashhadlibya.com/economic-news/131524"
+  },
+  {
+    "text": "كسكسي دياري - 1 كيلو جرام",
+    "expected": "couscous_1kg",
+    "source": "https://almashhadlibya.com/economic-news/131524"
+  },
+  {
+    "text": "كسكسي دراكو - كيلو جرام",
+    "expected": "couscous_1kg",
+    "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+  },
+  {
+    "text": "كسكسي محلي - 400 جرام",
+    "expected": null,
+    "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+  },
+  {
+    "text": "كسكسي مستورد - 500 جرام",
+    "expected": null,
+    "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+  },
+  {
+    "text": "كسكسي لمتنا سعر القطعة 5 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/100063532953804/mentions/"
+  },
+  {
+    "text": "الناس يلي تسال على منيو الأسعار كسكسي لحم قعود 30 دينار كسكسي دجاجً وطني 20 دينار رز لحم قعود 30 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/61552909350294/posts/122247303644096978/"
+  },
+  {
+    "text": "الإعلان عن انظمام الكسكسي الليبي في اليونسكو للتراث الغير مادي",
+    "expected": null,
+    "source": "https://www.facebook.com/AbduFood/videos/1189420056439820/"
+  },
+  {
+    "text": "مكرونة الفضة - 400 جرام",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131524"
+  },
+  {
+    "text": "مكرونة الوردة البيضاء - 400 جرام",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131524"
+  },
+  {
+    "text": "مكرونة سبيقا - 400 جرام",
+    "expected": null,
+    "source": "https://almashhadlibya.com/economic-news/131524"
+  },
+  {
+    "text": "مكرونة محلية (سباغيتي) - 400 جرام",
+    "expected": null,
+    "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+  },
+  {
+    "text": "مكرونة محلية (لوبيا) - 400 جرام",
+    "expected": null,
+    "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+  },
+  {
+    "text": "مكرونة مستوردة - 400 جرام",
+    "expected": null,
+    "source": "https://www.libyaakhbar.com/business-news/2739864.html"
+  },
+  {
+    "text": "كرتونة مكرونة فرحه 32 كرتونة شعيرية نوبو 50",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/294183881724819/posts/1749207772889082/"
+  },
+  {
+    "text": "استيكه مكرونه ليبيا",
+    "expected": null,
+    "source": "https://www.facebook.com/100066945967325/posts/1820463211399776/"
+  },
+  {
+    "text": "كيلو مكرونه 1.5 سبيقا ارز 1.75 مبروك و الأسرة كيلو دقيق 0.50 سكر 0.75 كيلو ملح 0.50 طماطم 0.75 زيت 1.5 حكة تن 1.25",
+    "expected": null,
+    "source": "https://www.facebook.com/dokkan.ly/videos/784557976189061/"
+  },
+  {
+    "text": "تقارنو في باكو فيه مقرونة حجمها كبير بمقرونة حجمها صغير",
+    "expected": null,
+    "source": "https://www.facebook.com/100034315701874/posts/1524498158704026/"
+  },
+  {
+    "text": "مفهمتش ليش مش نص كيلو اللي تجي لليبيا",
+    "expected": null,
+    "source": "https://www.facebook.com/100034315701874/posts/1524498158704026/"
+  },
+  {
+    "text": "شاي الزهرة ربع كيلو 5.5",
+    "expected": null,
+    "source": "https://www.facebook.com/100064038490274/posts/520343832222511/"
+  },
+  {
+    "text": "علب بهارات مقاس كيلو يعني تشيل كيلو سكر كيلو دقيق كيلو رز وهكذا",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/1587443218161190/posts/4137746123130874/"
+  },
+  {
+    "text": "بطاطا بلجيكيه سعر الكيس 10 دينار فقط",
+    "expected": null,
+    "source": "https://www.facebook.com/100090724004196/videos/2635651786852341/"
+  },
+  {
+    "text": "طماطم الصفوة سعر الاستيكة 13 دينار طماطم الفلاح سعر الاستيكة 14 دينار",
+    "expected": null,
+    "source": "https://www.facebook.com/100066945967325/"
+  },
+  {
+    "text": "سعر الدسته 60.000 سعر. نص الدسته 30.000",
+    "expected": null,
+    "source": "https://www.facebook.com/groups/382920396979401/posts/1349914770279954/"
+  }
+]
