@@ -63,7 +63,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: api
-        run: composer install --no-interaction --prefer-dist --no-progress
+        run: bash "$GITHUB_WORKSPACE/infra/scripts/retry.sh" 3 composer install --no-interaction --prefer-dist --no-progress
 
       - name: Prepare database extensions
         env:
@@ -88,7 +88,7 @@ jobs:
       - name: Build frontend assets
         working-directory: api
         run: |
-          npm ci
+          bash "$GITHUB_WORKSPACE/infra/scripts/retry.sh" 3 npm ci
           npm run build
 
       # The suite is designed to run without a .env — phpunit.xml carries the
@@ -104,17 +104,14 @@ jobs:
         working-directory: api
         run: touch .env
 
-      - name: Check formatting
-        working-directory: api
-        run: ./vendor/bin/pint --test
-
-      - name: OpenAPI spec is current
-        working-directory: api
-        run: php artisan qeema:openapi --check
-
-      - name: Static analysis
-        working-directory: api
-        run: ./vendor/bin/phpstan analyse --no-progress --error-format=github --memory-limit=1G
+      # Invoked through the Makefile rather than repeated here, so a gate cannot
+      # exist in CI without a local equivalent. That gap is not hypothetical: it
+      # is how both of this pipeline's self-inflicted failures happened, each
+      # time a country name in a comment that `make lint` never looked at.
+      - name: Static gates
+        run: make gate-php-static
+        env:
+          PHPSTAN_FORMAT: github
 
       - name: Tests with coverage gate
         working-directory: api
@@ -162,19 +159,12 @@ jobs:
         run: |
           uv venv --python 3.11 .venv
           # CPU-only torch: the CUDA build is ~800 MB and CI has no GPU.
-          uv pip install --python .venv/bin/python \
+          bash "$GITHUB_WORKSPACE/infra/scripts/retry.sh" 3 uv pip install --python .venv/bin/python \
             --index-url https://download.pytorch.org/whl/cpu "torch>=2.5"
-          uv pip install --python .venv/bin/python -e ".[dev]"
+          bash "$GITHUB_WORKSPACE/infra/scripts/retry.sh" 3 uv pip install --python .venv/bin/python -e ".[dev]"
 
-      - name: Lint
-        working-directory: ml
-        run: |
-          .venv/bin/ruff check src tests
-          .venv/bin/ruff format --check src tests
-
-      - name: Type-check
-        working-directory: ml
-        run: .venv/bin/mypy src
+      - name: Static gates
+        run: make gate-ml-static
 
       - name: Tests with coverage gate
         working-directory: ml
@@ -204,12 +194,15 @@ jobs:
           php-version: '8.4'
           tools: composer:v2
 
-      - name: No hardcoded country literals (C3)
-        run: bash infra/scripts/check-country-agnostic.sh
+      # C3, workflow validity and the secret scan. The secret scan used to be
+      # written inline below, which made the one gate guarding the thing you
+      # cannot take back the one gate nobody could run locally.
+      - name: Constraint gates
+        run: make gate-constraints
 
       - name: Dependency licence inventory (C1)
         working-directory: api
-        run: composer install --no-interaction --prefer-dist --no-progress --no-scripts
+        run: bash "$GITHUB_WORKSPACE/infra/scripts/retry.sh" 3 composer install --no-interaction --prefer-dist --no-progress --no-scripts
 
       - name: Generate licence inventory
         run: |
@@ -222,14 +215,9 @@ jobs:
           name: licence-inventory
           path: docs/LICENSES.md
 
-      - name: Fail if any secret-shaped value is committed
-        run: |
-          if git grep -nIE '(sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)' \
-              -- . ':!*.md' ':!infra/scripts/*'; then
-            echo "FAIL: possible secret committed"
-            exit 1
-          fi
-          echo "OK: no secret-shaped values found"
+      # The secret scan now runs in the "Constraint gates" step above, out of
+      # infra/scripts/check-secrets.sh, so `make lint` and the pre-push hook run
+      # it too.
 
   # ------------------------------------------------------- images/compose ---
   compose:
@@ -303,8 +291,8 @@ jobs:
       - name: Install Playwright
         working-directory: e2e
         run: |
-          npm ci
-          npx playwright install chromium --with-deps
+          bash "$GITHUB_WORKSPACE/infra/scripts/retry.sh" 3 npm ci
+          bash "$GITHUB_WORKSPACE/infra/scripts/retry.sh" 3 npx playwright install chromium --with-deps
 
       - name: End-to-end, against the composed stack
         working-directory: e2e

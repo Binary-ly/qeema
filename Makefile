@@ -12,6 +12,11 @@ ML_DIR  := ml
 PY      := $(ML_DIR)/.venv/bin/python
 APP_URL ?= http://localhost:8080
 
+# CI sets this to `github` so PHPStan findings appear as inline annotations on
+# the diff. Overridable rather than duplicated, so the analysis command itself
+# has one definition.
+PHPSTAN_FORMAT ?= table
+
 .PHONY: help
 help: ## Show available targets
 	@grep -hE '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) \
@@ -79,18 +84,39 @@ test-e2e: ## Run Playwright end-to-end tests against the running stack
 	cd e2e && npm install --silent && npx playwright install chromium --with-deps 2>/dev/null || true
 	cd e2e && npx playwright test
 
-.PHONY: lint
-lint: ## Lint and statically analyse both services
+# ---------------------------------------------------------------- gates ----
+#
+# Each gate is defined once, here, and CI invokes these targets rather than
+# repeating the commands. That is the whole point: the two times the build broke
+# on its own it was because a gate existed in CI and had no local equivalent, so
+# the only way to discover it was to push.
+
+.PHONY: gate-php-static
+gate-php-static: ## Static gates for the PHP service
 	# --memory-limit: analysing a Laravel app of this size needs more than PHP's
 	# 256M default, and exceeding it crashes the worker with a message about
 	# php.ini rather than reporting any analysis. CI sets memory_limit=-1 so it
 	# never saw this; a fresh clone on a stock PHP does, every time.
-	cd $(API_DIR) && ./vendor/bin/pint --test && ./vendor/bin/phpstan analyse --no-progress --memory-limit=1G
-	cd $(ML_DIR) && .venv/bin/ruff check src tests && .venv/bin/ruff format --check src tests
-	# mypy is a CI gate and was missing here, so `make verify` could pass on a
-	# type error the pipeline would then reject. src only, matching CI: the
-	# tests are not annotated to the same standard.
+	cd $(API_DIR) && ./vendor/bin/pint --test
+	cd $(API_DIR) && php artisan qeema:openapi --check
+	cd $(API_DIR) && ./vendor/bin/phpstan analyse --no-progress --memory-limit=1G --error-format=$(PHPSTAN_FORMAT)
+
+.PHONY: gate-ml-static
+gate-ml-static: ## Static gates for the ML service
+	cd $(ML_DIR) && .venv/bin/ruff check src tests
+	cd $(ML_DIR) && .venv/bin/ruff format --check src tests
+	# src only, matching CI: the tests are not annotated to the same standard.
 	cd $(ML_DIR) && .venv/bin/mypy src
+
+.PHONY: gate-constraints
+gate-constraints: check-country-agnostic check-workflows check-secrets ## The constraint and hygiene checks
+
+.PHONY: lint
+lint: gate-php-static gate-ml-static gate-constraints ## Every static gate CI runs
+	# The constraint checks are part of lint deliberately. They cost a tenth of
+	# a second and they are the only gate that has ever broken this build on its
+	# own — twice, both times a country name in a comment. Leaving them out of
+	# the command people actually run is what made that possible.
 
 .PHONY: fix
 fix: ## Auto-fix formatting in both services
@@ -113,20 +139,32 @@ check-country-agnostic: ## Fail if country-specific literals leaked into code (c
 check-workflows: ## Fail on duplicate keys that would make a CI workflow invalid
 	@bash infra/scripts/check-workflows.sh
 
+.PHONY: check-secrets
+check-secrets: ## Fail if a secret-shaped value is about to enter the repository
+	@bash infra/scripts/check-secrets.sh
+
 .PHONY: check-openapi
 check-openapi: ## Fail if the published spec has drifted from the source it is generated from
 	cd $(API_DIR) && php artisan qeema:openapi --check
 
-# Every CI gate that does not need Docker. The two exceptions are deliberate and
-# worth knowing: the compose job (image build, stack boot, Playwright) is
-# `make test-e2e` against a running stack, and CI additionally greps the tree for
-# secret-shaped values — a check that lives only in the workflow file.
+# Every CI gate that does not need Docker. The one exception is the compose job
+# — image build, stack boot, Playwright — which is `make test-e2e` against a
+# running stack.
 #
-# The help text used to read "Everything CI runs", which was false: mypy and the
-# OpenAPI drift check were both gates and neither was reachable from here, so a
-# green verify could still fail the pipeline.
+# The help text used to read "Everything CI runs", which was false three ways:
+# mypy, the OpenAPI drift check and the secret scan were all gates with no local
+# equivalent, so a green verify could still send a red build.
 .PHONY: verify
-verify: lint test check-country-agnostic check-workflows check-openapi ## Every CI gate except the Docker build and e2e
+verify: lint test ## Every CI gate except the Docker build and e2e
+
+# ---------------------------------------------------------------- hooks ----
+
+.PHONY: install-hooks
+install-hooks: ## Run the static gates automatically before every push
+	@git config core.hooksPath infra/hooks
+	@chmod +x infra/hooks/* infra/scripts/*.sh
+	@echo "hooks installed: infra/hooks (pre-push runs 'make lint' for what you touched)"
+	@echo "bypass once with: git push --no-verify"
 
 # ----------------------------------------------------------------- data ----
 

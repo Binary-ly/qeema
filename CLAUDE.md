@@ -48,8 +48,10 @@ Two more invariants carry the same weight:
 ## Commands
 
 ```bash
+make install-hooks # once per clone — pre-push runs the static gates (~6s)
 make demo          # build + up + block until healthy — the reviewer path
-make verify        # every CI gate except the Docker build and e2e
+make lint          # every static gate CI runs, including the constraint checks
+make verify        # lint + both suites with their coverage gates
 make fix           # pint + ruff --fix + ruff format
 make test-php      # Pest, --min=80
 make test-ml       # pytest, --cov, fail_under=80
@@ -57,6 +59,14 @@ make test-e2e      # Playwright against the running stack
 make reseed        # destructive: drop schema, rebuild with demo data
 make psql / shell / logs / nuke
 ```
+
+**Gates are defined once and invoked by both CI and the hook** — `gate-php-static`
+(pint, OpenAPI drift, PHPStan), `gate-ml-static` (ruff, ruff format, mypy),
+`gate-constraints` (C3, workflow validity, secret scan). `make lint` is all three.
+Adding a gate means adding it to a `gate-*` target; a gate that exists only in
+`.github/workflows/ci.yml` is unrunnable locally, and that is exactly how this
+build went red on its own twice — a country name in a comment, then a currency
+code, neither visible to the command anyone runs while working.
 
 Single tests:
 
@@ -77,10 +87,10 @@ Toolchain notes:
 - CI runs pytest with `-m "not slow"`. The `slow` marker is for tests that download ~1.1 GB
   of weights, and no nightly workflow exists, so anything marked slow runs only by hand.
 - `make verify` covers every CI gate that does not need Docker: both linters, PHPStan,
-  mypy, both suites with their coverage gates, the C3 grep, the workflow check and the
-  OpenAPI drift check. Two gates are **not** in it — the compose job (image build, stack
-  boot, Playwright), which is `make test-e2e` against a running stack, and CI's grep for
-  secret-shaped values, which lives only in the workflow file.
+  mypy, both suites with their coverage gates, the C3 grep, the workflow check, the
+  OpenAPI drift check and the secret scan. The single exception is the compose job
+  (image build, stack boot, Playwright), which is `make test-e2e` against a running
+  stack.
 
 **This machine's ports are not the documented ones.** The local `.env` (gitignored) sets
 `APP_PORT=8090` and `ML_PORT=8001`, so the stack is at `http://localhost:8090`, not the

@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0
+#
+# Run the gates that can fail CI for a reason you could have known about.
+#
+# Why this exists, from the record rather than from principle: across the CI
+# history the "Constraint compliance" job failed on its own twice, both times on
+# a country name or a currency code written into a comment in application
+# source. Both were catchable locally in under a second. Both were pushed anyway,
+# because the command that would have caught them — `make verify` — is not the
+# command anyone runs while working, and `make lint` did not include the
+# constraint checks at all.
+#
+# So the checks moved into `make lint`, and this runs them at the one moment
+# where forgetting has a cost.
+#
+# WHAT THIS DELIBERATELY DOES NOT DO
+#
+# It does not run the test suites. Pest with coverage is minutes, and a hook
+# people wait minutes for is a hook people pass --no-verify to, at which point it
+# guards nothing. Tests belong in CI, which is allowed to be slow. This runs the
+# static gates only: deterministic, no database, no network, no flakes.
+#
+# It is also not a substitute for CI. CI runs the same gates plus the suites, on
+# a clean machine, so a passing hook is a strong signal and not a guarantee.
+#
+# Install with: make install-hooks   (sets core.hooksPath to this directory)
+# Bypass with:  git push --no-verify (CI will still run everything)
+
+set -uo pipefail
+
+REPO="$(cd "$(dirname "$0")/../.." && pwd)"
+cd "$REPO"
+
+ZERO='0000000000000000000000000000000000000000'
+changed=''
+have_range=0
+
+# git hands pre-push each ref as "<local-ref> <local-sha> <remote-ref> <remote-sha>".
+# The range remote..local is exactly what is about to leave this machine, which
+# is a better question than "what is dirty in my tree".
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+    [[ -z "${local_sha:-}" ]] && continue
+    [[ "$local_sha" == "$ZERO" ]] && continue          # branch deletion
+
+    if [[ "$remote_sha" == "$ZERO" ]]; then
+        # New branch: diff against whatever it forked from, and fall back to
+        # running everything if that cannot be worked out.
+        base="$(git merge-base "$local_sha" origin/HEAD 2>/dev/null || true)"
+        [[ -z "$base" ]] && { have_range=0; changed=''; break; }
+    else
+        base="$remote_sha"
+    fi
+
+    changed+=$'\n'"$(git diff --name-only "$base" "$local_sha" 2>/dev/null || true)"
+    have_range=1
+done
+
+touches() {
+    # No range worked out means we cannot prove a path is untouched, so run it.
+    [[ $have_range -eq 0 ]] && return 0
+    grep -qE "$1" <<<"$changed"
+}
+
+echo "pre-push: running the static gates (tests run in CI)"
+failed=()
+
+# Instant, and the class that has actually broken the build. Always run: they
+# read the whole tree, so "nothing in api/ changed" does not make them safe to
+# skip — a country name can arrive in a new file anywhere.
+make --no-print-directory gate-constraints || failed+=("constraints")
+
+if [[ $have_range -eq 0 ]] || touches '^api/'; then
+    make --no-print-directory gate-php-static || failed+=("php-static")
+else
+    echo "  skipped php-static  (nothing under api/ in this push)"
+fi
+
+if [[ $have_range -eq 0 ]] || touches '^ml/'; then
+    make --no-print-directory gate-ml-static || failed+=("ml-static")
+else
+    echo "  skipped ml-static   (nothing under ml/ in this push)"
+fi
+
+if [[ ${#failed[@]} -gt 0 ]]; then
+    echo
+    echo "pre-push: BLOCKED — ${failed[*]}"
+    echo "These are the same gates CI runs, so pushing sends a red build."
+    echo "Fix them, or 'git push --no-verify' if you know better than this hook."
+    exit 1
+fi
+
+echo "pre-push: static gates clean"
+exit 0

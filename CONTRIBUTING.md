@@ -76,21 +76,29 @@ CPPFLAGS="-I$(brew --prefix pcre2)/include" pecl install pcov
 ## The development loop
 
 ```bash
-make verify      # every CI gate except the image build and end-to-end
-make test-php    # Pest with the 80% coverage gate
-make test-ml     # pytest with the 80% coverage gate
-make fix         # auto-fix formatting in both services
+make install-hooks   # once per clone — runs the static gates before every push
+make lint            # every static gate CI runs, about six seconds
+make verify          # lint plus both suites with their coverage gates
+make test-php        # Pest with the 80% coverage gate
+make test-ml         # pytest with the 80% coverage gate
+make fix             # auto-fix formatting in both services
 ```
 
-Run `make verify` before opening a pull request. It runs both linters, PHPStan,
-mypy, both suites with their coverage gates and the constraint checks — every gate
-CI applies except two, which need Docker or live only in the workflow file: the
-compose job that builds the images and runs the end-to-end suite (`make test-e2e`
-against a running stack), and a grep for secret-shaped values.
+**Run `make install-hooks` after cloning.** The pre-push hook runs `make lint`
+for the parts of the tree you actually touched — under ten seconds — and refuses
+the push if a gate fails. It does not run the test suites; a hook people wait
+minutes for is a hook people pass `--no-verify` to.
 
-That gap used to be wider. `make verify` omitted mypy and the OpenAPI drift check
-while both were failing the pipeline, so a green local run genuinely could go red
-in CI.
+Every gate is defined once, in the Makefile, and CI invokes those same targets.
+That is deliberate. Twice this pipeline went red on its own, both times because a
+gate existed only inside the workflow file and the command people actually run
+never looked at it — once a country name in a comment, once a currency code. If
+you add a gate, add it to a `gate-*` target and let CI call it, so it cannot
+exist in CI without a local equivalent.
+
+The one gate you cannot run from `make verify` is the compose job, which builds
+the images and runs the end-to-end suite. That is `make test-e2e` against a
+running stack.
 
 ---
 
