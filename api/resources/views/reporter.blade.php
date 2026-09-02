@@ -98,7 +98,7 @@
 
 <main class="reporter__form" x-show="ready">
 
-    <section class="field">
+    <section class="field field--step">
         <label class="field__label" for="location">{{ __('reporter.location') }}</label>
         <select id="location" class="field__control" x-model="locationSlug">
             {{-- The placeholder used to repeat the label above it word for
@@ -119,7 +119,7 @@
         a single line, which brings the price field and the save button up into
         the first screen instead of leaving them below a list.
     --}}
-    <section class="field">
+    <section class="field field--step">
         <label class="field__label" for="item">{{ __('reporter.item') }}</label>
 
         <template x-if="hasChosen">
@@ -184,7 +184,7 @@
 
     {{-- Step three: how much. The only thing left, and the only field on the
          page given this much room. --}}
-    <section class="field field--price">
+    <section class="field field--price field--step">
         <label class="field__label" for="price">
             {{ __('reporter.price') }}
             <span x-text="currencyLabel"></span>

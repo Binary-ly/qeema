@@ -273,6 +273,40 @@
     color: var(--q-muted);
 }
 
+/*
+ * Three steps, numbered, in the same mono accent the dashboard numbers its
+ * sections with.
+ *
+ * Two things at once. It ties this app to the published page — the numerals are
+ * the same device in the same face — and it answers the question a first-time
+ * reporter actually has, which is "how long is this going to take". Three
+ * numbers say "three things, that is all" before a word is read. Quantity and
+ * unit are deliberately outside the count: they are not a step, which is why
+ * they are folded away.
+ */
+.reporter__form {
+    counter-reset: step;
+}
+
+.field--step > .field__label {
+    counter-increment: step;
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+}
+
+.field--step > .field__label::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--q-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--q-brand-deep);
+    font-variant-numeric: tabular-nums;
+    /* Never uppercased or letter-spaced by the label's own rules. */
+    text-transform: none;
+}
+
 .field__control {
     width: 100%;
     min-height: var(--q-touch);
