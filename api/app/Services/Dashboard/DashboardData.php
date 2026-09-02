@@ -145,10 +145,9 @@ final readonly class DashboardData
                 'name' => $location->name,
                 'name_local' => $location->name_local,
                 // The one name this point is drawn with, everywhere it is drawn:
-                // the caption, the tooltip and the accessible name.
-                'label' => $preferLocalNames
-                    ? ($location->name_local ?: $location->name)
-                    : ($location->name ?: $location->name_local),
+                // the caption, the tooltip, the accessible name and the table
+                // row, which reads from this same array.
+                ...self::naming($location->name, $location->name_local, $preferLocalNames),
                 'x' => $xy['x'],
                 'y' => $xy['y'],
                 'cost' => $cost,
@@ -189,8 +188,11 @@ final readonly class DashboardData
      * @param  Collection<int, IndexSnapshot>  $snapshots
      * @return list<array<string, mixed>>
      */
-    public function basketCoverage(Country $country, Collection $snapshots): array
-    {
+    public function basketCoverage(
+        Country $country,
+        Collection $snapshots,
+        bool $preferLocalNames = false,
+    ): array {
         $basket = $country->basketOn(CarbonImmutable::now())
             ?? $country->baskets()->orderByDesc('version')->first();
 
@@ -234,6 +236,13 @@ final readonly class DashboardData
                 'code' => $item->code,
                 'name' => $item->name_en,
                 'name_local' => $item->name_local,
+                // Which name leads and which sits under it. Both are shown —
+                // a reader may know the item by one and be reading the page in
+                // the other — but the page's own language goes first. This list
+                // led with English on the Arabic page, so an Arabic reader met
+                // "Infant formula (400g tin)" with the name they actually use
+                // demoted to the small line beneath it.
+                ...self::naming($item->name_en, $item->name_local, $preferLocalNames),
                 'category' => $entry->category,
                 'weight' => (float) $entry->weight,
                 'locations' => $priced[$id] ?? 0,
@@ -248,6 +257,33 @@ final readonly class DashboardData
         usort($rows, static fn (array $a, array $b): int => $b['weight'] <=> $a['weight']);
 
         return $rows;
+    }
+
+    /**
+     * Which of a record's two names leads, and which sits under it.
+     *
+     * Everything on this page that has an English name and a local one shows
+     * both, and every one of them used to lead with English whatever language
+     * the page was in. One rule, applied from one place, because three
+     * near-identical ternaries in three templates is how they drift.
+     *
+     * `alt` is empty when there is no second name worth printing, so a template
+     * can render it unconditionally.
+     *
+     * @return array{label: string, label_alt: string}
+     */
+    private static function naming(?string $name, ?string $local, bool $preferLocal): array
+    {
+        $name = (string) $name;
+        $local = (string) $local;
+
+        $label = $preferLocal ? ($local ?: $name) : ($name ?: $local);
+        $alt = $label === $local ? $name : $local;
+
+        return [
+            'label' => $label,
+            'label_alt' => $alt === $label ? '' : $alt,
+        ];
     }
 
     /**

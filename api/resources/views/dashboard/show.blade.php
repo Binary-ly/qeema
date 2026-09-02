@@ -379,9 +379,9 @@
                         <li class="basket__item{{ $entry['locations'] === 0 ? ' basket__item--unpriced' : '' }}">
                             <span class="basket__bar" style="--weight: {{ round($entry['weight'] / $maxWeight * 100, 1) }}%" aria-hidden="true"></span>
                             <span class="basket__name">
-                                {{ $entry['name'] }}
-                                @if ($entry['name_local'])
-                                    <span class="basket__name-local">{{ $entry['name_local'] }}</span>
+                                {{ $entry['label'] }}
+                                @if ($entry['label_alt'])
+                                    <span class="basket__name-local">{{ $entry['label_alt'] }}</span>
                                 @endif
                             </span>
                             <span class="basket__weight">{{ number_format($entry['weight'] * 100, 1) }}%</span>
@@ -513,9 +513,9 @@
                             @php $rowClass = $point['comparable'] ? '' : ' dash__row--incomparable'; @endphp
                             <tr id="row-{{ $point['slug'] }}" class="dash__row{{ $rowClass }}">
                                 <th scope="row">
-                                    {{ $point['name'] }}
-                                    @if ($point['name_local'] && $point['name_local'] !== $point['name'])
-                                        <span class="dash__name-local">{{ $point['name_local'] }}</span>
+                                    {{ $point['label'] }}
+                                    @if ($point['label_alt'])
+                                        <span class="dash__name-local">{{ $point['label_alt'] }}</span>
                                     @endif
                                 </th>
                                 {{-- A bar behind the figure, scaled across the

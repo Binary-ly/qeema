@@ -270,6 +270,41 @@ describe('accessibility affordances', function (): void {
     });
 });
 
+describe('which of two names leads', function (): void {
+    /*
+     * Locations and basket items each carry an English name and a local one,
+     * and the page shows both. Which one leads was hardcoded to English in four
+     * separate places — the map caption, the map tooltip, the table row and the
+     * basket list — so an Arabic reader met every town and every item in Latin
+     * script with the name they actually use demoted underneath.
+     */
+    it('leads with the local name on a right-to-left page and the English one otherwise', function (): void {
+        $location = Location::factory()->for($this->country)->create([
+            'slug' => 'twonames',
+            'name' => 'Fullton',
+            'name_local' => 'فلتون',
+        ]);
+
+        snapshotFor($this->country, $location, $this->basket, [
+            'cost_local' => 100.0,
+            'coverage_pct' => 1.0,
+            'imputed_share' => 0.0,
+        ]);
+
+        $english = (string) $this->get('/?country=ZZ&locale=en')->assertOk()->getContent();
+        $arabic = (string) $this->get('/?country=ZZ&locale=ar')->assertOk()->getContent();
+
+        // Both names appear either way — the point is the order, not the
+        // presence, so asserting only "contains" would pass on the bug.
+        foreach ([$english, $arabic] as $html) {
+            expect($html)->toContain('Fullton')->and($html)->toContain('فلتون');
+        }
+
+        expect(strpos($english, 'Fullton'))->toBeLessThan(strpos($english, 'فلتون'));
+        expect(strpos($arabic, 'فلتون'))->toBeLessThan(strpos($arabic, 'Fullton'));
+    });
+});
+
 describe('carrying the reader between pages', function (): void {
     /*
      * Locale and country ride in the query string, so a bare route() drops both

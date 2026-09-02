@@ -55,7 +55,12 @@ final class DashboardController extends Controller
         }
 
         $snapshots = $this->data->currentSnapshots($country);
-        $map = $this->data->mapPoints($country, $snapshots, preferLocalNames: $this->directionFor($locale) === 'rtl');
+
+        // Whether the page's own language is the country's. Everything that
+        // carries two names — locations, basket items — leads with this one.
+        $local = $this->directionFor($locale) === 'rtl';
+
+        $map = $this->data->mapPoints($country, $snapshots, preferLocalNames: $local);
 
         return view('dashboard.show', [
             'locale' => $locale,
@@ -64,7 +69,7 @@ final class DashboardController extends Controller
             'country' => $country,
             'countries' => Country::query()->where('is_active', true)->orderBy('name')->get(),
             'headline' => $this->data->headline($country, $snapshots),
-            'basket' => $this->data->basketCoverage($country, $snapshots),
+            'basket' => $this->data->basketCoverage($country, $snapshots, preferLocalNames: $local),
             'snapshots' => $snapshots,
             'projection' => $map['projection'],
             'points' => $map['points'],
