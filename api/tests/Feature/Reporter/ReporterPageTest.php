@@ -177,6 +177,29 @@ describe('static PWA assets', function () {
             ->and($manifest['icons'])->not->toBeEmpty();
     });
 
+    /*
+     * The installed app and the page it opens are the same product.
+     *
+     * The palette moved to a new ink and the page's `theme-color` moved with
+     * it; the manifest did not, and kept the previous navy. Nothing renders
+     * both at once — the manifest colours are the splash screen and the
+     * system chrome of an *installed* app — so the two sat one shade apart
+     * for as long as nobody installed it and looked.
+     */
+    it('dresses the installed app in the same ink as the page it opens', function () {
+        /** @var array{theme_color: string, background_color: string} $manifest */
+        $manifest = json_decode((string) file_get_contents(public_path('manifest.webmanifest')), true, flags: JSON_THROW_ON_ERROR);
+
+        $html = (string) $this->get('/report')->getContent();
+
+        preg_match('/<meta name="theme-color" content="([^"]+)"/i', $html, $matches);
+
+        expect($matches[1] ?? null)->not->toBeNull();
+
+        expect(strtolower($manifest['theme_color']))->toBe(strtolower($matches[1]))
+            ->and(strtolower($manifest['background_color']))->toBe(strtolower($manifest['theme_color']));
+    });
+
     it('ships every icon the manifest references', function () {
         /** @var array{icons: list<array{src: string}>} $manifest */
         $manifest = json_decode((string) file_get_contents(public_path('manifest.webmanifest')), true, flags: JSON_THROW_ON_ERROR);
