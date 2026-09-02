@@ -170,8 +170,13 @@
 
 /* Everything below the masthead sits in a readable column. The API reference
    is excluded: it is a desk document read on a laptop, not a form filled in on
-   a phone, and 34rem would wrap every endpoint path. */
-.reporter > *:not(.reporter__header):not(.docs) {
+   a phone, and 34rem would wrap every endpoint path.
+
+   The form is excluded too, and holds the column on its own children instead —
+   so that one of them, the price, can break out of it into a band. Excluding it
+   here rather than fighting it with specificity later: this selector is three
+   classes deep and would win against anything written further down the file. */
+.reporter > *:not(.reporter__header):not(.docs):not(.reporter__form) {
     max-width: 34rem;
     margin-inline: auto;
     padding-inline: 1.25rem;
@@ -249,10 +254,48 @@
 
 /* ---------- form ---------- */
 
+/*
+ * The form spans the page; its children hold the column.
+ *
+ * Every step used to sit inside one 34rem box on one flat white ground, so the
+ * price — the single number this app exists to collect — was rendered exactly
+ * like the two dropdowns above it. Moving the column onto the children lets one
+ * of them break out.
+ */
 .reporter__form {
+    counter-reset: step;
     display: grid;
     gap: 1.5rem;
     margin-block-start: 1.5rem;
+}
+
+.reporter__form > * {
+    inline-size: 100%;
+    max-width: 34rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+}
+
+/*
+ * Step three, on a ground of its own.
+ *
+ * One band, not three. The dashboard alternates full-bleed grounds because its
+ * sections are large and argue different things; three stripes behind three
+ * form fields would only make a short form look long, which is the opposite of
+ * what this screen needs. So the rhythm is a crescendo instead: pick where,
+ * pick what, and then the number, which is the only thing here that is actually
+ * a measurement.
+ *
+ * Tint rather than ink deliberately. Someone is using this standing up, in a
+ * market, quite possibly in sunlight, and a dark panel in direct sun is a
+ * mirror — see the constraints at the top of this file.
+ */
+.reporter__form > .field--price {
+    max-width: none;
+    padding-inline: max(1.25rem, calc(50% - var(--q-col, 15.75rem)));
+    padding-block: 1.75rem;
+    background: var(--q-paper-cool);
+    border-block: 1px solid var(--q-rule);
 }
 
 .field {
@@ -284,10 +327,6 @@
  * unit are deliberately outside the count: they are not a step, which is why
  * they are folded away.
  */
-.reporter__form {
-    counter-reset: step;
-}
-
 .field--step > .field__label {
     counter-increment: step;
     display: flex;
@@ -560,9 +599,14 @@
     cursor: pointer;
 }
 
-/* The field the save button is still waiting on, named above it. */
+/* The field the save button is still waiting on, named above it.
+ *
+ * `margin-block`, not the `margin` shorthand: the form centres its children
+ * with `margin-inline: auto`, and a shorthand written later in the file resets
+ * that to zero. This line escaped the column and sat in the left margin until
+ * the shorthand came out. */
 .reporter__hint {
-    margin: 0 0 0.6rem;
+    margin-block: 0 0.6rem;
     text-align: center;
     color: var(--q-muted);
     font-size: 0.875rem;
