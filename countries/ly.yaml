@@ -157,11 +157,18 @@ canonical_items:
       - حليب معقم 1 لتر
       - حليب ليتي
       - حليب الريحان حكة كبيرة
-      - الحليب الليبي المبستر
       - حليب البستان
       - حليب الندى
       - حليب لاسيه
-      - حليب مبستر
+      # Two pasteurised wordings — الحليب الليبي المبستر and حليب مبستر — used to
+      # sit here. Both are attested Libyan strings; attestation says the wording
+      # is real, not that it names this item. This item is UHT (معقم), and
+      # docs/data-sources.md already records pasteurised as a different product
+      # at a different price. حليب مبستر was also listed as a distractor in
+      # ml/data/real-text, so catalogue and evaluation asserted opposite things
+      # about the same string and the matcher auto-resolved it on the strength
+      # of the catalogue. If Libyan retail uses مبستر loosely for long-life
+      # milk, put them back — that is a speaker's call, not a reader's.
       # From the August 2026 Facebook harvest. Half of each item's new wordings
       # went here and half were held out as test; see ml/data/facebook/README.md.
       - حليب زهرات لتر مدعوم
@@ -282,8 +289,14 @@ canonical_items:
       - بيوميل حليب الأطفال
       - حليب كيوت بيبي رقم 1
       - LF cute baby
-      - حليب نيدو المدعم للأطفال
-      - حليب نيدو المقوى
+      # Two Nido wordings were removed here. Every other variant under this item
+      # is a staged infant formula — Aptamil, Biomil, France Lait, Cute Baby,
+      # NAN — carrying رقم 1/2/3. Nido is a fortified milk powder with no stage,
+      # sold to households rather than to infants, and حليب نيدو المقوى was
+      # simultaneously a distractor in ml/data/real-text, so it auto-resolved as
+      # infant formula on an exact match. This is the drinking-milk-versus-
+      # formula confusion this catalogue keeps meeting; the honest place for an
+      # unstaged milk powder is the review queue, not a formula code.
       - حليب ابتاميل رقم 3
       - حليب ابتاميــل رقم 1
       - حليب ابتاميل رقم 2 بسعر
@@ -1835,7 +1848,9 @@ canonical_items:
       # Attested on public Libyan shop pages, August 2026. See docs/libyan-dialect-brief.md.
       # Promoted from the reporter corpus by qeema:corpus:promote.
       - أقلام الحبر
-      - أقلام الرصاص
+      # أقلام الرصاص — pencils — was removed. This item is a ballpoint pen, and
+      # a pencil is a different product at a different price; the wording was
+      # also a distractor in ml/data/real-text, so it auto-resolved as a pen.
       - بيك كريستال
       - بيروات جمله
       - اقلام حبر باركر (بيرو)

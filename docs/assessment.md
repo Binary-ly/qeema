@@ -10,7 +10,14 @@ a number comes from a simulation rather than a market, it says so in the same
 sentence — because the difference between those two is most of what matters
 here, and it is the difference a reader is least able to see for themselves.
 
-**Last verified:** 13 August 2026.
+**Last verified:** 1 September 2026 (matcher figures re-measured; gate figures
+still carry their August date).
+
+The stored matcher figures had drifted from what the code did by then, and the
+drift ran the dangerous way — the safety row read better than the truth. See
+[That safety row was false until 1 September 2026](#that-safety-row-was-false-until-1-september-2026).
+The lesson is the one this document already states and did not follow: re-run
+the measurement, never quote it.
 
 The gate figures below are a snapshot taken on that date, not a live readout —
 CI enforces that the suites pass and the coverage floors hold, but nothing
@@ -173,32 +180,70 @@ Nothing auto-resolves. Every submission goes to a human who picks from a
 candidate list, so top-1 measures a decision the platform does not currently
 make, and **recall@k** measures the one it does.
 
-| | on 488 unseen real wordings |
+| | on 658 unseen real wordings |
 |---|---|
-| top-1 | 90.78% (443/488) |
-| top-2 | 98.57% (481/488) |
-| top-3 | 98.77% (482/488) |
-| **top-5** | **99.59%** (486/488), 95% CI [98.5%, **99.9%**] |
+| top-1 | 92.71% (610/658) |
+| top-2 | 98.18% (646/658) |
+| top-3 | 98.33% (647/658) |
+| **top-5** | **98.94%** (651/658), 95% CI [97.8%, 99.5%] |
 
-For **two** wordings in 488 the right item is absent from the list entirely:
-`وجبة مسحوق الارز` and `تن المعمورة كثلة درجه اولى`. For everything else the
-reviewer is shown the answer and only has to recognise it.
+For **seven** wordings in 658 the right item is absent from the list entirely.
+For everything else the reviewer is shown the answer and only has to recognise
+it.
 
 This is not 99.9% top-1 and should not be read as it. It is the honest statement
-that a reviewer working this queue finds the right item in the list 99.6% of the
+that a reviewer working this queue finds the right item in the list 98.9% of the
 time, which is what determines whether the review step is workable — and it is
 the strongest true claim available about this matcher.
 
 | | |
 |---|---|
-| Top-1 on wordings **not already in the catalogue** | **90.8%** (443/488), 95% CI **[87.9%, 93.0%]** |
-| Top-1 across all positives | 91.6% (537) — 49 were already catalogue variants, so this measures memorisation |
-| Real non-basket products **wrongly auto-resolved** | **0 of 485** |
-| Real non-basket products refused | **1 of 485** |
-| Positives auto-resolved without a human | **0 of 488** |
+| Top-1 on wordings **not already in the catalogue** | **92.7%** (610/658), 95% CI **[90.5%, 94.5%]** |
+| Top-1 across all positives | 93.2% (708) — 50 were already catalogue variants, so this measures memorisation |
+| Real non-basket products **wrongly auto-resolved** | **0 of 828** |
+| Real non-basket products refused | **1 of 828** |
+| Positives auto-resolved without a human | **0 of 658** |
 
-The honest number is the first row, and the interval is wide because the unseen
-sample is 29 wordings. It is not a claim about thousands.
+The honest number is the first row. Its interval is about ±2 points on 658
+wordings, against the ±16 this measurement carried when it was 29.
+
+### That safety row was false until 1 September 2026
+
+"0 wrongly auto-resolved" is the row this platform is judged on: a real product
+belonging to no basket item, published with no human in the loop, is the failure
+that corrupts a price index. Re-running `real_text_evaluation.py` against the
+current repository — rather than quoting the figure stored here — returned
+**4 of 829**, and not one was a model error:
+
+| string | auto-resolved to | at |
+|---|---|---|
+| حليب مبستر — pasteurised milk | `uht_milk_1l` | 0.99 |
+| حليب نيدو المقوى — fortified milk powder | `infant_formula_400g` | 0.99 |
+| أقلام الرصاص — pencils | `ballpoint_pen` | 0.99 |
+| ارز السيفين حبة طويلة — long-grain rice | `rice_1kg` | 0.99 |
+
+Each was simultaneously a catalogue variant, asserting *this item is the right
+answer*, and a labelled distractor, asserting *no item is*. The matcher believes
+the catalogue: an exact match after normalisation short-circuits before any
+model runs, so each resolved at 0.99 and the evaluation scored it as the
+damaging failure. The measurement and the thing it measured contradicted each
+other, and the contradiction was published as a safety claim.
+
+Three were catalogue errors, one was a label error. Pasteurised milk is not UHT
+and [data-sources.md](data-sources.md) already recorded that difference; a
+stage-less fortified milk powder is not infant formula, where every other
+variant under that code is a staged formula brand; a pencil is not a ballpoint
+pen. Those three variants are gone. The fourth is rice — the catalogue was right
+and the label was wrong — so the row now carries `rice_1kg`.
+
+`ml/tests/test_real_text_labels.py` now fails the build on any such collision.
+That guard already existed one directory away: `qeema:corpus:promote` refuses to
+promote a wording also listed as a distractor, on the reasoning that picking a
+side silently is a guess. Nobody had applied the same rule to the evaluation
+set. Verified by reintroducing the exact defect and watching it fail.
+
+Removing three variants cost **no accuracy** — top-1 on unseen wordings is 92.7%
+before and after. What changed is that the safety row is true.
 
 **On 20 August 2026 the evaluation grew from 29 unseen wordings to 488 and the
 number fell from 96.6% to 85.2%, then a catalogue fix took it to 89.3%.** The model did not get worse. Eight agents
