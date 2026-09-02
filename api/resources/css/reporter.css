@@ -658,11 +658,17 @@
         grid-template-columns: minmax(0, 1fr);
     }
 
-    /* The nav becomes a plain block above the reference rather than a rail
-       glued to a viewport that is already full. */
+    /*
+     * No rail on a phone.
+     *
+     * Collapsed to one column the nav is the first block on the page, so a
+     * reader met fourteen lines of links before a word of explanation. Sticking
+     * it to a viewport that is already full does not help either. The reference
+     * below is grouped under headings and is short enough to scroll, which is
+     * what a phone reader was going to do regardless.
+     */
     .docs__nav {
-        position: static;
-        max-height: none;
+        display: none;
     }
 }
 
