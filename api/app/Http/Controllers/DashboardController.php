@@ -55,7 +55,7 @@ final class DashboardController extends Controller
         }
 
         $snapshots = $this->data->currentSnapshots($country);
-        $map = $this->data->mapPoints($country, $snapshots);
+        $map = $this->data->mapPoints($country, $snapshots, preferLocalNames: $this->directionFor($locale) === 'rtl');
 
         return view('dashboard.show', [
             'locale' => $locale,

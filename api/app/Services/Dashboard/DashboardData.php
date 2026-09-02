@@ -74,11 +74,22 @@ final readonly class DashboardData
     /**
      * Map points and the country outline behind them, ready to draw.
      *
+     * `$preferLocalNames` picks which of a location's two names is drawn. It is
+     * resolved here rather than in the template because the label collision
+     * test needs the width of the string that will actually be printed: the map
+     * captioned every town in Latin script on the Arabic page, and the first
+     * fix — choosing the name in the Blade — would have left this method
+     * spacing the labels by the length of a name it was no longer showing.
+     *
      * @param  Collection<int, IndexSnapshot>  $snapshots
      * @return array{projection: MapProjection, points: list<array<string, mixed>>, outline: list<string>}
      */
-    public function mapPoints(Country $country, Collection $snapshots, float $width = 800.0): array
-    {
+    public function mapPoints(
+        Country $country,
+        Collection $snapshots,
+        float $width = 800.0,
+        bool $preferLocalNames = false,
+    ): array {
         /** @var list<array{latitude: float, longitude: float}> $coords */
         $coords = $snapshots
             ->map(static fn (IndexSnapshot $s): ?array => $s->location === null ? null : [
@@ -133,6 +144,11 @@ final readonly class DashboardData
                 'slug' => $location->slug,
                 'name' => $location->name,
                 'name_local' => $location->name_local,
+                // The one name this point is drawn with, everywhere it is drawn:
+                // the caption, the tooltip and the accessible name.
+                'label' => $preferLocalNames
+                    ? ($location->name_local ?: $location->name)
+                    : ($location->name ?: $location->name_local),
                 'x' => $xy['x'],
                 'y' => $xy['y'],
                 'cost' => $cost,
@@ -261,7 +277,13 @@ final readonly class DashboardData
         foreach ($points as $index => $point) {
             // Approximate: 6.2px per character at 11px, which is close enough
             // for a collision test and needs no font metrics.
-            $halfWidth = max(strlen((string) $point['name']) * 6.2 / 2, 12.0);
+            //
+            // `mb_strlen`, not `strlen`. Arabic is two to three bytes per
+            // character, so counting bytes made every Arabic caption measure
+            // two to three times its real width and the map dropped labels it
+            // had room for. And the string measured is the one that gets
+            // drawn — this read `name` while the caption printed `label`.
+            $halfWidth = max(mb_strlen((string) $point['label']) * 6.2 / 2, 12.0);
 
             $placed = false;
 

@@ -40,12 +40,17 @@
             @php
                 $intensity = $point['intensity'];
                 $radius = 9;
+
+                // Chosen in DashboardData, not here: the label spacing is
+                // computed from the width of this exact string, so the two must
+                // never be able to disagree about which name is on the map.
+                $label = $point['label'];
             @endphp
 
             <g class="dash__map-point">
                 <a
                     href="#row-{{ $point['slug'] }}"
-                    aria-label="{{ $point['name'] }}: {{ number_format($point['cost'], 2) }} {{ $headline['currency'] }}{{ $point['comparable'] ? '' : ' — '.__('dashboard.comparable_note') }}"
+                    aria-label="{{ $label }}: {{ number_format($point['cost'], 2) }} {{ $headline['currency'] }}{{ $point['comparable'] ? '' : ' — '.__('dashboard.comparable_note') }}"
                 >
                     <circle
                         cx="{{ $point['x'] }}"
@@ -59,7 +64,7 @@
                         @endif
                     ></circle>
 
-                    <title>{{ $point['name'] }} — {{ number_format($point['cost'], 2) }} {{ $headline['currency'] }}</title>
+                    <title>{{ $label }} — {{ number_format($point['cost'], 2) }} {{ $headline['currency'] }}</title>
                 </a>
 
                 {{-- Dropped when both the above and below slots are already
@@ -73,7 +78,7 @@
                         y="{{ $point['y'] + ($point['label_dy'] ?? -14) }}"
                         text-anchor="middle"
                         aria-hidden="true"
-                    >{{ $point['name'] }}</text>
+                    >{{ $label }}</text>
                 @endif
             </g>
         @endforeach
