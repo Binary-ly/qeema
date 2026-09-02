@@ -38,6 +38,7 @@ return [
 
     'chart_national' => 'تكلفة السلة عبر الزمن',
     'chart_national_desc' => 'الوسيط بين المواقع المكتملة التسعير.',
+    'chart_await' => 'لا يوجد خط بعد — يحتاج المنحنى إلى تاريخين سُعِّرت فيهما السلة كاملةً في مكان ما.',
     'chart_locations' => 'حسب الموقع',
     'chart_fx' => 'سعر الصرف',
     'chart_fx_desc' => 'السعر الرسمي والموازي. الفجوة بينهما غالباً أول مؤشر ظاهر على الضغط الاقتصادي.',
@@ -52,11 +53,24 @@ return [
     'table_coverage' => 'التغطية',
     'table_quality' => 'الجودة',
     'table_updated' => 'آخر تحديث',
-    'days_ago' => 'منذ يوم|منذ :count يوماً',
+    /*
+     * All six Arabic plural forms, in the order Laravel's MessageSelector asks
+     * for them: 0, 1, 2, 3–10, 11–99, 100+.
+     *
+     * Two forms is not a shortcut here, it is a wrong answer. For 103 days the
+     * selector computes index 3, finds no such segment, and falls back to the
+     * *first* one — so a figure 103 days old was labelled "منذ يوم", one day
+     * ago, in the table and under the headline date. English needs two forms
+     * and Arabic needs six; a translation file that assumes the source
+     * language's plural rules will always read fluently and mean something
+     * else.
+     */
+    'days_ago' => 'اليوم|منذ يوم|منذ يومين|منذ :count أيام|منذ :count يوماً|منذ :count يوم',
     'today' => 'اليوم',
 
     'use_the_data' => 'استخدم هذه البيانات',
     'use_the_data_body' => 'كل ما في هذه الصفحة متاح عبر واجهة برمجية عامة لا تحتاج مفتاحاً، وكملف CSV. البيانات بترخيص CC BY 4.0، والبرمجية بترخيص Apache-2.0.',
+    'spec_note' => 'الحقل المميّز يرد في كل استجابة. القيمة المقدّرة تُوسم دائماً بأنها تقدير، في الواجهة البرمجية كما في هذه الصفحة.',
     'api_link' => 'توثيق الواجهة البرمجية',
     'json_link' => 'هذه الصفحة بصيغة JSON',
     'csv_link' => 'تنزيل CSV',
@@ -75,6 +89,8 @@ return [
     'basket_none' => 'لا سعر في أي موقع',
     'basket_stack_label' => '‏:percent% من سلة الطفل، بحسب الوزن، بلا سعر في أي موقع هنا.',
     'basket_gap' => ':count من :total بنداً يحتاجها الطفل بلا سعر في أي موقع هنا. هذه هي الفجوة التي وُجدت هذه المنصة لسدّها.',
+
+    'footer_license' => 'البيانات :license · البرمجية Apache-2.0 · يُعاد نشر الأرقام بحرية مع الإسناد.',
 
     'language' => 'اللغة',
     'skip_to_content' => 'تخطَّ إلى المحتوى',

@@ -38,6 +38,7 @@ return [
 
     'chart_national' => 'Basket cost over time',
     'chart_national_desc' => 'Median across locations with a fully-priced basket.',
+    'chart_await' => 'No line yet — a trend needs two dates on which somewhere priced the whole basket.',
     'chart_locations' => 'By location',
     'chart_fx' => 'Exchange rate',
     'chart_fx_desc' => 'Official and parallel rates. The gap between them is often the earliest visible sign of stress.',
@@ -57,6 +58,11 @@ return [
 
     'use_the_data' => 'Use this data',
     'use_the_data_body' => 'Everything on this page is available through a public API that needs no key, and as a CSV download. The data is CC BY 4.0; the software is Apache-2.0.',
+    // Beside the specimen response, pointing at the one highlighted line.
+    // Deliberately not `imputed_explain`, which says the same thing under the
+    // table: the same sentence twice on one page reads as a template, not a
+    // point.
+    'spec_note' => 'The highlighted field rides in every response. An estimate is always labelled as one, in the API as much as on this page.',
     'api_link' => 'API documentation',
     'json_link' => 'This page as JSON',
     'csv_link' => 'Download CSV',
@@ -75,6 +81,8 @@ return [
     'basket_none' => 'No price anywhere',
     'basket_stack_label' => ':percent% of a child\'s basket, by weight, has no price in any location here.',
     'basket_gap' => ':count of :total items a child needs have no price in any location here. Those are the gap this platform exists to close.',
+
+    'footer_license' => 'Data :license · Software Apache-2.0 · Figures republish freely with attribution.',
 
     'language' => 'Language',
     'skip_to_content' => 'Skip to content',

@@ -25,7 +25,7 @@
         <h1 class="reporter__title">{{ $spec['info']['title'] ?? 'API' }}</h1>
         <p class="reporter__subtitle">Public API reference — no key, no account, no rate tier.</p>
     </div>
-    <a class="reporter__home" href="{{ route('dashboard') }}">Dashboard</a>
+    <a class="reporter__home" href="@localised('dashboard')">Dashboard</a>
 </header>
 <main class="docs">
     @if ($spec === null)
@@ -37,11 +37,28 @@
              Escape first, then promote only `**…**` and `` `…` `` — the input is
              escaped before any tag is introduced, so nothing in the spec can
              inject markup. --}}
-        <p class="docs__intro">{!! preg_replace(
-            ['/\*\*(.+?)\*\*/s', '/`([^`]+)`/'],
-            ['<strong>$1</strong>', '<code>$1</code>'],
-            e($spec['info']['description'] ?? '')
-        ) !!}</p>
+        @php
+            // Blank lines separate paragraphs; a single newline is source
+            // wrapping in the YAML and must not survive into the page. This was
+            // rendered inside `white-space: pre-wrap`, which honoured every one
+            // of them — so sentences broke at whatever column the spec happened
+            // to wrap at, and a `code` span sitting after a wrap arrived with a
+            // stray gap before the full stop that followed it.
+            $paragraphs = preg_split(
+                '/\n\s*\n/',
+                trim((string) ($spec['info']['description'] ?? '')),
+            ) ?: [];
+        @endphp
+
+        <div class="docs__intro">
+            @foreach ($paragraphs as $paragraph)
+                <p>{!! preg_replace(
+                    ['/\*\*(.+?)\*\*/s', '/`([^`]+)`/'],
+                    ['<strong>$1</strong>', '<code>$1</code>'],
+                    e((string) preg_replace('/\s*\n\s*/', ' ', trim($paragraph)))
+                ) !!}</p>
+            @endforeach
+        </div>
 
         <p><a class="reporter__submit" href="{{ route('openapi') }}">Download the OpenAPI 3 specification</a></p>
 

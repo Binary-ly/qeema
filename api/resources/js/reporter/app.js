@@ -183,8 +183,23 @@ export default function reporter() {
             return `reporter__flash is-${this.flashKind}`;
         },
 
+        /**
+         * The currency, written the way the rest of the page is written.
+         *
+         * This always preferred the symbol, so the English form was labelled
+         * "PRICE د.ل" — an Arabic symbol set into a left-to-right label, while
+         * the dashboard called the same currency LYD two pages away. The symbol
+         * is right at home in the local script and is a direction change and an
+         * unknown glyph outside it.
+         */
         get currencyLabel() {
-            return this.country?.currency?.symbol || this.country?.currency?.code || '';
+            const currency = this.country?.currency;
+
+            if (! currency) {
+                return '';
+            }
+
+            return (this.inLocalScript ? currency.symbol : currency.code) || currency.code || currency.symbol || '';
         },
 
         get submitLabel() {
@@ -203,12 +218,48 @@ export default function reporter() {
             return this.itemQuery.length > 0 || this.itemCode === '';
         },
 
+        /**
+         * True when the page is being read in the country's own language.
+         *
+         * The catalogue carries an English name and a local one, and this app
+         * always showed the local one. On the English page every item in the
+         * list was therefore in Arabic, so a reader who had switched to English
+         * could not find the thing they had just bought. The page language is
+         * already on the root element — the same value the server resolved —
+         * rather than being passed in a second time and allowed to disagree.
+         */
+        get inLocalScript() {
+            const lang = (document.documentElement.lang || 'en').toLowerCase();
+
+            return lang !== 'en' && !lang.startsWith('en-');
+        },
+
+        /**
+         * The name to lead with, and the other one, for an item or a location.
+         *
+         * Both are shown. A reporter standing in a shop may know the item by
+         * its local name and be reading the page in English, or the reverse,
+         * and the dashboard table already pairs the two names for exactly this
+         * reason. The second is dropped when it would repeat the first.
+         */
+        naming(record, localKey, otherKey) {
+            const local = record[localKey] || '';
+            const other = record[otherKey] || '';
+            const label = (this.inLocalScript ? local : other) || local || other;
+            const sub = label === local ? other : local;
+
+            return { label, sub: sub === label ? '' : sub };
+        },
+
         /** Locations carrying the label the template used to derive. */
         get locationOptions() {
-            return this.locations.map((location) => ({
-                ...location,
-                label: location.name_local || location.name,
-            }));
+            return this.locations.map((location) => {
+                const { label, sub } = this.naming(location, 'name_local', 'name');
+
+                // An <option> is a single line of text, so the pairing the item
+                // list stacks is joined here instead.
+                return { ...location, label, sub, optionLabel: sub ? `${label} · ${sub}` : label };
+            });
         },
 
         get filteredItems() {
@@ -225,14 +276,19 @@ export default function reporter() {
 
             // Selection state is baked in rather than compared in the template,
             // and recomputes with `itemCode` because this is a getter.
-            return matches.map((item) => ({
-                ...item,
-                label: item.name_local || item.name_en,
-                className:
-                    item.code === this.itemCode
-                        ? 'item-list__button is-selected'
-                        : 'item-list__button',
-            }));
+            return matches.map((item) => {
+                const { label, sub } = this.naming(item, 'name_local', 'name_en');
+
+                return {
+                    ...item,
+                    label,
+                    sub,
+                    className:
+                        item.code === this.itemCode
+                            ? 'item-list__button is-selected'
+                            : 'item-list__button',
+                };
+            });
         },
 
         get selectedItem() {

@@ -9,6 +9,7 @@ return [
     'subtitle' => 'Help track what a child needs costs where you live.',
 
     'location' => 'Where are you?',
+    'location_placeholder' => 'Choose the nearest town',
     'item' => 'What did you price?',
     'item_search' => 'Search or type the item',
     'item_free_text' => 'Not in the list? Type it exactly as written.',

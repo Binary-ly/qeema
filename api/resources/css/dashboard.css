@@ -75,11 +75,17 @@ body.dash {
     border-block-end: 3px solid var(--q-brand);
 }
 
-.dash__header-inner,
-.dash__main {
+.dash__header-inner {
     max-width: var(--q-well);
     margin-inline: auto;
     padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+/* Full width, with no column of its own. Each band insets its own contents,
+ * which is what lets a band paint edge to edge without the negative-margin
+ * trick that shifted every section sideways when `main` still had padding. */
+.dash__main {
+    width: 100%;
 }
 
 .dash__header-inner {
@@ -115,6 +121,213 @@ body.dash {
     max-width: 46ch;
     font-size: 1.0625rem;
     line-height: 1.55;
+}
+
+/* ---------- bands ---------- */
+
+/*
+ * Full-bleed sections on alternating grounds.
+ *
+ * Every section used to be the same object: a rule, a numbered title, a
+ * paragraph and some content, in one column, seven times. Individually correct
+ * and collectively monotonous — nothing on the page told a reader they had
+ * arrived somewhere new, so the whole thing read as one long unchanging
+ * document.
+ *
+ * A band escapes the column with a negative margin and re-insets its contents
+ * with padding, so no wrapper element is needed and the markup stays flat.
+ */
+/*
+ * `50%` of a full-width parent, never `50vw`: viewport units include the
+ * scrollbar, so a vw-based inset drifts by its width and the bands sit a few
+ * pixels off the masthead above them.
+ */
+.band {
+    padding-inline: max(1.25rem, calc(50% - var(--q-well) / 2));
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+    border-block-start: 0;
+}
+
+/* Deeper than the surface tint used for callouts. At --q-paper-cool the band
+ * was within a hair of white and the alternation it exists to create was
+ * invisible, which is the same as not having it. */
+.band--tint {
+    background: #eaf1f5;
+}
+
+.band--ink {
+    background: var(--q-ink);
+    color: #fff;
+}
+
+.band--ink .dash__section-title {
+    color: #fff;
+}
+
+.band--ink .dash__section-title::before {
+    color: var(--q-brand);
+}
+
+.band--ink .dash__section-desc,
+.band--ink .dash__note {
+    color: #a9c0cd;
+}
+
+/*
+ * The table, inverted. Putting the densest section of the page on ink is what
+ * stops sixteen rows of figures reading as an appendix — and a statistical
+ * table holds its structure on a dark ground better than almost anything else,
+ * because it is built from rules rather than from fills.
+ */
+.band--ink .dash__table thead th {
+    color: #fff;
+    border-block-start-color: rgba(255, 255, 255, 0.55);
+    border-block-end-color: rgba(255, 255, 255, 0.55);
+}
+
+.band--ink .dash__table th,
+.band--ink .dash__table td {
+    border-block-end-color: rgba(255, 255, 255, 0.13);
+}
+
+.band--ink .dash__table tbody tr:last-child th,
+.band--ink .dash__table tbody tr:last-child td {
+    border-block-end-color: rgba(255, 255, 255, 0.55);
+}
+
+.band--ink .dash__table tbody tr:hover th,
+.band--ink .dash__table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.band--ink .dash__name-local,
+.band--ink .dash__row--incomparable td,
+.band--ink .dash__row--incomparable th {
+    color: #8fa8b6;
+}
+
+.band--ink .cell-bar {
+    background: rgba(76, 192, 234, 0.28);
+}
+
+.band--ink .cell-bar--soft {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.band--ink .dash__row--incomparable .cell-bar {
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.05) 5px,
+        rgba(255, 255, 255, 0.11) 5px,
+        rgba(255, 255, 255, 0.11) 10px
+    );
+}
+
+.band--ink .dash__badge {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #b9cbd6;
+}
+
+.band--ink .dash__quality {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* The paper-tuned semantics are unreadable on ink, so each is lifted to a tint
+ * of the same hue rather than swapped for a different colour. */
+.band--ink .dash__quality--good { color: #5fd0a6; }
+.band--ink .dash__quality--moderate { color: #e2bb63; }
+.band--ink .dash__quality--low { color: #f0917f; }
+
+/* ---------- the fifteen ---------- */
+
+/*
+ * The brand device. Same motif as the mark: bars of unequal height, some lit
+ * and some not. See partials/fifteen.blade.php for what it means.
+ */
+.fifteen {
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(3px, 0.6vw, 7px);
+    height: clamp(4.5rem, 11vw, 8rem);
+    width: 100%;
+}
+
+.fifteen__bar {
+    flex: 1 1 0;
+    height: var(--h, 60%);
+    border-radius: 2px;
+    background: var(--q-brand-deep);
+}
+
+/* Hollow, not absent. An item nobody prices is still part of what a child
+ * needs — the bar is drawn at its true weight and left unfilled, so the gap in
+ * the row is the gap in the data. */
+.fifteen__bar.is-hollow {
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px var(--q-risk);
+    opacity: 0.55;
+}
+
+.fifteen--ink .fifteen__bar {
+    background: var(--q-brand);
+}
+
+.fifteen--ink .fifteen__bar.is-hollow {
+    background: transparent;
+    box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.42);
+    opacity: 1;
+}
+
+/* ---------- the gap ---------- */
+
+/*
+ * One number, at a size nothing else on the page comes near. The share of a
+ * child's basket that nobody prices is the single fact this platform exists to
+ * publish, and it had been living as a caption under a bar chart.
+ */
+.gap-figure {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+}
+
+@media (min-width: 56rem) {
+    .gap-figure {
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    }
+}
+
+.gap-figure__number {
+    margin: 0;
+    font-family: var(--q-font-display);
+    font-weight: 400;
+    /* Deliberately enormous. It is meant to be uncomfortable. */
+    font-size: clamp(6rem, 10vw + 4rem, 15rem);
+    line-height: 0.82;
+    letter-spacing: -0.045em;
+    color: var(--q-risk);
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+.gap-figure__pc {
+    font-size: 0.42em;
+    vertical-align: 0.55em;
+    margin-inline-start: 0.04em;
+}
+
+.gap-figure__body {
+    margin: 0;
+    font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+    line-height: 1.45;
+    max-width: 34ch;
+}
+
+.gap-figure__note {
+    margin: 1.25rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--q-muted);
+    max-width: 44ch;
 }
 
 /* ---------- reveal ---------- */
@@ -242,10 +455,89 @@ body.dash {
     color: #86a1b0;
 }
 
+/* The age of the figures, beside their date. A date alone does not read as
+ * stale — in a rail of large numbers a four-month-old one looks exactly as
+ * authoritative as today's. This is the only warning colour above the fold and
+ * it is earned. */
+.dash__rail-age {
+    display: block;
+    margin-block-start: 0.25rem;
+    /* The ink-tuned amber, same value as a `moderate` quality badge on a dark
+     * band. `--q-warn` is mixed for paper and goes muddy here. */
+    color: #e2bb63;
+    letter-spacing: 0.06em;
+}
+
 .dash__nav {
     display: flex;
     gap: 1.25rem;
     align-items: flex-end;
+}
+
+/*
+ * On a wide screen the masthead is a two-column grid: the title holds the left,
+ * the controls sit top-right and the live basket fills the space underneath
+ * them — which was simply empty before.
+ */
+@media (min-width: 64rem) {
+    .dash__header-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        grid-template-rows: auto 1fr;
+        column-gap: clamp(2rem, 5vw, 4rem);
+        align-items: end;
+    }
+
+    .dash__masthead {
+        grid-column: 1;
+        grid-row: 1 / -1;
+    }
+
+    .dash__nav {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: end;
+    }
+
+    .dash__hero-meter {
+        grid-column: 2;
+        grid-row: 2;
+        align-self: end;
+    }
+}
+
+.dash__hero-meter {
+    margin-block-start: 2rem;
+    width: 100%;
+}
+
+.dash__hero-meter-label {
+    margin: 0.875rem 0 0;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #86a1b0;
+}
+
+/* The one action on this page that is not "read something". */
+.dash__report-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--q-touch);
+    padding-inline: 1.125rem;
+    border-radius: var(--q-radius);
+    background: var(--q-brand);
+    color: var(--q-ink);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    align-self: flex-end;
+}
+
+.dash__report-link:hover {
+    background: #4cc0ea;
 }
 
 .dash__field-label {
@@ -301,24 +593,47 @@ body.dash {
 /* ---------- layout ---------- */
 
 .dash__main {
-    padding-block: clamp(2rem, 5vw, 3.5rem) 4rem;
+    padding-block: 0;
     display: grid;
-    /* Wide, because the rule above each section is the separator now. Cards
-     * needed only a small gap because their borders did the work. */
-    gap: clamp(2.5rem, 5vw, 4rem);
+    /* Zero: each band carries its own vertical padding, and a gap on top of
+     * that would put a stripe of the page background between two coloured
+     * bands and break the alternation. */
+    gap: 0;
 }
 
+/*
+ * Longhand, not the `padding` shorthand.
+ *
+ * These rules sit after `.band` in the file, so a shorthand here silently reset
+ * the band's `padding-inline` back to zero and every band ran edge to edge with
+ * its text starting at x=0 — correct-looking CSS in both places, wrong result,
+ * and nothing to see except that the page had lost its margins.
+ */
+/*
+ * No `background` declaration here at all. It used to say `transparent` — a
+ * leftover from when these were cards — and because this rule sits after
+ * `.band--ink` at equal specificity it cancelled the ink ground while the white
+ * text colour survived, so the table section rendered white on white and its
+ * heading simply disappeared. Transparent is the initial value; declaring it
+ * bought nothing and cost a section.
+ */
 .dash__panel,
 .dash__headline,
 .dash__empty {
-    background: transparent;
     border: 0;
-    border-block-start: 1px solid var(--q-rule-ink);
     border-radius: 0;
-    padding: 1.5rem 0 0;
 }
 
-.dash__headline {
+/* Only sections that are *not* bands need a rule to separate them; a band is
+ * separated by its own ground. */
+.dash__panel:not(.band),
+.dash__headline:not(.band),
+.dash__empty:not(.band) {
+    border-block-start: 1px solid var(--q-rule-ink);
+    padding-block-start: 1.5rem;
+}
+
+.dash__headline:not(.band) {
     border-block-start-width: 3px;
     border-block-start-color: var(--q-brand);
 }
@@ -349,15 +664,29 @@ body.dash {
 }
 
 .dash__section-desc,
+/* Was two rules with the same selector, the second existing only to undo the
+ * first one's margin. Merged, because a reader of this file had to notice the
+ * duplicate to know which margin actually applied. */
 .dash__note {
-    margin: 0 0 1.25rem;
+    margin: 1.25rem 0 0;
     color: var(--q-muted);
     font-size: 0.9375rem;
     max-width: var(--q-measure);
 }
 
-.dash__note {
-    margin: 1.25rem 0 0;
+/* A standing definition rather than a live warning: it sits beside the figure
+ * like a footnote, with a hairline instead of the caveat's amber bar. */
+.dash__note--aside {
+    margin-block-start: 1rem;
+    padding-inline-start: 0.875rem;
+    border-inline-start: 1px solid var(--q-rule);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.dash__note--aside strong {
+    color: var(--q-ink);
+    font-weight: 600;
 }
 
 /* ---------- the figure ---------- */
@@ -813,6 +1142,37 @@ body.dash {
 }
 
 /*
+ * The empty axis. There is no series to draw, so the section shows the baseline
+ * a series would sit on and states what would put one there — rather than a
+ * bordered panel containing the words "not enough history", which is what used
+ * to occupy this space and read as a component that had failed to load.
+ */
+.dash__await {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin: 1.5rem 0 0;
+    padding-block: 1.25rem 0;
+}
+
+.dash__await-rule {
+    flex: 1 1 auto;
+    block-size: 0;
+    border-block-start: 1px dashed var(--q-rule);
+    /* Sits low, where the axis of an empty chart would be. */
+    align-self: flex-end;
+    margin-block-end: 0.55rem;
+}
+
+.dash__await-text {
+    flex: 0 1 auto;
+    max-width: 44ch;
+    color: var(--q-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+/*
  * A chart with no series does not need a chart's worth of height. The reserved
  * box exists so ECharts has somewhere to draw and so hydration causes no layout
  * shift; when the fallback is what is showing, there is nothing to shift and
@@ -905,6 +1265,11 @@ body.dash {
 .dash__table td.cell--num {
     position: relative;
     isolation: isolate;
+}
+
+/* A numeric column's header aligns to the same edge as its figures. */
+.dash__table th.col--num {
+    text-align: end;
 }
 
 .cell-bar {
@@ -1002,12 +1367,142 @@ body.dash {
  * and flush. A single dark rounded box at the foot read as a component from a
  * different product, so it is now a section like the others.
  */
-.dash__panel--cta {
-    background: transparent;
-    color: inherit;
+/* Scoped away from bands for the same reason as the rules above: an unscoped
+ * `background` and `padding` here sat after `.band--ink` and cancelled both,
+ * which rendered this section white-on-white and flush to the window edge. */
+.dash__panel--cta:not(.band) {
     border-block-start: 1px solid var(--q-rule-ink);
     border-radius: 0;
-    padding: 1.5rem 0 0;
+    padding-block-start: 1.5rem;
+}
+
+/* ------------------------------------------------------------------
+ * The API specimen.
+ *
+ * The section said the API needs no key. Now it shows one: the request with
+ * no header on it, and a real row of the response — the same row the table
+ * above is drawn from, so the two cannot disagree. It is the only place a
+ * reader watches `imputed_share` travel in the payload instead of being told
+ * that it does, which is why that line is the one lit.
+ * ------------------------------------------------------------------ */
+.cta {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: start;
+}
+
+@media (max-width: 60rem) {
+    .cta {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.cta__lede {
+    margin: 0;
+    max-width: 34ch;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.65;
+}
+
+/* Stacked in this column rather than wrapped. Side by side in a narrow column
+ * the third button dropped to a second row on its own, which read as a
+ * mistake rather than as a group of three. */
+.cta .dash__links {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.spec {
+    margin: 0;
+    border: 1px solid var(--q-rule-ink);
+    border-radius: var(--q-radius-lg);
+    overflow: hidden;
+    background: var(--q-ink);
+    box-shadow: 0 18px 40px -28px rgb(9 30 44 / 55%);
+}
+
+.spec__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0.85rem;
+    background: #12303f;
+    border-block-end: 1px solid #1d4256;
+}
+
+.spec__dots {
+    display: inline-flex;
+    gap: 0.375rem;
+}
+
+.spec__dots i {
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    background: #2b566d;
+}
+
+.spec__status {
+    font-family: var(--q-font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7fb7cf;
+}
+
+.spec__code {
+    margin: 0;
+    /* The specimen is a document of fixed width; on a narrow screen it scrolls
+     * inside its own frame rather than widening the page. */
+    overflow-x: auto;
+    padding: 1rem 1.1rem 1.15rem;
+    font-family: var(--q-font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.65;
+    color: #b9d4e0;
+    tab-size: 2;
+}
+
+.spec__cmd {
+    display: block;
+    margin-block-end: 0.85rem;
+    padding-block-end: 0.85rem;
+    border-block-end: 1px dashed #1d4256;
+    color: var(--q-brand);
+    /* The URL is long and must not force the frame wider than the response. */
+    word-break: break-all;
+    white-space: pre-wrap;
+}
+
+.spec__k { color: #7fb7cf; }
+.spec__s { color: #9ad9b4; }
+.spec__n { color: #f0c987; }
+.spec__b { color: #e88b7a; }
+
+/* The imputation field, lit. Everything else in this response is a number
+ * somebody could have guessed was there. */
+.spec__hit {
+    /* inline-block, not block. The line it wraps is followed by a real newline
+     * inside the <pre>; a block span adds a break of its own on top of it and
+     * the response rendered with a blank line punched through the middle.
+     * inline-block forces no break, and the full inline size still lets the
+     * highlight run the width of the line. */
+    display: inline-block;
+    inline-size: 100%;
+    background: rgb(28 171 226 / 12%);
+    box-shadow: inset 3px 0 0 var(--q-brand);
+}
+
+.spec__note {
+    margin: 0;
+    padding: 0.75rem 1.1rem 0.9rem;
+    border-block-start: 1px solid #1d4256;
+    background: #0e2634;
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: #86a1b0;
 }
 
 .dash__links {
@@ -1052,6 +1547,79 @@ body.dash {
 .dash__links li:last-child a:hover {
     background: var(--q-brand-ink);
     border-color: var(--q-brand-ink);
+}
+
+/* On ink the paper-tuned outline is nearly invisible, so the accent itself
+ * carries the button and the filled one inverts. */
+.band--ink .dash__links a {
+    border-color: var(--q-brand);
+    color: var(--q-brand);
+}
+
+.band--ink .dash__links a:hover {
+    background: rgba(28, 171, 226, 0.14);
+}
+
+.band--ink .dash__links li:last-child a {
+    background: var(--q-brand);
+    border-color: var(--q-brand);
+    color: var(--q-ink);
+}
+
+.band--ink .dash__links li:last-child a:hover {
+    background: #4cc0ea;
+}
+
+/* ---------- footer ---------- */
+
+.dash__footer {
+    background: var(--q-ink);
+    color: #fff;
+    padding-block: clamp(2.5rem, 5vw, 3.5rem);
+    padding-inline: max(1.25rem, calc(50% - var(--q-well) / 2));
+    border-block-start: 3px solid var(--q-brand);
+}
+
+.dash__footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem 3rem;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.dash__footer-note {
+    margin: 0.5rem 0 0;
+    color: #a9c0cd;
+    font-size: 0.9375rem;
+    max-width: 38ch;
+}
+
+.dash__footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+}
+
+.dash__footer-links a {
+    color: #cfe0ea;
+    text-decoration: none;
+    font-size: 0.9375rem;
+    border-block-end: 1px solid rgba(255, 255, 255, 0.28);
+    padding-block-end: 2px;
+}
+
+.dash__footer-links a:hover {
+    color: #fff;
+    border-block-end-color: var(--q-brand);
+}
+
+.dash__footer-legal {
+    margin: 2.5rem 0 0;
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid rgba(255, 255, 255, 0.13);
+    color: #86a1b0;
+    font-size: 0.8125rem;
 }
 
 /* ---------- empty ---------- */

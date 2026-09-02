@@ -9,6 +9,7 @@ return [
     'subtitle' => 'Ayuda a seguir lo que cuesta lo que un niño necesita donde vives.',
 
     'location' => '¿Dónde estás?',
+    'location_placeholder' => 'Elige la localidad más cercana',
     'item' => '¿Qué producto valoraste?',
     'item_search' => 'Busca o escribe el producto',
     'item_free_text' => '¿No está en la lista? Escríbelo tal como aparece.',

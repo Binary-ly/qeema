@@ -496,7 +496,20 @@ final readonly class DashboardData
             'spread' => $cheapest !== null && $dearest !== null && (float) $cheapest->cost_local > 0
                 ? round(((float) $dearest->cost_local - (float) $cheapest->cost_local) / (float) $cheapest->cost_local, 4)
                 : null,
-            'as_of' => $snapshots->max('snapshot_date')?->toDateString(),
+            // The date of the data on the page, which is the newest date that
+            // priced anything — not the newest date present.
+            //
+            // Taking the plain maximum dated the whole page today while every
+            // row under it read "103 days ago". The publisher rolls a snapshot
+            // forward for every calendar day, so a location that has never
+            // been priced contributes an empty snapshot dated today, and one
+            // such location was enough to stamp a four-month-old median with
+            // this morning's date. That is the exact failure this repository
+            // treats as unacceptable: an old measurement presented as a fresh
+            // one.
+            'as_of' => $snapshots
+                ->filter(static fn (IndexSnapshot $s): bool => (float) $s->coverage_pct > 0)
+                ->max('snapshot_date')?->toDateString(),
         ];
     }
 }

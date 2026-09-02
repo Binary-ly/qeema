@@ -17,6 +17,7 @@ use App\Support\Scraping\OpenDataCsvScraper;
 use App\Support\Scraping\ScraperRegistry;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -64,6 +65,19 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->configureUrlGeneration();
         $this->configureRateLimiting();
+        $this->configureBladeDirectives();
+    }
+
+    /**
+     * `@localised('reporter')` — an internal link that keeps the reader's
+     * language. See LocalisedRoute for why a bare route() does not.
+     */
+    private function configureBladeDirectives(): void
+    {
+        Blade::directive(
+            'localised',
+            static fn (string $expression): string => "<?php echo e(\App\Support\Http\LocalisedRoute::to({$expression})); ?>",
+        );
     }
 
     /**

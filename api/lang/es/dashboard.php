@@ -38,6 +38,7 @@ return [
 
     'chart_national' => 'Costo de la cesta en el tiempo',
     'chart_national_desc' => 'Mediana entre las localidades con la cesta completamente valorada.',
+    'chart_await' => 'Todavía no hay línea: una tendencia necesita dos fechas en las que algún lugar haya valorado la cesta completa.',
     'chart_locations' => 'Por localidad',
     'chart_fx' => 'Tipo de cambio',
     'chart_fx_desc' => 'Tasas oficial y paralela. La brecha entre ambas suele ser la primera señal visible de tensión económica.',
@@ -57,6 +58,7 @@ return [
 
     'use_the_data' => 'Usa estos datos',
     'use_the_data_body' => 'Todo lo que hay en esta página está disponible mediante una API pública que no requiere clave, y como descarga CSV. Los datos son CC BY 4.0; el software es Apache-2.0.',
+    'spec_note' => 'El campo resaltado viaja en cada respuesta. Una estimación siempre se señala como tal, en la API igual que en esta página.',
     'api_link' => 'Documentación de la API',
     'json_link' => 'Esta página en JSON',
     'csv_link' => 'Descargar CSV',
@@ -75,6 +77,8 @@ return [
     'basket_none' => 'Sin precio en ninguna parte',
     'basket_stack_label' => 'El :percent% de la canasta de un niño, por peso, no tiene precio en ninguna ubicación aquí.',
     'basket_gap' => ':count de :total artículos que necesita un niño no tienen precio en ninguna ubicación aquí. Esa es la brecha que esta plataforma existe para cerrar.',
+
+    'footer_license' => 'Datos :license · Software Apache-2.0 · Las cifras se republican libremente con atribución.',
 
     'language' => 'Idioma',
     'skip_to_content' => 'Saltar al contenido',

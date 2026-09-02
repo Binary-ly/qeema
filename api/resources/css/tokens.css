@@ -258,15 +258,23 @@
 .brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-block-end: 1rem;
+    gap: clamp(0.75rem, 1.4vw, 1.125rem);
+    margin-block-end: clamp(1rem, 2vw, 1.75rem);
     text-decoration: none;
     color: inherit;
 }
 
+/*
+ * Sized in CSS rather than by the SVG's own width attribute, so one partial
+ * serves every surface and scales with the page. At the markup's 42px it sat in
+ * the corner under a 5rem headline and read as a favicon that had wandered onto
+ * the page — which is the opposite of what a mark is for.
+ */
 .brand__mark {
     flex-shrink: 0;
     overflow: visible;
+    width: clamp(52px, 5.5vw, 80px);
+    height: auto;
 }
 
 /* The balance settling. One pass, and small — a mark that swings a long way
@@ -353,8 +361,8 @@
 
 .brand__name {
     font-family: var(--q-font-display);
-    font-size: 1.375rem;
-    letter-spacing: -0.015em;
+    font-size: clamp(1.625rem, 2.4vw, 2.375rem);
+    letter-spacing: -0.02em;
 }
 
 /* قيمة set in the display face rather than the system default. It is half the
@@ -362,10 +370,10 @@
  * happens to ship is not a logo. */
 .brand__native {
     font-family: var(--q-font-display);
-    font-size: 1rem;
+    font-size: clamp(1.0625rem, 1.5vw, 1.375rem);
     line-height: 1;
-    opacity: 0.7;
-    margin-block-start: 0.25rem;
+    opacity: 0.72;
+    margin-block-start: 0.3125rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

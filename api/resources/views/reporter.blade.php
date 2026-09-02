@@ -79,9 +79,12 @@
     <section class="field">
         <label class="field__label" for="location">{{ __('reporter.location') }}</label>
         <select id="location" class="field__control" x-model="locationSlug">
-            <option value="" disabled>{{ __('reporter.location') }}</option>
+            {{-- The placeholder used to repeat the label above it word for
+                 word, so the field read "Where are you? / Where are you?" and
+                 said nothing about what to do. --}}
+            <option value="" disabled>{{ __('reporter.location_placeholder') }}</option>
             <template x-for="location in locationOptions" :key="location.slug">
-                <option :value="location.slug" x-text="location.label"></option>
+                <option :value="location.slug" x-text="location.optionLabel"></option>
             </template>
         </select>
     </section>
@@ -108,7 +111,13 @@
                             :class="item.className"
                             :data-code="item.code"
                             @click="selectItem">
-                        <span x-text="item.label"></span>
+                        <span class="item-list__name">
+                            <span x-text="item.label"></span>
+                            {{-- The other script, when there is one. A reporter
+                                 may know the item by its local name while
+                                 reading the page in English, or the reverse. --}}
+                            <span class="item-list__alt" x-show="item.sub" x-text="item.sub"></span>
+                        </span>
                         <small x-text="item.unit"></small>
                     </button>
                 </li>

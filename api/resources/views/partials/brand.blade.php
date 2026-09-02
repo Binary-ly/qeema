@@ -25,7 +25,13 @@
     it, so with `prefers-reduced-motion` set — or with the stylesheet still in
     flight — the finished mark is what renders.
 --}}
-<a class="brand" href="{{ route('dashboard') }}" aria-label="{{ config('app.name') }}">
+{{-- Clicking the mark used to change the reader's language: it linked to the
+     bare dashboard route, and a URL with no `locale` falls back to the
+     country's default, so an English reader landed on the Arabic page. A
+     masthead mark means "home", never "start again in a language you did not
+     choose". `$country` is guarded because this partial is also included from
+     `/docs`, which is a `Route::view` and passes no view data at all. --}}
+<a class="brand" href="@localised('dashboard', isset($country) ? $country->code : null)" aria-label="{{ config('app.name') }}">
     <svg class="brand__mark" viewBox="0 0 32 32" width="42" height="42" aria-hidden="true" focusable="false">
         <g class="brand__balance">
             {{-- The basket, rising. Unequal on purpose: the index is weighted.

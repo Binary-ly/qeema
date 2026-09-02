@@ -32,6 +32,16 @@
 }
 
 .reporter {
+    /*
+     * Half the *text* column, not half the box. The centred children below are
+     * 34rem wide with 1.25rem of padding inside them, so their text begins at
+     * `50% - 15.75rem`. The masthead was measuring half the box (17rem) and so
+     * sat exactly one padding-width outside everything under it — a 20px step
+     * between the logo and the first field that read as a wobble rather than as
+     * a margin.
+     */
+    --q-col: 15.75rem;
+
     margin: 0;
     padding: 0 0 calc(2rem + env(safe-area-inset-bottom));
     min-height: 100dvh;
@@ -330,6 +340,21 @@
     cursor: pointer;
 }
 
+.item-list__name {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+}
+
+/* The item's other name, under the one the page language leads with. Quiet
+ * enough not to compete, present enough to identify the tin on the shelf. */
+.item-list__alt {
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    color: var(--q-muted);
+}
+
 .item-list__button small {
     color: var(--q-muted);
     font-size: 0.8125rem;
@@ -426,18 +451,33 @@
     --q-col: 37rem;
 }
 
+/*
+ * The same expression as `.reporter__header`, reading the same `--q-col`, and
+ * nothing else. It used to combine a max-width, an auto margin *and* a
+ * percentage padding: three centring mechanisms compounding, so the body ended
+ * up around 150px further in than the masthead above it and the page had two
+ * left edges. One rule, one variable, and the two cannot drift.
+ */
 .docs {
-    max-width: var(--q-well);
-    margin-inline: auto;
-    padding-inline: max(1.25rem, calc(50% - 37rem));
+    padding-inline: max(1.25rem, calc(50% - var(--q-col, 17rem)));
     padding-block-end: 4rem;
 }
 
+/* No `white-space: pre-wrap` here any more — see the note in docs.blade.php.
+ * The text is real paragraphs now and reflows to the measure. */
 .docs__intro {
-    white-space: pre-wrap;
     color: var(--q-muted);
     font-size: 0.9375rem;
     max-width: var(--q-measure);
+}
+
+.docs__intro p {
+    margin: 0 0 0.9rem;
+    line-height: 1.65;
+}
+
+.docs__intro p:last-child {
+    margin-block-end: 0;
 }
 
 .docs__intro strong {
@@ -448,7 +488,10 @@
 .docs__intro code {
     font-family: var(--q-font-mono);
     font-size: 0.875em;
-    padding: 0.1em 0.35em;
+    /* Tight enough that the full stop after a chip still reads as belonging to
+     * the sentence. At 0.35em it floated a clear space away and looked like a
+     * stray character. */
+    padding: 0.1em 0.22em;
     border-radius: var(--q-radius);
     background: var(--q-paper-cool);
     color: var(--q-brand-ink);

@@ -10,6 +10,7 @@ use App\Models\FxRate;
 use App\Models\IndexSnapshot;
 use App\Models\IndexSnapshotItem;
 use App\Models\Location;
+use App\Services\Dashboard\DashboardData;
 use Carbon\CarbonImmutable;
 
 /**
@@ -266,5 +267,124 @@ describe('accessibility affordances', function (): void {
     it('never signals quality by colour alone', function (): void {
         // WCAG 1.4.1. The word is always present; the colour only reinforces it.
         expect($this->html)->toContain(__('dashboard.quality_good'));
+    });
+});
+
+describe('carrying the reader between pages', function (): void {
+    /*
+     * Locale and country ride in the query string, so a bare route() drops both
+     * and the next page falls back to the country's default language. Clicking
+     * the logo on the English page answered in Arabic. So did "Report a price",
+     * and the API documentation link, and the footer.
+     */
+    it('keeps the language on every internal page link', function (): void {
+        // Default Arabic, reader asked for English: a dropped locale is then a
+        // visible change of language rather than a no-op.
+        $this->country->update(['default_locale' => 'ar']);
+
+        $location = Location::factory()->for($this->country)->create();
+        snapshotFor($this->country, $location, $this->basket);
+
+        $html = (string) $this->get('/?country=ZZ&locale=en')->assertOk()->getContent();
+
+        expect($html)->toContain('lang="en"');
+
+        // Anchors only. `<link rel="alternate" hreflang>` announces the other
+        // languages on purpose, and a canonical is not something a reader
+        // clicks; neither is an internal page link in the sense this guards.
+        preg_match_all('/<a\s[^>]*href="([^"]+)"/i', $html, $matches);
+
+        $internal = collect($matches[1])
+            // Page routes only. The JSON and CSV endpoints are documents with
+            // their own parameters, and anchors stay on the page they are on.
+            ->filter(static function (string $href): bool {
+                $href = html_entity_decode($href);
+
+                // Anchors stay on the page they are on, and a bare query string
+                // is the language switcher itself — the one control whose job
+                // is to change the locale.
+                if (str_starts_with($href, '#') || str_starts_with($href, '?')) {
+                    return false;
+                }
+
+                // `?: '/'` is the whole point of this line. A root URL with no
+                // trailing slash — exactly what a bare `route('dashboard')`
+                // produces — parses to a null path, so an earlier version of
+                // this filter dropped the one link most likely to be wrong and
+                // passed while the logo was still resetting the language.
+                $path = parse_url($href, PHP_URL_PATH) ?: '/';
+
+                return in_array($path, ['/', '/report', '/docs'], true);
+            })
+            ->values();
+
+        expect($internal)->not->toBeEmpty();
+
+        $bare = $internal->reject(
+            static fn (string $href): bool => str_contains(html_entity_decode($href), 'locale=en'),
+        )->values()->all();
+
+        expect($bare)->toBe([]);
+    });
+});
+
+describe('dating the figures', function (): void {
+    /*
+     * The publisher rolls a snapshot forward for every calendar day whether or
+     * not anything was priced, so "the newest snapshot date" and "the date of
+     * the numbers on the page" are different questions. A deployment whose last
+     * real observations were months old dated its whole page today, because one
+     * location that had never been priced carried a today-dated empty snapshot
+     * and won the maximum. The median under that date was four months old.
+     */
+    it('dates the page by the newest snapshot that priced something', function (): void {
+        $priced = Location::factory()->for($this->country)->create();
+        $neverPriced = Location::factory()->for($this->country)->create();
+
+        $realDate = CarbonImmutable::today()->subDays(103);
+
+        snapshotFor($this->country, $priced, $this->basket, [
+            'snapshot_date' => $realDate->toDateString(),
+            'coverage_pct' => 1.0,
+        ]);
+
+        // The roll-forward: newer, and empty. Both locations get one, so the
+        // priced location's own newer-but-empty row is in the set too.
+        foreach ([$priced, $neverPriced] as $location) {
+            snapshotFor($this->country, $location, $this->basket, [
+                'snapshot_date' => CarbonImmutable::today()->toDateString(),
+                'coverage_pct' => 0.0,
+                'cost_local' => 0,
+                'cost_usd' => null,
+                'observed_item_count' => 0,
+            ]);
+        }
+
+        $data = app(DashboardData::class);
+        $headline = $data->headline($this->country, $data->currentSnapshots($this->country));
+
+        expect($headline['as_of'])->toBe($realDate->toDateString());
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee(__('dashboard.as_of', ['date' => $realDate->toDateString()]))
+            ->assertDontSee(__('dashboard.as_of', ['date' => CarbonImmutable::today()->toDateString()]));
+    });
+
+    it('dates nothing at all when nothing has ever been priced', function (): void {
+        $location = Location::factory()->for($this->country)->create();
+
+        snapshotFor($this->country, $location, $this->basket, [
+            'coverage_pct' => 0.0,
+            'cost_local' => 0,
+            'cost_usd' => null,
+            'observed_item_count' => 0,
+        ]);
+
+        $data = app(DashboardData::class);
+        $headline = $data->headline($this->country, $data->currentSnapshots($this->country));
+
+        // Null rather than today: there is no measurement to date.
+        expect($headline['as_of'])->toBeNull();
     });
 });

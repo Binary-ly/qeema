@@ -15,7 +15,7 @@
         @include('partials.brand')
         <h1>{{ __('reporter.offline_title') }}</h1>
         <p>{{ __('reporter.offline_body') }}</p>
-        <a class="reporter__submit" href="{{ route('reporter') }}">{{ __('reporter.offline_action') }}</a>
+        <a class="reporter__submit" href="@localised('reporter')">{{ __('reporter.offline_action') }}</a>
     </main>
 </body>
 </html>
