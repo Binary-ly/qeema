@@ -639,25 +639,142 @@
     margin-block: 1.5rem;
 }
 
+/*
+ * A reference you can navigate, beside a column you can read.
+ *
+ * Ten endpoints in a single flat column is a list to scroll rather than a
+ * reference to use: nothing says how many there are, what they have in common,
+ * or which one answers the question the reader arrived with.
+ */
+.docs__layout {
+    display: grid;
+    grid-template-columns: 17rem minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+}
+
+@media (max-width: 62rem) {
+    .docs__layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* The nav becomes a plain block above the reference rather than a rail
+       glued to a viewport that is already full. */
+    .docs__nav {
+        position: static;
+        max-height: none;
+    }
+}
+
+.docs__nav {
+    position: sticky;
+    top: 1.5rem;
+    max-height: calc(100dvh - 3rem);
+    overflow-y: auto;
+    font-size: 0.8125rem;
+}
+
+.docs__nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.docs__nav a {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    padding: 0.3rem 0;
+    color: var(--q-muted);
+    text-decoration: none;
+}
+
+.docs__nav a:hover {
+    color: var(--q-brand-ink);
+}
+
+.docs__nav-lead {
+    font-weight: 600;
+    color: var(--q-brand-ink) !important;
+}
+
+.docs__nav-group {
+    margin-block: 1rem 0.35rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--q-ink);
+}
+
+.docs__nav-method {
+    flex-shrink: 0;
+    inline-size: 2.4rem;
+    font-family: var(--q-font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    color: var(--q-brand-deep);
+}
+
+/* `word-break: break-all` split these mid-word — "…/b asket", "…/f x". The
+ * template inserts a <wbr> after every slash instead, so a path that has to
+ * wrap breaks between segments like a path should. */
+.docs__nav-path {
+    font-family: var(--q-font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.45;
+    word-break: normal;
+    overflow-wrap: anywhere;
+}
+
+.docs__h2 {
+    margin: 2.75rem 0 0.75rem;
+    font-family: var(--q-font-display);
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--q-ink);
+}
+
+.docs__lede {
+    margin: 0 0 1rem;
+    max-width: var(--q-measure);
+    color: var(--q-muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+}
+
+/* The featured call. It runs on load, so the first thing on the page is a real
+   response rather than a description of one. */
+.docs__start .op--hero {
+    border: 1px solid var(--q-rule-ink);
+    border-radius: var(--q-radius-lg);
+    padding: 1.15rem 1.25rem 1.25rem;
+    background: var(--q-paper-cool);
+}
+
 /* An endpoint is a row in a reference, ruled — not a card in a feed. */
 .op {
     background: transparent;
     border: 0;
     border-block-start: 1px solid var(--q-rule);
     border-radius: 0;
-    padding: 1rem 0;
+    padding: 1.15rem 0;
     margin: 0;
+    scroll-margin-top: 1.5rem;
 }
 
-.op:first-of-type {
-    border-block-start: 1px solid var(--q-rule-ink);
+.op__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
 }
 
 .op__method {
     display: inline-block;
     min-width: 3.5rem;
     padding: 0.125rem 0.4375rem;
-    margin-inline-end: 0.625rem;
     border-radius: var(--q-radius);
     background: var(--q-brand-wash);
     color: var(--q-brand-ink);
@@ -668,6 +785,13 @@
     text-align: center;
 }
 
+/* POST is the only verb here that changes anything, and it should not look
+   like the nine that do not. */
+.op__method--post {
+    background: #f6e3d8;
+    color: #8a4a25;
+}
+
 .op__path {
     font-family: var(--q-font-mono);
     font-size: 0.9375rem;
@@ -675,8 +799,19 @@
     word-break: break-all;
 }
 
+/* The same path with a real identifier in it. The heading keeps the template,
+   because the template is what the endpoint is. */
+.op__resolved {
+    display: block;
+    margin-block-start: 0.35rem;
+    font-family: var(--q-font-mono);
+    font-size: 0.8125rem;
+    color: var(--q-brand-deep);
+    word-break: break-all;
+}
+
 .op__summary {
-    color: var(--q-muted);
+    color: var(--q-ink);
     font-size: 0.9375rem;
     margin: 0.5rem 0 0;
     max-width: var(--q-measure);
@@ -684,7 +819,155 @@
 
 .op__desc {
     font-size: 0.875rem;
-    margin: 0.5rem 0 0;
+    margin: 0.4rem 0 0;
     max-width: var(--q-measure);
-    color: var(--q-ink);
+    color: var(--q-muted);
+    line-height: 1.6;
+}
+
+/* Parameters were not documented on this page at all: a reader had to download
+   the specification to find out that an endpoint took a date. */
+.op__params {
+    margin: 0.85rem 0 0;
+    display: grid;
+    gap: 0.35rem;
+}
+
+.op__param {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+}
+
+.op__param dt {
+    margin: 0;
+}
+
+.op__param dd {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: baseline;
+    color: var(--q-muted);
+}
+
+.op__param-in {
+    font-family: var(--q-font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.op__param-req {
+    color: var(--q-risk);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/*
+ * Hidden until the script has asked the API what exists.
+ *
+ * A Run button that fires `/countries/{countryCode}/…` and returns a 404
+ * teaches the reader that the API is broken, which is the opposite of true.
+ */
+.op__actions {
+    display: none;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-block-start: 0.9rem;
+}
+
+.op__actions.is-ready {
+    display: flex;
+}
+
+.op__btn {
+    min-height: 2.5rem;
+    padding: 0 0.9rem;
+    border: 1px solid var(--q-brand-deep);
+    border-radius: var(--q-radius);
+    background: transparent;
+    color: var(--q-brand-ink);
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.op__btn:hover {
+    background: var(--q-brand-wash);
+}
+
+.op__btn--run {
+    background: var(--q-brand-deep);
+    border-color: var(--q-brand-deep);
+    color: #fff;
+}
+
+.op__btn--run:hover {
+    background: var(--q-brand-ink);
+}
+
+.op__result {
+    display: none;
+    margin-block-start: 0.9rem;
+}
+
+.op__result.is-open {
+    display: block;
+}
+
+/* Status, time and size. "It returns JSON" is not the useful part; "it answered
+   in forty milliseconds without a key" is. */
+.op__status {
+    margin: 0 0 0.5rem;
+    font-family: var(--q-font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--q-ok);
+}
+
+.op__status.is-error {
+    color: var(--q-risk);
+}
+
+/*
+ * The response, in the same ink frame the dashboard uses for its API specimen,
+ * so the two pages look like one product.
+ */
+.jsonview {
+    margin: 0;
+    overflow-x: auto;
+    padding: 0.9rem 1rem;
+    border-radius: var(--q-radius-lg);
+    background: var(--q-ink);
+    color: #b9d4e0;
+    font-family: var(--q-font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+}
+
+/* `.docs code` styles inline code as a pale chip, and this whole block is one
+ * <code> element — so every line of the response arrived wearing a light
+ * background inside a dark frame. */
+.jsonview code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+    font-size: inherit;
+}
+
+.jsonview__k { color: #7fb7cf; }
+.jsonview__s { color: #9ad9b4; }
+.jsonview__n { color: #f0c987; }
+.jsonview__b { color: #e88b7a; }
+
+.jsonview__more {
+    color: #86a1b0;
+    font-style: italic;
 }

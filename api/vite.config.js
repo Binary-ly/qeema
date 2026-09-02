@@ -15,6 +15,10 @@ export default defineConfig({
                 'resources/js/reporter.js',
                 'resources/css/dashboard.css',
                 'resources/js/dashboard.js',
+                // The API reference. A real module rather than an inline block:
+                // the public pages run `script-src 'self'`, and one inline
+                // <script> would put 'unsafe-inline' back into the policy.
+                'resources/js/docs.js',
             ],
             refresh: true,
             fonts: [
