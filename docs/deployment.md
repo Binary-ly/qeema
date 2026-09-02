@@ -485,6 +485,16 @@ docker compose up -d
 
 Migrations run automatically on start, under an advisory lock.
 
+**If the checkout is bind-mounted rather than copied into the image, pull with
+`infra/scripts/deploy-pull.sh` instead of `git pull`.** Git writes files with
+the host's umask, and on a host set to `umask 007` everything it writes lands
+mode 660 — unreadable to a container that does not run as the owning user. The
+symptom is a 500 on whichever page reads the affected file first, with a
+permission error that looks nothing like a deployment step: on this project it
+took the dashboard down twice while `/report`, `/docs` and the API all kept
+answering 200. The script pulls, restores `a+rX`, clears the compiled views and
+then checks four URLs before reporting success.
+
 Read `PROGRESS.md` before upgrading across a release: anything that changes a
 published figure is recorded there, and some fixes require a recomputation
 rather than only a migration. When a change affects how the index is computed:
