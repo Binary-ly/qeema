@@ -281,6 +281,17 @@ if (!reduceMotion && 'IntersectionObserver' in window) {
         requestAnimationFrame(step)
     }
 
+    const targets = [...document.querySelectorAll('.dash__headline, .dash__panel, .dash__rail')]
+
+    const reveal = (el) => {
+        if (el.classList.contains('is-revealed')) {
+            return
+        }
+
+        el.classList.add('is-revealed')
+        el.querySelectorAll('[data-count]').forEach(countUp)
+    }
+
     const revealer = new IntersectionObserver(
         (entries) => {
             for (const entry of entries) {
@@ -288,8 +299,7 @@ if (!reduceMotion && 'IntersectionObserver' in window) {
                     continue
                 }
 
-                entry.target.classList.add('is-revealed')
-                entry.target.querySelectorAll('[data-count]').forEach(countUp)
+                reveal(entry.target)
                 revealer.unobserve(entry.target)
             }
         },
@@ -298,7 +308,32 @@ if (!reduceMotion && 'IntersectionObserver' in window) {
         { rootMargin: '0px 0px -10% 0px', threshold: 0.08 },
     )
 
-    document
-        .querySelectorAll('.dash__headline, .dash__panel, .dash__rail')
-        .forEach((el) => revealer.observe(el))
+    targets.forEach((el) => revealer.observe(el))
+
+    /*
+     * Two backstops, because the cost of this animation misfiring is not a
+     * missing flourish — it is a section of a public data page that stays at
+     * `opacity: 0` for ever. That happened: an observer set up before layout
+     * had settled reported several sections as not intersecting, and they were
+     * never looked at again, so most of the page was invisible while the markup
+     * and the CSS were both perfectly correct.
+     *
+     * Anything already on screen is revealed immediately rather than waiting to
+     * be told it is on screen...
+     */
+    const onScreen = (el) => {
+        const box = el.getBoundingClientRect()
+
+        return box.top < window.innerHeight && box.bottom > 0
+    }
+
+    targets.filter(onScreen).forEach((el) => {
+        reveal(el)
+        revealer.unobserve(el)
+    })
+
+    // ...and everything is revealed unconditionally shortly afterwards, so no
+    // arrangement of scroll position, layout timing or observer behaviour can
+    // leave content hidden. A reader who never scrolls still sees the page.
+    setTimeout(() => targets.forEach(reveal), 2500)
 }

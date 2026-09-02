@@ -55,8 +55,17 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 1rem;
-    margin-block-end: 1.5rem;
-    padding: max(1.25rem, env(safe-area-inset-top)) 1.25rem 1.25rem;
+    margin-block-end: 1.75rem;
+    /*
+     * The band is full width; its contents are not. Without the calc the
+     * masthead started at the screen edge while the form sat in a 34rem column
+     * two hundred pixels inward, so the page had two different left edges and
+     * looked like two pages stacked.
+     */
+    padding-block: max(1.25rem, env(safe-area-inset-top)) 1.25rem;
+    /* `--q-col` is half the content column: 17rem for the phone-width form,
+       wider on the API reference, which is a desk document. */
+    padding-inline: max(1.25rem, calc(50% - var(--q-col, 17rem)));
     background: var(--q-ink);
     /* Set on the band, not only on the title. The mark and its wordmark
        inherit their colour, so without this they were ink on ink — present in
@@ -241,16 +250,31 @@
 /* The price is the one number that matters, so it gets the largest target and
    is always read left-to-right even in an RTL layout — digits are entered in
    Latin or Arabic-Indic form but the value itself is not bidirectional. */
+/*
+ * The one field the whole app exists to collect. It gets display type, a
+ * heavier frame and the largest target on the page, because someone standing
+ * in a market with one hand free should never be in any doubt about where the
+ * number goes.
+ */
 .field__control--price {
     font-family: var(--q-font-display);
-    font-size: 2.25rem;
+    font-size: 2.75rem;
     font-weight: 400;
     letter-spacing: -0.02em;
     text-align: center;
-    padding-block: 0.75rem;
+    padding-block: 1rem;
+    border-width: 2px;
+    border-color: var(--q-ink);
+    border-radius: var(--q-radius-lg);
     direction: ltr;
     unicode-bidi: plaintext;
     font-variant-numeric: tabular-nums lining-nums;
+}
+
+.field__control--price:focus-visible {
+    border-color: var(--q-brand-deep);
+    box-shadow: 0 0 0 4px var(--q-brand-wash);
+    outline: none;
 }
 
 .field__hint {
@@ -375,10 +399,16 @@
  * forces `style-src 'unsafe-inline'` back into the policy the public pages
  * spent a phase removing.
  */
+/* The reference is read on a laptop, not filled in on a phone, so it gets the
+   dashboard's column and tells the masthead above it to match. */
+.reporter--docs {
+    --q-col: 37rem;
+}
+
 .docs {
     max-width: var(--q-well);
     margin-inline: auto;
-    padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+    padding-inline: max(1.25rem, calc(50% - 37rem));
     padding-block-end: 4rem;
 }
 

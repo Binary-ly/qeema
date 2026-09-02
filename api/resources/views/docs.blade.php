@@ -18,7 +18,7 @@
          policy the public pages spent a phase removing. --}}
     @vite(['resources/css/reporter.css'])
 </head>
-<body class="reporter">
+<body class="reporter reporter--docs">
 <header class="reporter__header">
     <div>
         @include('partials.brand')
