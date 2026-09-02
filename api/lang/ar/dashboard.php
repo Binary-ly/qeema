@@ -77,7 +77,7 @@ return [
     'source_link' => 'الشيفرة المصدرية',
 
     'hero_items' => 'بنود مُسعَّرة',
-    'hero_locations' => 'مواقع مُبلِّغة',
+    'hero_locations' => 'مواقع لها بيانات',
     'hero_updated' => 'أحدث البيانات',
 
     'basket_title' => 'ما يحتاجه الطفل',

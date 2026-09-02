@@ -65,7 +65,7 @@ return [
     'source_link' => 'Código fuente',
 
     'hero_items' => 'Artículos con precio',
-    'hero_locations' => 'Ubicaciones que reportan',
+    'hero_locations' => 'Ubicaciones con datos',
     'hero_updated' => 'Datos más recientes',
 
     'basket_title' => 'Lo que necesita un niño',

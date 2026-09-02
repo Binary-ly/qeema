@@ -69,7 +69,12 @@ return [
     'source_link' => 'Source code',
 
     'hero_items' => 'Items priced',
-    'hero_locations' => 'Locations reporting',
+    // Not "Locations reporting". The number counts locations that have a
+    // published figure, which is not the same as locations that are reporting
+    // now — this deployment shows sixteen of them and the newest observation
+    // behind any of them is months old. A present participle over a stale
+    // count is the same overstatement as dating old prices today.
+    'hero_locations' => 'Locations with data',
     'hero_updated' => 'Latest data',
 
     'basket_title' => 'What a child needs',
