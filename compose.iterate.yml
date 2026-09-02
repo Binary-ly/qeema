@@ -1,0 +1,46 @@
+# SPDX-License-Identifier: Apache-2.0
+#
+# Live-iteration overlay. **Not for a real deployment** — see compose.prod.yml
+# for that, and use this only on top of it while working on the front end:
+#
+#   docker compose -f docker-compose.yml -f compose.prod.yml -f compose.iterate.yml up -d app
+#
+# Why it exists. Rebuilding the app image for a CSS change takes about a minute,
+# and for most of that minute the container is being recreated — so the reverse
+# proxy has no healthy backend and answers every request with its own 404. A
+# person watching the site sees it break repeatedly for reasons that have
+# nothing to do with the change being made.
+#
+# Mounting the four directories that actually change during design work means a
+# stylesheet edit is a file copy and a `view:clear`, with no rebuild and no
+# downtime at all.
+#
+# Everything is mounted read-only: the container renders these files, it does
+# not own them, and a container writing back into the working tree is a class of
+# surprise nobody needs. `public/build` is Vite output, so it has to be built on
+# the host first — which is the one thing this overlay assumes.
+
+services:
+  app:
+    volumes:
+      - ./api/resources:/app/resources:ro
+      - ./api/public/build:/app/public/build:ro
+      - ./api/lang:/app/lang:ro
+      - ./api/app:/app/app:ro
+      # Without this the mounts above are half a lie: opcache is configured
+      # not to revalidate timestamps, so a changed class or a recompiled view
+      # is invisible until the process restarts, and the page keeps rendering
+      # the previous version with nothing reporting a problem.
+      - ./infra/docker/php/iterate.ini:/usr/local/etc/php/conf.d/zz-iterate.ini:ro
+
+  worker:
+    volumes:
+      - ./api/resources:/app/resources:ro
+      - ./api/lang:/app/lang:ro
+      - ./api/app:/app/app:ro
+
+  scheduler:
+    volumes:
+      - ./api/resources:/app/resources:ro
+      - ./api/lang:/app/lang:ro
+      - ./api/app:/app/app:ro

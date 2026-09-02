@@ -1,0 +1,114 @@
+# SPDX-License-Identifier: Apache-2.0
+#
+# Production overlay: Qeema behind an existing reverse proxy, on a shared host.
+#
+#   docker compose -f docker-compose.yml -f compose.prod.yml up -d
+#
+# `docker-compose.yml` assumes it owns the machine, which is right for the demo
+# and wrong for the ordinary small deployment: something else already terminates
+# TLS on 80/443, other containers already hold the obvious ports, and the RAM is
+# already mostly spoken for. Two properties follow, and both are safety rather
+# than tidiness.
+#
+# **Nothing here publishes a host port.** The proxy reaches the app over a
+# shared docker network. A published port on a box like this either collides
+# with whatever already holds 8080, or quietly exposes an unproxied HTTP copy of
+# the service beside the TLS one — which on this platform would be a public API
+# with no certificate in front of it.
+#
+# **Every service carries a hard memory and CPU cap.** Without them the kernel
+# resolves memory pressure by killing whichever process it judges biggest, and
+# on a shared host that is as likely to be a neighbour as it is to be Qeema. A
+# cgroup limit turns "the box ran out of memory" into "Qeema ran out of its own
+# memory" — a bug report rather than somebody else's outage. The defaults below
+# fit a 2 vCPU / 8 GB host already running other services; raise them on a box
+# that is yours alone.
+#
+# Required in `.env`:
+#
+#   QEEMA_PUBLIC_HOST      hostname to route, e.g. qeema.example.org
+#   TRAEFIK_NETWORK        docker network the proxy is attached to
+#   TRAEFIK_CERTRESOLVER   certificatesresolvers name the proxy was started with
+#
+# See docs/deployment.md for the rest of the production checklist — this file
+# covers placement and resource limits only.
+
+services:
+  postgres:
+    mem_limit: ${QEEMA_MEM_POSTGRES:-512m}
+    cpus: ${QEEMA_CPU_POSTGRES:-0.6}
+
+  redis:
+    mem_limit: ${QEEMA_MEM_REDIS:-128m}
+    cpus: ${QEEMA_CPU_REDIS:-0.2}
+
+  ml:
+    # The one genuinely large process: multilingual-e5-base is 278M parameters
+    # and torch does not hand the memory back. Everything else here is small.
+    #
+    # Sized from a measured failure rather than a guess. At 1600m the service
+    # loaded the model fine at ~900 MB and was then OOM-killed at 1.61 GB while
+    # embedding a 1,490-variant catalogue — the peak is the warm, not the
+    # steady state. The kill was `constraint=CONSTRAINT_MEMCG` against this
+    # container's own cgroup, which is the point of setting a limit on a shared
+    # host: the kernel had no reason to consider a neighbour.
+    ports: !reset []
+    mem_limit: ${QEEMA_MEM_ML:-2200m}
+    cpus: ${QEEMA_CPU_ML:-1.0}
+    environment:
+      # Smaller batches trade warm time for peak memory. 32 is right on a box
+      # that owns its RAM; this one does not.
+      QEEMA_ML_EMBEDDING_BATCH_SIZE: ${QEEMA_ML_EMBEDDING_BATCH_SIZE:-8}
+
+  app:
+    ports: !reset []
+    mem_limit: ${QEEMA_MEM_APP:-448m}
+    cpus: ${QEEMA_CPU_APP:-0.8}
+    environment:
+      # Not in the demo stack's env block, so without these the admin panel
+      # ships on its documented demo password. `:?` rather than a default: a
+      # production overlay that silently falls back to `qeema-demo` on a public
+      # host is the failure this line exists to prevent, and compose refuses to
+      # start rather than warning somewhere in a log.
+      QEEMA_ADMIN_EMAIL: ${QEEMA_ADMIN_EMAIL:?set QEEMA_ADMIN_EMAIL in .env}
+      QEEMA_ADMIN_PASSWORD: ${QEEMA_ADMIN_PASSWORD:?set QEEMA_ADMIN_PASSWORD in .env}
+      # Also absent from the demo stack's env block. The 10s default is sized
+      # for a machine that is not sharing two cores with other production
+      # services; here a batch match can legitimately take longer than that, and
+      # every timeout is a submission deferred to a human for no reason.
+      QEEMA_ML_TIMEOUT: ${QEEMA_ML_TIMEOUT:-30}
+      QEEMA_ML_WARM_TIMEOUT: ${QEEMA_ML_WARM_TIMEOUT:-900}
+    networks:
+      - default
+      - edge
+    labels:
+      - traefik.enable=true
+      # Explicit, because the container is on two networks and the proxy has to
+      # be told which address to dial. Without it Traefik picks one and may pick
+      # the internal one, which fails intermittently rather than outright.
+      - traefik.docker.network=${TRAEFIK_NETWORK}
+      - traefik.http.routers.qeema.rule=Host(`${QEEMA_PUBLIC_HOST}`)
+      - traefik.http.routers.qeema.entrypoints=websecure
+      - traefik.http.routers.qeema.tls.certresolver=${TRAEFIK_CERTRESOLVER}
+      - traefik.http.services.qeema.loadbalancer.server.port=8080
+
+  worker:
+    mem_limit: ${QEEMA_MEM_WORKER:-448m}
+    cpus: ${QEEMA_CPU_WORKER:-0.6}
+    environment:
+      # The worker is what actually runs resolution, so this is the container
+      # the matching timeout matters most on.
+      QEEMA_ML_TIMEOUT: ${QEEMA_ML_TIMEOUT:-30}
+      QEEMA_ML_WARM_TIMEOUT: ${QEEMA_ML_WARM_TIMEOUT:-900}
+
+  scheduler:
+    mem_limit: ${QEEMA_MEM_SCHEDULER:-256m}
+    cpus: ${QEEMA_CPU_SCHEDULER:-0.3}
+    environment:
+      QEEMA_ML_TIMEOUT: ${QEEMA_ML_TIMEOUT:-30}
+      QEEMA_ML_WARM_TIMEOUT: ${QEEMA_ML_WARM_TIMEOUT:-900}
+
+networks:
+  edge:
+    external: true
+    name: ${TRAEFIK_NETWORK}
