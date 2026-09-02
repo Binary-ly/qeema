@@ -1,0 +1,380 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+
+/*
+ * The design system. One file, imported by every public surface — the
+ * dashboard, the reporter app, the offline page and the API docs — because
+ * they were three different-looking products before it existed: two unrelated
+ * dark palettes, three accent blues, and quality colours picked against a
+ * background they were no longer being drawn on.
+ *
+ * ── What this is meant to look like ──────────────────────────────────────
+ *
+ * A statistical bulletin about children. Both halves matter.
+ *
+ * *Bulletin* is where the authority comes from: a deep navy ink, sections
+ * separated by rules rather than floated in cards, figures set in a display
+ * serif at a size that expects to be quoted, and tables ruled the way a
+ * statistical annexe is ruled. This page is read beside numbers from WFP and
+ * the World Bank, and it has to look like it belongs in that company.
+ *
+ * *About children* is where the warmth comes from, and it is carried by one
+ * colour rather than by decoration. There is a single accent hue in this
+ * system and everything chromatic descends from it: the data ramp is that hue
+ * from pale to deep, the links are that hue darkened until it clears AA on
+ * white, the map's land is that hue at four per cent. Nothing is coloured
+ * because it looked nice. If something on this page is coloured, it is either
+ * a measurement or a control.
+ *
+ * ── Light, always ────────────────────────────────────────────────────────
+ *
+ * Deliberately, and not by following the reader's operating system. These
+ * figures get screenshotted into funding papers, printed into briefing packs,
+ * and read outdoors on a phone in a market. A theme that flips because
+ * somebody's laptop is set to dark makes one figure look like two different
+ * documents depending on who opened it.
+ */
+
+/* ---------- type ---------- */
+
+/*
+ * Bundled, never fetched: a CDN webfont is a third-party runtime dependency
+ * (C1) and a request on the critical path of a page built for slow
+ * connections. See resources/fonts/README.md. 52 KB for the pair.
+ */
+/*
+ * Every face carries an explicit `unicode-range`, which is what makes shipping
+ * four of them affordable. The browser downloads a face only when a glyph on
+ * the page actually needs it, so the English dashboard never fetches a byte of
+ * Arabic and the Arabic dashboard never fetches a byte of Latin display.
+ *
+ * It also fixes something a `:lang(ar)` switch cannot. Real strings here are
+ * mixed — "حليب نيدو" carries an Arabic noun and a Latin brand, and item names
+ * pair Arabic words with Latin sizes. A per-language font switch sets the whole
+ * run in one family and lets one script render in a face that was never drawn
+ * for it. Per-glyph selection gives each script its own type inside the same
+ * sentence, which is what the content has always been.
+ */
+@font-face {
+    font-family: 'Instrument Serif';
+    src: url('../fonts/instrument-serif-latin.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+        U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+        U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'DM Sans';
+    src: url('../fonts/dm-sans-latin.woff2') format('woff2');
+    font-weight: 300 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+        U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+        U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/*
+ * Arabic is not a fallback here, it is the primary script of the first
+ * deployment. Amiri is a Naskh revival with real stroke contrast, which is the
+ * Arabic counterpart to what Instrument Serif is doing in Latin — a face that
+ * expects to be read in a document rather than in an interface. IBM Plex Sans
+ * Arabic carries the interface and the tables: it was drawn alongside a Latin
+ * sans, so it sits beside DM Sans at the same optical size without one of them
+ * looking borrowed.
+ *
+ * Both OFL-1.1, so both satisfy C1.
+ */
+@font-face {
+    font-family: 'Amiri';
+    src: url('../fonts/amiri-arabic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891,
+        U+0898-08E1, U+08E3-08FF, U+FB50-FDFF, U+FE70-FEFF, U+10E60-10E7E,
+        U+1EE00-1EEFF;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans Arabic';
+    src: url('../fonts/plex-arabic-400.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891,
+        U+0898-08E1, U+08E3-08FF, U+FB50-FDFF, U+FE70-FEFF, U+10E60-10E7E,
+        U+1EE00-1EEFF;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans Arabic';
+    src: url('../fonts/plex-arabic-500.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891,
+        U+0898-08E1, U+08E3-08FF, U+FB50-FDFF, U+FE70-FEFF, U+10E60-10E7E,
+        U+1EE00-1EEFF;
+}
+
+:root {
+    /* ---------- ink and paper ---------- */
+    --q-ink: #0b1f2a;
+    --q-ink-2: #12303f;
+    --q-paper: #ffffff;
+    /* The only two tinted surfaces. Cool for structural bands, warm for
+     * callouts, so a reader can tell "this is a section" from "read this". */
+    --q-paper-cool: #f4f8fa;
+    --q-paper-warm: #faf8f4;
+    --q-muted: #55666f;
+    --q-rule: #dfe7ec;
+    --q-rule-ink: #0b1f2a;
+
+    /* ---------- the one accent ---------- */
+    --q-brand: #1cabe2;
+    /* The same hue, darkened until body text on white clears AA. Used for
+     * every link and control; --q-brand is for fills and marks only. */
+    --q-brand-deep: #0b6e92;
+    --q-brand-ink: #073c52;
+    --q-brand-wash: #e9f6fc;
+
+    /* ---------- the data ramp ---------- */
+    /* One hue, five steps, monotonic in lightness — so it survives greyscale,
+     * photocopying and the common colour vision deficiencies, and so a chart
+     * and the map are visibly the same scale. The previous ramp ran cyan to
+     * orange, which read as two unrelated colour systems on one page. */
+    --q-ramp-1: #e3f3fa;
+    --q-ramp-2: #b4e0f2;
+    --q-ramp-3: #6fc5e6;
+    --q-ramp-4: #2a9ac9;
+    --q-ramp-5: #0a5a7d;
+    --q-scale-low: var(--q-ramp-2);
+    --q-scale-high: var(--q-ramp-5);
+
+    /* ---------- semantics ---------- */
+    /* Deep and desaturated so they sit beside the accent rather than shouting
+     * over it, and dark enough to clear AA on paper at small sizes. Colour is
+     * never the only signal — the word is always present (WCAG 1.4.1). */
+    --q-ok: #0f6e52;
+    --q-warn: #8a6212;
+    --q-risk: #a0342a;
+
+    /* ---------- form ---------- */
+    --q-radius: 3px;
+    --q-radius-lg: 5px;
+    --q-touch: 2.75rem;
+    --q-measure: 68ch;
+    --q-well: 74rem;
+
+/*
+ * Both scripts in one stack. `unicode-range` on each face means the browser
+ * picks per glyph, so there is no `:lang()` switch to get wrong and a mixed
+ * Arabic-and-Latin string is set correctly in both halves.
+ */
+    --q-font-display: 'Instrument Serif', 'Amiri', Georgia, 'Times New Roman', serif;
+    --q-font-body: 'DM Sans', 'IBM Plex Sans Arabic', system-ui, -apple-system,
+        'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+    --q-font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+}
+
+/*
+ * Arabic sits a little small beside Latin at the same point size, because its
+ * x-height equivalent is shorter relative to the em. A small upward nudge on
+ * Arabic-language pages makes the two scripts read at the same visual weight
+ * rather than making Arabic look like a caption.
+ */
+:lang(ar) body {
+    font-size: 1.05em;
+    line-height: 1.75;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* ---------- shared primitives ---------- */
+
+/*
+ * The micro-label. Used for every field label, table header, stat caption and
+ * section eyebrow across all four pages, which is most of what makes them look
+ * like one product.
+ */
+.q-label {
+    font-family: var(--q-font-body);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--q-muted);
+}
+
+/* Section numerals, in the manner of a report's contents page. */
+.q-ordinal {
+    font-family: var(--q-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--q-brand-deep);
+    font-variant-numeric: tabular-nums;
+}
+
+/*
+ * One focus ring everywhere. It was three different rings before, and one of
+ * them was invisible against the surface it appeared on.
+ */
+:where(a, button, select, input, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--q-brand-deep);
+    outline-offset: 2px;
+    border-radius: var(--q-radius);
+}
+
+.q-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- the mark ---------- */
+
+/*
+ * Every animation below arrives *at* the resting state rather than departing
+ * from it: the `from` keyframe holds the unusual value and the element's own
+ * CSS holds the finished one. So the mark is correct with the animation
+ * disabled, with `prefers-reduced-motion` set, mid-download, and in a browser
+ * that supports none of this. A logo that only exists at the end of a keyframe
+ * is a logo that is sometimes missing.
+ */
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-block-end: 1rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.brand__mark {
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+/* The balance settling. One pass, and small — a mark that swings a long way
+ * reads as a toy, and this one sits above figures about children. */
+.brand__balance {
+    transform-origin: 16px 20px;
+    animation: brand-settle 900ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+
+/* No start delay. `backwards` holds the from-state during a delay, so any
+ * delay here is a window in which the masthead has no logo in it at all — and
+ * on a slow device that window is the first thing a reader sees. */
+.brand__cradle {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    animation: brand-draw 620ms cubic-bezier(0.65, 0, 0.35, 1) backwards;
+}
+
+.brand__bar {
+    transform-box: fill-box;
+    transform-origin: bottom center;
+    animation: brand-rise 620ms cubic-bezier(0.34, 1.4, 0.5, 1) backwards;
+}
+
+/* Staggered left to right, so the basket fills rather than appearing. Kept
+ * short: the whole mark is complete inside half a second, because an entrance
+ * that outlasts the reader's first glance is an entrance nobody sees the end
+ * of. */
+.brand__bar:nth-child(1) { animation-delay: 150ms; }
+.brand__bar:nth-child(2) { animation-delay: 215ms; }
+.brand__bar:nth-child(3) { animation-delay: 280ms; }
+.brand__bar:nth-child(4) { animation-delay: 345ms; }
+
+@keyframes brand-draw {
+    from {
+        stroke-dashoffset: 1;
+    }
+}
+
+@keyframes brand-rise {
+    from {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+}
+
+@keyframes brand-settle {
+    from {
+        transform: rotate(-7deg);
+    }
+
+    55% {
+        transform: rotate(2.5deg);
+    }
+}
+
+/* A live measure twitches when you touch it. */
+.brand:hover .brand__bar,
+.brand:focus-visible .brand__bar {
+    transform: scaleY(1.07);
+    transition: transform 260ms cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+
+.brand:hover .brand__bar:nth-child(2),
+.brand:focus-visible .brand__bar:nth-child(2) {
+    transition-delay: 40ms;
+}
+
+.brand:hover .brand__bar:nth-child(3),
+.brand:focus-visible .brand__bar:nth-child(3) {
+    transition-delay: 80ms;
+}
+
+.brand:hover .brand__bar:nth-child(4),
+.brand:focus-visible .brand__bar:nth-child(4) {
+    transition-delay: 120ms;
+}
+
+.brand__word {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.brand__name {
+    font-family: var(--q-font-display);
+    font-size: 1.375rem;
+    letter-spacing: -0.015em;
+}
+
+/* قيمة set in the display face rather than the system default. It is half the
+ * wordmark, and a logo whose second half renders in whatever the device
+ * happens to ship is not a logo. */
+.brand__native {
+    font-family: var(--q-font-display);
+    font-size: 1rem;
+    line-height: 1;
+    opacity: 0.7;
+    margin-block-start: 0.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

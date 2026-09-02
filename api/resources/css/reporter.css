@@ -1,285 +1,459 @@
-/* SPDX-License-Identifier: Apache-2.0
+/* SPDX-License-Identifier: Apache-2.0 */
+
+@import './tokens.css';
+
+/*
+ * Reporter PWA, the offline page, and the API reference — three surfaces, one
+ * stylesheet, because they share a shell and used to share nothing else.
  *
- * Reporter PWA styles.
- *
- * Three constraints drive everything here:
+ * Four constraints drive everything here:
  *
  *   1. It must work in both directions. Every inline offset uses CSS logical
  *      properties, so one stylesheet is correct in LTR and RTL. A mirrored
  *      second stylesheet would drift the first time someone edited one of them.
  *
- *   2. It must be fast on a low-end phone over a slow connection. No webfont,
- *      no framework, no images. The system stack also renders Arabic natively
- *      on every device — the scaffold's Instrument Sans has no Arabic coverage
- *      at all, so using it here would silently fall back for the primary
- *      audience.
+ *   2. It must be fast on a low-end phone over a slow connection. No framework,
+ *      no images, and the two bundled faces are Latin-only — Arabic falls to
+ *      the system stack, which renders it better than either would and costs
+ *      nothing to download.
  *
  *   3. Targets must be thumb-sized. Someone is using this standing up, in a
- *      market, probably one-handed.
+ *      market, probably one-handed, quite possibly in sunlight — which is the
+ *      other reason this is light rather than dark. A dark UI in direct sun is
+ *      a mirror.
+ *
+ *   4. It must never look like a toy. The person using it is doing unpaid work
+ *      that carries some risk, and the interface should look like it takes that
+ *      seriously.
  */
-
-:root {
-    --bg: #0f172a;
-    --surface: #1e293b;
-    --surface-raised: #334155;
-    --text: #f8fafc;
-    --muted: #94a3b8;
-    --accent: #38bdf8;
-    --ok: #22c55e;
-    --warn: #f59e0b;
-    --error: #ef4444;
-    --radius: 0.75rem;
-    --touch: 3rem;
-}
 
 [x-cloak] {
     display: none !important;
 }
 
-* {
-    box-sizing: border-box;
-}
-
 .reporter {
     margin: 0;
-    padding: max(1rem, env(safe-area-inset-top)) 1rem calc(1rem + env(safe-area-inset-bottom));
+    padding: 0 0 calc(2rem + env(safe-area-inset-bottom));
     min-height: 100dvh;
-    background: var(--bg);
-    color: var(--text);
-
-    font-family:
-        system-ui,
-        -apple-system,
-        'Segoe UI',
-        Roboto,
-        'Noto Sans Arabic',
-        'Noto Sans',
-        sans-serif;
+    background: var(--q-paper);
+    color: var(--q-ink);
+    font-family: var(--q-font-body);
     font-size: 1.0625rem;
-    line-height: 1.5;
+    line-height: 1.55;
     -webkit-text-size-adjust: 100%;
 }
 
+/* ---------- masthead ---------- */
+
+/*
+ * The same ink band as the dashboard. A reporter who has seen the public page
+ * should recognise where their price ends up, and an institution evaluating
+ * the platform should not meet two different products.
+ */
 .reporter__header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 1rem;
-    margin-block-end: 1rem;
+    margin-block-end: 1.5rem;
+    padding: max(1.25rem, env(safe-area-inset-top)) 1.25rem 1.25rem;
+    background: var(--q-ink);
+    /* Set on the band, not only on the title. The mark and its wordmark
+       inherit their colour, so without this they were ink on ink — present in
+       the DOM, invisible on the page. */
+    color: #fff;
+    border-block-end: 3px solid var(--q-brand);
 }
 
 .reporter__title {
     margin: 0;
-    font-size: 1.375rem;
-    font-weight: 600;
+    font-family: var(--q-font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    font-size: 1.75rem;
+    line-height: 1.1;
+    color: #fff;
 }
 
 .reporter__subtitle {
-    margin: 0.25rem 0 0;
-    color: var(--muted);
+    margin: 0.375rem 0 0;
+    color: #b9cbd6;
     font-size: 0.9375rem;
+    max-width: 38ch;
 }
 
 .reporter__locale {
     display: flex;
-    gap: 0.25rem;
+    gap: 0.375rem;
     flex-shrink: 0;
 }
 
 .reporter__locale a {
     display: grid;
     place-items: center;
-    min-width: 2.75rem;
-    min-height: 2.25rem;
-    border-radius: 0.5rem;
-    background: var(--surface);
-    color: var(--muted);
+    min-width: var(--q-touch);
+    min-height: var(--q-touch);
+    border-radius: var(--q-radius);
+    border: 1px solid #2a4a5c;
+    background: transparent;
+    color: #cfe0ea;
     text-decoration: none;
     font-size: 0.8125rem;
-    font-weight: 600;
+    font-weight: 500;
+    letter-spacing: 0.06em;
 }
 
 .reporter__locale a.is-active {
-    background: var(--accent);
-    color: var(--bg);
+    background: var(--q-brand);
+    border-color: var(--q-brand);
+    color: var(--q-ink);
 }
 
-/* Connectivity is stated permanently, not as a transient toast: a reporter
-   needs to know their work is safe, not find out later that it vanished. */
+/* Everything below the masthead sits in a readable column. The API reference
+   is excluded: it is a desk document read on a laptop, not a form filled in on
+   a phone, and 34rem would wrap every endpoint path. */
+.reporter > *:not(.reporter__header):not(.docs) {
+    max-width: 34rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+}
+
+/* A quiet way back to the published figures from the reference and the
+   offline page, styled like the masthead's other controls. */
+.reporter__home {
+    display: inline-grid;
+    place-items: center;
+    min-height: var(--q-touch);
+    padding-inline: 0.875rem;
+    border: 1px solid #2a4a5c;
+    border-radius: var(--q-radius);
+    color: #cfe0ea;
+    text-decoration: none;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.reporter__home:hover {
+    background: var(--q-ink-2);
+}
+
+/* ---------- connectivity ---------- */
+
+/* Stated permanently, not as a transient toast: a reporter needs to know their
+   work is safe, not find out later that it vanished. */
 .reporter__status {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem 1rem;
-    padding: 0.625rem 0.875rem;
-    border-radius: var(--radius);
-    background: var(--surface);
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--q-rule);
+    border-inline-start: 4px solid var(--q-ok);
+    border-radius: var(--q-radius);
+    background: var(--q-paper-cool);
     font-size: 0.875rem;
-    border-inline-start: 4px solid var(--ok);
+    font-weight: 500;
 }
 
 .reporter__status.is-offline {
-    border-inline-start-color: var(--warn);
+    border-inline-start-color: var(--q-warn);
+    background: var(--q-paper-warm);
 }
 
 .reporter__queue {
-    color: var(--muted);
+    color: var(--q-muted);
+    font-weight: 400;
 }
 
 .reporter__queue.is-error {
-    color: var(--error);
+    color: var(--q-risk);
+    font-weight: 500;
 }
 
 .reporter__flash {
-    margin: 0.75rem 0 0;
-    padding: 0.75rem 0.875rem;
-    border-radius: var(--radius);
-    background: var(--surface-raised);
+    margin: 0.875rem auto 0;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--q-rule);
+    border-radius: var(--q-radius);
+    background: var(--q-paper-cool);
     font-size: 0.9375rem;
 }
 
 .reporter__flash.is-success {
-    border-inline-start: 4px solid var(--ok);
+    border-inline-start: 4px solid var(--q-ok);
 }
 
 .reporter__flash.is-error {
-    border-inline-start: 4px solid var(--error);
+    border-inline-start: 4px solid var(--q-risk);
 }
+
+/* ---------- form ---------- */
 
 .reporter__form {
     display: grid;
-    gap: 1.25rem;
-    margin-block-start: 1.25rem;
+    gap: 1.5rem;
+    margin-block-start: 1.5rem;
 }
 
 .field {
     display: grid;
-    gap: 0.375rem;
+    gap: 0.5rem;
 }
 
 .field--row {
     grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    gap: 0.875rem;
 }
 
 .field__label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--muted);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--q-muted);
 }
 
 .field__control {
     width: 100%;
-    min-height: var(--touch);
-    padding: 0.625rem 0.875rem;
-    border: 1px solid var(--surface-raised);
-    border-radius: var(--radius);
-    background: var(--surface);
-    color: var(--text);
+    min-height: var(--q-touch);
+    padding: 0.6875rem 0.875rem;
+    border: 1px solid #c3d2da;
+    border-radius: var(--q-radius);
+    background: var(--q-paper);
+    color: var(--q-ink);
     /* 1rem minimum: iOS Safari zooms the viewport on focus below 16px, which
        throws the layout off and is jarring mid-submission. */
     font-size: 1rem;
     font-family: inherit;
 }
 
+.field__control::placeholder {
+    color: #8fa2ad;
+}
+
 .field__control:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline: 2px solid var(--q-brand-deep);
+    outline-offset: 1px;
+    border-color: var(--q-brand-deep);
 }
 
 /* The price is the one number that matters, so it gets the largest target and
    is always read left-to-right even in an RTL layout — digits are entered in
    Latin or Arabic-Indic form but the value itself is not bidirectional. */
 .field__control--price {
-    font-size: 1.75rem;
-    font-weight: 600;
+    font-family: var(--q-font-display);
+    font-size: 2.25rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
     text-align: center;
+    padding-block: 0.75rem;
     direction: ltr;
     unicode-bidi: plaintext;
+    font-variant-numeric: tabular-nums lining-nums;
 }
 
 .field__hint {
     margin: 0;
     font-size: 0.8125rem;
-    color: var(--muted);
+    color: var(--q-muted);
 }
+
+/* ---------- item picker ---------- */
 
 .item-list {
     list-style: none;
     margin: 0.5rem 0 0;
     padding: 0;
     display: grid;
-    gap: 0.375rem;
-    max-height: 15rem;
+    gap: 0;
+    max-height: 16rem;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--q-rule);
+    border-radius: var(--q-radius);
+}
+
+.item-list li + li .item-list__button {
+    border-block-start: 1px solid var(--q-rule);
 }
 
 .item-list__button {
     width: 100%;
-    min-height: var(--touch);
+    min-height: var(--q-touch);
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.5rem 0.875rem;
-    border: 1px solid transparent;
-    border-radius: var(--radius);
-    background: var(--surface);
-    color: var(--text);
+    padding: 0.625rem 0.875rem;
+    border: 0;
+    border-inline-start: 3px solid transparent;
+    border-radius: 0;
+    background: var(--q-paper);
+    color: var(--q-ink);
     font: inherit;
+    font-size: 1rem;
     text-align: start;
     cursor: pointer;
 }
 
 .item-list__button small {
-    color: var(--muted);
+    color: var(--q-muted);
     font-size: 0.8125rem;
     flex-shrink: 0;
 }
 
-.item-list__button.is-selected {
-    border-color: var(--accent);
+.item-list__button:hover {
+    background: var(--q-paper-cool);
 }
 
+/* Selection is carried by a filled bar and a tint, not by a border colour
+   alone — a 1px hue change is not a state change on a phone in sunlight. */
+.item-list__button.is-selected {
+    border-inline-start-color: var(--q-brand);
+    background: var(--q-brand-wash);
+    font-weight: 500;
+}
+
+/* ---------- submit ---------- */
+
 .reporter__submit {
-    min-height: 3.25rem;
+    min-height: 3.5rem;
     border: 0;
-    border-radius: var(--radius);
-    background: var(--accent);
-    color: var(--bg);
+    border-radius: var(--q-radius);
+    background: var(--q-brand-deep);
+    color: #fff;
     font: inherit;
     font-size: 1.0625rem;
-    font-weight: 700;
+    font-weight: 500;
+    letter-spacing: 0.01em;
     cursor: pointer;
     display: grid;
     place-items: center;
     text-decoration: none;
 }
 
+.reporter__submit:hover {
+    background: var(--q-brand-ink);
+}
+
 .reporter__submit:disabled {
-    background: var(--surface-raised);
-    color: var(--muted);
+    background: #dbe4e9;
+    color: #8fa2ad;
     cursor: not-allowed;
 }
 
 .reporter__id {
-    margin: 0;
+    margin: 1rem auto 0;
     text-align: center;
-    color: var(--muted);
+    color: var(--q-muted);
+    font-family: var(--q-font-mono);
     font-size: 0.75rem;
 }
+
+/* ---------- offline page ---------- */
 
 .reporter--offline main {
     display: grid;
     gap: 1rem;
     place-content: center;
-    min-height: 80dvh;
+    min-height: 70dvh;
     text-align: center;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation: none !important;
-        transition: none !important;
-    }
+.reporter--offline h1 {
+    font-family: var(--q-font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+}
+
+/* ---------- API reference ---------- */
+
+/*
+ * Styled here rather than in a <style> block on the page: it was the last
+ * inline stylesheet in the application, and an inline block is exactly what
+ * forces `style-src 'unsafe-inline'` back into the policy the public pages
+ * spent a phase removing.
+ */
+.docs {
+    max-width: var(--q-well);
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+    padding-block-end: 4rem;
+}
+
+.docs__intro {
+    white-space: pre-wrap;
+    color: var(--q-muted);
+    font-size: 0.9375rem;
+    max-width: var(--q-measure);
+}
+
+.docs__intro strong {
+    color: var(--q-ink);
+}
+
+.docs code,
+.docs__intro code {
+    font-family: var(--q-font-mono);
+    font-size: 0.875em;
+    padding: 0.1em 0.35em;
+    border-radius: var(--q-radius);
+    background: var(--q-paper-cool);
+    color: var(--q-brand-ink);
+}
+
+.docs .reporter__submit {
+    max-width: 22rem;
+    margin-block: 1.5rem;
+}
+
+/* An endpoint is a row in a reference, ruled — not a card in a feed. */
+.op {
+    background: transparent;
+    border: 0;
+    border-block-start: 1px solid var(--q-rule);
+    border-radius: 0;
+    padding: 1rem 0;
+    margin: 0;
+}
+
+.op:first-of-type {
+    border-block-start: 1px solid var(--q-rule-ink);
+}
+
+.op__method {
+    display: inline-block;
+    min-width: 3.5rem;
+    padding: 0.125rem 0.4375rem;
+    margin-inline-end: 0.625rem;
+    border-radius: var(--q-radius);
+    background: var(--q-brand-wash);
+    color: var(--q-brand-ink);
+    font-family: var(--q-font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-align: center;
+}
+
+.op__path {
+    font-family: var(--q-font-mono);
+    font-size: 0.9375rem;
+    color: var(--q-ink);
+    word-break: break-all;
+}
+
+.op__summary {
+    color: var(--q-muted);
+    font-size: 0.9375rem;
+    margin: 0.5rem 0 0;
+    max-width: var(--q-measure);
+}
+
+.op__desc {
+    font-size: 0.875rem;
+    margin: 0.5rem 0 0;
+    max-width: var(--q-measure);
+    color: var(--q-ink);
 }

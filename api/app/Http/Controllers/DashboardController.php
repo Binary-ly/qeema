@@ -55,7 +55,7 @@ final class DashboardController extends Controller
         }
 
         $snapshots = $this->data->currentSnapshots($country);
-        $map = $this->data->mapPoints($snapshots);
+        $map = $this->data->mapPoints($country, $snapshots);
 
         return view('dashboard.show', [
             'locale' => $locale,
@@ -64,9 +64,11 @@ final class DashboardController extends Controller
             'country' => $country,
             'countries' => Country::query()->where('is_active', true)->orderBy('name')->get(),
             'headline' => $this->data->headline($country, $snapshots),
+            'basket' => $this->data->basketCoverage($country, $snapshots),
             'snapshots' => $snapshots,
             'projection' => $map['projection'],
             'points' => $map['points'],
+            'outline' => $map['outline'],
             'charts' => [
                 'national' => $this->data->nationalSeries($country),
                 'locations' => $this->data->locationSeries($country),

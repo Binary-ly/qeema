@@ -44,12 +44,18 @@ if (chartsEl && labelsEl) {
     const css = getComputedStyle(document.documentElement)
     const colour = (name, fallback) => css.getPropertyValue(name).trim() || fallback
 
+    // Names must track tokens.css. When the palette was renamed to the `--q-`
+    // prefix these kept reading the old names, so every fallback below applied
+    // and the charts quietly rendered in the previous dark theme on a white
+    // page — the one part of the design system that cannot be seen to be wrong
+    // by reading the stylesheet.
     const theme = {
-        accent: colour('--accent', '#38bdf8'),
-        muted: colour('--muted', '#94a3b8'),
-        border: colour('--border', '#263349'),
-        text: colour('--text', '#f1f5f9'),
-        high: colour('--scale-high', '#f97316'),
+        accent: colour('--q-brand-deep', '#0b6e92'),
+        muted: colour('--q-muted', '#55666f'),
+        border: colour('--q-rule', '#dfe7ec'),
+        text: colour('--q-ink', '#0b1f2a'),
+        high: colour('--q-scale-high', '#0a5a7d'),
+        font: colour('--q-font-body', 'system-ui, sans-serif'),
     }
 
     let echartsModule = null
@@ -69,21 +75,46 @@ if (chartsEl && labelsEl) {
         return echartsModule
     }
 
+    // Statistical-chart furniture: no tick marks, one hairline baseline, and
+    // horizontal rules only. Boxed axes and vertical gridlines are decoration
+    // that a reader has to look past to reach the line.
     const baseAxis = {
-        axisLine: { lineStyle: { color: theme.border } },
-        axisLabel: { color: theme.muted, fontSize: 11 },
-        splitLine: { lineStyle: { color: theme.border, opacity: 0.4 } },
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: { color: theme.muted, fontSize: 11, fontFamily: theme.font },
+        splitLine: { lineStyle: { color: theme.border } },
     }
+
+    // Dates do not need gridlines. Rules on both axes make a cage, and the one
+    // that helps a reader compare values is the horizontal set.
+    const categoryAxis = { ...baseAxis, splitLine: { show: false } }
 
     function baseOption(overrides) {
         return {
             // The whole chart mirrors in RTL, so the time axis still reads in
             // the direction the surrounding text does.
             grid: { top: 24, right: 16, bottom: 32, left: 56, containLabel: true },
-            tooltip: { trigger: 'axis' },
-            textStyle: { color: theme.text, fontFamily: 'system-ui, sans-serif' },
-            xAxis: { type: 'category', inverse: labels.rtl, ...baseAxis },
-            yAxis: { type: 'value', scale: true, position: labels.rtl ? 'right' : 'left', ...baseAxis },
+            tooltip: {
+                trigger: 'axis',
+                backgroundColor: '#fff',
+                borderColor: theme.border,
+                borderWidth: 1,
+                textStyle: { color: theme.text, fontFamily: theme.font, fontSize: 12 },
+                // A thin guide rather than the default shadow band, which on a
+                // white page covers the data it is pointing at.
+                axisPointer: { type: 'line', lineStyle: { color: theme.border, width: 1 } },
+            },
+            textStyle: { color: theme.text, fontFamily: theme.font },
+            xAxis: { type: 'category', inverse: labels.rtl, ...categoryAxis },
+            yAxis: {
+                type: 'value',
+                scale: true,
+                position: labels.rtl ? 'right' : 'left',
+                ...baseAxis,
+                // The value axis keeps its rules; the category axis does not
+                // need them, and two sets of gridlines make a cage.
+                splitLine: { lineStyle: { color: theme.border } },
+            },
             animation: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
             ...overrides,
         }
@@ -93,7 +124,7 @@ if (chartsEl && labelsEl) {
         const series = data.national || []
 
         return baseOption({
-            xAxis: { type: 'category', inverse: labels.rtl, data: series.map((p) => p.date), ...baseAxis },
+            xAxis: { type: 'category', inverse: labels.rtl, data: series.map((p) => p.date), ...categoryAxis },
             series: [
                 {
                     name: labels.cost,
@@ -113,7 +144,7 @@ if (chartsEl && labelsEl) {
 
         return baseOption({
             legend: { data: [labels.official, labels.parallel], textStyle: { color: theme.muted } },
-            xAxis: { type: 'category', inverse: labels.rtl, data: series.map((p) => p.date), ...baseAxis },
+            xAxis: { type: 'category', inverse: labels.rtl, data: series.map((p) => p.date), ...categoryAxis },
             series: [
                 {
                     name: labels.official,
@@ -191,4 +222,83 @@ if (chartsEl && labelsEl) {
 
         observer.observe(el)
     }
+}
+
+/**
+ * Reveal and count-up.
+ *
+ * Motion is opt-in from JavaScript, never from CSS. The hidden start state is
+ * applied by adding `js-reveal` to the body here — so a reader with no
+ * JavaScript, a failed bundle or a slow connection gets the finished page
+ * rather than a blank one, which is the failure mode of every CSS-only reveal
+ * that assumes its script will arrive.
+ *
+ * It is also the whole feature behind `prefers-reduced-motion`: if the reader
+ * has asked for less movement, nothing below runs at all and the page is simply
+ * complete from the first paint.
+ */
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+if (!reduceMotion && 'IntersectionObserver' in window) {
+    document.body.classList.add('js-reveal')
+
+    /** Count a figure up to the value already in the markup. */
+    const countUp = (el) => {
+        const target = Number(el.dataset.count)
+
+        if (!Number.isFinite(target)) {
+            return
+        }
+
+        const duration = 900
+        const started = performance.now()
+
+        // A stuck counter is a wrong number, not a missing animation.
+        // requestAnimationFrame is throttled hard in a background tab and can
+        // stop firing altogether, which leaves the figure frozen at whatever it
+        // had reached — "1" where the page means "5". This lands the true value
+        // on a timer regardless of whether the frames ever arrive.
+        const settle = setTimeout(() => {
+            el.textContent = String(target)
+        }, duration + 250)
+
+        const step = (now) => {
+            const t = Math.min((now - started) / duration, 1)
+            // Ease out cubic: fast enough to feel immediate, settling rather
+            // than stopping.
+            const eased = 1 - Math.pow(1 - t, 3)
+            el.textContent = String(Math.round(target * eased))
+
+            if (t < 1) {
+                requestAnimationFrame(step)
+            } else {
+                // Land on the exact markup value rather than on rounding.
+                clearTimeout(settle)
+                el.textContent = String(target)
+            }
+        }
+
+        requestAnimationFrame(step)
+    }
+
+    const revealer = new IntersectionObserver(
+        (entries) => {
+            for (const entry of entries) {
+                if (!entry.isIntersecting) {
+                    continue
+                }
+
+                entry.target.classList.add('is-revealed')
+                entry.target.querySelectorAll('[data-count]').forEach(countUp)
+                revealer.unobserve(entry.target)
+            }
+        },
+        // Fires a little before the section is fully on screen, so the movement
+        // has finished by the time it is being read.
+        { rootMargin: '0px 0px -10% 0px', threshold: 0.08 },
+    )
+
+    document
+        .querySelectorAll('.dash__headline, .dash__panel, .dash__rail')
+        .forEach((el) => revealer.observe(el))
 }

@@ -27,6 +27,14 @@
     >
         <desc id="map-desc">{{ __('dashboard.map_alt') }}</desc>
 
+        {{-- The country itself, drawn first so everything else sits on top of
+             land rather than on nothing. Purely decorative: it carries no data,
+             so it is hidden from assistive technology, which reads the points
+             and the table instead. --}}
+        @foreach ($outline as $ring)
+            <path class="dash__map-land" d="{{ $ring }}" aria-hidden="true"></path>
+        @endforeach
+
         {{-- Drawn largest-first so small points are never buried under big ones. --}}
         @foreach (collect($points)->sortByDesc('cost') as $point)
             @php
@@ -54,13 +62,19 @@
                     <title>{{ $point['name'] }} — {{ number_format($point['cost'], 2) }} {{ $headline['currency'] }}</title>
                 </a>
 
-                <text
-                    class="dash__map-label"
-                    x="{{ $point['x'] }}"
-                    y="{{ $point['y'] - 14 }}"
-                    text-anchor="middle"
-                    aria-hidden="true"
-                >{{ $point['name'] }}</text>
+                {{-- Dropped when both the above and below slots are already
+                     taken by a neighbour. Every location is named in full in
+                     the table below, so a missing label costs nothing; four
+                     labels printed on the same pixels cost the whole map. --}}
+                @if ($point['label_show'] ?? true)
+                    <text
+                        class="dash__map-label"
+                        x="{{ $point['x'] }}"
+                        y="{{ $point['y'] + ($point['label_dy'] ?? -14) }}"
+                        text-anchor="middle"
+                        aria-hidden="true"
+                    >{{ $point['name'] }}</text>
+                @endif
             </g>
         @endforeach
     </svg>

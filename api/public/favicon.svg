@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!--
+    The Qeema mark at favicon scale: a cradle holding a weighted basket.
+
+    Simplified from the masthead version on purpose. Four bars and a 2.4-wide
+    stroke turn to mud at 16px, so this carries three bars, heavier strokes and
+    a filled ground — the silhouette survives, which is all a favicon has to do.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="6" fill="#0b1f2a"/>
+  <g fill="#1cabe2">
+    <rect x="9.4" y="9" width="3.2" height="11" rx="1.6"/>
+    <rect x="14.4" y="6" width="3.2" height="14.5" rx="1.6"/>
+    <rect x="19.4" y="11" width="3.2" height="9" rx="1.6"/>
+  </g>
+  <path d="M5.5 14.5 Q16 27 26.5 14.5" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round"/>
+</svg>

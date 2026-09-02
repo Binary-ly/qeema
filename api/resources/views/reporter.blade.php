@@ -6,8 +6,11 @@
     {{-- viewport-fit=cover so the layout reaches the edges on notched phones,
          and no user-scalable=no: pinch-zoom is an accessibility requirement. --}}
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="theme-color" content="#0f172a">
+    {{-- Matches the masthead ink, so the phone's own chrome continues the page
+         rather than framing it in the old palette's navy. --}}
+    <meta name="theme-color" content="#0b1f2a">
     <title>{{ __('reporter.title') }}</title>
     <meta name="description" content="{{ __('reporter.subtitle') }}">
 
@@ -33,6 +36,7 @@
 
 <header class="reporter__header">
     <div>
+        @include('partials.brand')
         <h1 class="reporter__title">{{ __('reporter.title') }}</h1>
         <p class="reporter__subtitle">{{ __('reporter.subtitle') }}</p>
     </div>

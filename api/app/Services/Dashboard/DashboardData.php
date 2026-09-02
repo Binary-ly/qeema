@@ -54,17 +54,30 @@ final readonly class DashboardData
             ->where('index_snapshots.country_id', $country->id)
             ->with(['location', 'items.canonicalItem'])
             ->orderBy('index_snapshots.location_id')
+            // A snapshot that priced nothing is not a current figure; it is the
+            // absence of one. The publisher rolls a snapshot forward for every
+            // calendar day, so a deployment whose newest observations are weeks
+            // old has an unbroken run of empty snapshots on top of real ones —
+            // and taking the newest by date alone puts `cost_local` 0.00 on the
+            // headline, which reads as a measurement that the basket is free.
+            //
+            // Preferring the newest snapshot that actually priced something
+            // shows the last real figure with its own date beside it, which is
+            // what a reader means by "current". Consumers of the API get the
+            // unfiltered series and the `coverage` field to judge it by; this
+            // is a presentation decision and deliberately not a contract one.
+            ->orderByRaw('(index_snapshots.coverage_pct > 0) DESC')
             ->orderByDesc('index_snapshots.snapshot_date')
             ->get();
     }
 
     /**
-     * Map points, ready to draw.
+     * Map points and the country outline behind them, ready to draw.
      *
      * @param  Collection<int, IndexSnapshot>  $snapshots
-     * @return array{projection: MapProjection, points: list<array<string, mixed>>}
+     * @return array{projection: MapProjection, points: list<array<string, mixed>>, outline: list<string>}
      */
-    public function mapPoints(Collection $snapshots, float $width = 800.0, float $height = 520.0): array
+    public function mapPoints(Country $country, Collection $snapshots, float $width = 800.0): array
     {
         /** @var list<array{latitude: float, longitude: float}> $coords */
         $coords = $snapshots
@@ -76,7 +89,20 @@ final readonly class DashboardData
             ->values()
             ->all();
 
-        $projection = MapProjection::fit($coords, $width, $height);
+        $outline = CountryOutline::forCountry($country->code);
+
+        // Fitted to the outline as well as the towns, or the country would be
+        // scaled to the bounding box of wherever people happen to report and
+        // most of it would fall outside the frame.
+        $fitTo = array_merge($outline->vertices(), $coords);
+
+        // The frame follows the country's own proportions instead of a fixed
+        // 800x520. A country whose projected aspect is near square was being
+        // drawn into a 3:2 box, so it occupied about 460px of 800 and the rest
+        // was empty — which read as a broken map rather than a narrow one.
+        $height = self::frameHeight($fitTo, $width);
+
+        $projection = MapProjection::fit($fitTo, $width, $height);
 
         // Only comparable locations get a colour scale position. An incomparable
         // one is drawn hollow — visibly present, deliberately unranked.
@@ -123,7 +149,187 @@ final readonly class DashboardData
             ];
         }
 
-        return ['projection' => $projection, 'points' => $points];
+        return [
+            'projection' => $projection,
+            'points' => self::placeLabels($points),
+            'outline' => $outline->paths($projection),
+        ];
+    }
+
+    /**
+     * The basket, item by item, and how much of it anyone can actually price.
+     *
+     * This is the thing the platform is about, and until now it was the one
+     * thing the dashboard never showed. A reader could see a cost without ever
+     * seeing what was being costed — and the composition is a judgement, so
+     * publishing the total while hiding the list asks to be trusted rather than
+     * checked.
+     *
+     * It also states the gap plainly. Where an item has no price in any
+     * location, that is not a rendering gap: it is a category of thing a child
+     * needs that no source in this deployment tracks. Those rows are the
+     * argument for the crowdsourced layer, and they should be visible.
+     *
+     * @param  Collection<int, IndexSnapshot>  $snapshots
+     * @return list<array<string, mixed>>
+     */
+    public function basketCoverage(Country $country, Collection $snapshots): array
+    {
+        $basket = $country->basketOn(CarbonImmutable::now())
+            ?? $country->baskets()->orderByDesc('version')->first();
+
+        if ($basket === null) {
+            return [];
+        }
+
+        // How many locations carry a price for each item. Counted from the
+        // published snapshots rather than from observations directly, so this
+        // says what the index actually used.
+        $priced = [];
+        $imputed = [];
+
+        foreach ($snapshots as $snapshot) {
+            // `unit_price_local` is not nullable, and the calculator only
+            // writes a row for an item it could price — so the row existing is
+            // itself the signal that the item has a price here.
+            foreach ($snapshot->items as $item) {
+                $id = (int) $item->canonical_item_id;
+                $priced[$id] = ($priced[$id] ?? 0) + 1;
+
+                if ($item->is_imputed) {
+                    $imputed[$id] = ($imputed[$id] ?? 0) + 1;
+                }
+            }
+        }
+
+        $locations = $snapshots->count();
+        $rows = [];
+
+        foreach ($basket->items()->with('canonicalItem')->get() as $entry) {
+            $item = $entry->canonicalItem;
+
+            if ($item === null) {
+                continue;
+            }
+
+            $id = (int) $entry->canonical_item_id;
+
+            $rows[] = [
+                'code' => $item->code,
+                'name' => $item->name_en,
+                'name_local' => $item->name_local,
+                'category' => $entry->category,
+                'weight' => (float) $entry->weight,
+                'locations' => $priced[$id] ?? 0,
+                'imputed' => $imputed[$id] ?? 0,
+                'total_locations' => $locations,
+            ];
+        }
+
+        // Heaviest first: the weight is how much of a household's spend the
+        // item represents, so an unpriced item at the top of this list costs
+        // the index far more than an unpriced one at the bottom.
+        usort($rows, static fn (array $a, array $b): int => $b['weight'] <=> $a['weight']);
+
+        return $rows;
+    }
+
+    /**
+     * Decide where each point's label goes, so they do not overlap.
+     *
+     * Reporting clusters on the coast, which is exactly where a naive "label
+     * above the dot" rule fails: four towns within forty kilometres produced
+     * four labels stacked on the same pixels and none of them readable.
+     *
+     * A greedy pass, top to bottom: try above, then below, and if both are
+     * taken leave the label off. Dropping one is the right failure — every
+     * location is named in full in the table below, and the map's job is the
+     * spatial pattern rather than the roll call.
+     *
+     * @param  list<array<string, mixed>>  $points
+     * @return list<array<string, mixed>>
+     */
+    private static function placeLabels(array $points): array
+    {
+        // Top to bottom, so the northern label of a pair keeps the position
+        // above and the southern one moves below it rather than the reverse.
+        usort($points, static fn (array $a, array $b): int => $a['y'] <=> $b['y']);
+
+        /** @var list<array{x1: float, y1: float, x2: float, y2: float}> $taken */
+        $taken = [];
+
+        foreach ($points as $index => $point) {
+            // Approximate: 6.2px per character at 11px, which is close enough
+            // for a collision test and needs no font metrics.
+            $halfWidth = max(strlen((string) $point['name']) * 6.2 / 2, 12.0);
+
+            $placed = false;
+
+            foreach ([-14.0, 20.0] as $dy) {
+                $box = [
+                    'x1' => $point['x'] - $halfWidth,
+                    'x2' => $point['x'] + $halfWidth,
+                    'y1' => $point['y'] + $dy - 9.0,
+                    'y2' => $point['y'] + $dy + 3.0,
+                ];
+
+                $collides = false;
+
+                foreach ($taken as $other) {
+                    if ($box['x1'] < $other['x2'] && $box['x2'] > $other['x1']
+                        && $box['y1'] < $other['y2'] && $box['y2'] > $other['y1']) {
+                        $collides = true;
+                        break;
+                    }
+                }
+
+                if (! $collides) {
+                    $taken[] = $box;
+                    $points[$index]['label_dy'] = $dy;
+                    $points[$index]['label_show'] = true;
+                    $placed = true;
+                    break;
+                }
+            }
+
+            if (! $placed) {
+                $points[$index]['label_dy'] = -14.0;
+                $points[$index]['label_show'] = false;
+            }
+        }
+
+        return $points;
+    }
+
+    /**
+     * A frame with the country's own proportions.
+     *
+     * @param  list<array{latitude: float, longitude: float}>  $vertices
+     */
+    private static function frameHeight(array $vertices, float $width, float $padding = 40.0): float
+    {
+        if ($vertices === []) {
+            return 520.0;
+        }
+
+        $lats = array_column($vertices, 'latitude');
+        $lons = array_column($vertices, 'longitude');
+
+        $meanLat = (min($lats) + max($lats)) / 2.0;
+        $spanX = max((max($lons) - min($lons)) * cos(deg2rad($meanLat)), 1e-9);
+        $spanY = max(max($lats) - min($lats), 1e-9);
+
+        $height = ($width - 2 * $padding) * ($spanY / $spanX) + 2 * $padding;
+
+        // Bounded so a very tall or very wide country still produces a frame
+        // that fits on a phone without becoming a letterbox.
+        //
+        // The upper bound is 560 rather than 760 because reporting clusters
+        // where people live. A country that projects nearly square, drawn to
+        // its true proportions, left most of the frame empty with four towns in
+        // it — geographically honest, and a great deal of page for very little
+        // information.
+        return max(300.0, min(560.0, $height));
     }
 
     /**

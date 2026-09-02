@@ -9,33 +9,39 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <title>{{ $spec['info']['title'] ?? 'API' }} — API</title>
     {{-- First line of the spec's own description, so the two cannot drift. --}}
     <meta name="description" content="{{ Str::limit(strtok($spec['info']['description'] ?? 'Public API documentation.', "\n"), 155) }}">
+    {{-- Styles live in the stylesheet, not in a <style> block here. An inline
+         block is exactly what forces `style-src 'unsafe-inline'` back into the
+         policy the public pages spent a phase removing. --}}
     @vite(['resources/css/reporter.css'])
-    <style>
-        .docs { max-width: 60rem; margin-inline: auto; }
-        .docs__intro { white-space: pre-wrap; color: var(--muted); font-size: 0.9375rem; }
-        .op { background: var(--surface); border-radius: var(--radius); padding: 0.875rem; margin-block: 0.5rem; }
-        .op__method { font-weight: 700; color: var(--accent); font-family: ui-monospace, monospace; }
-        .op__path { font-family: ui-monospace, monospace; }
-        .op__summary { color: var(--muted); font-size: 0.9375rem; margin: 0.375rem 0 0; }
-        .op__desc { font-size: 0.875rem; margin: 0.5rem 0 0; }
-    </style>
 </head>
 <body class="reporter">
+<header class="reporter__header">
+    <div>
+        @include('partials.brand')
+        <h1 class="reporter__title">{{ $spec['info']['title'] ?? 'API' }}</h1>
+        <p class="reporter__subtitle">Public API reference — no key, no account, no rate tier.</p>
+    </div>
+    <a class="reporter__home" href="{{ route('dashboard') }}">Dashboard</a>
+</header>
 <main class="docs">
-    <h1 class="reporter__title">{{ $spec['info']['title'] ?? 'API' }}</h1>
-
     @if ($spec === null)
         <p>The specification has not been generated. Run <code>php artisan qeema:openapi</code>.</p>
     @else
         {{-- The OpenAPI description field is markdown by specification, and
              Swagger-style viewers render it. This page escaped it, so `**bold**`
-             appeared on screen as literal asterisks. Escape first, then promote
-             only `**…**` — the input is escaped before any tag is introduced, so
-             nothing in the spec can inject markup. --}}
-        <p class="docs__intro">{!! preg_replace('/\*\*(.+?)\*\*/s', '<strong>$1</strong>', e($spec['info']['description'] ?? '')) !!}</p>
+             and `code` appeared on screen as literal asterisks and backticks.
+             Escape first, then promote only `**…**` and `` `…` `` — the input is
+             escaped before any tag is introduced, so nothing in the spec can
+             inject markup. --}}
+        <p class="docs__intro">{!! preg_replace(
+            ['/\*\*(.+?)\*\*/s', '/`([^`]+)`/'],
+            ['<strong>$1</strong>', '<code>$1</code>'],
+            e($spec['info']['description'] ?? '')
+        ) !!}</p>
 
         <p><a class="reporter__submit" href="{{ route('openapi') }}">Download the OpenAPI 3 specification</a></p>
 

@@ -1,74 +1,48 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 
+@import './tokens.css';
+
 /*
  * Public dashboard.
  *
  * Hand-written rather than a utility framework: this page loads on throttled
- * connections on mid-tier phones, and the whole stylesheet below is smaller
- * than the CSS a framework emits after purging.
+ * connections on mid-tier phones, and the whole stylesheet is smaller than the
+ * CSS a framework emits after purging.
  *
  * Logical properties throughout (inline-start, padding-inline, margin-block)
  * so one stylesheet is correct in both LTR and RTL. A mirrored stylesheet
  * drifts out of sync the first time someone edits only one of them.
+ *
+ * The shape of the page is a bulletin: an ink masthead, one figure given the
+ * whole width it deserves, then numbered sections separated by rules. There
+ * are no cards. A page of rounded boxes floating on a tint is the visual
+ * language of an app dashboard, and this is a publication.
  */
-
-:root {
-    --bg: #0b1120;
-    --surface: #131c31;
-    --surface-2: #1b2740;
-    --text: #f1f5f9;
-    --muted: #94a3b8;
-    --accent: #38bdf8;
-    --border: #263349;
-    --radius: 0.75rem;
-
-    /* Sequential scale, low to high cost. Chosen for two properties: it stays
-     * ordered when converted to greyscale, and adjacent steps remain
-     * distinguishable under the common forms of colour vision deficiency —
-     * so the map is not the only way to read the data, but it is still
-     * readable on its own. */
-    --scale-low: #22d3ee;
-    --scale-high: #f97316;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg: #f8fafc;
-        --surface: #ffffff;
-        --surface-2: #f1f5f9;
-        --text: #0f172a;
-        --muted: #475569;
-        --accent: #0369a1;
-        --border: #e2e8f0;
-    }
-}
-
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
 
 body.dash {
     margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", sans-serif;
+    counter-reset: section;
+    background: var(--q-paper);
+    color: var(--q-ink);
+    font-family: var(--q-font-body);
+    font-weight: 400;
     line-height: 1.6;
-    /* System fonts only. A web font would be a render-blocking download and,
-     * if hosted elsewhere, a third-party runtime dependency (C1). */
+    /* Every figure here is meant to be compared with the one above it, and
+     * proportional digits make a column of numbers ragged. */
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 /* Visible only on focus. Keyboard users reach the content without tabbing
- * through the whole header; nobody else sees it. */
+ * through the whole masthead; nobody else sees it. */
 .dash__skip {
     position: absolute;
     inset-inline-start: -9999px;
     z-index: 10;
     padding: 0.75rem 1rem;
-    background: var(--accent);
-    color: var(--bg);
-    border-radius: 0 0 var(--radius) 0;
+    background: var(--q-brand-deep);
+    color: #fff;
 }
 
 .dash__skip:focus {
@@ -88,67 +62,216 @@ body.dash {
     border: 0;
 }
 
-/* ---------- header ---------- */
+/* ---------- masthead ---------- */
 
+/*
+ * Full-bleed ink. This is the single strongest signal that the page is a
+ * publication rather than an app: the reader meets a masthead, not a nav bar.
+ * It is repeated at the foot so the page is bookended.
+ */
 .dash__header {
-    border-block-end: 1px solid var(--border);
-    background: var(--surface);
+    background: var(--q-ink);
+    color: #fff;
+    border-block-end: 3px solid var(--q-brand);
 }
 
 .dash__header-inner,
 .dash__main {
-    max-width: 68rem;
+    max-width: var(--q-well);
     margin-inline: auto;
-    padding-inline: 1.25rem;
+    padding-inline: clamp(1.25rem, 4vw, 2.5rem);
 }
 
 .dash__header-inner {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
+    gap: 1.5rem;
+    align-items: flex-end;
     justify-content: space-between;
-    padding-block: 1.5rem;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(2rem, 5vw, 3.5rem);
 }
 
+/*
+ * The scale contrast is the design. A 5rem serif headline against a 0.69rem
+ * uppercase label is what separates a publication from a page of uniformly
+ * medium-sized text — and the previous version was all medium-sized text.
+ */
 .dash__title {
     margin: 0;
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    line-height: 1.2;
+    font-family: var(--q-font-display);
+    font-weight: 400;
+    /* Instrument Serif is drawn tight; without negative tracking at display
+     * sizes the words drift apart and stop reading as one phrase. */
+    letter-spacing: -0.032em;
+    font-size: clamp(2.75rem, 7.5vw, 5.25rem);
+    line-height: 0.98;
+    color: #fff;
+    max-width: 16ch;
 }
 
 .dash__tagline {
-    margin: 0.375rem 0 0;
-    color: var(--muted);
+    margin: 1rem 0 0;
+    color: #a9c0cd;
     max-width: 46ch;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+}
+
+/* ---------- reveal ---------- */
+
+/*
+ * Scoped under `.js-reveal`, which JavaScript adds to the body. Without that
+ * class every rule below is inert, so a page with no JavaScript — or one whose
+ * bundle has not arrived yet — renders finished rather than blank. A reveal
+ * animation that hides content by default and waits for a script is a reveal
+ * animation that sometimes hides the content permanently.
+ */
+.js-reveal .dash__headline,
+.js-reveal .dash__panel,
+.js-reveal .dash__rail {
+    opacity: 0;
+    transform: translateY(14px);
+}
+
+.js-reveal .is-revealed {
+    opacity: 1;
+    transform: none;
+    transition:
+        opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* The stack draws itself across as the section arrives — the segments are the
+ * data, so they are the thing worth animating. */
+.js-reveal .basket__seg {
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.js-reveal .is-revealed .basket__seg {
+    transform: none;
+    transition: transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Staggered left to right so the bar fills like a measure rather than
+ * appearing all at once. Fifteen steps of 45ms is under a second in total. */
+.js-reveal .is-revealed .basket__seg:nth-child(1) { transition-delay: 0ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(2) { transition-delay: 45ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(3) { transition-delay: 90ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(4) { transition-delay: 135ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(5) { transition-delay: 180ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(6) { transition-delay: 225ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(7) { transition-delay: 270ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(8) { transition-delay: 315ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(9) { transition-delay: 360ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(10) { transition-delay: 405ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(11) { transition-delay: 450ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(12) { transition-delay: 495ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(13) { transition-delay: 540ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(14) { transition-delay: 585ms; }
+.js-reveal .is-revealed .basket__seg:nth-child(15) { transition-delay: 630ms; }
+
+/* The strip's dots land after the axis they sit on. Scale only — the dots are
+ * centred with negative margins rather than a translate, so adding one here
+ * would move them off the axis. */
+.js-reveal .strip__dot {
+    opacity: 0;
+    transform: scale(0.4);
+}
+
+.js-reveal .is-revealed .strip__dot {
+    opacity: 1;
+    transform: scale(1);
+    transition:
+        opacity 420ms ease,
+        transform 520ms cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+
+/* ---------- the rail ---------- */
+
+/*
+ * Three true numbers in the masthead, above the fold, before anything is
+ * scrolled. The page used to open on a headline and a sentence — which says
+ * what this is without saying anything it has found.
+ */
+.dash__rail {
+    border-block-start: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.dash__rail-inner {
+    max-width: var(--q-well);
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+    padding-block: clamp(1.25rem, 3vw, 2rem);
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(2rem, 7vw, 5.5rem);
+}
+
+.dash__rail-value {
+    display: block;
+    font-family: var(--q-font-display);
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--q-brand);
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* The denominator is context, not the figure. Same line, half the size, so
+ * "7 / 15" reads as one fact rather than two numbers. */
+.dash__rail-of {
+    font-size: 0.45em;
+    color: #6d8b9c;
+    margin-inline-start: 0.1em;
+}
+
+.dash__rail-value--date {
+    font-size: clamp(1.375rem, 2.6vw, 1.75rem);
+    color: #dce8ee;
+    letter-spacing: -0.01em;
+}
+
+.dash__rail-label {
+    display: block;
+    margin-block-start: 0.625rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #86a1b0;
 }
 
 .dash__nav {
     display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.dash__select {
-    background: var(--surface-2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    font: inherit;
-    /* 44px minimum touch target. */
-    min-height: 2.75rem;
+    gap: 1.25rem;
+    align-items: flex-end;
 }
 
 .dash__field-label {
     display: block;
-    font-size: 0.8125rem;
-    color: var(--muted);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #8fa8b6;
+    margin-block-end: 0.375rem;
+}
+
+.dash__select {
+    background: var(--q-ink-2);
+    color: #fff;
+    border: 1px solid #2a4a5c;
+    border-radius: var(--q-radius);
+    padding: 0.5rem 0.75rem;
+    font: inherit;
+    font-size: 0.9375rem;
+    min-height: var(--q-touch);
 }
 
 .dash__locales {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.375rem;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -158,107 +281,252 @@ body.dash {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 2.75rem;
-    min-height: 2.75rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--border);
-    color: var(--text);
+    min-width: var(--q-touch);
+    min-height: var(--q-touch);
+    border-radius: var(--q-radius);
+    border: 1px solid #2a4a5c;
+    color: #cfe0ea;
     text-decoration: none;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
 }
 
-.dash__locales a[aria-current="true"] {
-    background: var(--accent);
-    color: var(--bg);
-    border-color: var(--accent);
+.dash__locales a[aria-current='true'] {
+    background: var(--q-brand);
+    color: var(--q-ink);
+    border-color: var(--q-brand);
 }
 
 /* ---------- layout ---------- */
 
 .dash__main {
-    padding-block: 2rem 4rem;
+    padding-block: clamp(2rem, 5vw, 3.5rem) 4rem;
     display: grid;
-    gap: 1.5rem;
+    /* Wide, because the rule above each section is the separator now. Cards
+     * needed only a small gap because their borders did the work. */
+    gap: clamp(2.5rem, 5vw, 4rem);
 }
 
 .dash__panel,
 .dash__headline,
 .dash__empty {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
+    background: transparent;
+    border: 0;
+    border-block-start: 1px solid var(--q-rule-ink);
+    border-radius: 0;
+    padding: 1.5rem 0 0;
 }
 
+.dash__headline {
+    border-block-start-width: 3px;
+    border-block-start-color: var(--q-brand);
+}
+
+/* Numbered the way a report numbers its sections. Generated, so the numbering
+ * always matches the order on the page and nobody has to renumber markup. */
 .dash__section-title {
-    margin: 0 0 0.25rem;
-    font-size: 1.125rem;
+    counter-increment: section;
+    display: flex;
+    align-items: baseline;
+    gap: 0.875rem;
+    margin: 0 0 0.5rem;
+    font-family: var(--q-font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    font-size: clamp(1.375rem, 2.6vw, 1.75rem);
+    line-height: 1.15;
+}
+
+.dash__section-title::before {
+    content: counter(section, decimal-leading-zero);
+    font-family: var(--q-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--q-brand-deep);
+    font-variant-numeric: tabular-nums;
 }
 
 .dash__section-desc,
 .dash__note {
-    margin: 0 0 1rem;
-    color: var(--muted);
+    margin: 0 0 1.25rem;
+    color: var(--q-muted);
     font-size: 0.9375rem;
-    max-width: 62ch;
+    max-width: var(--q-measure);
 }
 
 .dash__note {
-    margin: 1rem 0 0;
+    margin: 1.25rem 0 0;
 }
 
-/* ---------- headline ---------- */
+/* ---------- the figure ---------- */
+
+/*
+ * The headline is a two-column grid at width: the number on one side, the
+ * qualifiers that tell you how much to trust it on the other. They belong
+ * beside it rather than beneath it — a figure whose coverage is 39% is a
+ * different claim from the same figure at 95%, and the reader should not have
+ * to scroll to learn which one they are looking at.
+ */
+.dash__headline {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+@media (min-width: 60rem) {
+    .dash__headline {
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+        align-items: start;
+    }
+
+    .dash__headline > .dash__section-title {
+        grid-column: 1 / -1;
+    }
+}
+
+.dash__headline-main,
+.dash__headline-notes {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+}
 
 .dash__figure {
-    margin: 0.5rem 0;
-    font-size: clamp(2.25rem, 8vw, 3.5rem);
-    font-weight: 700;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
+    margin: 0;
+    font-family: var(--q-font-display);
+    font-size: clamp(3.5rem, 13vw, 7rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--q-ink);
+}
+
+/* No comparable median exists. Set quiet and small on purpose: an em-dash at
+ * the figure's own size reads as a number that failed to render, when what it
+ * means is that publishing one would be dishonest. */
+.dash__figure--none {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    color: var(--q-muted);
+    line-height: 1.3;
+    letter-spacing: 0;
 }
 
 .dash__unit {
-    font-size: 0.4em;
+    font-family: var(--q-font-body);
+    font-size: 0.22em;
     font-weight: 500;
-    color: var(--muted);
-    margin-inline-start: 0.25em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--q-muted);
+    margin-inline-start: 0.6em;
+    vertical-align: 0.5em;
 }
 
 .dash__stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-    gap: 1rem;
-    margin: 1.25rem 0 0;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 1.25rem 1.5rem;
+    margin: 0;
 }
 
 .dash__stat dt {
-    font-size: 0.8125rem;
-    color: var(--muted);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--q-muted);
 }
 
 .dash__stat dd {
-    margin: 0.125rem 0 0;
-    font-size: 1.25rem;
-    font-weight: 600;
+    margin: 0.25rem 0 0;
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- the spread ---------- */
+
+/*
+ * One axis, every reporting location placed on it by cost. A strip plot rather
+ * than a bar chart because the question here is "how far apart are these
+ * places", not "rank them" — and ranking is the one thing a partly-priced
+ * basket must not invite.
+ */
+.strip {
+    margin: 0;
+}
+
+.strip__caption {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--q-muted);
+    margin-block-end: 1.25rem;
+}
+
+.strip__track {
+    position: relative;
+    height: 2.25rem;
+    /* The axis itself: a hairline the dots sit on, so the eye reads a scale
+     * rather than a scatter of unrelated marks. */
+    background:
+        linear-gradient(to bottom, transparent calc(50% - 1px), var(--q-rule) calc(50% - 1px), var(--q-rule) calc(50% + 1px), transparent calc(50% + 1px));
+}
+
+.strip__dot {
+    position: absolute;
+    top: 50%;
+    /* `inset-inline-start` rather than `left`, so the axis inverts with the
+     * document in Arabic and cheapest stays at the reading-start edge. */
+    inset-inline-start: var(--p, 0%);
+    width: 0.875rem;
+    height: 0.875rem;
+    margin-inline-start: -0.4375rem;
+    margin-block-start: -0.4375rem;
+    border-radius: 50%;
+    background: var(--q-ramp-4);
+    box-shadow: 0 0 0 3px var(--q-paper);
+    transition: transform 160ms ease;
+}
+
+.strip__dot:hover {
+    transform: scale(1.45);
+    z-index: 2;
+}
+
+/* Same language as the map: present, unranked. */
+.strip__dot--hollow {
+    background: var(--q-paper);
+    border: 2px dashed var(--q-muted);
+}
+
+.strip__scale {
+    display: flex;
+    justify-content: space-between;
+    margin-block-start: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--q-muted);
     font-variant-numeric: tabular-nums;
 }
 
 .dash__asof {
     margin: 1rem 0 0;
-    color: var(--muted);
-    font-size: 0.875rem;
+    color: var(--q-muted);
+    font-size: 0.8125rem;
 }
 
 /* The comparability caveat. Given real visual weight rather than being
  * relegated to a footnote, because it changes how the headline should be read. */
 .dash__caveat {
-    margin: 1.25rem 0 0;
-    padding: 0.875rem 1rem;
-    background: var(--surface-2);
-    border-inline-start: 3px solid var(--accent);
-    border-radius: 0 var(--radius) var(--radius) 0;
+    margin: 0;
+    padding: 1rem 1.125rem;
+    background: var(--q-paper-warm);
+    border-inline-start: 3px solid var(--q-warn);
     font-size: 0.9375rem;
-    max-width: 68ch;
+    max-width: var(--q-measure);
 }
 
 /* ---------- map ---------- */
@@ -267,40 +535,72 @@ body.dash {
     margin: 0;
 }
 
+/* No frame. The country is the shape; a box around it adds a second, competing
+ * rectangle and makes the map look like a widget embedded in the page rather
+ * than a figure printed on it. */
 .dash__map {
     width: 100%;
     height: auto;
     display: block;
-    background: var(--surface-2);
-    border-radius: var(--radius);
+    background: transparent;
+    overflow: visible;
+}
+
+/*
+ * The country itself. Before this existed the map was sixteen circles floating
+ * in an empty box, which reads as a component that failed to load rather than
+ * as a map. The land is the accent hue at a few per cent — present enough to
+ * give the points somewhere to be, quiet enough that it never competes with
+ * the data drawn on top of it.
+ */
+/*
+ * The country. Deep enough to be a landmass rather than a watermark — at four
+ * per cent it read as a printing error — and edged in the accent so the
+ * coastline is the second-strongest line on the page after the rules.
+ */
+.dash__map-land {
+    fill: #e4eff5;
+    stroke: var(--q-brand-deep);
+    stroke-width: 1.25;
+    stroke-linejoin: round;
+    stroke-linecap: round;
 }
 
 .dash__map-dot {
-    /* Interpolate between the two ends of the scale using the per-point
-     * --intensity set in markup. color-mix keeps the palette in the stylesheet
-     * where a designer can find it, instead of computing colours in PHP. */
-    fill: color-mix(in oklab, var(--scale-high) calc(var(--intensity, 0) * 100%), var(--scale-low));
-    stroke: var(--surface);
-    stroke-width: 2;
+    /* Interpolate between the ends of the ramp using the per-point --intensity
+     * set in markup. color-mix keeps the palette in the stylesheet where a
+     * designer can find it, instead of computing colours in PHP. */
+    fill: color-mix(in oklab, var(--q-scale-high) calc(var(--intensity, 0) * 100%), var(--q-scale-low));
+    stroke: #fff;
+    stroke-width: 2.5;
     transition: r 0.15s ease;
 }
 
-/* Incomparable locations are drawn hollow: present on the map, visibly outside
- * the ranking. Filling them with a scale colour would assert a position on a
- * scale they do not belong on. */
+/*
+ * Incomparable locations: present on the map, visibly outside the ranking.
+ * Filling them with a scale colour would assert a position on a scale they do
+ * not belong on.
+ *
+ * Drawn in the accent rather than in grey. A thin grey dash at nine pixels does
+ * not read as "deliberately unranked", it reads as a marker that failed to
+ * load — and when nothing is comparable yet, that is the entire map.
+ */
 .dash__map-dot--incomparable {
-    fill: none;
-    stroke: var(--muted);
-    stroke-width: 2;
-    stroke-dasharray: 3 2;
+    fill: var(--q-paper);
+    stroke: var(--q-brand-deep);
+    stroke-width: 2.5;
+    stroke-dasharray: 4 2.5;
 }
 
 .dash__map-label {
-    fill: var(--text);
+    fill: var(--q-ink);
+    font-family: var(--q-font-body);
     font-size: 11px;
     font-weight: 500;
+    /* Painted under the glyphs so a label crossing a coastline stays legible
+     * without a box behind it. */
     paint-order: stroke;
-    stroke: var(--surface-2);
+    stroke: var(--q-paper-cool);
     stroke-width: 3px;
     stroke-linejoin: round;
 }
@@ -310,20 +610,15 @@ body.dash {
     r: 12;
 }
 
-.dash__map a:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-}
-
 .dash__legend {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.25rem;
     list-style: none;
     margin: 1rem 0 0;
     padding: 0;
-    font-size: 0.875rem;
-    color: var(--muted);
+    font-size: 0.8125rem;
+    color: var(--q-muted);
 }
 
 .dash__legend li {
@@ -333,36 +628,211 @@ body.dash {
 }
 
 .dash__swatch {
-    width: 1rem;
-    height: 1rem;
+    width: 0.875rem;
+    height: 0.875rem;
     border-radius: 50%;
     display: inline-block;
 }
 
-.dash__swatch--low { background: var(--scale-low); }
-.dash__swatch--high { background: var(--scale-high); }
+.dash__swatch--low {
+    background: var(--q-scale-low);
+}
+
+.dash__swatch--high {
+    background: var(--q-scale-high);
+}
 
 .dash__swatch--none {
-    border: 2px dashed var(--muted);
+    background: #fff;
+    border: 2px dashed var(--q-muted);
+}
+
+/* ---------- the basket ---------- */
+
+/*
+ * A ranked list with the weight drawn as a bar behind each row. The bar is the
+ * point: child-weighting is the methodological claim this whole index rests on,
+ * and a column of percentages states it while a bar lets you see it.
+ */
+/*
+ * The whole basket as one bar, segmented by weight.
+ *
+ * This is the page's single image: the coloured run is what a child needs that
+ * somebody can price, the hatched run is what nobody can, and the widths are
+ * the real weights. It takes no numeracy and no scrolling to read, which the
+ * fifteen-row list underneath does.
+ */
+.basket__stack {
+    display: flex;
+    gap: 2px;
+    height: clamp(3.25rem, 7vw, 4.75rem);
+    margin-block: 1.75rem 0.875rem;
+    border-radius: var(--q-radius);
+    overflow: hidden;
+}
+
+.basket__seg {
+    flex: 0 0 var(--w, 4%);
+    background: var(--q-ramp-3);
+    transition: filter 180ms ease;
+}
+
+/* Cycled through the ramp so the bar reads as one scale rather than as a
+ * fifteen-colour chart. The order carries no meaning and is not asked to. */
+.basket__seg:nth-child(4n + 1) { background: var(--q-ramp-4); }
+.basket__seg:nth-child(4n + 2) { background: var(--q-ramp-3); }
+.basket__seg:nth-child(4n + 3) { background: var(--q-ramp-5); }
+.basket__seg:nth-child(4n) { background: var(--q-ramp-2); }
+
+/* Listed after the ramp rules and at equal specificity, so it wins on order
+ * rather than needing !important. */
+.basket__stack .basket__seg--unpriced {
+    background: repeating-linear-gradient(
+        135deg,
+        #fdf4f1,
+        #fdf4f1 6px,
+        #f0d5cc 6px,
+        #f0d5cc 12px
+    );
+    box-shadow: inset 0 0 0 1px #dfb5a8;
+}
+
+.basket__seg:hover {
+    filter: brightness(1.08);
+}
+
+.basket__stack-caption {
+    margin: 0 0 2rem;
+    font-size: 1.0625rem;
+    color: var(--q-ink);
+    max-width: var(--q-measure);
+}
+
+.basket {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: basket;
+    border-block-start: 1px solid var(--q-rule-ink);
+}
+
+.basket__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.125rem 1rem;
+    padding: 0.75rem 0.875rem;
+    border-block-end: 1px solid var(--q-rule);
+    font-size: 0.9375rem;
+}
+
+@media (min-width: 44rem) {
+    .basket__item {
+        grid-template-columns: minmax(0, 1fr) 4.5rem 11rem;
+        align-items: center;
+    }
+}
+
+/*
+ * A rule along the foot of the row, not a fill behind it.
+ *
+ * As a full-height fill this was a block of colour spanning most of the row —
+ * fifteen of them alternating blue and hatched turned a list into a barcode,
+ * and it competed with the stacked bar above that already carries the weights.
+ * Three pixels at the bottom edge says the same thing and lets the row read as
+ * a row.
+ */
+.basket__bar {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-end: 0;
+    height: 3px;
+    width: var(--weight, 0%);
+    background: var(--q-ramp-4);
+    z-index: 0;
+}
+
+.basket__name,
+.basket__weight,
+.basket__where {
+    position: relative;
+    z-index: 1;
+}
+
+.basket__name {
+    font-weight: 500;
+}
+
+.basket__name-local {
+    display: block;
+    color: var(--q-muted);
+    font-weight: 400;
+    font-size: 0.875rem;
+}
+
+.basket__weight {
+    font-variant-numeric: tabular-nums;
+    color: var(--q-muted);
+    text-align: end;
+}
+
+.basket__where {
+    font-size: 0.8125rem;
+    color: var(--q-muted);
+    text-align: end;
+}
+
+/*
+ * An item nobody prices. Marked in the risk colour and with a hatched bar,
+ * because this is not a missing pixel — it is a paediatric medicine or a school
+ * notebook that no open dataset in this country tracks, and it is the single
+ * most important thing on the page.
+ */
+.basket__item--unpriced .basket__bar {
+    background: var(--q-risk);
+    opacity: 0.55;
+}
+
+/* A wash across the row, faint enough to read through. The unpriced rows are
+ * the point of this list, so they are marked — but marked, not blocked out. */
+.basket__item--unpriced {
+    background: #fdf7f5;
+}
+
+.basket__item--unpriced .basket__where {
+    color: var(--q-risk);
+    font-weight: 500;
 }
 
 /* ---------- charts ---------- */
 
 .dash__chart {
-    min-height: 18rem;
     width: 100%;
+    min-height: 18rem;
+}
+
+/*
+ * A chart with no series does not need a chart's worth of height. The reserved
+ * box exists so ECharts has somewhere to draw and so hydration causes no layout
+ * shift; when the fallback is what is showing, there is nothing to shift and
+ * eighteen rems of white around one grey sentence reads as a broken embed.
+ *
+ * `:has()` degrades to the reserved height on a browser without it, which is
+ * the old behaviour rather than a broken one.
+ */
+.dash__chart:has(.dash__fallback) {
+    min-height: 0;
 }
 
 .dash__fallback {
     margin: 0;
-    font-size: 1.125rem;
-    font-variant-numeric: tabular-nums;
-}
-
-.dash__delta {
-    color: var(--accent);
-    font-weight: 600;
-    margin-inline-start: 0.5rem;
+    padding: 1.25rem 1.375rem;
+    color: var(--q-muted);
+    font-size: 0.9375rem;
+    background: var(--q-paper-cool);
+    border-inline-start: 3px solid var(--q-rule);
+    border-radius: var(--q-radius);
 }
 
 /* ---------- table ---------- */
@@ -377,107 +847,222 @@ body.dash {
     font-size: 0.9375rem;
 }
 
+/*
+ * Ruled like a statistical table rather than a UI grid: an ink rule opens the
+ * header and another closes it, hairlines separate the rows, an ink rule closes
+ * the body. No zebra striping — it competes with the figures, and the rules
+ * already do the tracking work.
+ */
 .dash__table th,
 .dash__table td {
     text-align: start;
-    padding: 0.625rem 0.75rem;
-    border-block-end: 1px solid var(--border);
+    padding: 0.5rem 0.875rem;
+    border-block-end: 1px solid var(--q-rule);
     white-space: nowrap;
 }
 
 .dash__table thead th {
-    color: var(--muted);
-    font-weight: 600;
-    font-size: 0.8125rem;
+    color: var(--q-ink);
+    font-weight: 500;
+    font-size: 0.6875rem;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.09em;
+    border-block-start: 1px solid var(--q-rule-ink);
+    border-block-end: 1px solid var(--q-rule-ink);
+    padding-block: 0.625rem;
+}
+
+.dash__table tbody tr:last-child th,
+.dash__table tbody tr:last-child td {
+    border-block-end: 1px solid var(--q-rule-ink);
 }
 
 .dash__table tbody th {
-    font-weight: 600;
+    font-weight: 500;
 }
 
+/* Figures align on their last digit, which is the whole point of a column of
+ * numbers. `end` rather than `right` so it inverts correctly in Arabic. */
 .dash__table td {
+    text-align: end;
     font-variant-numeric: tabular-nums;
+}
+
+.dash__table tbody tr:hover th,
+.dash__table tbody tr:hover td {
+    background: var(--q-paper-cool);
+}
+
+/*
+ * In-cell data bars. Sixteen right-aligned figures two decimal places apart are
+ * accurate and completely unscannable; a bar behind each one makes the spread
+ * readable without adding a second chart to look at.
+ *
+ * It grows from the inline-end edge because the figures are aligned there, so
+ * the bar and the digit it belongs to share a baseline edge — and `inset-inline`
+ * keeps that true when the table flips in Arabic.
+ */
+.dash__table td.cell--num {
+    position: relative;
+    isolation: isolate;
+}
+
+.cell-bar {
+    position: absolute;
+    inset-block: 0.25rem;
+    inset-inline-end: 0;
+    width: var(--v, 0%);
+    background: var(--q-ramp-2);
+    border-radius: 2px;
+    z-index: -1;
+}
+
+/* Coverage is context for the cost, not a competing measure. */
+.cell-bar--soft {
+    background: var(--q-paper-cool);
+}
+
+.cell-val {
+    position: relative;
+}
+
+/* An unranked row's bar is drawn in the same hatch as the basket's unpriced
+ * segments, so one visual language covers "not comparable" everywhere. */
+.dash__row--incomparable .cell-bar {
+    background: repeating-linear-gradient(
+        135deg,
+        #f4f8fb,
+        #f4f8fb 5px,
+        #e4eef5 5px,
+        #e4eef5 10px
+    );
 }
 
 .dash__name-local {
     display: block;
-    color: var(--muted);
+    color: var(--q-muted);
     font-weight: 400;
     font-size: 0.875rem;
 }
 
 .dash__row--incomparable td,
 .dash__row--incomparable th {
-    color: var(--muted);
+    color: var(--q-muted);
 }
 
+/* Squared, not a pill. A rounded capsule reads as a chip in a web app; a
+ * squared rule reads as an annotation in a table, which is what it is. */
 .dash__badge {
     display: inline-block;
     margin-inline-start: 0.5rem;
-    padding: 0.125rem 0.5rem;
-    border: 1px dashed var(--muted);
-    border-radius: 999px;
-    font-size: 0.75rem;
+    padding: 0.0625rem 0.4375rem;
+    border: 1px dashed var(--q-muted);
+    border-radius: var(--q-radius);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     white-space: nowrap;
 }
 
 .dash__quality {
     display: inline-block;
-    padding: 0.125rem 0.5rem;
-    border-radius: 999px;
-    font-size: 0.8125rem;
-    background: var(--surface-2);
+    padding: 0.0625rem 0.4375rem;
+    border-radius: var(--q-radius);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--q-paper-cool);
 }
 
 /* Quality is never signalled by colour alone — the word is always present, so
- * the colour is reinforcement rather than the message (WCAG 1.4.1). */
-.dash__quality--good { color: #34d399; }
-.dash__quality--moderate { color: #fbbf24; }
-.dash__quality--low { color: #f87171; }
+ * the colour is reinforcement rather than the message (WCAG 1.4.1). Retuned
+ * for paper: the previous amber fell to about 1.7:1 on white, which is
+ * invisible rather than subtle. */
+.dash__quality--good {
+    color: var(--q-ok);
+}
 
-/* ---------- calls to action ---------- */
+.dash__quality--moderate {
+    color: var(--q-warn);
+}
 
+.dash__quality--low {
+    color: var(--q-risk);
+}
+
+/* ---------- use the data ---------- */
+
+/*
+ * C6 says the data being open is the product, so the page ends on the ways to
+ * take it away rather than on a footer nobody reads.
+ *
+ * It was an ink card with rounded corners floating on white, which is the one
+ * thing this design does not do anywhere else — every other section is ruled
+ * and flush. A single dark rounded box at the foot read as a component from a
+ * different product, so it is now a section like the others.
+ */
 .dash__panel--cta {
-    background: var(--surface-2);
+    background: transparent;
+    color: inherit;
+    border-block-start: 1px solid var(--q-rule-ink);
+    border-radius: 0;
+    padding: 1.5rem 0 0;
 }
 
 .dash__links {
+    /* The bullets were visible. It is a list because three links are a list,
+       but a marker beside a button is a marker in the wrong place. */
+    list-style: none;
+    margin: 1.25rem 0 0;
+    padding: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    list-style: none;
-    margin: 1rem 0 0;
-    padding: 0;
 }
 
+/*
+ * One filled action, the rest outlined. Three equally loud buttons make the
+ * reader choose between them; the CSV is what most people came for, and the
+ * other two are for the person who already knows they want an API.
+ */
 .dash__links a {
     display: inline-flex;
     align-items: center;
-    min-height: 2.75rem;
-    padding: 0 1rem;
-    border-radius: 0.5rem;
-    background: var(--accent);
-    color: var(--bg);
+    min-height: var(--q-touch);
+    padding: 0 1.125rem;
+    border: 1px solid var(--q-brand-deep);
+    border-radius: var(--q-radius);
+    background: transparent;
+    color: var(--q-brand-deep);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 0.9375rem;
 }
 
-.dash__links a:focus-visible,
-.dash__locales a:focus-visible,
-.dash__select:focus-visible {
-    outline: 2px solid var(--text);
-    outline-offset: 2px;
+.dash__links li:last-child a {
+    background: var(--q-brand-deep);
+    color: #fff;
 }
 
-/* Respect a stated preference for less motion rather than assuming animation
- * is always welcome. */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-    }
+.dash__links a:hover {
+    background: var(--q-brand-wash);
+}
+
+.dash__links li:last-child a:hover {
+    background: var(--q-brand-ink);
+    border-color: var(--q-brand-ink);
+}
+
+/* ---------- empty ---------- */
+
+.dash__empty {
+    border-block-start: 3px solid var(--q-brand);
+}
+
+.dash__empty h2 {
+    font-family: var(--q-font-display);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 0 0 0.5rem;
 }
