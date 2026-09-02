@@ -51,7 +51,16 @@ final class CountryConfigImporter
 
             $units = $this->importUnits($country, $config['units']);
             $locations = $this->importLocations($country, $config['locations']);
-            [$items, $variants] = $this->importCanonicalItems($country, $config['canonical_items']);
+            // The sourced reference price for each item, where the country file
+            // has one. Every entry carries a URL, a date and what the source
+            // actually said (`demo.reference_price_provenance`), and until now
+            // nothing outside a test ever read them. Anomaly screening uses
+            // them as the anchor for an item with no observations yet.
+            [$items, $variants] = $this->importCanonicalItems(
+                $country,
+                $config['canonical_items'],
+                $config['demo']['reference_prices'] ?? [],
+            );
             $basket = $this->importBasket($country, $config['basket']);
             $sources = $this->importSources($country, $config['sources'] ?? []);
 
@@ -201,21 +210,36 @@ final class CountryConfigImporter
 
     /**
      * @param  list<array<string, mixed>>  $items
+     * @param  array<string, mixed>  $referencePrices  item code => sourced price
      * @return array{0: int, 1: int}
      */
-    private function importCanonicalItems(Country $country, array $items): array
+    private function importCanonicalItems(Country $country, array $items, array $referencePrices = []): array
     {
         $variantCount = 0;
 
         foreach ($items as $data) {
+            $code = (string) $data['code'];
+            $reference = $referencePrices[$code] ?? null;
+            $quantity = (float) ($data['default_quantity'] ?? 1);
+
             $item = CanonicalItem::query()->updateOrCreate(
-                ['country_id' => $country->id, 'code' => (string) $data['code']],
+                ['country_id' => $country->id, 'code' => $code],
                 [
                     'name_en' => (string) $data['name_en'],
                     'name_local' => $data['name_local'] ?? null,
                     'category' => (string) $data['category'],
                     'default_unit_code' => (string) $data['default_unit_code'],
-                    'default_quantity' => (float) ($data['default_quantity'] ?? 1),
+                    'default_quantity' => $quantity,
+                    // Divided down to the base unit here, once: the config
+                    // states these per item as sold (a tray of thirty eggs) and
+                    // observations are normalised per base unit (per egg).
+                    //
+                    // Null when the country file has no sourced price for this
+                    // item — and an item without one must screen exactly as it
+                    // does today rather than be rejected for lacking one.
+                    'reference_price_per_base_unit' => is_numeric($reference) && $quantity > 0
+                        ? (float) $reference / $quantity
+                        : null,
                     // What one pack actually holds, when the item's own code
                     // states a size its default_quantity does not carry. Used
                     // only to disambiguate look-alike items; never for costing.

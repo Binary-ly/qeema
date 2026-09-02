@@ -103,6 +103,24 @@ final class FakeMlClient implements MlClientInterface
     private ?array $nextAnomalies = null;
 
     /**
+     * The evidence the caller assembled, kept so a test can assert on it.
+     *
+     * What a verdict comes back as is the detector's business and is tested on
+     * the Python side. What this side is responsible for is the context it
+     * sends — and a screening layer given a null reference cannot judge
+     * anything, however good the model behind it is.
+     *
+     * @var list<array<string, mixed>>
+     */
+    private array $anomalyPayload = [];
+
+    /** @return list<array<string, mixed>> */
+    public function lastAnomalyPayload(): array
+    {
+        return $this->anomalyPayload;
+    }
+
+    /**
      * @param  list<array<string, mixed>>  $verdicts
      */
     public function willScoreAnomalies(array $verdicts): self
@@ -115,6 +133,7 @@ final class FakeMlClient implements MlClientInterface
     public function scoreAnomalies(array $observations): ?array
     {
         $this->calls[] = ['method' => 'scoreAnomalies', 'count' => count($observations)];
+        $this->anomalyPayload = $observations;
 
         if (! $this->available) {
             return null;

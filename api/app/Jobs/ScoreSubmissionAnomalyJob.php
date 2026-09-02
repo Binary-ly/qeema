@@ -70,6 +70,10 @@ final class ScoreSubmissionAnomalyJob implements ShouldBeUnique, ShouldQueue
         }
 
         $observation = PriceObservation::query()
+            // The item comes with it: screening reads the catalogue's sourced
+            // reference price off it when the item has no observed history to
+            // be judged against.
+            ->with('canonicalItem')
             ->where('submission_id', $this->submissionId)
             ->first();
 

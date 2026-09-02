@@ -37,7 +37,7 @@ final class CanonicalItem extends Model
 
     protected $fillable = [
         'country_id', 'code', 'name_en', 'name_local', 'category',
-        'default_unit_code', 'default_quantity', 'pack_size',
+        'default_unit_code', 'default_quantity', 'pack_size', 'reference_price_per_base_unit',
         'embedding', 'embedding_model', 'embedding_updated_at', 'is_active',
     ];
 
@@ -48,6 +48,7 @@ final class CanonicalItem extends Model
             'embedding_updated_at' => 'datetime',
             'default_quantity' => 'decimal:4',
             'pack_size' => 'array',
+            'reference_price_per_base_unit' => 'decimal:6',
             'is_active' => 'boolean',
         ];
     }

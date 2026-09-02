@@ -143,6 +143,19 @@ final class ScoreSubmissionAnomaly
         // very outliers those bounds exist to catch.
         $reference = PriceObservation::query()
             ->where('canonical_item_id', $observation->canonical_item_id)
+            // Not the row being judged.
+            //
+            // This was missing, and it is the whole reason a wild price scored
+            // clean. The window is inclusive of the observation's own date, so
+            // the price under scrutiny was inside the median it was measured
+            // against — and when it was the only one in ninety days, it *was*
+            // the median. `hard_bounds` then compared the price to itself,
+            // found a ratio of exactly 1, and returned zero. The more absurd
+            // the price, the more completely it defined its own bound.
+            //
+            // The neighbouring `local_prices` query has always excluded self.
+            // This one did not.
+            ->where('id', '!=', $observation->id)
             ->whereBetween('observed_on', [
                 $observation->observed_on->copy()->subDays(self::REFERENCE_WINDOW_DAYS),
                 $observation->observed_on,
@@ -153,13 +166,38 @@ final class ScoreSubmissionAnomaly
             )
             ->value('median');
 
+        // No observed history? Fall back to the catalogue's sourced price.
+        //
+        // This is the hole that let a kilo of wheat flour through at 10,000
+        // against a catalogue that records it at 3.88. Every layer of the
+        // detector is relative — bounds compare against the item's trailing
+        // median, the robust test against other prices in the same town, the
+        // forest against the same history — so with nothing observed they all
+        // return zero, the composite is the maximum of three zeros, and a
+        // submission is recorded `clean` on no evidence whatever. `clean`
+        // publishes.
+        //
+        // That is not a corner case. It is every new deployment, every item
+        // nobody has priced yet, and every deployment whose feeds have been
+        // quiet for ninety days.
+        //
+        // Only a fallback, never an override: the moment real observations
+        // exist they take over, which is what keeps the thresholds self-tuning
+        // rather than pinned to a figure that ages. A sourced price is a
+        // snapshot with a date on it, and an economy moves; using it as the
+        // *primary* reference would start rejecting genuine prices after enough
+        // inflation. Using it only when the alternative is no bound at all
+        // cannot make screening worse than the silence it replaces.
+        $catalogue = $observation->canonicalItem?->reference_price_per_base_unit;
+        $anchor = $reference ?? $catalogue;
+
         return [
             'submission_id' => (string) $observation->submission_id,
             'price' => (float) $observation->normalized_price_per_base_unit,
             'local_prices' => array_values($localPrices),
-            'item_reference_median' => $reference === null ? null : (float) $reference,
-            'national_median' => $reference === null ? null : (float) $reference,
-            'trend_expected' => $reference === null ? null : (float) $reference,
+            'item_reference_median' => $anchor === null ? null : (float) $anchor,
+            'national_median' => $anchor === null ? null : (float) $anchor,
+            'trend_expected' => $anchor === null ? null : (float) $anchor,
             // Reputation as an inverse deviation proxy: a well-regarded
             // reporter has historically deviated little.
             'reporter_mean_deviation' => 1.0 - (float) $observation->reputation_at_time,

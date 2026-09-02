@@ -105,6 +105,64 @@ it('records nothing at all when the detector has no opinion', function (): void 
         ->and($observation->fresh()->is_valid)->toBeTrue();
 });
 
+describe('what the detector is given to judge with', function (): void {
+    /*
+     * A screening layer can only be as good as its evidence, and this side of
+     * the boundary is responsible for the evidence.
+     *
+     * Both properties below were absent, and together they meant a price could
+     * not be found implausible however implausible it was. A single test
+     * submission of 10,000 for a kilo of wheat flour scored 0.0000, was
+     * recorded `clean`, resolved, and went out on the public API — against a
+     * catalogue that records the real price as 3.88 with a URL beside it.
+     */
+
+    it('does not let a price define the reference it is judged against', function (): void {
+        $observation = observationToScore();
+
+        // The only observation of this item in the window. Before this, it was
+        // inside its own reference median — so it *was* the median, the bounds
+        // layer compared it to itself, and the ratio was exactly 1 no matter
+        // what the number was.
+        $observation->forceFill(['normalized_price_per_base_unit' => 9999])->save();
+
+        $ml = new FakeMlClient;
+        (new ScoreSubmissionAnomalyJob($observation->submission_id))->handle(new ScoreSubmissionAnomaly($ml));
+
+        $context = $ml->lastAnomalyPayload()[0];
+
+        expect((float) $context['price'])->toBe(9999.0)
+            ->and((float) $context['item_reference_median'])->not->toBe(9999.0);
+    });
+
+    it('falls back to the catalogue price when the item has no history', function (): void {
+        $observation = observationToScore();
+        $observation->forceFill(['normalized_price_per_base_unit' => 9999])->save();
+
+        $ml = new FakeMlClient;
+        (new ScoreSubmissionAnomalyJob($observation->submission_id))->handle(new ScoreSubmissionAnomaly($ml));
+
+        $context = $ml->lastAnomalyPayload()[0];
+
+        // rice_1kg is sourced at 6.06 for one kilo in the country file, and
+        // `default_quantity` is 1, so the per-base-unit reference is the same
+        // number. Without this the field is null, `hard_bounds` returns zero by
+        // design, and nothing else has anything to say either.
+        expect($context['item_reference_median'])->not->toBeNull()
+            ->and(round((float) $context['item_reference_median'], 2))->toBe(6.06);
+    });
+
+    it('states the catalogue reference per base unit, not per pack', function (): void {
+        // Eggs are sourced as a tray of thirty at 24.75 while observations are
+        // normalised per egg. Comparing the two directly would put the bound
+        // thirty times too high — the same class of mistake that once costed
+        // 60 ml of paracetamol as sixty litres.
+        $eggs = CanonicalItem::query()->where('code', 'eggs_30')->firstOrFail();
+
+        expect(round((float) $eggs->reference_price_per_base_unit, 4))->toBe(round(24.75 / 30, 4));
+    });
+});
+
 it('invalidates an observation the detector rejects', function (): void {
     $observation = observationToScore();
 

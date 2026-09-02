@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-import { expect, test, type Page } from "@playwright/test";
+import {
+  expect,
+  test,
+  type BrowserContext,
+  type Page,
+} from "@playwright/test";
 
 /**
  * The offline path.
@@ -12,6 +17,48 @@ import { expect, test, type Page } from "@playwright/test";
  * IndexedDB outbox behaves differently under a dev server than in a built
  * deployment — and the built deployment is what a reviewer sees.
  */
+
+/**
+ * Take the app offline the way the app decides it is offline.
+ *
+ * `context.setOffline` stops the network but does not reliably flip
+ * `navigator.onLine` for the document — the same unreliability the setup below
+ * documents for an already-loaded page, and reloading does not always settle it
+ * either. The outbox short-circuits on `navigator.onLine`, so on a run where
+ * the flag stayed true the app correctly began a flush and an entry that should
+ * have been sitting at `pending` was read mid-`syncing`. CI failed on exactly
+ * that, and the failure was the emulation's rather than the application's.
+ *
+ * Defining the property makes the branch deterministic, so these tests assert
+ * what the app does when it believes it is offline — which is the thing they
+ * were always meant to be about. It stays `configurable` so reconnecting can
+ * put it back.
+ */
+async function goOffline(page: Page, context: BrowserContext) {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "onLine", {
+      get: () => false,
+      configurable: true,
+    });
+  });
+
+  await context.setOffline(true);
+  await page.reload();
+}
+
+/** Signal returns: restore the flag, then fire the event the app listens for. */
+async function goOnline(page: Page, context: BrowserContext) {
+  await context.setOffline(false);
+
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, "onLine", {
+      get: () => true,
+      configurable: true,
+    });
+
+    window.dispatchEvent(new Event("online"));
+  });
+}
 
 /** Read the outbox directly, so assertions do not depend on UI wording. */
 async function outbox(page: Page) {
@@ -71,8 +118,7 @@ test("the app shell loads and is usable with no connection", async ({
   page,
   context,
 }) => {
-  await context.setOffline(true);
-  await page.reload();
+  await goOffline(page, context);
 
   // The substantive claim: with the network gone, the service worker still
   // serves the shell and the cached catalogue still populates the pickers, so
@@ -103,8 +149,7 @@ test("a price entered offline is kept and sent on reconnect", async ({
   page,
   context,
 }) => {
-  await context.setOffline(true);
-  await page.reload();
+  await goOffline(page, context);
 
   await enterPrice(page, "12.75");
 
@@ -117,8 +162,7 @@ test("a price entered offline is kept and sent on reconnect", async ({
   ).toBeTruthy();
 
   // Signal returns.
-  await context.setOffline(false);
-  await page.evaluate(() => window.dispatchEvent(new Event("online")));
+  await goOnline(page, context);
 
   await expect
     .poll(
@@ -135,8 +179,7 @@ test("several offline entries all survive and sync together", async ({
   page,
   context,
 }) => {
-  await context.setOffline(true);
-  await page.reload();
+  await goOffline(page, context);
 
   for (const price of ["5.50", "9.25", "31.00"]) {
     await enterPrice(page, price);
@@ -144,8 +187,7 @@ test("several offline entries all survive and sync together", async ({
 
   await expect.poll(async () => (await outbox(page)).length).toBe(3);
 
-  await context.setOffline(false);
-  await page.evaluate(() => window.dispatchEvent(new Event("online")));
+  await goOnline(page, context);
 
   await expect
     .poll(
@@ -164,8 +206,7 @@ test("replaying the queue does not send the same price twice", async ({
 }) => {
   // The property that makes a flaky connection harmless rather than a silent
   // distortion of a published figure.
-  await context.setOffline(true);
-  await page.reload();
+  await goOffline(page, context);
   await enterPrice(page, "77.25");
 
   const payload = (await outbox(page))[0].payload as Record<string, unknown>;
@@ -182,8 +223,7 @@ test("replaying the queue does not send the same price twice", async ({
   //
   // It is also the more honest sequence: what retries a submission in
   // production is the queue, not a test.
-  await context.setOffline(false);
-  await page.evaluate(() => window.dispatchEvent(new Event("online")));
+  await goOnline(page, context);
 
   await expect
     .poll(async () => (await outbox(page))[0]?.status, { timeout: 30_000 })
