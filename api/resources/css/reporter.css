@@ -810,6 +810,17 @@
     word-break: break-all;
 }
 
+/*
+ * `display: block` above outranks the `[hidden]` rule in the UA stylesheet, so
+ * the attribute stopped hiding anything: an endpoint with no path parameter —
+ * and every endpoint at all with JavaScript off — carried an empty three-pixel
+ * line and its margin under the path. The attribute selector takes the
+ * specificity back.
+ */
+.op__resolved[hidden] {
+    display: none;
+}
+
 .op__summary {
     color: var(--q-ink);
     font-size: 0.9375rem;
