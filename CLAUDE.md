@@ -53,11 +53,14 @@ make demo          # build + up + block until healthy — the reviewer path
 make lint          # every static gate CI runs, including the constraint checks
 make verify        # lint + both suites with their coverage gates
 make fix           # pint + ruff --fix + ruff format
+make test          # both suites, both coverage gates
 make test-php      # Pest, --min=80
 make test-ml       # pytest, --cov, fail_under=80
 make test-e2e      # Playwright against the running stack
+make check-openapi # the drift gate on its own
+make licenses      # regenerate docs/LICENSES.md from the lockfiles (C1)
 make reseed        # destructive: drop schema, rebuild with demo data
-make psql / shell / logs / nuke
+make psql / shell / logs / nuke / up / down / ps / restart
 ```
 
 **Gates are defined once and invoked by both CI and the hook** — `gate-php-static`
@@ -68,6 +71,13 @@ Adding a gate means adding it to a `gate-*` target; a gate that exists only in
 build went red on its own twice — a country name in a comment, then a currency
 code, neither visible to the command anyone runs while working.
 
+**`infra/scripts/retry.sh <attempts> <command...>` wraps network fetches only.**
+Every `composer install`, `npm ci`, `uv pip install` and `playwright install` in
+`.github/workflows/ci.yml` goes through it, because a build that dies on someone
+else's `HTTP/2 504` is indistinguishable on the dashboard from a real failure.
+Never wrap a *test* in it: a retried test hides a flake, and flakes here are
+treated as defects that must stay visible.
+
 Single tests:
 
 ```bash
@@ -76,6 +86,35 @@ cd api && ./vendor/bin/pest --filter "supersedes"
 cd ml  && .venv/bin/python -m pytest tests/test_packsize.py::test_name -q
 cd e2e && npx playwright test tests/loop.spec.ts
 ```
+
+Artisan surface (`docker compose exec app php artisan <name>`), since the make
+targets only cover a third of it:
+
+```
+qeema:bootstrap [--force --fresh --skip-demo]  migrate + seed; behind make seed/reseed
+qeema:config:import                            apply a countries/*.yaml edit to a running deployment
+qeema:index / qeema:index:publish              recompute stale snapshots, then publish
+qeema:index:link                               --country
+qeema:pipeline:sweep / qeema:pipeline:health   adopt missed submissions · report whether "live" is true
+qeema:review:rematch                           re-run the matcher over the review queue
+qeema:fx:fetch [--country] / qeema:scrape      the two inbound feeds
+qeema:nowcast:train                            retrain the imputation model
+qeema:corpus:promote                           corpus wording → catalogue variant (see the trap below)
+qeema:demo:scale --country                     build a load dataset from countries/corpus/
+qeema:reporters:bias / qeema:reporter:forget / qeema:retention:enforce
+qeema:openapi [--check]                        regenerate or gate public/openapi.json
+qeema:scheduler:heartbeat
+```
+
+`qeema:bootstrap` has **no `--country`** — it seeds every `countries/*.yaml` it
+finds. (The `--country=VE` in the header comment of `countries/ve.yaml` is stale
+and does nothing.) Per-country options exist on `fx:fetch`, `index:link`,
+`reporters:bias` and `demo:scale`.
+
+**`public/openapi.json` is generated, never edited.** The source is the PHP
+attributes in `api/app/Support/OpenApi/`; `qeema:openapi` scans them and writes
+the file, and `--check` fails the build on any difference. Hand-editing the JSON
+gets reverted by the next regeneration and reads as drift in the meantime.
 
 Toolchain notes:
 
@@ -95,6 +134,12 @@ Toolchain notes:
 **This machine's ports are not the documented ones.** The local `.env` (gitignored) sets
 `APP_PORT=8090` and `ML_PORT=8001`, so the stack is at `http://localhost:8090`, not the
 8080 the README advertises. `ML_PORT` is moved because 8000 collides with `php artisan serve`.
+
+The Makefile does **not** read `.env` — `APP_URL ?= http://localhost:8080` is its own
+default — so `make demo` and `make wait` poll 8080, spin for ten minutes against a stack
+that is already healthy on 8090, then dump logs and exit 1. Pass the port explicitly:
+`make demo APP_URL=http://localhost:8090`. Compose is unaffected; `docker-compose.yml`
+derives `APP_URL` from `APP_PORT` itself.
 
 ## Architecture
 
@@ -135,6 +180,16 @@ Properties that matter more than speed, and that changes must preserve:
 database (`php artisan qeema:config:import`). Adding a country is a new YAML file plus
 `make reseed` — if it needs a code change, that is a bug in the abstraction.
 
+**Two countries are configured, and the second one is the actual regression surface.**
+`countries/ve.yaml` exists to prove C3, not to assert expertise: it is left-to-right,
+Spanish, Latin script (so the Arabic normalisation path is bypassed rather than
+exercised), built on a different staple, two-decimal currency against the other's three,
+and Western-hemisphere with negative longitudes that the map projection and the date
+bucketing both have to survive. The C3 grep catches *literals*; it cannot catch an
+assumption about script direction, decimal places or sign. A change that works only for
+the default country still passes lint — check it against both, and read the header of
+`ve.yaml`, which lists what each axis was chosen to break.
+
 Inside `demo.reference_price_provenance`, every cited price needs a URL, a date and what the
 source actually said; `demo.minimum_sourced_prices` is a **ratchet** — raise it when adding
 citations, never lower it to make a test pass. See
@@ -167,7 +222,9 @@ the exclusive property of one (one item owning a shared head noun once caused 72
 errors). `api/tests/Feature/Country/CatalogueVariantPlacementTest.php` guards this and the
 adjacent failure of a wording landing under the wrong item. Note that some items use inline
 flow style — `variants: [a, b]` — which defeats naive line-based YAML editing; verify
-placement after any scripted edit.
+placement after any scripted edit. `ml/scripts/merge_harvest.py` exists because of exactly
+that: a throwaway inserter that matched the line `variants:` silently skipped the two items
+written in flow style. Use it to merge harvested wordings rather than writing another one.
 
 **Tests need real PostgreSQL** with `vector` and `pg_trgm` (`qeema_test`, port 5432 on the
 host). SQLite provides neither. `phpunit.xml` **forces** `DB_DATABASE=qeema_test` because
@@ -183,6 +240,23 @@ because promoted variants exact-match and short-circuit before any model runs. W
 anything statistical, report what the numbers did before and after — and re-run the baseline
 rather than quoting a stored one (a fine-tuning result survived for weeks only because it
 was measured against a stale `/tmp` snapshot nobody could reproduce).
+
+**The baseline is a script, so re-running it is cheap — run it.** From `ml/`, with
+`.venv/bin/python`:
+
+- `scripts/real_text_evaluation.py` — **the headline matcher number.** Scores the matcher
+  against product names collected from a government price bulletin and merchant
+  catalogues, i.e. text no language model wrote, with the bulletin's cement, rebar and
+  feed lines serving as hard negatives. Reads `ml/data/real-text/*.json` (or paths given as
+  argv); `QEEMA_EVAL_COUNTRY` picks the catalogue, `QEEMA_MAX_MISSES` how many misses to
+  print. Reports unseen-only and full-set separately — quote the unseen one.
+- `scripts/embedding_finetune.py` · `scripts/verifier_experiment.py` — the two experiments
+  behind the current architecture. Both are cross-validated and both document, in the
+  module docstring, the measurement that motivated them.
+- `scripts/merge_harvest.py` — merges a harvest into the catalogue *and* the eval set.
+
+Published figures live in `docs/model-cards/`; those files and PROGRESS.md are what to
+update when a number moves, and the docstrings are where the reasoning goes.
 
 **Never write evaluation inputs or outputs to `/tmp`.** Three separate scripts once defaulted
 there and each produced a result that could not be reproduced. Build from repo paths
@@ -202,6 +276,9 @@ there and each produced a result that could not be reproduced. Build from repo p
 
 `PLAN.md` (schema, formulas, decision log) · `PROGRESS.md` (honest build state) ·
 `docs/assessment.md` (proven vs simulated vs not built) · `docs/operations.md` ·
-`docs/pilot.md` · `docs/do-no-harm.md` (how this platform could hurt people while working
-correctly — read before touching anything that handles reporter data) · `docs/privacy.md` ·
-`docs/data-sources.md` · `docs/dpg-standard.md` · `docs/adr/` · `docs/model-cards/`.
+`docs/deployment.md` · `docs/pilot.md` · `docs/do-no-harm.md` (how this platform could hurt
+people while working correctly — read before touching anything that handles reporter data) ·
+`docs/privacy.md` · `docs/data-sources.md` · `docs/dpg-standard.md` ·
+`docs/scale-testing.md` · `docs/libyan-dialect-brief.md` (the linguistic reasoning behind
+the catalogue's wordings) · `docs/plan-close-the-loop.md` · `docs/plan-chain-linking.md` ·
+`docs/adr/` · `docs/model-cards/` (published matcher, anomaly and nowcast figures).
