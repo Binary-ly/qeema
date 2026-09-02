@@ -23,6 +23,8 @@ return [
     'need_headline' => ':count of :total items have no price in any town. Yours would be the first.',
     'need_badge' => 'First price',
     'need_none' => 'Every item has a price somewhere — add today’s.',
+    'meter_label' => 'The basket, item by item. A hollow bar has no price anywhere.',
+    'meter_filled' => 'You have filled :count of these bars.',
     'pick_item' => 'Pick what you priced',
     'change_item' => 'Change',
     'details' => 'Quantity and unit',

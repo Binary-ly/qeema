@@ -20,6 +20,8 @@ return [
     'need_headline' => ':count de :total artículos no tienen precio en ninguna localidad. El tuyo sería el primero.',
     'need_badge' => 'Primer precio',
     'need_none' => 'Cada artículo tiene precio en algún sitio — añade el de hoy.',
+    'meter_label' => 'La cesta, artículo por artículo. Una barra hueca no tiene precio en ningún sitio.',
+    'meter_filled' => 'Has rellenado :count de estas barras.',
     'pick_item' => 'Elige lo que valoraste',
     'change_item' => 'Cambiar',
     'details' => 'Cantidad y unidad',

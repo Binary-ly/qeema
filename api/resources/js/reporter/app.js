@@ -60,6 +60,15 @@ export default function reporter() {
         needsCount: config.needsCount ?? 0,
         basketCount: config.basketCount ?? 0,
 
+        // The basket as fifteen bars — the mark from the masthead, carrying
+        // real data. See `meterBars` for why this app lights one.
+        meter: config.meter ?? [],
+
+        // Item codes this device has priced. Kept on the device because that is
+        // where the claim belongs: the reporter's job is done when the entry is
+        // stored locally, which is the same rule the queue works by.
+        filled: JSON.parse(localStorage.getItem('qeema.filled') ?? '[]'),
+
         // --- what the reporter is entering ---
         locationSlug: localStorage.getItem('qeema.location') ?? '',
         itemCode: '',
@@ -268,6 +277,45 @@ export default function reporter() {
             const item = this.selectedItem;
 
             return item ? this.naming(item, 'name_local', 'name_en').sub : '';
+        },
+
+        /**
+         * The fifteen bars, and which of them are lit.
+         *
+         * This is the same device the dashboard puts in its masthead, and it
+         * means something sharper here. On the dashboard a hollow bar is a
+         * diagnosis — a thing a child needs that nothing in this deployment can
+         * price. On this screen it is the task: the hollow bars are the ones
+         * the person holding the phone can fill, and filling one is the whole
+         * reason the crowdsourced layer exists.
+         *
+         * Three states, because two would lie. `is-hollow` is nobody has priced
+         * it; `is-filled` is you just did, on this device, and it lights. A
+         * plain bar is priced somewhere already. A filled bar does not claim
+         * the figure is published — only that this device has sent one, which
+         * is exactly what the reporter did.
+         */
+        get meterBars() {
+            return this.meter.map((bar) => {
+                const mine = this.filled.includes(bar.code);
+                const state = mine ? ' is-filled' : (bar.unpriced ? ' is-hollow' : '');
+
+                return {
+                    ...bar,
+                    className: `fifteen__bar${state}`,
+                    style: `--h: ${bar.height}%`,
+                };
+            });
+        },
+
+        get hasMeter() {
+            return this.meter.length > 0;
+        },
+
+        get meterLine() {
+            return this.filled.length > 0
+                ? line('meter_filled', { count: this.filled.length })
+                : line('meter_label');
         },
 
         get hasNeeds() {
@@ -533,6 +581,14 @@ export default function reporter() {
 
                 this.sent += 1;
                 localStorage.setItem('qeema.sent', String(this.sent));
+
+                // Light the bar. Only for a code that is actually in the
+                // basket — a free-text report has no bar to light, and
+                // inventing one would be the app congratulating itself.
+                if (this.itemCode !== '' && ! this.filled.includes(this.itemCode)) {
+                    this.filled = [...this.filled, this.itemCode];
+                    localStorage.setItem('qeema.filled', JSON.stringify(this.filled));
+                }
 
                 this.resetEntry();
                 this.flash(line('queued_detail', { item: savedItem, price: savedPrice }), 'success');

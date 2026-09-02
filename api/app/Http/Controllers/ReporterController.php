@@ -60,7 +60,7 @@ final class ReporterController extends Controller
                 // the public API, because it is a presentation hint. It ships
                 // in the cached shell, so a reporter offline for a week sees a
                 // week-old hint — which is the right failure for a nudge.
-                ...$this->needs($country),
+                ...$this->needs($country, $this->directionFor($locale) === 'rtl'),
                 'messages' => [
                     'queued' => __('reporter.queued'),
                     'synced' => __('reporter.synced'),
@@ -84,27 +84,57 @@ final class ReporterController extends Controller
      *
      * @return array{needs: list<string>, needsCount: int, basketCount: int}
      */
-    private function needs(?Country $country): array
+    private function needs(?Country $country, bool $preferLocalNames): array
     {
         if ($country === null) {
-            return ['needs' => [], 'needsCount' => 0, 'basketCount' => 0];
+            return ['needs' => [], 'needsCount' => 0, 'basketCount' => 0, 'meter' => []];
         }
 
-        $basket = $this->data->basketCoverage($country, $this->data->currentSnapshots($country));
+        $basket = $this->data->basketCoverage(
+            $country,
+            $this->data->currentSnapshots($country),
+            preferLocalNames: $preferLocalNames,
+        );
 
         /** @var list<string> $needs */
         $needs = [];
+        /** @var list<array<string, mixed>> $meter */
+        $meter = [];
+
+        $peak = 0.0;
 
         foreach ($basket as $row) {
-            if ($row['locations'] === 0) {
+            $peak = max($peak, (float) $row['weight']);
+        }
+
+        $peak = max($peak, 0.0001);
+
+        foreach ($basket as $row) {
+            $unpriced = $row['locations'] === 0;
+
+            if ($unpriced) {
                 $needs[] = (string) $row['code'];
             }
+
+            $meter[] = [
+                'code' => (string) $row['code'],
+                'label' => (string) $row['label'],
+                // Same scale as the dashboard's device: floored at 40% of full
+                // height, because at true scale the lightest item is a two-pixel
+                // smudge and the row stops reading as a row.
+                'height' => round(40 + ((float) $row['weight'] / $peak) * 60, 1),
+                'unpriced' => $unpriced,
+            ];
         }
 
         return [
             'needs' => $needs,
             'needsCount' => count($needs),
             'basketCount' => count($basket),
+            // The mark in the masthead, carrying this deployment's actual
+            // basket. See the note beside it in the template for why it is here
+            // and not only on the dashboard.
+            'meter' => $meter,
         ];
     }
 

@@ -78,7 +78,22 @@
     <div>
         @include('partials.brand')
         <h1 class="reporter__title">{{ $spec['info']['title'] ?? 'API' }}</h1>
-        <p class="reporter__subtitle">Public API reference — no key, no account, no rate tier.</p>
+
+        {{-- The claim this page exists to make, said at the size it deserves.
+
+             It was a grey clause at the end of a subtitle. "No key, no account,
+             no rate tier" is the whole difference between this API and almost
+             every other one, it is what makes the Run buttons below possible at
+             all, and constraint C6 makes it a promise rather than a current
+             configuration. This page's signature is that it is live; the line
+             that earns that should not be set in 15px grey. --}}
+        <p class="docs__claim">
+            <b>No key.</b>
+            <b>No account.</b>
+            <b>No rate tier.</b>
+        </p>
+
+        <p class="reporter__subtitle">Public API reference.</p>
     </div>
     <a class="reporter__home" href="@localised('dashboard')">Dashboard</a>
 </header>

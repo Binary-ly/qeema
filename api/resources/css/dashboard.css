@@ -239,45 +239,8 @@ body.dash {
 .band--ink .dash__quality--moderate { color: #e2bb63; }
 .band--ink .dash__quality--low { color: #f0917f; }
 
-/* ---------- the fifteen ---------- */
-
-/*
- * The brand device. Same motif as the mark: bars of unequal height, some lit
- * and some not. See partials/fifteen.blade.php for what it means.
- */
-.fifteen {
-    display: flex;
-    align-items: flex-end;
-    gap: clamp(3px, 0.6vw, 7px);
-    height: clamp(4.5rem, 11vw, 8rem);
-    width: 100%;
-}
-
-.fifteen__bar {
-    flex: 1 1 0;
-    height: var(--h, 60%);
-    border-radius: 2px;
-    background: var(--q-brand-deep);
-}
-
-/* Hollow, not absent. An item nobody prices is still part of what a child
- * needs — the bar is drawn at its true weight and left unfilled, so the gap in
- * the row is the gap in the data. */
-.fifteen__bar.is-hollow {
-    background: transparent;
-    box-shadow: inset 0 0 0 1.5px var(--q-risk);
-    opacity: 0.55;
-}
-
-.fifteen--ink .fifteen__bar {
-    background: var(--q-brand);
-}
-
-.fifteen--ink .fifteen__bar.is-hollow {
-    background: transparent;
-    box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.42);
-    opacity: 1;
-}
+/* The Fifteen now lives in tokens.css, because the reporter carries it too and
+ * the brand device must not exist twice. */
 
 /* ---------- the gap ---------- */
 

@@ -35,7 +35,7 @@
 <body class="reporter" x-data="reporter" x-cloak>
 
 <header class="reporter__header">
-    <div>
+    <div class="reporter__masthead">
         @include('partials.brand')
         <h1 class="reporter__title">{{ __('reporter.title') }}</h1>
         <p class="reporter__subtitle">{{ __('reporter.subtitle') }}</p>
@@ -47,6 +47,28 @@
                @class(['is-active' => $code === $locale])
                hreflang="{{ $code }}">{{ strtoupper($code) }}</a>
         @endforeach
+    </div>
+
+    {{--
+        The Fifteen, on the screen where it is an instruction.
+
+        This device is the brand: fifteen bars at their real weights, hollow
+        where nobody anywhere can price the item. The dashboard puts it in its
+        masthead as a diagnosis. Here it is the job — every hollow bar is one
+        the person holding this phone can fill, and when they do, it lights.
+
+        It lived only on the dashboard, which is why this app looked like a form
+        that happened to share a logo rather than the same product. It is the
+        one element that makes the two pages recognisably one thing, and the
+        only one that means something different on each.
+    --}}
+    <div class="reporter__meter" x-show="hasMeter">
+        <div class="fifteen fifteen--ink" role="img" :aria-label="meterLine">
+            <template x-for="bar in meterBars" :key="bar.code">
+                <span :class="bar.className" :style="bar.style" :title="bar.label"></span>
+            </template>
+        </div>
+        <p class="reporter__meter-label" x-text="meterLine"></p>
     </div>
 </header>
 
