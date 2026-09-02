@@ -121,8 +121,28 @@ final class SubmissionController extends Controller
                     'name_en' => $entry->canonicalItem->name_en,
                     'name_local' => $entry->canonicalItem->name_local,
                     'category' => $entry->canonicalItem->category,
-                    'unit' => $entry->unit_code,
-                    'quantity' => (float) $entry->quantity,
+                    // The item's own sold unit, not the basket's monthly
+                    // requirement.
+                    //
+                    // These came from the basket entry, which says how much of
+                    // the item a child needs in a month — five kilos of flour,
+                    // sixty litres of water. The reporter app prefills them as
+                    // the quantity being priced, so somebody who bought one
+                    // seven-litre jug and typed what they paid had it recorded
+                    // as the price of sixty litres. Nine of the fifteen items
+                    // differ this way in both configured countries.
+                    //
+                    // The error only ever runs one way: a month's requirement
+                    // is never less than one sold unit, and the pipeline
+                    // divides price by quantity — so every affected report came
+                    // out too cheap, on a platform whose whole purpose is
+                    // showing that things are not affordable.
+                    //
+                    // Both fields come from the item so the pair cannot drift:
+                    // a quantity of 30 beside a unit of `kg` would be worse
+                    // than either mistake alone.
+                    'unit' => $entry->canonicalItem->default_unit_code,
+                    'quantity' => (float) $entry->canonicalItem->default_quantity,
                 ])
                 ->values()
                 ->all() ?? [],

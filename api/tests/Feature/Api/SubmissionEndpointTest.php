@@ -4,6 +4,7 @@
 
 declare(strict_types=1);
 
+use App\Models\CanonicalItem;
 use App\Models\Country;
 use App\Models\Location;
 use App\Models\Reporter;
@@ -264,6 +265,48 @@ describe('offline bootstrap', function () {
 
         expect($response->json('locations'))->toHaveCount(16)
             ->and($response->json('items'))->toHaveCount(15);
+    });
+
+    /*
+     * The quantity the reporter app prefills is the quantity the price gets
+     * divided by, so it has to describe one sold unit — a kilo of flour, a
+     * seven-litre jug — and not the basket's monthly requirement of five kilos
+     * or sixty litres.
+     *
+     * It described the requirement. Nine of the fifteen items differ that way
+     * in both configured countries, and because a month's need is never smaller
+     * than one sold unit, every affected report was normalised too cheap.
+     */
+    it('offers the quantity of one sold unit, not a month of it', function () {
+        $items = collect($this->getJson('/api/v1/bootstrap/LY')->json('items'))
+            ->keyBy('code');
+
+        // The basket asks for five kilos of flour a month and sixty litres of
+        // water. Neither is a thing anybody buys in one go.
+        // Cast because JSON renders 1.0 as 1; the assertion is about the value,
+        // not how the encoder spells it.
+        expect((float) $items['wheat_flour_1kg']['quantity'])->toBe(1.0)
+            ->and($items['wheat_flour_1kg']['unit'])->toBe('kg')
+            ->and((float) $items['drinking_water_7l']['quantity'])->toBe(7.0);
+
+        // Items sold in multiples keep the multiple: a tray is thirty eggs and
+        // a bottle is sixty millilitres, which is what a reporter buys.
+        expect((float) $items['eggs_30']['quantity'])->toBe(30.0)
+            ->and((float) $items['paracetamol_suspension_60ml']['quantity'])->toBe(60.0);
+    });
+
+    it('never offers a quantity from one item beside a unit from another', function () {
+        // Both fields come from the canonical item, so they cannot drift apart.
+        // A quantity of thirty beside a unit of `kg` would be worse than either
+        // mistake on its own.
+        foreach ($this->getJson('/api/v1/bootstrap/LY')->json('items') as $item) {
+            $canonical = CanonicalItem::query()
+                ->where('code', $item['code'])
+                ->firstOrFail();
+
+            expect($item['unit'])->toBe($canonical->default_unit_code)
+                ->and((float) $item['quantity'])->toBe((float) $canonical->default_quantity);
+        }
     });
 
     it('reports the correct minor units so prices are not misformatted', function () {

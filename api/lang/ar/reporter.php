@@ -15,6 +15,7 @@ return [
     'item_free_text' => 'غير موجودة في القائمة؟ اكتبها كما هي.',
     'price' => 'السعر',
     'unit' => 'الوحدة',
+    'priced_for' => 'لـ :quantity :unit',
     'quantity' => 'الكمية',
 
     'need_headline' => ':count من أصل :total بنداً بلا سعر في أي مدينة. سعرك سيكون الأول.',

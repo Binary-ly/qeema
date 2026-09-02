@@ -27,6 +27,13 @@ services:
       - ./api/public/build:/app/public/build:ro
       - ./api/lang:/app/lang:ro
       - ./api/app:/app/app:ro
+      # Migrations, so a schema change is visible to `artisan migrate` in the
+      # same way a class change is visible to the renderer. Without it the
+      # mounts are inconsistent in a way that reports as success: `app/` has
+      # code expecting a column, `database/` still has the image's older set,
+      # and `migrate` answers "Nothing to migrate" while the column the new
+      # code reads does not exist.
+      - ./api/database:/app/database:ro
       # Without this the mounts above are half a lie: opcache is configured
       # not to revalidate timestamps, so a changed class or a recompiled view
       # is invisible until the process restarts, and the page keeps rendering

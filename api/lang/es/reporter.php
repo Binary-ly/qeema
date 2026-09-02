@@ -15,6 +15,7 @@ return [
     'item_free_text' => '¿No está en la lista? Escríbelo tal como aparece.',
     'price' => 'Precio',
     'unit' => 'Unidad',
+    'priced_for' => 'por :quantity :unit',
     'quantity' => 'Cantidad',
 
     'need_headline' => ':count de :total artículos no tienen precio en ninguna localidad. El tuyo sería el primero.',

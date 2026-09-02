@@ -364,6 +364,33 @@ export default function reporter() {
          * form is, so the hint always points at the field furthest up the page
          * that still needs something.
          */
+        /**
+         * What the number being typed is the price *of*.
+         *
+         * The quantity decides how the price is normalised, and it lived in a
+         * field folded away behind a disclosure — so the reporter entered a
+         * number without being told what it was the price of, and the app had
+         * an opinion they never saw. Stating it under the input costs one quiet
+         * line and removes the ambiguity at the point it actually exists.
+         *
+         * Empty for a free-text item: no catalogue entry, no unit, and inventing
+         * one would be the app asserting something it does not know.
+         */
+        get pricedFor() {
+            if (this.unit === '') {
+                return '';
+            }
+
+            const quantity = Number(this.quantity);
+            const shown = Number.isFinite(quantity) ? String(Number(quantity.toFixed(3))) : String(this.quantity);
+
+            return line('priced_for', { quantity: shown, unit: this.unitLabel(this.unit) });
+        },
+
+        get hasPricedFor() {
+            return this.pricedFor !== '';
+        },
+
         get submitHint() {
             if (this.locationSlug === '') {
                 return line('hint_location');

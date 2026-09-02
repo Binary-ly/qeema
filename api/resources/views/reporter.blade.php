@@ -199,6 +199,11 @@
                autocomplete="off"
                x-model="price"
                placeholder="0">
+
+        {{-- What the number is the price of. The quantity decides how this
+             price is normalised and it sits behind a disclosure, so without
+             this line the reporter is asserting something they cannot see. --}}
+        <p class="field__for" x-show="hasPricedFor" x-text="pricedFor"></p>
     </section>
 
     {{-- Quantity and unit come from the catalogue and are right almost every

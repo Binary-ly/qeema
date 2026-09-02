@@ -15,6 +15,7 @@ return [
     'item_free_text' => 'Not in the list? Type it exactly as written.',
     'price' => 'Price',
     'unit' => 'Unit',
+    'priced_for' => 'for :quantity :unit',
     'quantity' => 'Quantity',
 
     // No `|` in any of these on purpose. Arabic needs six plural forms and

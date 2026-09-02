@@ -394,6 +394,15 @@
     font-variant-numeric: tabular-nums lining-nums;
 }
 
+/* What the price is the price of. Centred under the number it qualifies, and
+ * quiet — it is a statement of what the app assumed, not a control. */
+.field__for {
+    margin: 0.6rem 0 0;
+    text-align: center;
+    color: var(--q-muted);
+    font-size: 0.875rem;
+}
+
 .field__control--price:focus-visible {
     border-color: var(--q-brand-deep);
     box-shadow: 0 0 0 4px var(--q-brand-wash);
