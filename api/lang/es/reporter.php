@@ -17,10 +17,23 @@ return [
     'unit' => 'Unidad',
     'quantity' => 'Cantidad',
 
+    'need_headline' => ':count de :total artículos no tienen precio en ninguna localidad. El tuyo sería el primero.',
+    'need_badge' => 'Primer precio',
+    'need_none' => 'Cada artículo tiene precio en algún sitio — añade el de hoy.',
+    'pick_item' => 'Elige lo que valoraste',
+    'change_item' => 'Cambiar',
+    'details' => 'Cantidad y unidad',
+    'sent_total' => 'Precios enviados desde este dispositivo: :count',
+
+    'hint_location' => 'Elige primero la localidad más cercana.',
+    'hint_item' => 'Elige lo que valoraste, o escríbelo.',
+    'hint_price' => 'Introduce el precio que pagaste.',
+
     'submit' => 'Guardar precio',
     'saving' => 'Guardando…',
 
     'queued' => 'Guardado. Se enviará cuando tengas señal.',
+    'queued_detail' => 'Guardado :item a :price. Se enviará cuando tengas señal.',
     'synced' => ':count precio(s) enviado(s).',
     'failed' => ':count envío(s) requieren atención.',
 

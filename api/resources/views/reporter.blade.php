@@ -89,42 +89,79 @@
         </select>
     </section>
 
+    {{--
+        Step two: what.
+
+        Two states rather than one form. Until something is picked this is the
+        picker and nothing else; the moment something is picked it collapses to
+        a single line, which brings the price field and the save button up into
+        the first screen instead of leaving them below a list.
+    --}}
     <section class="field">
         <label class="field__label" for="item">{{ __('reporter.item') }}</label>
-        <input id="item"
-               class="field__control"
-               type="search"
-               inputmode="search"
-               autocomplete="off"
-               x-model="itemQuery"
-               placeholder="{{ __('reporter.item_search') }}">
 
-        <p class="field__hint">{{ __('reporter.item_free_text') }}</p>
+        <template x-if="hasChosen">
+            <div class="chosen">
+                <span class="chosen__names">
+                    <span class="chosen__name" x-text="chosenLabel"></span>
+                    <span class="chosen__alt" x-show="chosenSub" x-text="chosenSub"></span>
+                </span>
+                <button type="button" class="chosen__change" @click="clearItem" x-text="changeLabel"></button>
+            </div>
+        </template>
 
-        <ul class="item-list" x-show="showItemList">
-            <template x-for="item in filteredItems" :key="item.code">
-                <li>
-                    {{-- The item travels to the handler as a data attribute:
-                         CSP event bindings are method references, so they take
-                         no arguments. --}}
-                    <button type="button"
-                            :class="item.className"
-                            :data-code="item.code"
-                            @click="selectItem">
-                        <span class="item-list__name">
-                            <span x-text="item.label"></span>
-                            {{-- The other script, when there is one. A reporter
-                                 may know the item by its local name while
-                                 reading the page in English, or the reverse. --}}
-                            <span class="item-list__alt" x-show="item.sub" x-text="item.sub"></span>
-                        </span>
-                        <small x-text="unitLabel(item.unit)"></small>
-                    </button>
-                </li>
-            </template>
-        </ul>
+        <template x-if="showPicker">
+            <div>
+                <input id="item"
+                       class="field__control"
+                       type="search"
+                       inputmode="search"
+                       autocomplete="off"
+                       x-model="itemQuery"
+                       placeholder="{{ __('reporter.item_search') }}">
+
+                {{-- What the platform is missing, said out loud. The dashboard
+                     leads on the fact that most of a child's basket has no
+                     price anywhere; this is the one screen where somebody can
+                     do something about it, and it used to be the one screen
+                     that never mentioned it. --}}
+                <p class="need-line" :class="needClass" x-text="needLine"></p>
+
+                {{-- A grid, not a scrolling box. The old list scrolled inside a
+                     page that also scrolled, which on a phone means one gesture
+                     with two possible meanings. --}}
+                <ul class="picker">
+                    <template x-for="item in filteredItems" :key="item.code">
+                        <li>
+                            {{-- The item travels to the handler as a data
+                                 attribute: CSP event bindings are method
+                                 references, so they take no arguments. --}}
+                            <button type="button"
+                                    :class="item.className"
+                                    :data-code="item.code"
+                                    @click="selectItem">
+                                <span class="picker__name" x-text="item.label"></span>
+                                {{-- The other script, when there is one. A
+                                     reporter may know the item by its local
+                                     name while reading in English, or the
+                                     reverse. --}}
+                                <span class="picker__alt" x-show="item.sub" x-text="item.sub"></span>
+                                <span class="picker__meta">
+                                    <span class="picker__need" x-show="item.isNeeded" x-text="needBadge"></span>
+                                    <span class="picker__unit" x-text="item.unitText"></span>
+                                </span>
+                            </button>
+                        </li>
+                    </template>
+                </ul>
+
+                <p class="field__hint">{{ __('reporter.item_free_text') }}</p>
+            </div>
+        </template>
     </section>
 
+    {{-- Step three: how much. The only thing left, and the only field on the
+         page given this much room. --}}
     <section class="field field--price">
         <label class="field__label" for="price">
             {{ __('reporter.price') }}
@@ -142,21 +179,32 @@
                placeholder="0">
     </section>
 
-    <section class="field field--row">
-        <div>
-            <label class="field__label" for="quantity">{{ __('reporter.quantity') }}</label>
-            <input id="quantity" class="field__control" type="text" inputmode="decimal" x-model="quantity">
-        </div>
-        <div>
-            <label class="field__label" for="unit">{{ __('reporter.unit') }}</label>
-            {{-- `:value`, not `x-model`: the field shows the unit written out
-                 in the reader's language while `unit` keeps the code, which is
-                 what the submission carries. Binding the model straight to the
-                 input printed the code at the reporter and would have posted a
-                 translated word had it been made editable. --}}
-            <input id="unit" class="field__control" type="text" :value="unitLabel(unit)" readonly>
-        </div>
+    {{-- Quantity and unit come from the catalogue and are right almost every
+         time. They were two more fields between the price and the button. --}}
+    <section class="field">
+        <button type="button" class="disclosure" @click="toggleDetails" :aria-expanded="showDetails">
+            <span x-text="detailsLabel"></span>
+        </button>
+
+        <template x-if="showDetails">
+            <div class="field--row">
+                <div>
+                    <label class="field__label" for="quantity">{{ __('reporter.quantity') }}</label>
+                    <input id="quantity" class="field__control" type="text" inputmode="decimal" x-model="quantity">
+                </div>
+                <div>
+                    <label class="field__label" for="unit">{{ __('reporter.unit') }}</label>
+                    {{-- `:value`, not `x-model`: the field shows the unit
+                         written out in the reader's language while `unit` keeps
+                         the code, which is what the submission carries. --}}
+                    <input id="unit" class="field__control" type="text" :value="unitLabel(unit)" readonly>
+                </div>
+            </div>
+        </template>
     </section>
+
+    {{-- What is still missing, rather than a grey button and silence. --}}
+    <p class="reporter__hint" x-show="hasSubmitHint" x-text="submitHint"></p>
 
     <button type="button"
             class="reporter__submit"
@@ -164,6 +212,7 @@
             @click="submit"
             x-text="submitLabel"></button>
 
+    <p class="reporter__sent" x-text="sentLine"></p>
     <p class="reporter__id" x-text="reporterLabel"></p>
 </main>
 

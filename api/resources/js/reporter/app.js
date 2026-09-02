@@ -53,6 +53,13 @@ export default function reporter() {
         ready: false,
         loadError: null,
 
+        // Basket item codes that no location can price, newest known list from
+        // the server-rendered config. A hint, not data: it ships in the cached
+        // shell, so offline it may be a week old, which is fine for a nudge.
+        needs: config.needs ?? [],
+        needsCount: config.needsCount ?? 0,
+        basketCount: config.basketCount ?? 0,
+
         // --- what the reporter is entering ---
         locationSlug: localStorage.getItem('qeema.location') ?? '',
         itemCode: '',
@@ -60,6 +67,16 @@ export default function reporter() {
         price: '',
         unit: '',
         quantity: 1,
+
+        // Quantity and unit are correct from the catalogue for almost every
+        // report, and were two always-visible fields between the price and the
+        // save button. Folded away until someone actually needs them.
+        showDetails: false,
+
+        // What this device has contributed. Unpaid work with no account and no
+        // feedback is work that stops; a running count is the smallest honest
+        // acknowledgement the app can give.
+        sent: Number(localStorage.getItem('qeema.sent') ?? 0),
 
         // --- connectivity and queue state ---
         online: navigator.onLine,
@@ -221,8 +238,114 @@ export default function reporter() {
             return line('reporter_id', { id: this.reporterId });
         },
 
-        get showItemList() {
-            return this.itemQuery.length > 0 || this.itemCode === '';
+        /*
+        |----------------------------------------------------------------------
+        | Choosing an item
+        |----------------------------------------------------------------------
+        |
+        | The picker used to be a search box above a 180px box that scrolled
+        | inside a page that also scrolled — a trap on a phone — and it pushed
+        | the price field, the only thing the reporter came to fill in, below
+        | the fold. It is now a grid that the page scrolls past, and it folds
+        | to a single line the moment something is picked.
+        */
+
+        get hasChosen() {
+            return this.itemCode !== '';
+        },
+
+        get showPicker() {
+            return this.itemCode === '';
+        },
+
+        get chosenLabel() {
+            const item = this.selectedItem;
+
+            return item ? this.naming(item, 'name_local', 'name_en').label : '';
+        },
+
+        get chosenSub() {
+            const item = this.selectedItem;
+
+            return item ? this.naming(item, 'name_local', 'name_en').sub : '';
+        },
+
+        get hasNeeds() {
+            return this.needsCount > 0;
+        },
+
+        get needLine() {
+            return this.needsCount > 0
+                ? line('need_headline', { count: this.needsCount, total: this.basketCount })
+                : line('need_none');
+        },
+
+        get needClass() {
+            // Only the modifier — the element carries `need-line` itself.
+            // Quiet when nothing is missing, so the line is not permanent
+            // alarm furniture.
+            return this.needsCount > 0 ? 'is-wanted' : '';
+        },
+
+        get needBadge() {
+            return line('need_badge');
+        },
+
+        get pickLabel() {
+            return line('pick_item');
+        },
+
+        get changeLabel() {
+            return line('change_item');
+        },
+
+        get detailsLabel() {
+            return line('details');
+        },
+
+        get sentLine() {
+            return line('sent_total', { count: this.sent });
+        },
+
+        /**
+         * The one thing still missing, named.
+         *
+         * The save button disables itself until three things are true and said
+         * which one was outstanding for none of them, so a first-time reporter
+         * met a grey button and no way to find out why. Ordered the way the
+         * form is, so the hint always points at the field furthest up the page
+         * that still needs something.
+         */
+        get submitHint() {
+            if (this.locationSlug === '') {
+                return line('hint_location');
+            }
+
+            if (this.itemCode === '' && this.itemQuery.trim() === '') {
+                return line('hint_item');
+            }
+
+            if (! (Number(this.price) > 0)) {
+                return line('hint_price');
+            }
+
+            return '';
+        },
+
+        get hasSubmitHint() {
+            return this.submitHint !== '';
+        },
+
+        /** Back to the picker, keeping the location and clearing the entry. */
+        clearItem() {
+            this.itemCode = '';
+            this.itemQuery = '';
+            this.unit = '';
+            this.quantity = 1;
+        },
+
+        toggleDetails() {
+            this.showDetails = ! this.showDetails;
         },
 
         /**
@@ -300,19 +423,35 @@ export default function reporter() {
 
             // Selection state is baked in rather than compared in the template,
             // and recomputes with `itemCode` because this is a getter.
-            return matches.map((item) => {
+            const decorated = matches.map((item) => {
                 const { label, sub } = this.naming(item, 'name_local', 'name_en');
+                const isNeeded = this.needs.includes(item.code);
 
                 return {
                     ...item,
                     label,
                     sub,
-                    className:
-                        item.code === this.itemCode
-                            ? 'item-list__button is-selected'
-                            : 'item-list__button',
+                    isNeeded,
+                    unitText: this.unitLabel(item.unit),
+                    className: [
+                        'picker__item',
+                        item.code === this.itemCode ? 'is-selected' : '',
+                        isNeeded ? 'is-needed' : '',
+                    ]
+                        .filter(Boolean)
+                        .join(' '),
                 };
             });
+
+            // Items nobody can price anywhere come first.
+            //
+            // The catalogue order is by weight, which is the right order for
+            // the dashboard's basket list and the wrong one here: a reporter
+            // adding the first price for an item moves it from "no figure at
+            // all" to "a figure", which is worth more than another observation
+            // of the item sixteen towns already report. `sort` is stable, so
+            // weight still decides within each group.
+            return decorated.sort((a, b) => Number(b.isNeeded) - Number(a.isNeeded));
         },
 
         get selectedItem() {
@@ -385,8 +524,18 @@ export default function reporter() {
 
                 localStorage.setItem('qeema.location', this.locationSlug);
 
+                // Read before the reset clears them: the message names what was
+                // saved. "Saved." on its own left a reporter entering four
+                // prices in a row unable to tell which one had just gone in, or
+                // whether the tap had registered at all.
+                const savedItem = this.chosenLabel || this.itemQuery.trim();
+                const savedPrice = `${this.price} ${this.currencyLabel}`.trim();
+
+                this.sent += 1;
+                localStorage.setItem('qeema.sent', String(this.sent));
+
                 this.resetEntry();
-                this.flash(config.messages.queued, 'success');
+                this.flash(line('queued_detail', { item: savedItem, price: savedPrice }), 'success');
                 await this.refreshCounts();
 
                 if (navigator.onLine) {
@@ -407,6 +556,7 @@ export default function reporter() {
             this.price = '';
             this.unit = '';
             this.quantity = 1;
+            this.showDetails = false;
             // The location is deliberately kept: a reporter submits several
             // prices from the same shop in a row.
         },

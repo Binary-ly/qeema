@@ -296,81 +296,202 @@
 /* ---------- item picker ---------- */
 
 /*
- * Shorter than it wants to be. At sixteen rems the picker filled the screen and
- * pushed the price field — the one thing this app collects — below the fold, so
- * the form read as a list with a form attached rather than the other way round.
- * The fade at the foot is what says "there is more", now that fewer rows are
- * visible to imply it.
+ * A grid the page scrolls past, not a box that scrolls inside it.
+ *
+ * This was a 11.5rem list with `overflow-y: auto` and a fade at the foot. On a
+ * phone that is one gesture with two possible meanings — the finger is either
+ * scrolling the list or the page, and which one it gets depends on where it
+ * landed. It also meant the price field, the single thing this app exists to
+ * collect, sat below a scroll region on first load.
+ *
+ * Fifteen items as two columns of cards is four or five rows. The page scrolls;
+ * nothing inside it does; and the moment something is picked the whole grid
+ * collapses to one line (see `.chosen`).
  */
-.item-list {
+.picker {
     list-style: none;
-    margin: 0.5rem 0 0;
+    margin: 0.75rem 0 0;
     padding: 0;
     display: grid;
-    gap: 0;
-    max-height: 11.5rem;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    border: 1px solid var(--q-rule);
-    border-radius: var(--q-radius);
-    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
-    mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: 0.5rem;
 }
 
-.item-list li + li .item-list__button {
-    border-block-start: 1px solid var(--q-rule);
-}
-
-.item-list__button {
-    width: 100%;
-    min-height: var(--q-touch);
+.picker__item {
+    inline-size: 100%;
+    block-size: 100%;
+    min-height: 3.75rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.625rem 0.875rem;
-    border: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.15rem;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid var(--q-rule);
     border-inline-start: 3px solid transparent;
-    border-radius: 0;
+    border-radius: var(--q-radius);
     background: var(--q-paper);
     color: var(--q-ink);
     font: inherit;
-    font-size: 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.3;
     text-align: start;
     cursor: pointer;
 }
 
-.item-list__name {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    min-width: 0;
+.picker__name {
+    font-weight: 500;
 }
 
 /* The item's other name, under the one the page language leads with. Quiet
  * enough not to compete, present enough to identify the tin on the shelf. */
-.item-list__alt {
+.picker__alt {
     font-size: 0.8125rem;
     line-height: 1.3;
     color: var(--q-muted);
 }
 
-.item-list__button small {
-    color: var(--q-muted);
-    font-size: 0.8125rem;
-    flex-shrink: 0;
+.picker__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-block-start: 0.3rem;
 }
 
-.item-list__button:hover {
+.picker__unit {
+    font-size: 0.75rem;
+    color: var(--q-muted);
+}
+
+/*
+ * "First price" — the item nobody anywhere can price yet.
+ *
+ * This is the only badge in the app and it earns the accent, because tapping it
+ * is worth more than any other tap on the screen: it turns a hole in the index
+ * into a number.
+ */
+.picker__need {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+    background: var(--q-brand-wash);
+    color: var(--q-brand-ink);
+}
+
+.picker__item.is-needed {
+    border-inline-start-color: var(--q-brand);
+}
+
+.picker__item:hover {
     background: var(--q-paper-cool);
 }
 
 /* Selection is carried by a filled bar and a tint, not by a border colour
    alone — a 1px hue change is not a state change on a phone in sunlight. */
-.item-list__button.is-selected {
+.picker__item.is-selected {
     border-inline-start-color: var(--q-brand);
     background: var(--q-brand-wash);
     font-weight: 500;
+}
+
+/*
+ * What the platform is missing, said on the one screen where somebody can fix
+ * it. The dashboard leads on this number and the reporter never mentioned it.
+ */
+.need-line {
+    margin: 0.75rem 0 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--q-muted);
+}
+
+.need-line.is-wanted {
+    padding-inline-start: 0.75rem;
+    border-inline-start: 3px solid var(--q-brand);
+    color: var(--q-ink);
+}
+
+/*
+ * The picked item, folded to one line.
+ *
+ * Everything below it — the price and the save button — moves up a screen when
+ * this replaces the grid, which is the point.
+ */
+.chosen {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-block-start: 0.5rem;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--q-rule);
+    border-inline-start: 3px solid var(--q-brand);
+    border-radius: var(--q-radius);
+    background: var(--q-brand-wash);
+}
+
+.chosen__names {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+
+.chosen__name {
+    font-weight: 600;
+}
+
+.chosen__alt {
+    font-size: 0.8125rem;
+    color: var(--q-muted);
+}
+
+.chosen__change {
+    flex-shrink: 0;
+    min-height: var(--q-touch);
+    padding: 0 0.85rem;
+    border: 1px solid var(--q-brand-deep);
+    border-radius: var(--q-radius);
+    background: transparent;
+    color: var(--q-brand-ink);
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.chosen__change:hover {
+    background: var(--q-paper);
+}
+
+/*
+ * Quantity and unit, folded away.
+ *
+ * They come from the catalogue and are right for almost every report, and they
+ * were two filled-in fields standing between the price and the save button.
+ */
+.disclosure {
+    min-height: var(--q-touch);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--q-brand-ink);
+    font: inherit;
+    font-size: 0.875rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+/* The field the save button is still waiting on, named above it. */
+.reporter__hint {
+    margin: 0 0 0.6rem;
+    text-align: center;
+    color: var(--q-muted);
+    font-size: 0.875rem;
 }
 
 /* ---------- submit ---------- */
@@ -405,8 +526,24 @@
     cursor: not-allowed;
 }
 
+/*
+ * What this device has contributed.
+ *
+ * Reporting is unpaid, anonymous and slightly risky, and the app gave back
+ * nothing at all — every submission vanished into a queue and the screen reset
+ * to blank. A running count is the smallest honest acknowledgement available
+ * without inventing an account system nobody asked for.
+ */
+.reporter__sent {
+    margin: 1.25rem auto 0;
+    text-align: center;
+    color: var(--q-ink);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
 .reporter__id {
-    margin: 1rem auto 0;
+    margin: 0.35rem auto 0;
     text-align: center;
     color: var(--q-muted);
     font-family: var(--q-font-mono);

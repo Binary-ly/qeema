@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Services\Dashboard\DashboardData;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -19,6 +20,8 @@ use Illuminate\View\View;
  */
 final class ReporterController extends Controller
 {
+    public function __construct(private readonly DashboardData $data) {}
+
     public function __invoke(Request $request): View
     {
         $country = $this->resolveCountry($request);
@@ -44,6 +47,20 @@ final class ReporterController extends Controller
                 'submitUrl' => route('api.v1.submissions.store'),
                 'csrfToken' => csrf_token(),
                 'appVersion' => config('qeema.version'),
+                // Which basket items nobody can price yet, so the picker can
+                // ask for those first.
+                //
+                // This is the whole argument for the crowdsourced layer and the
+                // app never made it: the dashboard says ten of fifteen items
+                // have no price in any location, and the reporter was shown a
+                // flat alphabetical list that treated the one nobody has ever
+                // priced exactly like the one sixteen towns report weekly.
+                //
+                // Passed in the page's own config block rather than added to
+                // the public API, because it is a presentation hint. It ships
+                // in the cached shell, so a reporter offline for a week sees a
+                // week-old hint — which is the right failure for a nudge.
+                ...$this->needs($country),
                 'messages' => [
                     'queued' => __('reporter.queued'),
                     'synced' => __('reporter.synced'),
@@ -56,6 +73,39 @@ final class ReporterController extends Controller
     public function offline(): View
     {
         return view('reporter-offline');
+    }
+
+    /**
+     * The basket items no location can price, and how many there are.
+     *
+     * An item with a price in zero locations is not a rendering gap; it is a
+     * category of thing a child needs that nothing in this deployment tracks,
+     * and it is exactly what one person with a phone can fix in thirty seconds.
+     *
+     * @return array{needs: list<string>, needsCount: int, basketCount: int}
+     */
+    private function needs(?Country $country): array
+    {
+        if ($country === null) {
+            return ['needs' => [], 'needsCount' => 0, 'basketCount' => 0];
+        }
+
+        $basket = $this->data->basketCoverage($country, $this->data->currentSnapshots($country));
+
+        /** @var list<string> $needs */
+        $needs = [];
+
+        foreach ($basket as $row) {
+            if ($row['locations'] === 0) {
+                $needs[] = (string) $row['code'];
+            }
+        }
+
+        return [
+            'needs' => $needs,
+            'needsCount' => count($needs),
+            'basketCount' => count($basket),
+        ];
     }
 
     private function resolveCountry(Request $request): ?Country

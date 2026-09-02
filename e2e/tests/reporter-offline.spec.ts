@@ -34,14 +34,14 @@ async function outbox(page: Page) {
 /** Fill the form and tap save. */
 async function enterPrice(page: Page, price: string) {
   await page.selectOption("#location", { index: 1 });
-  await page.locator(".item-list__button").first().click();
+  await page.locator(".picker__item").first().click();
   await page.fill("#price", price);
   await page.getByRole("button", { name: /save price|حفظ السعر/i }).click();
 }
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/report?locale=en");
-  await expect(page.locator(".item-list__button").first()).toBeVisible();
+  await expect(page.locator(".picker__item").first()).toBeVisible();
 
   // The app must genuinely be opened once with a connection before it can
   // survive losing one, which is what this setup establishes. The UI says as
@@ -64,7 +64,7 @@ test.beforeEach(async ({ page }) => {
       timeout: 20_000,
     },
   );
-  await expect(page.locator(".item-list__button").first()).toBeVisible();
+  await expect(page.locator(".picker__item").first()).toBeVisible();
 });
 
 test("the app shell loads and is usable with no connection", async ({
@@ -78,7 +78,7 @@ test("the app shell loads and is usable with no connection", async ({
   // serves the shell and the cached catalogue still populates the pickers, so
   // a reporter can complete a submission.
   await expect(page.locator("#location")).toBeVisible();
-  await expect(page.locator(".item-list__button").first()).toBeVisible();
+  await expect(page.locator(".picker__item").first()).toBeVisible();
   await expect(page.locator("#price")).toBeEditable();
 });
 
