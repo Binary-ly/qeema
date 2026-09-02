@@ -76,7 +76,15 @@ final class DashboardController extends Controller
             'outline' => $map['outline'],
             'charts' => [
                 'national' => $this->data->nationalSeries($country),
-                'locations' => $this->data->locationSeries($country),
+                // `locations` used to be serialised here too. `dashboard.js`
+                // reads `national` and `fx` and nothing else, so every page
+                // load carried up to six locations' ninety-day histories in a
+                // script tag that no code has ever opened. It is empty on this
+                // deployment only because there is no history yet.
+                //
+                // `locationSeries()` stays on the service — a per-location
+                // chart is a reasonable thing to build — but the page should
+                // not pay for it until something draws it.
                 'fx' => $this->data->fxSeries($country),
                 'currency' => $country->currency_code,
             ],
