@@ -10,6 +10,9 @@
 </head>
 <body class="reporter reporter--offline">
     <main>
+        {{-- Inline SVG, so the mark is still here with no network at all —
+             which is the one condition this page is written for. --}}
+        @include('partials.brand')
         <h1>{{ __('reporter.offline_title') }}</h1>
         <p>{{ __('reporter.offline_body') }}</p>
         <a class="reporter__submit" href="{{ route('reporter') }}">{{ __('reporter.offline_action') }}</a>
