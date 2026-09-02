@@ -873,6 +873,23 @@ body.dash {
     display: block;
     background: transparent;
     overflow: visible;
+
+    /*
+     * A ceiling on the height, not on the width.
+     *
+     * The viewBox is fitted to the country, and scaling that to the full width
+     * of the column made the map 829px tall inside a section over 1100px tall —
+     * more than a full screen for a picture whose sixteen points all sit in the
+     * top third, because most of this country is empty desert. Cropping to the
+     * points would have been the other way to fix it, and would have published a
+     * country with its southern half cut off.
+     *
+     * `preserveAspectRatio="xMidYMid meet"` is already on the element, so a
+     * height cap scales the drawing down and centres it rather than squashing
+     * it: the geography stays true and the section stops swallowing the page.
+     */
+    max-block-size: min(34rem, 62vh);
+    margin-inline: auto;
 }
 
 /*
@@ -1149,6 +1166,10 @@ body.dash {
  */
 .dash__await {
     display: flex;
+    /* Wraps rather than crushing the axis to nothing on a phone: below the
+     * breakpoint the sentence takes the full width and the rule drops beneath
+     * it, still reading as an empty baseline. */
+    flex-wrap: wrap;
     align-items: center;
     gap: 1.25rem;
     margin: 1.5rem 0 0;
@@ -1156,7 +1177,7 @@ body.dash {
 }
 
 .dash__await-rule {
-    flex: 1 1 auto;
+    flex: 1 1 8rem;
     block-size: 0;
     border-block-start: 1px dashed var(--q-rule);
     /* Sits low, where the axis of an empty chart would be. */
