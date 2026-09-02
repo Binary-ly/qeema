@@ -118,7 +118,7 @@
                                  reading the page in English, or the reverse. --}}
                             <span class="item-list__alt" x-show="item.sub" x-text="item.sub"></span>
                         </span>
-                        <small x-text="item.unit"></small>
+                        <small x-text="unitLabel(item.unit)"></small>
                     </button>
                 </li>
             </template>
@@ -149,7 +149,12 @@
         </div>
         <div>
             <label class="field__label" for="unit">{{ __('reporter.unit') }}</label>
-            <input id="unit" class="field__control" type="text" x-model="unit" readonly>
+            {{-- `:value`, not `x-model`: the field shows the unit written out
+                 in the reader's language while `unit` keeps the code, which is
+                 what the submission carries. Binding the model straight to the
+                 input printed the code at the reporter and would have posted a
+                 translated word had it been made editable. --}}
+            <input id="unit" class="field__control" type="text" :value="unitLabel(unit)" readonly>
         </div>
     </section>
 

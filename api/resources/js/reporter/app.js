@@ -45,6 +45,11 @@ export default function reporter() {
         country: config.country ?? null,
         locations: [],
         items: [],
+        // The catalogue ships a name and a local name for every unit and this
+        // app was throwing both away, printing the bare code instead — so an
+        // Arabic reader picking a tin of formula was told its unit was "pack",
+        // in Latin script, in the middle of a right-to-left form.
+        units: [],
         ready: false,
         loadError: null,
 
@@ -119,6 +124,7 @@ export default function reporter() {
                 this.country = data.country;
                 this.locations = data.locations ?? [];
                 this.items = data.items ?? [];
+                this.units = data.units ?? [];
                 this.ready = true;
 
                 localStorage.setItem('qeema.catalogue', JSON.stringify(data));
@@ -133,6 +139,7 @@ export default function reporter() {
                     this.country = data.country;
                     this.locations = data.locations ?? [];
                     this.items = data.items ?? [];
+                    this.units = data.units ?? [];
                     this.ready = true;
                     return;
                 }
@@ -249,6 +256,23 @@ export default function reporter() {
             const sub = label === local ? other : local;
 
             return { label, sub: sub === label ? '' : sub };
+        },
+
+        /**
+         * A unit code written out in the page's language.
+         *
+         * Falls back to the code itself, which is what was always shown: a
+         * catalogue that gains a unit before the translations catch up is
+         * mildly ugly rather than blank.
+         */
+        unitLabel(code) {
+            const unit = this.units.find((u) => u.code === code);
+
+            if (! unit) {
+                return code ?? '';
+            }
+
+            return this.naming(unit, 'name_local', 'name').label || code;
         },
 
         /** Locations carrying the label the template used to derive. */
