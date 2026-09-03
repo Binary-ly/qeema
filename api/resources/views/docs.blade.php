@@ -68,6 +68,19 @@
     <title>{{ $spec['info']['title'] ?? 'API' }} — API</title>
     {{-- First line of the spec's own description, so the two cannot drift. --}}
     <meta name="description" content="{{ Str::limit(strtok($spec['info']['description'] ?? 'Public API documentation.', "\n"), 155) }}">
+
+    {{-- The link preview, for the reference a developer is sent a link to. --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:title" content="{{ $spec['info']['title'] ?? 'API' }} — API">
+    <meta property="og:description" content="No key. No account. No rate tier. {{ Str::limit(strtok($spec['info']['description'] ?? '', "\n"), 120) }}">
+    <meta property="og:url" content="{{ url('/docs') }}">
+    <meta property="og:locale" content="en">
+    <meta property="og:image" content="{{ url('/og.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ config('app.name') }} — API reference">
+    <meta name="twitter:card" content="summary_large_image">
     {{-- Styles live in the stylesheet, not in a <style> block here. An inline
          block is exactly what forces `style-src 'unsafe-inline'` back into the
          policy the public pages spent a phase removing. --}}

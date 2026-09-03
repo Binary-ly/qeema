@@ -305,6 +305,35 @@ describe('which of two names leads', function (): void {
     });
 });
 
+describe('the link preview', function (): void {
+    /*
+     * Shared into a chat, a feed or an email, the page was a bare URL — no
+     * title, no image, nothing to recognise. For most people that preview is
+     * the only frame of the platform they will ever see.
+     */
+    it('carries the tags a preview is built from, on every public page', function (): void {
+        foreach (['/?country=ZZ&locale=en', '/report?locale=en', '/docs'] as $path) {
+            $html = (string) $this->get($path)->assertOk()->getContent();
+
+            foreach (['property="og:title"', 'property="og:description"', 'property="og:image"', 'name="twitter:card"'] as $tag) {
+                expect($html)->toContain($tag);
+            }
+        }
+    });
+
+    it('ships the card image at the size previews expect', function (): void {
+        $path = public_path('og.png');
+
+        expect(file_exists($path))->toBeTrue();
+
+        $size = getimagesize($path);
+
+        expect($size)->not->toBeFalse()
+            ->and($size[0])->toBe(1200)
+            ->and($size[1])->toBe(630);
+    });
+});
+
 describe('carrying the reader between pages', function (): void {
     /*
      * Locale and country ride in the query string, so a bare route() drops both

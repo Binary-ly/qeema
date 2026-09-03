@@ -14,6 +14,19 @@
     <title>{{ __('reporter.title') }}</title>
     <meta name="description" content="{{ __('reporter.subtitle') }}">
 
+    {{-- The link preview, for the app a reporter is sent a link to. --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:title" content="{{ config('app.name') }} — {{ __('reporter.title') }}">
+    <meta property="og:description" content="{{ __('reporter.subtitle') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:locale" content="{{ $locale }}">
+    <meta property="og:image" content="{{ url('/og.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ config('app.name') }} — {{ __('reporter.title') }}">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
 

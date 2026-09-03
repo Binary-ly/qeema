@@ -23,6 +23,23 @@
               href="{{ route('dashboard', ['country' => $country->code, 'locale' => $option]) }}">
     @endforeach
 
+    {{-- The link preview. Shared into a chat or a feed this page was a bare
+         URL: no title, no image, nothing to recognise. The card is brand only
+         (infra/brand/og-card.html) so it is true of every deployment on every
+         day; the title and description here are the page's own, in the
+         page's language. --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:title" content="{{ __('dashboard.title') }} — {{ $country->name }}">
+    <meta property="og:description" content="{{ __('dashboard.tagline') }}">
+    <meta property="og:url" content="@localised('dashboard', $country->code)">
+    <meta property="og:locale" content="{{ $locale }}">
+    <meta property="og:image" content="{{ url('/og.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{{ config('app.name') }} — {{ __('dashboard.title') }}">
+    <meta name="twitter:card" content="summary_large_image">
+
     @vite(['resources/css/dashboard.css'])
 
     {{--
