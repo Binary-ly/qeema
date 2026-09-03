@@ -440,3 +440,44 @@ describe('caching', function (): void {
             ->and($checks[0]->detail['waiting'])->toBe(7);
     });
 });
+
+describe('basket plausibility', function (): void {
+    function plausibilitySnapshot(float $cost, float $coverage, float $imputed): void
+    {
+        $country = Country::factory()->create(['timezone' => 'UTC', 'is_active' => true]);
+        $basket = Basket::factory()->create([
+            'country_id' => $country->id,
+            'plausible_cost_band' => ['min' => 120, 'max' => 900],
+        ]);
+
+        healthSnapshotFor($country, CarbonImmutable::now()->toDateString(), basket: $basket)
+            ->forceFill(['cost_local' => $cost, 'coverage_pct' => $coverage, 'imputed_share' => $imputed])
+            ->save();
+    }
+
+    it('is ok for a full basket inside the band', function (): void {
+        plausibilitySnapshot(cost: 300.0, coverage: 1.0, imputed: 0.0);
+
+        expect(pipelineCheck('basket_plausibility')->status)->toBe(HealthCheck::OK);
+    });
+
+    it('judges a partly priced basket by what a full one would cost', function (): void {
+        // The band describes a full basket. The day the live deployment first
+        // held real data, fifteen towns had 37% of the basket estimated and
+        // sat a dinar under the floor — honest partial figures, reported as
+        // implausible. Half the basket at half the floor is not an error.
+        plausibilitySnapshot(cost: 100.0, coverage: 0.5, imputed: 0.0);
+
+        expect(pipelineCheck('basket_plausibility')->status)->toBe(HealthCheck::OK);
+    });
+
+    it('still catches an absurd figure on a sliver of the basket', function (): void {
+        // One item on a tenth of the weight at ten thousand — the shape of the
+        // test submission that once sat at the top of the dashboard — projects
+        // to a hundred thousand and must not be excused by being partial.
+        plausibilitySnapshot(cost: 10000.0, coverage: 0.1, imputed: 0.0);
+
+        expect(pipelineCheck('basket_plausibility')->status)->toBe(HealthCheck::DEGRADED)
+            ->and(pipelineCheck('basket_plausibility')->summary)->toContain('10000');
+    });
+});

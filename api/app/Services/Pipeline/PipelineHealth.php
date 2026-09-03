@@ -447,7 +447,25 @@ final class PipelineHealth
             foreach ($latest as $snapshot) {
                 $cost = (float) $snapshot->cost_local;
 
-                if ($cost < $band['min'] || $cost > $band['max']) {
+                // The band describes a *full* basket. A snapshot that prices
+                // half the basket costs about half as much, and judging it
+                // against the whole-basket floor reports an honest partial
+                // figure as implausible — which is what happened the day the
+                // live deployment first held real data: fifteen towns with
+                // 37% of the basket estimated sat a dinar under the floor. So
+                // the cost is projected to the priced share of the weight
+                // before it is judged. A wrong figure still fails: one item at
+                // ten thousand, on a tenth of the weight, projects to a
+                // hundred thousand.
+                $priced = (float) $snapshot->coverage_pct + (float) $snapshot->imputed_share;
+
+                if ($priced <= 0.0) {
+                    continue;
+                }
+
+                $equivalent = $cost / $priced;
+
+                if ($equivalent < $band['min'] || $equivalent > $band['max']) {
                     $outside[$snapshot->location->slug] = round($cost, 2);
                 }
             }
