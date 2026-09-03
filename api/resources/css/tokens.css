@@ -269,6 +269,34 @@
     border-radius: 2px;
     background: var(--q-brand-deep);
     transition: background 320ms ease, box-shadow 320ms ease;
+
+    /*
+     * The row rises into place once, left to right, each bar a beat after the
+     * last. It is the same gesture the mark makes on load, at full size — the
+     * basket standing up. `both` with a from-only keyframe means the resting
+     * state is the element's own CSS: with the animation removed or the
+     * stylesheet still in flight, the finished row is what renders.
+     */
+    transform-origin: bottom;
+    animation: fifteen-rise 640ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 38ms);
+}
+
+@keyframes fifteen-rise {
+    from {
+        transform: scaleY(0.12);
+        opacity: 0.35;
+    }
+}
+
+/* Removed outright rather than shortened: with `both` a near-zero duration
+ * would still hold each bar at its `from` state for the length of its delay,
+ * and a row that appears bar by bar over half a second is exactly the motion
+ * this preference asks not to see. */
+@media (prefers-reduced-motion: reduce) {
+    .fifteen__bar {
+        animation: none;
+    }
 }
 
 /* Hollow, not absent. An item nobody prices is still part of what a child

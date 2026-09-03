@@ -293,6 +293,49 @@ body.dash {
     max-width: 44ch;
 }
 
+/* ---------- the month, in words ---------- */
+
+/*
+ * The Fifteen as typography. Each item of the basket set in the display face,
+ * one after another with a full stop, the way a month's list gets written down.
+ * Priced items are solid ink; the ones nobody anywhere can price are drawn as
+ * outlines in the same red as the number beside them and the hollow bars in the
+ * masthead — one idea, three renderings.
+ */
+.month {
+    margin: 1.4rem 0 0;
+    font-family: var(--q-font-display);
+    font-weight: 400;
+    font-size: clamp(1.4rem, 2.6vw, 2.15rem);
+    line-height: 1.28;
+    letter-spacing: -0.012em;
+    color: var(--q-ink);
+    max-width: 30ch;
+}
+
+/* The full stop belongs to the sentence, not to the word, so it stays solid
+ * after a hollow item — a hollow full stop is a smudge. */
+.month__item::after {
+    content: '.';
+    color: var(--q-ink);
+    -webkit-text-stroke: 0;
+}
+
+.month__item.is-hollow {
+    color: transparent;
+    -webkit-text-stroke: 1.25px var(--q-risk);
+}
+
+/* A browser without text-stroke gets the same fact by other means rather than
+ * invisible words. */
+@supports not (-webkit-text-stroke: 1px currentColor) {
+    .month__item.is-hollow {
+        color: var(--q-risk);
+        text-decoration: underline dotted;
+        text-underline-offset: 0.18em;
+    }
+}
+
 /* ---------- reveal ---------- */
 
 /*

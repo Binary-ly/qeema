@@ -30,7 +30,7 @@
         @foreach ($cells as $cell)
             <span
                 class="fifteen__bar{{ $cell['locations'] === 0 ? ' is-hollow' : '' }}"
-                style="--h: {{ round(40 + ($cell['weight'] / $peak) * 60, 1) }}%"
+                style="--h: {{ round(40 + ($cell['weight'] / $peak) * 60, 1) }}%; --i: {{ $loop->index }}"
                 title="{{ $cell['name'] }}{{ $cell['locations'] === 0 ? ' — '.__('dashboard.basket_none') : '' }}"
             ></span>
         @endforeach

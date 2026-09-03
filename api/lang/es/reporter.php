@@ -37,6 +37,7 @@ return [
 
     'queued' => 'Guardado. Se enviará cuando tengas señal.',
     'queued_detail' => 'Guardado :item a :price. Se enviará cuando tengas señal.',
+    'queued_first' => 'Guardado :item a :price: el primer precio que alguien ha registrado para ello.',
     'synced' => ':count precio(s) enviado(s).',
     'failed' => ':count envío(s) requieren atención.',
 

@@ -45,6 +45,10 @@ return [
     // Names what was actually saved. "Saved." alone left a reporter entering
     // several prices in a row with no way to tell which one had just gone in.
     'queued_detail' => 'Saved :item at :price. It sends itself when you have signal.',
+    // When the item was a hollow bar: nobody anywhere had recorded a price for
+    // it until this tap. True, specific, and the one moment the app has earned
+    // saying something warmer than "saved".
+    'queued_first' => 'Saved :item at :price — the first price anyone has recorded for it.',
     'synced' => ':count price(s) sent.',
     'failed' => ':count submission(s) need attention.',
 

@@ -296,14 +296,15 @@ export default function reporter() {
          * is exactly what the reporter did.
          */
         get meterBars() {
-            return this.meter.map((bar) => {
+            return this.meter.map((bar, index) => {
                 const mine = this.filled.includes(bar.code);
                 const state = mine ? ' is-filled' : (bar.unpriced ? ' is-hollow' : '');
 
                 return {
                     ...bar,
                     className: `fifteen__bar${state}`,
-                    style: `--h: ${bar.height}%`,
+                    // `--i` staggers the rise-in, one beat per bar along the row.
+                    style: `--h: ${bar.height}%; --i: ${index}`,
                 };
             });
         },
@@ -606,6 +607,12 @@ export default function reporter() {
                 const savedItem = this.chosenLabel || this.itemQuery.trim();
                 const savedPrice = `${this.price} ${this.currencyLabel}`.trim();
 
+                // Whether this was a hollow bar — an item nobody anywhere had
+                // priced. Decided before the reset clears the code, and said
+                // in the confirmation, because it is true and it is the one
+                // thing about this tap worth telling the person who made it.
+                const firstEver = this.itemCode !== '' && this.needs.includes(this.itemCode);
+
                 this.sent += 1;
                 localStorage.setItem('qeema.sent', String(this.sent));
 
@@ -618,7 +625,10 @@ export default function reporter() {
                 }
 
                 this.resetEntry();
-                this.flash(line('queued_detail', { item: savedItem, price: savedPrice }), 'success');
+                this.flash(
+                    line(firstEver ? 'queued_first' : 'queued_detail', { item: savedItem, price: savedPrice }),
+                    'success',
+                );
                 await this.refreshCounts();
 
                 if (navigator.onLine) {

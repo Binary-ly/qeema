@@ -77,6 +77,8 @@ return [
     'basket_none' => 'Sin precio en ninguna parte',
     'basket_stack_label' => 'El :percent% de la canasta de un niño, por peso, no tiene precio en ninguna ubicación aquí.',
     'basket_gap' => ':count de :total artículos que necesita un niño no tienen precio en ninguna ubicación aquí. Esa es la brecha que esta plataforma existe para cerrar.',
+    'gap_lead' => 'Para :count de las :total cosas que necesita un niño este mes, nadie ha registrado un precio. En ninguna localidad.',
+    'gap_hollow' => 'Las huecas no tienen precio en ninguna parte. Son la brecha que esta plataforma existe para cerrar.',
 
     'footer_license' => 'Datos :license · Software Apache-2.0 · Las cifras se republican libremente con atribución.',
 

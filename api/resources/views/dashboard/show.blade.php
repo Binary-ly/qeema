@@ -193,13 +193,31 @@
                     <p class="gap-figure__number">
                         {{ number_format($gapWeight * 100, 0) }}<span class="gap-figure__pc">%</span>
                     </p>
-                    <div>
+                    <div class="gap-figure__words">
                         <p class="gap-figure__body">
-                            {{ __('dashboard.basket_stack_label', ['percent' => number_format($gapWeight * 100, 0)]) }}
+                            {{ __('dashboard.gap_lead', ['count' => $gapCount, 'total' => $basketTotal]) }}
                         </p>
-                        <p class="gap-figure__note">
-                            {{ __('dashboard.basket_gap', ['count' => $gapCount, 'total' => $basketTotal]) }}
+
+                        {{-- The fifteen, as words.
+
+                             The mark in the corner is fifteen bars, lit where
+                             somebody can price the item and hollow where nobody
+                             can. This is the same device set in language: the
+                             month's list, the way a parent would write it, with
+                             the unpriced items drawn as outlines. It is the
+                             most affecting thing on the page and it is nothing
+                             but the catalogue — no person, no photograph, no
+                             claim beyond what the rows below publish
+                             (docs/do-no-harm.md §5). A screen reader gets the
+                             hollowness as words, since an outline is not a
+                             thing it can hear. --}}
+                        <p class="month" lang="{{ $locale }}">
+                            @foreach ($basket as $entry)
+                                <span class="month__item{{ $entry['locations'] === 0 ? ' is-hollow' : '' }}">{{ $entry['label'] }}@if ($entry['locations'] === 0)<span class="dash__sr-only"> — {{ __('dashboard.basket_none') }}</span>@endif</span>
+                            @endforeach
                         </p>
+
+                        <p class="gap-figure__note">{{ __('dashboard.gap_hollow') }}</p>
                     </div>
                 </div>
             </section>

@@ -86,6 +86,12 @@ return [
     'basket_none' => 'No price anywhere',
     'basket_stack_label' => ':percent% of a child\'s basket, by weight, has no price in any location here.',
     'basket_gap' => ':count of :total items a child needs have no price in any location here. Those are the gap this platform exists to close.',
+    // The same fact as the two lines above, said the way a person would say it.
+    // "By weight" and "location" are the index talking; this is what the index
+    // is about. No `|`: Arabic needs six plural forms and these read without a
+    // count-bound noun.
+    'gap_lead' => 'For :count of the :total things a child needs this month, no one has recorded a price. Not in any town.',
+    'gap_hollow' => 'The hollow ones have no price anywhere. They are the gap this platform exists to close.',
 
     'footer_license' => 'Data :license · Software Apache-2.0 · Figures republish freely with attribution.',
 
