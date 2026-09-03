@@ -84,10 +84,30 @@ Both numbers live in the same file.
 
 Measured against `countries/ly.yaml` (27 basket items):
 
-**17 of 27 items (63%)** are priceable from real WFP data, across **15 of the
-16 configured Libyan locations**: wheat flour, rice, pasta, couscous, sugar,
-cooking oil, tomato paste, tomatoes, eggs (tray of 30), chicken, sanitary pads,
-cooking gas (11kg), infant formula, canned tuna, milk, drinking water, soap.
+**17 of 27 items (63%)** have a WFP series, across **15 of the 16 configured
+Libyan locations**: wheat flour, rice, pasta, couscous, sugar, cooking oil,
+tomato paste, tomatoes, eggs (tray of 30), chicken, sanitary pads, cooking gas
+(11kg), infant formula, canned tuna, milk, drinking water, soap.
+
+**Five of those series are dead, and this paragraph counted them as
+coverage.** Re-read on 3 September 2026 from the file itself rather than from
+its commodity list: WFP's non-food collection in Libya stopped years ago and
+the rows simply stay in the download.
+
+| Series | Last observation |
+|---|---|
+| Milk (powder, infant formula) | **April 2018** |
+| Fuel (gas), 11 KG | **June 2020** |
+| Sanitary pads · Diapers · soaps · toothpaste | **July 2021** |
+| Water (drinking) | **December 2022** |
+
+So the number that matters is **twelve of 27 items current to May 2026**, and
+of the fifteen-item child basket, **six** — flour, rice, oil, eggs, chicken,
+tomatoes — which is 46% of it by weight. The other nine are the crowdsourced
+layer's job, as the sentence below already says of the medicines and school
+materials; it now applies to formula, pads, gas and water too. The mapping the
+importer uses, `countries/imports/ly/wfp-hdx.json`, lists the dead series
+under `stale` so nobody counts them again.
 
 Four need care, and must not be imported as exact matches:
 
@@ -328,6 +348,14 @@ gap). robots.txt governs *automated crawling*; the CC BY-IGO licence governs
 import through `PartnerFileImporter`, which is what these files are published
 for.
 
+From a shell, that import is `qeema:import:file <csv> --source=wfp-hdx-food-prices`,
+and the CSV it takes is produced from the HDX download by
+`infra/scripts/wfp-hdx-import.py` with the market and series mapping in
+`countries/imports/ly/wfp-hdx.json`. The script exists because the first import
+was a one-off `tinker` transformation that took seven series and left out eggs,
+and nothing recorded that it had. The mapping file is the record now, and
+`--commodity` makes every selection explicit.
+
 `ColumnMapping::guess()` already maps every WFP column without configuration —
 `commodity`, `price`, `market`, `unit`, `date` and `currency` are all existing
 aliases. What needs preparing is the vocabulary: WFP market spellings
@@ -486,3 +514,65 @@ Statistics announced on 6 August 2026 an expanded national MICS7 report issued
 **in cooperation with UNICEF**. UNICEF Libya's existing statistical counterpart
 is therefore the same institution that owns the CPI. That is a checkable path,
 not a connection anyone has made.
+
+---
+
+## What was actually placed in the index — 3 September 2026
+
+The inventory above lists what exists. This records what, on one day, could be
+turned into an observation the per-town index can hold — and what could not,
+and why. The rule for a row: the source names the **town**, the **product**,
+the **pack** and a **date**. Every row is in
+`countries/imports/ly/published-prices-2026-09.csv` with its citation in the
+`.provenance.json` beside it, and a test holds the two together.
+
+| Basket item | Newest per-town price | Source | Town |
+|---|---|---|---|
+| Infant formula 400 g | 41–42 LYD, three stage-1 tins | dsm.ly pharmacy catalogue, 3 Sep 2026 | Tripoli |
+| Baby cereal 400 g | 29 LYD for a 300 g pack (imported as 0.75 pack) | dsm.ly, 3 Sep 2026 | Tripoli |
+| ORS sachet | 20 LYD per box of ten | dsm.ly, 3 Sep 2026 | Tripoli |
+| Chicken | 22.90 LYD/kg | اقتصاد المسار field survey, 3 Sep 2026 | Tripoli |
+| Eggs, tray of 30 | 13 → 15 → 14 LYD across August | اقتصاد المسار, 3, 15 and 29 Aug 2026 | Tripoli |
+| Tomatoes | 5 LYD/kg at the Islamic-quarter produce market | اقتصاد المسار, 11 Aug 2026 | Tripoli |
+| Drinking water, 7 L | 3.5 LYD | العربي الجديد, 25 Aug 2026 | Tripoli |
+| School notebook | 1.25–1.5 (60 sheets), 3–3.5 (100 sheets) | اقتصاد المسار, 17 Aug 2026 | Tripoli |
+| Cooking gas, 11 kg refill | 20 LYD on the parallel market (1.50 official) | اقتصاد المسار, 22 Apr 2026 | Tripoli |
+| Wheat flour, rice, cooking oil | WFP survey, 15 May 2026 | HDX file, 15 markets | 15 towns |
+| Eggs (also) | WFP survey, 15 May 2026, **series newly imported** | HDX file, 308 rows since April 2024 | 15 towns |
+| Paracetamol suspension | **none** | see below | — |
+| Amoxicillin suspension | **none** | nothing published anywhere found | — |
+| Sanitary pads, 10 | **none per town** | see below | — |
+
+**Three things this day taught.**
+
+*A shelf label is not a product.* dsm.ly shelves "Paracetamol Galenica Senes
+10mg/ml 100ml" under children's fever relief. Ten milligrams per millilitre in
+a 100 ml bottle is the intravenous infusion, and the evaluation set already
+carried that exact string as a labelled distractor from the August harvest.
+The guard that refuses a wording which is both a distractor and a variant is
+what stopped it being imported as a child's syrup at 14 dinars. The other three
+paediatric paracetamols on the site state no bottle volume, so the item has no
+Libyan price with a stated size anywhere public.
+
+*A regional mean is not a town price.* WFP's Market Price Monitoring for May
+2026 — PDF only, on ReliefWeb — prices sanitary pads at 5.42 West, 7.15 East
+and 4.51 South, and an 11 kg gas refill at 3.03 West, 3.83 East and 24.29 South
+without saying whether official outlets are counted. Real, dated, and unusable
+here: an index keyed by town cannot put a regional average in Benghazi and
+call it observed. Cited; not imported.
+
+*A price without a market is not an observation.* nashrah.ly is alive and
+daily — issue 893 was stamped 3 September 2026, and it turns out to be the
+continuation of ltnet's numbered daily bulletin, whose own PDFs stop in 2023.
+It prices household flour at 3.25–3.75, short-grain rice at 6.00–6.50, corn oil
+at 12.50 per 850 ml, eggs at 13 and 18 a tray, chicken at 22.50 — and names no
+market anywhere on the page. The 22.50 sits beside اقتصاد المسار's 22.90 for
+Tripoli the same day, which is reassuring and still not a location.
+
+**What this leaves.** Tripoli has a current, cited price for twelve of the
+fifteen basket items. The other fifteen towns have WFP's May survey for six
+items and nothing newer, because nothing newer is published for them. No
+public Libyan source prices amoxicillin, or paracetamol with a stated volume,
+or pads with a stated count — those three are exactly the crowdsourced layer's
+job, as this document has said since its first version, and the number of them
+went from ten to three.

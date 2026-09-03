@@ -70,7 +70,17 @@ fx:
 # Index estimator settings
 # ---------------------------------------------------------------------------
 index:
-  observation_window_days: 7
+  # Thirty, not seven. Seven was tuned for the synthetic generator, which
+  # reports every item in every town every day. The sources that actually
+  # exist for this country do not: WFP surveys monthly, the Ministry's
+  # analytical bulletin is monthly, and the field surveys that price the
+  # non-food half of the basket recur every few weeks. Under a seven-day
+  # window a monthly series lit the index for one week in four and the other
+  # three weeks published a basket cost of exactly zero — which is what the
+  # live deployment did from 22 May to 1 September 2026. The half-life below
+  # still weights the newest observation far above one a month old; the
+  # window only decides when an item stops counting at all.
+  observation_window_days: 30
   recency_half_life_days: 3
   min_observations_for_ci: 3
   bootstrap_draws: 500
@@ -343,6 +353,13 @@ canonical_items:
       - حليب اطفال لينالاك AR للارتجاع
       - حليب نيورالاك 400 جرام
       - أنواع الحليب العلاجية المتوفرة في الصيدلية
+      # Product names as a Tripoli pharmacy's online catalogue writes them
+      # (dsm.ly, September 2026). Each is a real listing that was imported as
+      # an observation; without the wording the matcher scored them 0.66–0.72
+      # and sent every one to a reviewer.
+      - "TEBRAMIL ADVANCED ( 0-6 M) 1 400G"
+      - "LINALAC ULTIMATE 1 (0/6)MONTHS 400G"
+      - "Bebelac 1 400g (Danone – Holland)"
 
   - code: baby_cereal_400g
     name_en: Baby cereal (400g)
@@ -433,6 +450,10 @@ canonical_items:
       - سيريلاك نستلة
       - سيريلاك القمح 400 غرام
       - سيريلاك الاطفال من شركة نستله
+      # A Tripoli pharmacy's listing (dsm.ly, September 2026). The matcher put
+      # this under infant formula at 0.67 — a cereal named like a formula brand
+      # — which is exactly the wrong item to price a child's basket with.
+      - "TEBRAMIL 8 CEREALS & HONEY + CALCIUM 300G"
 
   - code: bakery_flour_50kg
     name_en: Bakery flour (50kg sack)
@@ -1088,6 +1109,8 @@ canonical_items:
       - 🔥🐔 دحي وطني – دجاج عربي 🐔🔥 متوفر دحي دجاج عربي وطني، إنتاج اليوم
       - "متوفر طبقين دحي بلدي سعر الطبق 24 ، مكان #زليتن"
       - السلام عليكم كم سعر طبق دحي عربي في زليتن
+      # How اقتصاد المسار's daily field survey names the tray (August 2026).
+      - طبق البيض
 
   - code: canned_tuna_185g
     name_en: Canned tuna (185g)
@@ -1210,6 +1233,8 @@ canonical_items:
       - دجاج وطني وزن كبير
       - سعركيلو الدجاج المدبوح غدا جمله بدون أحشاء نضيف للكيلو 19.50 دينار
       - أفخاذ دجاج طازجة • الكيلو بـ 15 دينار. • متوفرة بحجم صغير وبحجم كبير
+      # How اقتصاد المسار's daily field survey names the kilo (September 2026).
+      - كيلو الدجاج
 
   - code: harissa_can
     name_en: Harissa (can)
@@ -1311,6 +1336,8 @@ canonical_items:
       - قفز سعر الطماطم في السوق الليبية من 3 دنانير للكيلوجرام في مطلع مارس إلى 12 دينارا
       - التسعيرة الرسمية لبيع الطماطم ما بين 3 و 4 دنانير للكيلوغرام الواحد
       - كليو الطماطم يباع 50 قرش و القابية 10 دينار
+      # اقتصاد المسار's wording for the local sun-grown grade (August 2026).
+      - كيلو الطماطم الشمسي
 
   - code: ors_sachet
     name_en: Oral rehydration salts (sachet)
@@ -1378,6 +1405,8 @@ canonical_items:
       - Dissolve one sachet in water and drink as needed.
       - محلول معالجة الجفاف – ساشت (عبوة 10 أكياس)
       - محلول جفاف ساشت لعلاج الجفاف
+      # A Tripoli pharmacy's listing (dsm.ly, September 2026).
+      - "ORS ELECTROLYTE POWDER 10SACHETS SUGAR FREE"
 
   - code: paracetamol_suspension_60ml
     name_en: Paracetamol suspension (60ml, paediatric)
@@ -1578,6 +1607,9 @@ canonical_items:
       - كراسة 60 ورقة 1.25
       - دفاتر وكراسات بجودة ممتازة
       - كراسات و مذكرات
+      # How اقتصاد المسار's school-supplies survey names them (August 2026).
+      - الكراسة المكونة من 60 ورقة
+      - الكراسة المكونة من 100 ورقة
 
   - code: sanitary_pads_10
     name_en: Sanitary pads (pack of 10)
@@ -1629,6 +1661,8 @@ canonical_items:
     variants:
       - غاز
       - اسطوانة غاز
+      # How اقتصاد المسار reports the refill (April 2026).
+      - تعبئة أسطوانات الغاز سعة 11 كيلو
       - أسطوانة غاز
       - قارورة غاز
       - بوتاجاز
@@ -1787,6 +1821,9 @@ canonical_items:
       - وصل سعر عبوة الـ 7 لترات أو ما يعرف بالـ "بانقة" إلى 3 دنانير بنسبة بلغت 50%
       - أوباري تشهد ارتفاعاً في أسعار المياه المعدنية بالمحلات التجارية، حيث تتراوح الأسعار بين 75 قرشاً لنصف لتر ماء ودينار واحد، و5 دينار لسبع لترات.
       - وسط أزمة المياه.. شاب يوثق شراء "بانقا" بـ 4 دنانير
+      # How العربي الجديد names the jug in its Tripoli reporting (2026).
+      - العبوة سعة 7 لترات
+      - العبوة سعة سبعة لترات
   - code: ballpoint_pen
     name_en: Ballpoint pen
     name_local: قلم جاف
@@ -2068,6 +2105,25 @@ basket:
 sources:
   - { type: reporter,       slug: community-reporters, name: Community reporters, license: CC-BY-4.0 }
   - { type: partner_upload, slug: partner-uploads,     name: Partner organisations, license: CC-BY-4.0 }
+  # An openly-licensed dataset a person downloads and imports through the
+  # partner path. HDX's robots.txt forbids the scheduled scraper and the
+  # licence permits reuse, which is the distinction docs/data-sources.md draws
+  # between crawling and reuse. The slug is the one the live deployment already
+  # carries, created by hand for the first import, so `qeema:config:import`
+  # updates that row rather than adding a twin. Transformation and market
+  # mapping: infra/scripts/wfp-hdx-import.py + countries/imports/ly/wfp-hdx.json.
+  - { type: partner_upload, slug: wfp-hdx-food-prices, name: WFP Libya food prices (HDX), url: https://data.humdata.org/dataset/wfp-food-prices-for-libya, license: CC-BY-IGO-3.0 }
+  # Prices read from public Libyan pages — a pharmacy's online catalogue, a
+  # field survey's Telegram posts, a newspaper — one row at a time, each row
+  # citing its page in `external_id`. No publisher grants reuse; a price is a
+  # fact and is attributed, and what LICENSE-DATA licenses is the derived
+  # index. The file and its provenance live in countries/imports/ly/, and the
+  # rule for a row to exist is that the page names the town, the product, the
+  # pack and a date.
+  - type: partner_upload
+    slug: published-price-reports
+    name: Published Libyan price reports, cited per row
+    license: "attribution; each row cites its publisher"
 
 # ---------------------------------------------------------------------------
 # Synthetic demo data (Phase 2)

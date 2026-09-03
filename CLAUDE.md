@@ -98,6 +98,7 @@ qeema:index:link                               --country
 qeema:pipeline:sweep / qeema:pipeline:health   adopt missed submissions · report whether "live" is true
 qeema:review:rematch                           re-run the matcher over the review queue
 qeema:fx:fetch [--country] / qeema:scrape      the two inbound feeds
+qeema:import:file <path> --source=<slug>       a partner spreadsheet from a shell (--map field=Header, --dry-run)
 qeema:nowcast:train                            retrain the imputation model
 qeema:corpus:promote                           corpus wording → catalogue variant (see the trap below)
 qeema:demo:scale --country                     build a load dataset from countries/corpus/

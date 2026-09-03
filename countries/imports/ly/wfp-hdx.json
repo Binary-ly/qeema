@@ -1,0 +1,63 @@
+{
+  "_comment": [
+    "How WFP's Libya food-price CSV on HDX maps onto this country's configuration.",
+    "Read by infra/scripts/wfp-hdx-import.py, which turns the CSV into a file",
+    "PartnerFileImporter accepts. Everything country-specific about that",
+    "transformation lives here, not in the script (constraint C3).",
+    "",
+    "`markets` is WFP's spelling of each market it surveys, against the slug",
+    "of the configured location it is. Recovered on 3 September 2026 by",
+    "matching the 2,348 rows already imported against the CSV: every one of",
+    "the fifteen agrees cell for cell. Six WFP markets — Algatroun, Aljufra,",
+    "Alkufra, Nalut, Wadi Alshati, Zwara — have no configured location and",
+    "are dropped on purpose rather than forced onto a neighbour. Gharyan is",
+    "configured but WFP's 'Ghiryan' series ends before 2024.",
+    "",
+    "`commodities` lists the WFP series that price a basket item, with the",
+    "unit code and quantity the importer must be told, because WFP's own unit",
+    "strings ('KG', '30 pcs', 'L') are not configured units. `code` is the",
+    "catalogue item the series is expected to resolve to; the script uses it",
+    "only to skip rows already imported, never to bypass the matcher.",
+    "",
+    "Series WFP still carries but stopped collecting are listed under",
+    "`stale` with their last month, so nobody re-discovers them as coverage:",
+    "the inventory in docs/data-sources.md counted them as priceable and the",
+    "file says otherwise."
+  ],
+  "source_slug": "wfp-hdx-food-prices",
+  "currency": "LYD",
+  "markets": {
+    "Tripoli center": "tripoli",
+    "Benghazi": "benghazi",
+    "Misrata": "misrata",
+    "Azzawya": "zawiya",
+    "Zliten": "zliten",
+    "Alkhums": "khoms",
+    "Sirt": "sirte",
+    "Tobruk": "tobruk",
+    "Derna": "derna",
+    "Albayda": "bayda",
+    "Ejdabia": "ajdabiya",
+    "Sebha": "sabha",
+    "Ubari": "ubari",
+    "Murzuq": "murzuq",
+    "Ghat": "ghat"
+  },
+  "commodities": {
+    "Wheat flour": { "code": "wheat_flour_1kg", "unit": "kg", "quantity": 1 },
+    "Rice": { "code": "rice_1kg", "unit": "kg", "quantity": 1 },
+    "Oil (vegetable)": { "code": "cooking_oil_1l", "unit": "l", "quantity": 1 },
+    "Sugar": { "code": "sugar_1kg", "unit": "kg", "quantity": 1 },
+    "Meat (chicken)": { "code": "chicken_1kg", "unit": "kg", "quantity": 1 },
+    "Tomatoes": { "code": "tomatoes_1kg", "unit": "kg", "quantity": 1 },
+    "Couscous": { "code": "couscous_1kg", "unit": "kg", "quantity": 1 },
+    "Eggs": { "code": "eggs_30", "unit": "piece", "quantity": 30 }
+  },
+  "stale": {
+    "Milk (powder, infant formula)": "2018-04",
+    "Fuel (gas)": "2020-06",
+    "Sanitary pads": "2021-07",
+    "Diapers": "2021-07",
+    "Water (drinking)": "2022-12"
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "_comment": [
+    "Provenance for every row of published-prices-2026-09.csv, keyed by the",
+    "row's external_id, plus the prices that were found and deliberately NOT",
+    "imported, with the reason. Collected 3 September 2026 from public Libyan",
+    "pages; every price below was read verbatim from a fetched page or post.",
+    "",
+    "The rule for a row to exist: the source names the town, the product, the",
+    "pack size and a date. A price whose market is unknown cannot enter a",
+    "per-town index, however good the publisher, which is why the Ministry's",
+    "daily bulletin (nashrah.ly, issue 893 of the same day) is cited below and",
+    "imported nowhere.",
+    "",
+    "Licensing: none of these publishers grants reuse. A price is a fact, and",
+    "each row is attributed to its publisher by URL; the derived index is what",
+    "LICENSE-DATA licenses, not these rows. See docs/data-sources.md."
+  ],
+  "source_slug": "published-price-reports",
+  "location_basis": {
+    "tripoli": "Almasar (اقتصاد المسار) posts each say بطرابلس or في طرابلس; Al-Araby's two articles name Tripoli; dsm.ly is the online catalogue of صيدلية ذات الصواري (Dat Essawary Pharmacy), whose physical shop is in Tripoli (Bab Al-Azizia) per directory listings — its pages print the pharmacy's name and phone but no city, so the town is the shop's, not the page's."
+  },
+  "date_basis": {
+    "dsm.ly": "The catalogue shows no dates; observed_date is the day the page was fetched (2026-09-03). A catalogue price is a price offered that day.",
+    "t.me/almasartvlibya": "The post's own date. Post 62095 shows day and month (22 April) and the channel's ordering places it in 2026; the caption says 'خلال شهر أبريل الجاري'."
+  },
+  "rows": {
+    "https://dsm.ly/ar-ly/child-care/baby-formula#tebramil-advanced-1-400g": {
+      "item_code": "infant_formula_400g",
+      "product_as_written": "TEBRAMIL ADVANCED ( 0-6 M) 1 400G",
+      "price": "د.ل.‏ 42,000",
+      "pack": "400 g tin, stage 1",
+      "source": "Dat Essawary Pharmacy online catalogue, category child-care/baby-formula",
+      "kind": "online-shop",
+      "quote": "TEBRAMIL ADVANCED ( 0-6 M) 1 400G — د.ل.‏ 42,000",
+      "note": "The site writes LYD with a comma as the decimal mark; its analytics data layer on a product page reads currency \"LYD\", price 20.00 for a listing shown as د.ل.‏ 20,000, which settles the format."
+    },
+    "https://dsm.ly/ar-ly/child-care/baby-formula#linalac-ultimate-1-400g": {
+      "item_code": "infant_formula_400g",
+      "product_as_written": "LINALAC ULTIMATE 1 (0/6)MONTHS 400G",
+      "price": "د.ل.‏ 41,000",
+      "pack": "400 g tin, stage 1",
+      "source": "Dat Essawary Pharmacy online catalogue, category child-care/baby-formula",
+      "kind": "online-shop",
+      "quote": "LINALAC ULTIMATE 1 (0/6)MONTHS 400G — د.ل.‏ 41,000"
+    },
+    "https://dsm.ly/ar-ly/child-care/baby-formula#bebelac-1-400g": {
+      "item_code": "infant_formula_400g",
+      "product_as_written": "Bebelac 1 400g (Danone – Holland)",
+      "price": "د.ل.‏ 41,000",
+      "pack": "400 g tin, stage 1",
+      "source": "Dat Essawary Pharmacy online catalogue, category child-care/baby-formula",
+      "kind": "online-shop",
+      "quote": "Bebelac 1 400g (Danone – Holland) — د.ل.‏ 41,000"
+    },
+    "https://dsm.ly/ar-ly/child-care/baby-formula#tebramil-8-cereals-300g": {
+      "item_code": "baby_cereal_400g",
+      "product_as_written": "TEBRAMIL 8 CEREALS & HONEY + CALCIUM 300G",
+      "price": "د.ل.‏ 29,000",
+      "pack": "300 g",
+      "source": "Dat Essawary Pharmacy online catalogue, category child-care/baby-formula",
+      "kind": "online-shop",
+      "quote": "TEBRAMIL 8 CEREALS & HONEY + CALCIUM 300G — د.ل.‏ 29,000",
+      "note": "The catalogue item is a 400 g pack. The row carries quantity 0.75 pack, which is 300/400 — the same linear normalisation the platform applies to grams against kilos, stated here because it is the one row where the source's pack is not the item's. The only Cerelac line (Cerelac Wheat & Dates, د.ل.‏ 35,000, out of stock) states no weight on the listing or the product page and is not imported."
+    },
+    "https://dsm.ly/ar-ly/all-products/ors-electrolyte-powder-10sachets-sugar-free": {
+      "item_code": "ors_sachet",
+      "product_as_written": "ORS ELECTROLYTE POWDER 10SACHETS SUGAR FREE",
+      "price": "د.ل.‏ 20,000",
+      "pack": "box of 10 sachets",
+      "source": "Dat Essawary Pharmacy online catalogue, product page",
+      "kind": "online-shop",
+      "quote": "ORS ELECTROLYTE POWDER 10SACHETS SUGAR FREE — د.ل.‏ 20,000 — قم بإذابة كيس واحد في الماء",
+      "note": "Sachet-form oral rehydration salts. Two near-matches on the same site are not imported: ORS 13 (effervescent tablets, د.ل.‏ 19,000, tablet count not stated) and Altaflora Elettroliti 10 sachets (an electrolyte supplement, not ORS, د.ل.‏ 72,000)."
+    },
+    "https://www.alaraby.co.uk/economy/ارتفاع-أسعار-المياه-المعبأة-في-ليبيا#7l": {
+      "item_code": "drinking_water_7l",
+      "product_as_written": "العبوة سعة 7 لترات",
+      "price": "3.5 دنانير",
+      "pack": "7 litre container",
+      "source": "العربي الجديد (Al-Araby Al-Jadeed), ارتفاع أسعار المياه المعبأة في ليبيا, 25 August 2026, Tripoli",
+      "kind": "news",
+      "quote": "زاد سعر العبوة سعة 7 لترات من نحو دينارين إلى 3.5 دنانير",
+      "licence": "جميع الحقوق محفوظة © 2026 العربي الجديد — cited as a fact, not reproduced.",
+      "note": "The same article gives the 1.5 L bottle at 1.5 and the 0.5 L bottle at 1.0. Those are not imported: the item is the 7 L jug, and per-litre prices differ by two to four times between formats, so a bottle price would be a different good."
+    },
+    "https://www.alaraby.co.uk/economy/اضطراب-الإمدادات-العالمية-يرفع-أسعار-مياه-الشرب-في-ليبيا#7l": {
+      "item_code": "drinking_water_7l",
+      "product_as_written": "العبوة سعة سبعة لترات",
+      "price": "نحو ثلاثة دنانير",
+      "pack": "7 litre container",
+      "source": "العربي الجديد (Al-Araby Al-Jadeed), 6 April 2026, Tripoli",
+      "kind": "news",
+      "quote": "ارتفع سعر العبوة سعة سبعة لترات إلى نحو ثلاثة دنانير ... بزيادة تقارب 50%",
+      "licence": "جميع الحقوق محفوظة © 2026 العربي الجديد — cited as a fact, not reproduced."
+    },
+    "https://t.me/almasartvlibya/71369#notebook-60-low": {
+      "item_code": "school_notebook_80p",
+      "product_as_written": "الكراسة المكونة من 60 ورقة",
+      "price": "1.25 دينار (low end of the stated range)",
+      "pack": "one 60-sheet notebook",
+      "source": "اقتصاد المسار field survey of Tripoli retail, Telegram post 71369, 17 August 2026",
+      "kind": "field-survey",
+      "quote": "تراوح سعر \"الكراسة\" المكونة من \"60 ورقة\" ما بين 1.25 دينار و1.5 دينار",
+      "note": "A stated range is two observed prices, the cheapest and the dearest seen, so each end is a row. The catalogue item is an 80-page notebook; the survey prices 60- and 100-sheet ones, and both are imported as what they are, so the item's estimate sits between them rather than on a size nobody surveyed."
+    },
+    "https://t.me/almasartvlibya/71369#notebook-60-high": {
+      "item_code": "school_notebook_80p",
+      "product_as_written": "الكراسة المكونة من 60 ورقة",
+      "price": "1.5 دينار (high end of the stated range)",
+      "pack": "one 60-sheet notebook",
+      "source": "اقتصاد المسار field survey of Tripoli retail, Telegram post 71369, 17 August 2026",
+      "kind": "field-survey",
+      "quote": "تراوح سعر \"الكراسة\" المكونة من \"60 ورقة\" ما بين 1.25 دينار و1.5 دينار"
+    },
+    "https://t.me/almasartvlibya/71369#notebook-100-low": {
+      "item_code": "school_notebook_80p",
+      "product_as_written": "الكراسة المكونة من 100 ورقة",
+      "price": "3 دنانير (low end of the stated range)",
+      "pack": "one 100-sheet notebook",
+      "source": "اقتصاد المسار field survey of Tripoli retail, Telegram post 71369, 17 August 2026",
+      "kind": "field-survey",
+      "quote": "سجل سعر \"الكراسة\" المكونة من 100 ورقة ما بين 3 دنانير و3.5 دنانير"
+    },
+    "https://t.me/almasartvlibya/71369#notebook-100-high": {
+      "item_code": "school_notebook_80p",
+      "product_as_written": "الكراسة المكونة من 100 ورقة",
+      "price": "3.5 دنانير (high end of the stated range)",
+      "pack": "one 100-sheet notebook",
+      "source": "اقتصاد المسار field survey of Tripoli retail, Telegram post 71369, 17 August 2026",
+      "kind": "field-survey",
+      "quote": "سجل سعر \"الكراسة\" المكونة من 100 ورقة ما بين 3 دنانير و3.5 دنانير"
+    },
+    "https://t.me/almasartvlibya/62095#street": {
+      "item_code": "cooking_gas_11kg",
+      "product_as_written": "تعبئة أسطوانات الغاز سعة 11 كيلو",
+      "price": "20 دينارًا في السوق الموازية",
+      "pack": "one 11 kg refill",
+      "source": "اقتصاد المسار, Telegram post 62095, 22 April 2026, Tripoli",
+      "kind": "field-survey",
+      "quote": "ارتفع السعر من 1.5 دينار في مراكز التعبئة الرسمية إلى 20 دينارًا في السوق الموازية",
+      "note": "The parallel-market price is the one imported, on the platform's own principle of pricing what people transact at rather than an official figure with rationed access. The official 1.50 at Brega filling centres is recorded here and not as an observation. The 240 LYD figure widely quoted is a refundable cylinder deposit, not a price (libyaakhbar.com, 25 February 2026: 'قيمة الضمان المالي لأسطوانة الغاز تبلغ 240 دينارًا ليبيًا، وهو مبلغ غير مخصص للبيع، بل يُستعاد بالكامل عند إعادة الأسطوانة'). This is the newest street price found for a named town; nothing dated after April 2026 was found in text."
+    },
+    "https://t.me/almasartvlibya/72858": {
+      "item_code": "chicken_1kg",
+      "product_as_written": "كيلو الدجاج",
+      "price": "22.90 ديناراً للكيلو",
+      "pack": "1 kg, retail shops",
+      "source": "اقتصاد المسار field survey, Telegram post 72858, 3 September 2026, Tripoli",
+      "kind": "field-survey",
+      "quote": "قفز سعر كيلو الدجاج اليوم الخميس بنسبة 41.36% بحسب رصدٍ ميداني خاص لاقتصاد المسار، مسجلاً 22.90 ديناراً للكيلو في محالّ البيع بالتجزئة في طرابلس، بالمقارنة على أساس شهري، مقابل 16.20 ديناراً للكيلو مطلع أغسطس الماضي",
+      "note": "The 16.20 'early August' figure has no exact day and is not imported."
+    },
+    "https://t.me/almasartvlibya/72363": {
+      "item_code": "eggs_30",
+      "product_as_written": "طبق البيض",
+      "price": "14 دينارًا للطبق",
+      "pack": "one tray (طبق) of 30 eggs",
+      "source": "اقتصاد المسار field survey, Telegram post 72363, 29 August 2026, Tripoli retail",
+      "kind": "field-survey",
+      "quote": "تراجع سعر الطبق في محال التجزئة ... مسجلًا 14 دينارًا للطبق",
+      "note": "The post does not state how many eggs a طبق holds. The tray is 30 in this country's usage: the Ministry's daily bulletin prices eggs per 'طبق (30 بيضة)', and the catalogue item is defined the same way. Rows carry quantity 30 on that basis. The post also gives the wholesale box (صندوق, 12 trays) at 155; wholesale is not imported."
+    },
+    "https://t.me/almasartvlibya/71207": {
+      "item_code": "eggs_30",
+      "product_as_written": "طبق البيض",
+      "price": "15 دينارًا للطبق",
+      "pack": "one tray (طبق) of 30 eggs",
+      "source": "اقتصاد المسار field survey, Telegram post 71207, 15 August 2026, Tripoli retail",
+      "kind": "field-survey",
+      "quote": "قفز سعر طبق البيض اليوم السبت في محال البيع بالتجزئة بنسبة 15.38%، مسجلًا 15 دينارًا للطبق بطرابلس"
+    },
+    "https://t.me/almasartvlibya/70251": {
+      "item_code": "eggs_30",
+      "product_as_written": "طبق البيض",
+      "price": "13 دينارًا للطبق",
+      "pack": "one tray (طبق) of 30 eggs",
+      "source": "اقتصاد المسار field survey, Telegram post 70251, 3 August 2026, Tripoli retail",
+      "kind": "field-survey",
+      "quote": "تراجع سعر طبق البيض اليوم الإثنين بنسبة 13.3%، مسجلًا 13 دينارًا للطبق في محال البيع بالتجزئة بطرابلس"
+    },
+    "https://t.me/almasartvlibya/70909": {
+      "item_code": "tomatoes_1kg",
+      "product_as_written": "كيلو الطماطم الشمسي",
+      "price": "5 دنانير للكيلو",
+      "pack": "1 kg, at سوق الحي الإسلامي للخضراوات",
+      "source": "اقتصاد المسار field survey, Telegram post 70909, 11 August 2026, Tripoli",
+      "kind": "field-survey",
+      "quote": "قفز سعر كيلو الطماطم الشمسي اليوم الثلاثاء، بنسبة 150%، بحسب رصدٍ ميداني خاص لاقتصاد المسار لحركة الأسعار في سوق \"الحي الإسلامي للخضراوات\" بطرابلس، مسجلًا 5 دنانير",
+      "note": "A named produce market rather than retail shops; the post says so and so does this row."
+    }
+  },
+  "not_imported": [
+    {
+      "item_code": "amoxicillin_suspension_60ml",
+      "reason": "No Libyan page or post found that prints a price. The one pharmacy with a web catalogue (dsm.ly) returns no products for amox, augmentin, ospamox or hiconcil and has no antibiotics category; no ministry or regulator price list is published online.",
+      "checked": "2026-09-03"
+    },
+    {
+      "item_code": "paracetamol_suspension_60ml",
+      "reason": "dsm.ly lists four paediatric paracetamol products. The one with a stated volume, 'Paracetamol Galenica Senes 10mg/ml 100ml' at د.ل.‏ 14,000, is the intravenous infusion (10 mg/ml in a 100 ml bottle is the infusion presentation; Galenica Senese makes it), shelved under child fever relief by the shop — and the evaluation set already carries it as a labelled distractor, which is what stopped it being imported here. Adol 250mg/5ml (د.ل.‏ 19,000), Paracetamol 250mg/5ml orange (د.ل.‏ 20,000) and Calpol Six Plus (د.ل.‏ 55,000) are oral suspensions but state no bottle volume, so none can be normalised to a price per millilitre.",
+      "urls": ["https://dsm.ly/ar-ly/child-care/baby-child-fever-pain-relief", "https://dsm.ly/ar-ly/all-products/adol-250mg5ml-jelphar"]
+    },
+    {
+      "item_code": "sanitary_pads_10",
+      "reason": "Two sources, neither usable per town. dsm.ly lists one sanitary towel, 'Septona sensitive normal ultra olus' at د.ل.‏ 6,250, with no pad count on the listing or the product page, so it cannot be normalised to a pack of ten. WFP's Market Price Monitoring for May 2026 prices 'Sanitary Pads (10Pc)' at 5.61 nationally and 5.42 West, 7.15 East, 4.51 South — regional averages, and a per-town index cannot place a regional mean in a town.",
+      "urls": [
+        "https://dsm.ly/ar-ly/personal-care/septona-sensitive-normal-ultra-olus",
+        "https://reliefweb.int/attachments/fb789413-32af-420f-a730-060ae2006356/WFP%20Libya%20Market%20Price%20Monitoring%20-%20May%202026.pdf"
+      ]
+    },
+    {
+      "item_code": "wheat_flour_1kg / rice_1kg / cooking_oil_1l",
+      "reason": "Priced daily by the Ministry's bulletin (nashrah.ly, issue 893 of 3 September 2026: household flour 3.25–3.75/kg, short-grain rice 6.00–6.50/kg, corn oil 12.50 and sunflower 11.50 per 850 ml) and monthly by its analytical bulletin (April 2026), but neither states a market, and the per-town index cannot use a price whose town is unknown. No Tripoli-dated retail price for these three appeared in Almasar's text posts for August–September 2026. Their newest per-town observations remain WFP's May 2026 survey, imported through the HDX file.",
+      "urls": ["https://nashrah.ly/", "https://ltnet.gov.ly/ar/wp-content/uploads/2026/05/نشرة-ابريل-2026.pdf"]
+    },
+    {
+      "item_code": "cooking_gas_11kg",
+      "reason": "WFP Market Price Monitoring May 2026 gives 'Public Cooking Fuel (11Kg)' at 10.35 nationally, 3.03 West, 3.83 East, 24.29 South, without saying whether official outlets are included — regional and ambiguous, so cited and not imported.",
+      "urls": ["https://reliefweb.int/attachments/fb789413-32af-420f-a730-060ae2006356/WFP%20Libya%20Market%20Price%20Monitoring%20-%20May%202026.pdf"]
+    },
+    {
+      "item_code": "drinking_water_7l",
+      "reason": "Bottle formats found and not imported because the item is the 7 L jug: 0.5 L at 0.750 (grocers) and a دستة of twelve at 7 (Almasar via almashhadlibya.com/economic-news/134313, 18 August 2026, Tripoli); 1.5 L at 1.5 and 0.5 L at 1.0 (Al-Araby, 25 August 2026, Tripoli); 7 L at 3 with no town named (libyaalahrar.tv, 3 April 2026)."
+    },
+    {
+      "item_code": "infant_formula_400g",
+      "reason": "Six stage-1 listings on dsm.ly carry a price but no pack size (Aptamil Premium 1 at 40.000, Primalac 1 at 51.000, Primalac Ultima 1 at 61.000, Pediamil 1 at 39.000, Blemil Plus 1 at 42.000, Similac Total Comfort 1 at 57.000) and are not imported; stage 2 and 3 and specialty formulas are a different good."
+    }
+  ]
+}

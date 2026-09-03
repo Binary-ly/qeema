@@ -43,6 +43,32 @@ first fully green CI run since 14 August** — all four jobs, run 32148688430.
 
 ---
 
+## What the live deployment actually holds — 3 September 2026
+
+Recorded here because the dashboard's honesty labels cannot say *why* a figure
+is thin, and the reason is the state of Libyan public price data, not a bug.
+
+- **Real observations only.** No synthetic rows were ever seeded on the live
+  deployment. Everything published comes from WFP's monthly HDX survey
+  (15 markets, April 2024 to May 2026, now **seven** basket series after the
+  eggs series was found unimported on 3 September), and from a cited file of
+  prices read from public Libyan pages — a pharmacy catalogue, a daily field
+  survey's text posts, a newspaper — with a provenance record per row
+  (`countries/imports/ly/`).
+- **Twelve of fifteen items have a current, town-level price in Tripoli.**
+  None of the other fifteen towns has anything newer than May 2026, because
+  nothing newer is published for them. Amoxicillin suspension, paracetamol
+  suspension with a stated volume, and sanitary pads with a stated count have
+  **no public Libyan price at all**; those are the crowdsourced layer's job.
+- **The index window is 30 days for this country**, not the 7 the synthetic
+  generator was tuned to. Under 7 days a monthly survey lit the index for one
+  week in four, and from 22 May to 1 September the live site published a
+  basket cost of exactly zero in every town.
+- **Not yet a measurement.** By [docs/pilot.md](docs/pilot.md)'s own three
+  conditions — every item priced, observed rather than imputed, two reporters
+  per item — no published snapshot qualifies, and there are still no
+  community reporters. The site is honest about that; it is not yet quotable.
+
 ## Phase 0 — verified
 
 `docker compose up` on a clean checkout brings up five healthy services with no
