@@ -47,6 +47,7 @@ final class CountryConfigImporter
                 $config['country'],
                 $config['index'] ?? [],
                 $config['fx'] ?? [],
+                $config['reference_income'] ?? null,
             );
 
             $units = $this->importUnits($country, $config['units']);
@@ -88,8 +89,9 @@ final class CountryConfigImporter
      * @param  array<string, mixed>  $data
      * @param  array<string, mixed>  $index
      * @param  array<string, mixed>  $fx
+     * @param  array<string, mixed>|null  $referenceIncome
      */
-    private function importCountry(array $data, array $index, array $fx): Country
+    private function importCountry(array $data, array $index, array $fx, ?array $referenceIncome = null): Country
     {
         /** @var array<string, mixed> $currency */
         $currency = $data['currency'];
@@ -113,6 +115,10 @@ final class CountryConfigImporter
                 // on read, so a file that sets only some keys still gets the rest.
                 'index_config' => $this->normalizeIndexConfig($index),
                 'fx_config' => $fx === [] ? null : $fx,
+                // Stored raw, citation and all, for the same reason the two
+                // above are: the page states a share of this figure, and the
+                // figure has to be traceable to the law that set it.
+                'reference_income' => $referenceIncome === [] ? null : $referenceIncome,
                 'name' => (string) $data['name'],
                 'name_local' => $data['name_local'] ?? null,
                 'currency_code' => strtoupper((string) $currency['code']),

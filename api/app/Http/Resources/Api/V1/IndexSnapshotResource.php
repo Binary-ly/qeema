@@ -79,9 +79,36 @@ final class IndexSnapshotResource extends JsonResource
                 'date' => $this->fx_rate_date?->toDateString(),
                 'is_stale' => (bool) $this->fx_is_stale,
             ],
+            // The cost against a sourced income the country declares — the
+            // legal minimum wage, for instance. This is what makes the figure
+            // an affordability figure rather than a price. Null when the
+            // deployment declares none; and for a basket that is not
+            // comparable it is the share of the *priced part* only, which is
+            // why `quality.comparable` sits a few lines up.
+            'affordability' => $this->affordability(),
             'items' => IndexSnapshotItemResource::collection($this->whenLoaded('items')),
             'computed_at' => $this->computed_at?->toIso8601String(),
             'model_version' => $this->model_version,
+        ];
+    }
+
+    /**
+     * @return array{share_of_income: float, income: float, period: string, label: string, currency: string}|null
+     */
+    private function affordability(): ?array
+    {
+        $income = $this->country->referenceIncome();
+
+        if ($income === null) {
+            return null;
+        }
+
+        return [
+            'share_of_income' => round((float) $this->cost_local / $income['amount'], 4),
+            'income' => $income['amount'],
+            'period' => $income['period'],
+            'label' => $income['label_en'],
+            'currency' => $this->country->currency_code,
         ];
     }
 }

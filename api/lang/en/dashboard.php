@@ -5,8 +5,23 @@
 declare(strict_types=1);
 
 return [
-    'title' => 'Cost of a child\'s basket',
-    'tagline' => 'What it costs to meet one child\'s basic needs for a month, tracked where people live.',
+    'title' => 'What a child\'s month costs, town by town',
+    'tagline' => 'The price this week of the fifteen things one child needs — food, formula, medicine, school supplies, gas, water — at the exchange rate people actually pay. Free for anyone to use.',
+    'door_report' => 'I have a price',
+    'door_report_sub' => 'Report one price from your town. Two taps, works offline.',
+    'door_data' => 'I need the number',
+    'door_data_sub' => 'API, CSV, or this page as JSON. No key, no account.',
+    'afford_partial' => 'In :location, the :priced items with a price come to :cost :currency — :share% of :income_label.',
+    'afford_full' => 'A child\'s month in :location costs :cost :currency — :share% of :income_label.',
+    'afford_basis' => 'Against :income_label, :income :currency a month.',
+    'list_lead' => 'In :location, this month:',
+    'list_priced' => ':priced of :total priced.',
+    'list_estimated' => 'estimated',
+    'list_none' => 'no price yet',
+    'list_total' => 'Total for the priced items: :cost :currency.',
+    'qr_title' => 'Hand this out',
+    'qr_body' => 'Anyone who scans it can report a price from their town. Print it, or send the link.',
+    'qr_alt' => 'QR code linking to the price reporter',
 
     'headline_median' => 'Median across comparable locations',
     'headline_usd' => 'In US dollars',

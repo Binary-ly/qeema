@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 return [
     'title' => 'Reportar un precio',
-    'subtitle' => 'Ayuda a seguir lo que cuesta lo que un niño necesita donde vives.',
+    'subtitle' => 'Un precio que viste hoy. Aparece en el mapa público en un minuto.',
 
     'location' => '¿Dónde estás?',
     'location_placeholder' => 'Elige la localidad más cercana',

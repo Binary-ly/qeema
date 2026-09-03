@@ -104,6 +104,7 @@ final class CountryConfigLoader
 
         $problems = [
             ...$this->validateCountry($config['country']),
+            ...$this->validateReferenceIncome($config['reference_income'] ?? null),
             ...$this->validateUnits($config['units']),
             ...$this->validateLocations($config['locations']),
             ...$this->validateCanonicalItems($config['canonical_items']),
@@ -156,6 +157,57 @@ final class CountryConfigLoader
                 "country.default_locale '%s' is not present in country.locales.",
                 (string) $country['default_locale'],
             );
+        }
+
+        return $problems;
+    }
+
+    /**
+     * Optional, but not casual: a figure the page compares every basket
+     * against needs a law or a statistics office behind it, so a block with
+     * no source is refused rather than published as an unsourced denominator.
+     *
+     * @param  mixed  $income
+     * @return list<string>
+     */
+    private function validateReferenceIncome($income): array
+    {
+        if ($income === null) {
+            return [];
+        }
+
+        if (! is_array($income)) {
+            return ["Section 'reference_income' must be a mapping."];
+        }
+
+        $problems = [];
+
+        if (! isset($income['amount']) || ! is_numeric($income['amount']) || (float) $income['amount'] <= 0) {
+            $problems[] = 'reference_income.amount must be a positive number.';
+        }
+
+        if (($income['period'] ?? 'month') !== 'month') {
+            $problems[] = "reference_income.period must be 'month'; the basket is a month's needs.";
+        }
+
+        if (! isset($income['label_en']) || ! is_string($income['label_en']) || trim($income['label_en']) === '') {
+            $problems[] = 'reference_income.label_en is required — what the figure is, e.g. "the legal minimum monthly wage".';
+        }
+
+        $sources = $income['sources'] ?? null;
+
+        if (! is_array($sources) || $sources === []) {
+            $problems[] = 'reference_income.sources must cite at least one source with a url, a date and what it says.';
+
+            return $problems;
+        }
+
+        foreach (array_values($sources) as $i => $source) {
+            foreach (['url', 'date', 'says'] as $field) {
+                if (! is_array($source) || ! isset($source[$field]) || trim((string) $source[$field]) === '') {
+                    $problems[] = "reference_income.sources[{$i}].{$field} is required.";
+                }
+            }
         }
 
         return $problems;

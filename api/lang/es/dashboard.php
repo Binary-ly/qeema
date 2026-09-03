@@ -5,8 +5,23 @@
 declare(strict_types=1);
 
 return [
-    'title' => 'Costo de la cesta infantil',
-    'tagline' => 'Lo que cuesta cubrir las necesidades básicas de un niño durante un mes, medido donde vive la gente.',
+    'title' => 'Lo que cuesta el mes de un niño, ciudad por ciudad',
+    'tagline' => 'El precio esta semana de las quince cosas que necesita un niño — comida, fórmula, medicinas, útiles escolares, gas, agua — al tipo de cambio que la gente paga de verdad. Gratis para cualquiera.',
+    'door_report' => 'Tengo un precio',
+    'door_report_sub' => 'Reporta un precio de tu ciudad. Dos toques, funciona sin conexión.',
+    'door_data' => 'Necesito la cifra',
+    'door_data_sub' => 'API, CSV o esta página en JSON. Sin clave ni cuenta.',
+    'afford_partial' => 'En :location, los :priced artículos con precio suman :cost :currency — el :share% de :income_label.',
+    'afford_full' => 'El mes de un niño en :location cuesta :cost :currency — el :share% de :income_label.',
+    'afford_basis' => 'Frente a :income_label, :income :currency al mes.',
+    'list_lead' => 'En :location, este mes:',
+    'list_priced' => ':priced de :total con precio.',
+    'list_estimated' => 'estimado',
+    'list_none' => 'sin precio aún',
+    'list_total' => 'Total de los artículos con precio: :cost :currency.',
+    'qr_title' => 'Reparte esto',
+    'qr_body' => 'Quien lo escanee puede reportar un precio desde su ciudad. Imprímelo o envía el enlace.',
+    'qr_alt' => 'Código QR que lleva al formulario para reportar un precio',
 
     'headline_median' => 'Mediana entre localidades comparables',
     'headline_usd' => 'En dólares estadounidenses',

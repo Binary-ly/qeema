@@ -5,6 +5,8 @@
 declare(strict_types=1);
 
 use App\Models\Basket;
+use App\Models\BasketItem;
+use App\Models\CanonicalItem;
 use App\Models\Country;
 use App\Models\FxRate;
 use App\Models\IndexSnapshot;
@@ -39,6 +41,117 @@ beforeEach(function (): void {
     ]);
 
     $this->basket = Basket::factory()->for($this->country)->create();
+});
+
+describe('the sentence a reader came for', function (): void {
+    /**
+     * One town with a two-item basket: rice priced for the month, flour not.
+     *
+     * @return array{snapshot: IndexSnapshot, rice: CanonicalItem, flour: CanonicalItem}
+     */
+    function pricedTown(Country $country, Basket $basket, float $cost = 200.0, bool $imputed = false): array
+    {
+        $location = Location::factory()->for($country)->create(['slug' => 'alpha', 'name' => 'Alpha', 'name_local' => 'ألفا']);
+        $rice = CanonicalItem::factory()->for($country)->create(['code' => 'rice', 'name_en' => 'Rice', 'name_local' => 'أرز']);
+        $flour = CanonicalItem::factory()->for($country)->create(['code' => 'flour', 'name_en' => 'Flour', 'name_local' => 'دقيق']);
+        BasketItem::factory()->for($basket)->for($rice, 'canonicalItem')->create(['weight' => 0.6, 'quantity' => 2, 'unit_code' => 'kg']);
+        BasketItem::factory()->for($basket)->for($flour, 'canonicalItem')->create(['weight' => 0.4, 'quantity' => 5, 'unit_code' => 'kg']);
+
+        $snapshot = IndexSnapshot::factory()->for($country)->for($location)->for($basket)->create([
+            'snapshot_date' => CarbonImmutable::today()->toDateString(),
+            'is_stale' => false,
+            'cost_local' => $cost,
+            'coverage_pct' => $imputed ? 0.0 : 0.6,
+            'imputed_share' => $imputed ? 0.6 : 0.0,
+            'observed_item_count' => $imputed ? 0 : 1,
+            'total_item_count' => 2,
+        ]);
+        IndexSnapshotItem::factory()->for($snapshot, 'indexSnapshot')->for($rice, 'canonicalItem')->create([
+            'unit_price_local' => 6.5,
+            'quantity' => 2,
+            'contribution_local' => 13.0,
+            'is_imputed' => $imputed,
+        ]);
+
+        return ['snapshot' => $snapshot, 'rice' => $rice, 'flour' => $flour];
+    }
+
+    it('sets the basket against the income the country cites', function (): void {
+        $this->country->update(['reference_income' => [
+            'amount' => 1000,
+            'period' => 'month',
+            'label_en' => 'the legal minimum monthly wage',
+            'label_local' => 'الحد الأدنى للأجر',
+            'sources' => [['url' => 'https://example.test/law', 'date' => '2023-05-22', 'says' => 'one thousand']],
+        ]]);
+        pricedTown($this->country, $this->basket, cost: 200.0);
+
+        $this->get('/?country=ZZ&locale=en')
+            ->assertOk()
+            ->assertSee('the legal minimum monthly wage')
+            ->assertSee('In Alpha, the 1 items with a price come to 200.00 ZZD')
+            ->assertSee('data-count="20"', false);
+
+        // The local label leads on the right-to-left page.
+        $this->get('/?country=ZZ&locale=ar')->assertOk()->assertSee('الحد الأدنى للأجر');
+    });
+
+    it('says nothing about income when the country declares none', function (): void {
+        pricedTown($this->country, $this->basket);
+
+        $this->get('/?country=ZZ&locale=en')->assertOk()->assertDontSee('dash__afford');
+    });
+
+    it("prices the month's list for the town that has the figures", function (): void {
+        pricedTown($this->country, $this->basket);
+
+        $page = $this->get('/?country=ZZ&locale=en')->assertOk();
+
+        // The priced line carries the cost of the month's quantity, not the
+        // unit price; the unpriced line is drawn hollow and says so.
+        $page->assertSee('In Alpha, this month:')
+            ->assertSee('13.00')
+            ->assertSee('no price yet')
+            ->assertSee('month__item is-hollow', false)
+            ->assertSee('1 of 2 priced.');
+    });
+
+    it('marks an estimated line as one', function (): void {
+        pricedTown($this->country, $this->basket, imputed: true);
+
+        $this->get('/?country=ZZ&locale=en')->assertOk()->assertSee('month__est', false);
+    });
+
+    it('opens two doors that keep the language', function (): void {
+        pricedTown($this->country, $this->basket);
+
+        $page = $this->get('/?country=ZZ&locale=ar')->assertOk();
+
+        $page->assertSee('door--report', false)
+            ->assertSee('door--data', false)
+            ->assertSee('عندي سعر')
+            ->assertSee('أحتاج الرقم');
+
+        preg_match_all('/class="door door--(?:report|data)" href="([^"]+)"/', $page->getContent(), $matches);
+
+        expect($matches[1])->toHaveCount(2);
+
+        foreach ($matches[1] as $href) {
+            expect(html_entity_decode($href))->toContain('locale=ar');
+        }
+    });
+
+    it('draws the code to hand out from the reporter link itself', function (): void {
+        pricedTown($this->country, $this->basket);
+
+        $page = $this->get('/?country=ZZ&locale=en')->assertOk();
+
+        preg_match('/data-qr data-url="([^"]+)"/', $page->getContent(), $match);
+
+        expect($match)->toHaveCount(2)
+            ->and(html_entity_decode($match[1]))->toStartWith('http')
+            ->and(html_entity_decode($match[1]))->toContain('country=ZZ');
+    });
 });
 
 describe('rendering', function (): void {

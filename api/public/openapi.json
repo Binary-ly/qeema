@@ -588,6 +588,35 @@
                         },
                         "type": "object"
                     },
+                    "affordability": {
+                        "description": "The cost as a share of a sourced monthly income the country declares, such as its legal minimum wage. Null when the deployment declares none. For a basket that is not comparable this is the share of the priced part only — read quality.comparable first.",
+                        "properties": {
+                            "share_of_income": {
+                                "description": "cost.local divided by income. 0.21 means a fifth of the income.",
+                                "type": "number",
+                                "format": "float"
+                            },
+                            "income": {
+                                "type": "number",
+                                "format": "float"
+                            },
+                            "period": {
+                                "type": "string",
+                                "enum": [
+                                    "month"
+                                ]
+                            },
+                            "label": {
+                                "description": "What the income is, in English, as the country file states it.",
+                                "type": "string"
+                            },
+                            "currency": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object",
+                        "nullable": true
+                    },
                     "items": {
                         "type": "array",
                         "items": {

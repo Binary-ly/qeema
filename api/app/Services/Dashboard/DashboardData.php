@@ -260,6 +260,129 @@ final readonly class DashboardData
     }
 
     /**
+     * The one location the page tells its story with: the snapshot that
+     * priced the most items, ties going to the wider coverage and then the
+     * newer date. A median needs comparable locations, and on a deployment
+     * with one town reporting there are none — so the page speaks about the
+     * town that actually has figures, and says which town it is.
+     *
+     * @param  Collection<int, IndexSnapshot>  $snapshots
+     */
+    private static function heroSnapshot(Collection $snapshots): ?IndexSnapshot
+    {
+        return $snapshots
+            ->filter(static fn (IndexSnapshot $s): bool => $s->items->isNotEmpty())
+            ->sortBy([
+                static fn (IndexSnapshot $a, IndexSnapshot $b): int => $b->items->count() <=> $a->items->count(),
+                static fn (IndexSnapshot $a, IndexSnapshot $b): int => (float) $b->coverage_pct <=> (float) $a->coverage_pct,
+                static fn (IndexSnapshot $a, IndexSnapshot $b): int => $b->snapshot_date <=> $a->snapshot_date,
+            ])
+            ->first();
+    }
+
+    /**
+     * The basket cost against a sourced income, in one sentence's worth of
+     * facts.
+     *
+     * "205 dinars" is a price. "A fifth of the legal minimum wage" is what a
+     * reader came to find out, and until this existed the page called itself
+     * an affordability index while never saying what anything was affordable
+     * against. The income is the country file's, with its citation; a country
+     * that declares none gets null, not a guess.
+     *
+     * @param  Collection<int, IndexSnapshot>  $snapshots
+     * @return array{location: string, cost: float, currency: string, income: float, share: float, share_pct: int, label: string, priced: int, total: int, comparable: bool, sources: list<array<string, mixed>>}|null
+     */
+    public function affordability(Country $country, Collection $snapshots, bool $preferLocalNames = false): ?array
+    {
+        $income = $country->referenceIncome();
+        $hero = self::heroSnapshot($snapshots);
+
+        if ($income === null || $hero === null || (float) $hero->cost_local <= 0.0) {
+            return null;
+        }
+
+        $cost = (float) $hero->cost_local;
+        $label = $preferLocalNames && $income['label_local'] !== null && $income['label_local'] !== ''
+            ? $income['label_local']
+            : $income['label_en'];
+
+        return [
+            'location' => self::naming($hero->location?->name, $hero->location?->name_local, $preferLocalNames)['label'],
+            'cost' => round($cost, 2),
+            'currency' => $country->currency_code,
+            'income' => $income['amount'],
+            'share' => round($cost / $income['amount'], 4),
+            'share_pct' => (int) round($cost / $income['amount'] * 100),
+            'label' => $label,
+            'priced' => $hero->items->count(),
+            'total' => (int) $hero->total_item_count,
+            'comparable' => $hero->isComparable(),
+            'sources' => $income['sources'],
+        ];
+    }
+
+    /**
+     * The month's list for one town, with prices.
+     *
+     * The fifteen items were shown as words, lit or hollow. That says which
+     * items have a price somewhere; it does not say what anything costs, and
+     * a reader who asked "so how much is formula?" had to find the table.
+     * This is the same list as a parent would write it: item, how much of it
+     * the month needs, and the price for that much — or nothing, drawn hollow,
+     * where nobody has recorded one. An estimate is marked as one.
+     *
+     * @param  Collection<int, IndexSnapshot>  $snapshots
+     * @return array{location: string, date: string, currency: string, total_cost: float, priced: int, total: int, rows: list<array<string, mixed>>}|null
+     */
+    public function shoppingList(Country $country, Collection $snapshots, bool $preferLocalNames = false): ?array
+    {
+        $hero = self::heroSnapshot($snapshots);
+
+        if ($hero === null) {
+            return null;
+        }
+
+        $lines = $hero->items->keyBy('canonical_item_id');
+        $rows = [];
+
+        foreach ($hero->basket->items()->with('canonicalItem')->get() as $entry) {
+            $item = $entry->canonicalItem;
+
+            if ($item === null) {
+                continue;
+            }
+
+            $line = $lines->get((int) $entry->canonical_item_id);
+
+            $rows[] = [
+                'code' => $item->code,
+                ...self::naming($item->name_en, $item->name_local, $preferLocalNames),
+                'weight' => (float) $entry->weight,
+                'quantity' => (float) $entry->quantity,
+                'unit' => (string) $entry->unit_code,
+                // The line cost for the month's quantity, which is what the
+                // basket sums — not the unit price, which would make five kilos
+                // of flour look cheaper than one tin of formula.
+                'price' => $line === null ? null : round((float) $line->contribution_local, 2),
+                'estimated' => $line !== null && (bool) $line->is_imputed,
+            ];
+        }
+
+        usort($rows, static fn (array $a, array $b): int => $b['weight'] <=> $a['weight']);
+
+        return [
+            'location' => self::naming($hero->location?->name, $hero->location?->name_local, $preferLocalNames)['label'],
+            'date' => $hero->snapshot_date->toDateString(),
+            'currency' => $country->currency_code,
+            'total_cost' => round((float) $hero->cost_local, 2),
+            'priced' => count(array_filter($rows, static fn (array $r): bool => $r['price'] !== null)),
+            'total' => count($rows),
+            'rows' => $rows,
+        ];
+    }
+
+    /**
      * Which of a record's two names leads, and which sits under it.
      *
      * Everything on this page that has an English name and a local one shows

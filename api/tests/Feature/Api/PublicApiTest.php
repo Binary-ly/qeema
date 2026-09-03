@@ -185,6 +185,28 @@ describe('every figure carries its qualifiers', function () {
         });
     });
 
+    it('sets the cost against the income the country cites', function () {
+        // A cost is a price. A cost as a share of the minimum wage is what
+        // makes this an affordability figure, and it rides with every snapshot
+        // the country's file gives a sourced income for.
+        $this->snapshot->update(['cost_local' => 250.0]);
+
+        $this->getJson("/api/v1/countries/{$this->country->code}/index/current")
+            ->assertOk()
+            ->assertJsonPath('data.0.affordability.share_of_income', 0.25)
+            ->assertJsonPath('data.0.affordability.income', 1000)
+            ->assertJsonPath('data.0.affordability.label', 'the legal minimum monthly wage')
+            ->assertJsonPath('data.0.affordability.currency', 'LYD');
+    });
+
+    it('publishes null affordability for a country that declares no income', function () {
+        $this->country->update(['reference_income' => null]);
+
+        $this->getJson("/api/v1/countries/{$this->country->code}/index/current")
+            ->assertOk()
+            ->assertJsonPath('data.0.affordability', null);
+    });
+
     it('publishes a null dollar cost rather than omitting the key', function () {
         // A missing key reads as "no data"; an explicit null says "we could not
         // convert this", which is a different and more useful statement.

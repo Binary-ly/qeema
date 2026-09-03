@@ -326,6 +326,70 @@ body.dash {
     -webkit-text-stroke: 1.25px var(--q-risk);
 }
 
+/* The same list with prices, for the one town that has them. A list, not a
+ * paragraph: each line is item, quantity, price, and the hollow typography
+ * carries over to the lines nobody has priced. */
+.month__lead {
+    margin: 1.4rem 0 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.month--list {
+    margin-block-start: 0.5rem;
+    padding: 0;
+    list-style: none;
+    max-width: 36rem;
+    font-size: clamp(1.1rem, 1.9vw, 1.5rem);
+    line-height: 1.3;
+}
+
+.month--list .month__item::after {
+    content: none;
+}
+
+.month__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 0.4rem 1rem;
+    align-items: baseline;
+    padding-block: 0.35rem;
+    border-block-end: 1px dashed color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.month__qty {
+    font-size: 0.68em;
+    white-space: nowrap;
+    opacity: 0.62;
+}
+
+.month__price {
+    font-variant-numeric: tabular-nums lining-nums;
+    white-space: nowrap;
+}
+
+.month__est {
+    margin-inline-start: 0.35em;
+    font-size: 0.55em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.month__none {
+    font-size: 0.68em;
+    color: var(--q-risk);
+}
+
+.month__total {
+    margin: 0.9rem 0 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
 /* A browser without text-stroke gets the same fact by other means rather than
  * invisible words. */
 @supports not (-webkit-text-stroke: 1px currentColor) {
@@ -413,6 +477,103 @@ body.dash {
  * scrolled. The page used to open on a headline and a sentence — which says
  * what this is without saying anything it has found.
  */
+/* The cost against an income, in the masthead. The share is set in the same
+ * display face and brand colour as the rail figures below it, because it is
+ * the one number on the page that answers the question a reader arrived
+ * with. */
+.dash__afford {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    margin: 1.4rem 0 0;
+    max-width: 48ch;
+    color: #dce8ee;
+}
+
+.dash__afford-share {
+    flex: none;
+    font-family: var(--q-font-display);
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: var(--q-brand);
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+.dash__afford-pc {
+    font-size: 0.45em;
+    margin-inline-start: 0.05em;
+}
+
+.dash__afford-text {
+    font-size: 1.0625rem;
+    line-height: 1.5;
+}
+
+.dash__afford-basis {
+    display: block;
+    margin-block-start: 0.25rem;
+    font-size: 0.875rem;
+    color: #a9c0cd;
+}
+
+/* Two doors. Two people arrive at this page — one holding a price, one
+ * needing the number — and each used to find their own way: a small link in
+ * the nav, a section at the foot. They are the first two things under the
+ * title now, and the one for the reporter is the brand colour because it is
+ * the one that changes the data. */
+.dash__doors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-block-start: 1.5rem;
+}
+
+.door {
+    display: flex;
+    flex: 1 1 14rem;
+    max-width: 22rem;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--q-radius-lg);
+    background: rgba(255, 255, 255, 0.04);
+    color: #dce8ee;
+    text-decoration: none;
+    transition: background 160ms ease, border-color 160ms ease;
+}
+
+.door:hover,
+.door:focus-visible {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.door--report {
+    background: var(--q-brand);
+    border-color: transparent;
+    color: var(--q-ink);
+}
+
+.door--report:hover,
+.door--report:focus-visible {
+    background: color-mix(in srgb, var(--q-brand) 88%, white);
+    border-color: transparent;
+}
+
+.door__title {
+    font-family: var(--q-font-display);
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+}
+
+.door__sub {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    opacity: 0.82;
+}
+
 .dash__rail {
     border-block-start: 1px solid rgba(255, 255, 255, 0.13);
 }
@@ -1438,6 +1599,53 @@ body.dash {
 .cta .dash__links {
     flex-direction: column;
     align-items: flex-start;
+}
+
+/* The code to hand out. Drawn on a white tile whatever the band behind it,
+ * because a scanner needs the contrast, and sized up in print. */
+.qr {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.35rem 1rem;
+    align-items: start;
+    max-width: 36ch;
+    margin-block-start: 1.75rem;
+}
+
+.qr__canvas {
+    grid-row: 1 / span 3;
+    box-sizing: border-box;
+    width: 11rem;
+    height: 11rem;
+    padding: 0.4rem;
+    border-radius: var(--q-radius);
+    background: #fff;
+}
+
+.qr__title {
+    margin: 0;
+    font-weight: 600;
+}
+
+.qr__body {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.qr__url {
+    margin: 0;
+    font-family: var(--q-font-mono, ui-monospace, monospace);
+    font-size: 0.8125rem;
+    word-break: break-all;
+    opacity: 0.75;
+}
+
+@media print {
+    .qr__canvas {
+        width: 16rem;
+        height: 16rem;
+    }
 }
 
 .spec {

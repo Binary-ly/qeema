@@ -131,6 +131,19 @@ use OpenApi\Attributes as OA;
             ],
             type: 'object',
         ),
+        new OA\Property(
+            property: 'affordability',
+            description: 'The cost as a share of a sourced monthly income the country declares, such as its legal minimum wage. Null when the deployment declares none. For a basket that is not comparable this is the share of the priced part only — read quality.comparable first.',
+            properties: [
+                new OA\Property(property: 'share_of_income', type: 'number', format: 'float', description: 'cost.local divided by income. 0.21 means a fifth of the income.'),
+                new OA\Property(property: 'income', type: 'number', format: 'float'),
+                new OA\Property(property: 'period', type: 'string', enum: ['month']),
+                new OA\Property(property: 'label', type: 'string', description: 'What the income is, in English, as the country file states it.'),
+                new OA\Property(property: 'currency', type: 'string'),
+            ],
+            type: 'object',
+            nullable: true,
+        ),
         new OA\Property(property: 'items', type: 'array', items: new OA\Items(ref: '#/components/schemas/SnapshotItem')),
     ],
 )]

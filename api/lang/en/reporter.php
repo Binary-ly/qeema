@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 return [
     'title' => 'Report a price',
-    'subtitle' => 'Help track what a child needs costs where you live.',
+    'subtitle' => 'One price you saw today. It goes on the public map within a minute.',
 
     'location' => 'Where are you?',
     'location_placeholder' => 'Choose the nearest town',

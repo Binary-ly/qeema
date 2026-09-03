@@ -337,3 +337,24 @@ if (!reduceMotion && 'IntersectionObserver' in window) {
     // leave content hidden. A reader who never scrolls still sees the page.
     setTimeout(() => targets.forEach(reveal), 2500)
 }
+
+// The code to hand out. Drawn from the reporter URL the page already prints
+// beneath it, so a reader without script still has the same information as
+// text; loaded dynamically so the encoder is not fetched by a page that has
+// no code to draw.
+const qr = document.querySelector('[data-qr]')
+if (qr) {
+    const canvas = qr.querySelector('canvas')
+    const url = qr.dataset.url
+    if (canvas && url) {
+        import('qrcode')
+            .then(({ default: QRCode }) =>
+                QRCode.toCanvas(canvas, url, {
+                    width: canvas.width,
+                    margin: 1,
+                    color: { dark: '#0b1f2a', light: '#ffffff' },
+                }),
+            )
+            .catch(() => {})
+    }
+}

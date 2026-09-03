@@ -36,7 +36,7 @@ final class Country extends Model
         'currency_code', 'currency_symbol', 'currency_minor_units',
         'default_locale', 'locales', 'timezone',
         'admin1_label', 'admin2_label',
-        'fx_config', 'index_config', 'is_active',
+        'fx_config', 'index_config', 'reference_income', 'is_active',
     ];
 
     protected function casts(): array
@@ -45,8 +45,41 @@ final class Country extends Model
             'locales' => 'array',
             'fx_config' => 'array',
             'index_config' => 'array',
+            'reference_income' => 'array',
             'is_active' => 'boolean',
             'currency_minor_units' => 'integer',
+        ];
+    }
+
+    /**
+     * The sourced monthly income the basket is set against, or null.
+     *
+     * A cost is a number. A cost as a share of the legal minimum wage is a
+     * sentence somebody can act on. The figure comes from the country file
+     * with its citation, and a country that declares none gets no comparison
+     * rather than a guessed one.
+     *
+     * @return array{amount: float, period: string, label_en: string, label_local: string|null, sources: list<array<string, mixed>>}|null
+     */
+    public function referenceIncome(): ?array
+    {
+        /** @var array<string, mixed> $raw */
+        $raw = $this->reference_income ?? [];
+        $amount = (float) ($raw['amount'] ?? 0);
+
+        if ($amount <= 0.0 || ! isset($raw['label_en'])) {
+            return null;
+        }
+
+        /** @var list<array<string, mixed>> $sources */
+        $sources = is_array($raw['sources'] ?? null) ? array_values($raw['sources']) : [];
+
+        return [
+            'amount' => $amount,
+            'period' => (string) ($raw['period'] ?? 'month'),
+            'label_en' => (string) $raw['label_en'],
+            'label_local' => isset($raw['label_local']) ? (string) $raw['label_local'] : null,
+            'sources' => $sources,
         ];
     }
 

@@ -420,3 +420,58 @@ describe('the shipped Libya configuration', function () {
         expect(Country::query()->where('code', 'LY')->firstOrFail()->is_active)->toBeFalse();
     });
 });
+
+describe('the reference income', function () {
+    /** @return array<string, mixed> */
+    function referenceIncome(): array
+    {
+        return [
+            'amount' => 1000,
+            'period' => 'month',
+            'label_en' => 'the legal minimum monthly wage',
+            'label_local' => 'الحد الأدنى للأجر',
+            'sources' => [[
+                'url' => 'https://example.test/law-16-2023',
+                'date' => '2023-05-22',
+                'says' => 'Article 1: no less than one thousand for every worker.',
+            ]],
+        ];
+    }
+
+    it('refuses a figure with no source behind it', function () {
+        // The page states every basket as a share of this number. An
+        // unsourced denominator would be a guess published under every
+        // figure on the site.
+        $config = validConfig(['reference_income' => referenceIncome()]);
+        unset($config['reference_income']['sources']);
+
+        expect(fn () => (new CountryConfigLoader)->load(writeConfig($config)))
+            ->toThrow(CountryConfigException::class, 'reference_income.sources');
+    });
+
+    it('refuses a period the basket cannot be set against', function () {
+        $config = validConfig(['reference_income' => referenceIncome()]);
+        $config['reference_income']['period'] = 'week';
+
+        expect(fn () => (new CountryConfigLoader)->load(writeConfig($config)))
+            ->toThrow(CountryConfigException::class, 'reference_income.period');
+    });
+
+    it('imports the figure with its citation and exposes it on the country', function () {
+        $config = (new CountryConfigLoader)->load(writeConfig(validConfig(['reference_income' => referenceIncome()])));
+        (new CountryConfigImporter)->import($config);
+
+        $income = Country::query()->where('code', 'ZZ')->firstOrFail()->referenceIncome();
+
+        expect($income)->not->toBeNull()
+            ->and($income['amount'])->toBe(1000.0)
+            ->and($income['label_en'])->toBe('the legal minimum monthly wage')
+            ->and($income['sources'][0]['url'])->toBe('https://example.test/law-16-2023');
+    });
+
+    it('leaves a country that declares none uncompared rather than guessed', function () {
+        (new CountryConfigImporter)->import((new CountryConfigLoader)->load(writeConfig(validConfig())));
+
+        expect(Country::query()->where('code', 'ZZ')->firstOrFail()->referenceIncome())->toBeNull();
+    });
+});

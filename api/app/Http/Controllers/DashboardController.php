@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Services\Dashboard\DashboardData;
+use App\Support\Http\LocalisedRoute;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -70,6 +71,13 @@ final class DashboardController extends Controller
             'countries' => Country::query()->where('is_active', true)->orderBy('name')->get(),
             'headline' => $this->data->headline($country, $snapshots),
             'basket' => $this->data->basketCoverage($country, $snapshots, preferLocalNames: $local),
+            // The one town the page tells its story with, priced line by
+            // line, and its cost against the income the country file cites.
+            'afford' => $this->data->affordability($country, $snapshots, preferLocalNames: $local),
+            'list' => $this->data->shoppingList($country, $snapshots, preferLocalNames: $local),
+            // Absolute, because it is drawn as a QR code to be printed and
+            // handed to somebody whose phone has never seen this site.
+            'reportUrl' => LocalisedRoute::to('reporter', $country->code),
             'snapshots' => $snapshots,
             'projection' => $map['projection'],
             'points' => $map['points'],

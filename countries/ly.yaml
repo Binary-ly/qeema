@@ -69,6 +69,30 @@ fx:
 # ---------------------------------------------------------------------------
 # Index estimator settings
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Reference income
+# ---------------------------------------------------------------------------
+# One sourced monthly income the basket is set against, so the page can say
+# what a child's month costs a household and not only what it costs. A cost is
+# a number; a cost as a share of the legal minimum wage is a sentence a reader
+# can act on. Optional — a country that declares none shows no comparison —
+# and the loader refuses the block without a citation.
+reference_income:
+  amount: 1000
+  period: month
+  label_en: the legal minimum monthly wage
+  label_local: الحد الأدنى القانوني للأجر الشهري
+  sources:
+    - url: "https://lawsociety.ly/legislation/قانون-رقم-16-لسنة-2023-م-بشأن-تحديد-الحد-الأد/"
+      date: 2023-05-22
+      kind: law
+      says: >-
+        Law No. 16 of 2023 on the minimum for salaries and wages, issued
+        22 May 2023, Article 1: "يكون الحد الأدنى للأجور والمرتبات بما لا يقل
+        عن ألف دينار لكل العاملين في القطاعين العام والخاص" — one thousand
+        dinars for every worker in the public and private sectors, in force
+        from issuance (Article 3).
+
 index:
   # Thirty, not seven. Seven was tuned for the synthetic generator, which
   # reports every item in every town every day. The sources that actually

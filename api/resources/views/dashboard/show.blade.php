@@ -78,6 +78,47 @@
             @include('partials.brand')
             <h1 class="dash__title">{{ __('dashboard.title') }}</h1>
             <p class="dash__tagline">{{ __('dashboard.tagline') }}</p>
+
+            {{-- The cost against an income, which is the sentence a reader
+                 came for. "205 dinars" is a price; "a fifth of the minimum
+                 wage" is whether a family can pay it. The income and its
+                 citation come from the country file, and a country that
+                 declares none gets no comparison rather than a guessed one. --}}
+            @if ($afford !== null)
+                <p class="dash__afford">
+                    <span class="dash__afford-share"><span data-count="{{ $afford['share_pct'] }}">{{ $afford['share_pct'] }}</span><span class="dash__afford-pc">%</span></span>
+                    <span class="dash__afford-text">
+                        {{ __($afford['comparable'] ? 'dashboard.afford_full' : 'dashboard.afford_partial', [
+                            'location' => $afford['location'],
+                            'priced' => $afford['priced'],
+                            'cost' => number_format($afford['cost'], 2),
+                            'currency' => $afford['currency'],
+                            'share' => $afford['share_pct'],
+                            'income_label' => $afford['label'],
+                        ]) }}
+                        <span class="dash__afford-basis">{{ __('dashboard.afford_basis', [
+                            'income_label' => $afford['label'],
+                            'income' => number_format($afford['income'], 0),
+                            'currency' => $afford['currency'],
+                        ]) }}</span>
+                    </span>
+                </p>
+            @endif
+
+            {{-- Two doors. Two people arrive here — one holding a price, one
+                 needing the number — and each used to find their own way: a
+                 small link in the nav, a section at the foot of the page. They
+                 are now the first two things under the title. --}}
+            <div class="dash__doors">
+                <a class="door door--report" href="@localised('reporter', $country->code)">
+                    <span class="door__title">{{ __('dashboard.door_report') }}</span>
+                    <span class="door__sub">{{ __('dashboard.door_report_sub') }}</span>
+                </a>
+                <a class="door door--data" href="@localised('docs', $country->code)">
+                    <span class="door__title">{{ __('dashboard.door_data') }}</span>
+                    <span class="door__sub">{{ __('dashboard.door_data_sub') }}</span>
+                </a>
+            </div>
         </div>
 
         {{-- The reporter app had no link from anywhere on this page. The
@@ -228,11 +269,37 @@
                              (docs/do-no-harm.md §5). A screen reader gets the
                              hollowness as words, since an outline is not a
                              thing it can hear. --}}
-                        <p class="month" lang="{{ $locale }}">
-                            @foreach ($basket as $entry)
-                                <span class="month__item{{ $entry['locations'] === 0 ? ' is-hollow' : '' }}">{{ $entry['label'] }}@if ($entry['locations'] === 0)<span class="dash__sr-only"> — {{ __('dashboard.basket_none') }}</span>@endif</span>
-                            @endforeach
-                        </p>
+                        @if ($list !== null)
+                            {{-- With prices, for the one town that has them.
+                                 The words alone said which items had a price
+                                 somewhere; they never said what anything
+                                 cost, and a reader asking "so how much is
+                                 formula?" had to go and find the table. This
+                                 is the list a parent would write: the item,
+                                 how much of it the month needs, and the price
+                                 for that much. --}}
+                            <p class="month__lead">{{ __('dashboard.list_lead', ['location' => $list['location']]) }}</p>
+                            <ul class="month month--list" lang="{{ $locale }}">
+                                @foreach ($list['rows'] as $row)
+                                    @php
+                                        $qty = rtrim(rtrim(number_format($row['quantity'], 2, '.', ''), '0'), '.');
+                                        $qtyText = in_array($row['unit'], ['piece', 'pack'], true) ? '× '.$qty : $qty.' '.$row['unit'];
+                                    @endphp
+                                    <li class="month__row{{ $row['price'] === null ? ' is-hollow' : '' }}{{ $row['estimated'] ? ' is-estimated' : '' }}">
+                                        <span class="month__item{{ $row['price'] === null ? ' is-hollow' : '' }}">{{ $row['label'] }}@if ($row['price'] === null)<span class="dash__sr-only"> — {{ __('dashboard.basket_none') }}</span>@endif</span>
+                                        <span class="month__qty" dir="ltr">{{ $qtyText }}</span>
+                                        <span class="month__price">@if ($row['price'] === null)<span class="month__none">{{ __('dashboard.list_none') }}</span>@else{{ number_format($row['price'], 2) }}@if ($row['estimated']) <span class="month__est">{{ __('dashboard.list_estimated') }}</span>@endif @endif</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <p class="month__total">{{ __('dashboard.list_total', ['cost' => number_format($list['total_cost'], 2), 'currency' => $list['currency']]) }} {{ __('dashboard.list_priced', ['priced' => $list['priced'], 'total' => $list['total']]) }}</p>
+                        @else
+                            <p class="month" lang="{{ $locale }}">
+                                @foreach ($basket as $entry)
+                                    <span class="month__item{{ $entry['locations'] === 0 ? ' is-hollow' : '' }}">{{ $entry['label'] }}@if ($entry['locations'] === 0)<span class="dash__sr-only"> — {{ __('dashboard.basket_none') }}</span>@endif</span>
+                                @endforeach
+                            </p>
+                        @endif
 
                         <p class="gap-figure__note">{{ __('dashboard.gap_hollow') }}</p>
                     </div>
@@ -630,6 +697,18 @@
                     <li><a href="{{ $apiUrl }}">{{ __('dashboard.json_link') }}</a></li>
                     <li><a href="{{ $exportUrl }}">{{ __('dashboard.csv_link') }}</a></li>
                 </ul>
+
+                {{-- For the person organising reporters: a code to print and
+                     hand out, drawn on the client from the reporter's own
+                     URL so it is right for whichever deployment and language
+                     this page is. The canvas is empty until the script runs;
+                     the URL beneath it is the same information as text. --}}
+                <div class="qr" data-qr data-url="{{ $reportUrl }}">
+                    <canvas class="qr__canvas" width="176" height="176" role="img" aria-label="{{ __('dashboard.qr_alt') }}"></canvas>
+                    <p class="qr__title">{{ __('dashboard.qr_title') }}</p>
+                    <p class="qr__body">{{ __('dashboard.qr_body') }}</p>
+                    <p class="qr__url" dir="ltr">{{ $reportUrl }}</p>
+                </div>
             </div>
 
             @php
