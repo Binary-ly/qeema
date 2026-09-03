@@ -32,7 +32,8 @@ describe('country configuration', function () {
 
         expect($settings['observation_window_days'])->toBe(14)
             ->and($settings['recency_half_life_days'])->toBe(3)
-            ->and($settings['bootstrap_draws'])->toBe(500);
+            ->and($settings['bootstrap_draws'])->toBe(500)
+            ->and($settings['nowcast_training_days'])->toBe(120);
     });
 
     it('falls back to every default when index config is absent', function () {

@@ -70,6 +70,27 @@ function lastTrainingCall(FakeMlClient $ml): ?array
     return null;
 }
 
+it('looks back as far as the country says, not as far as the command assumes', function (): void {
+    // A monthly survey puts four rows per series into 120 days, and the model
+    // declines on so few. The live deployment sat on a year of such rows and
+    // trained on none of them, because the horizon was the command's default
+    // rather than the country's.
+    $lastWinter = CarbonImmutable::now()->subDays(200)->toDateString();
+    trainingObservation($this->elsewhere, $this->item, $lastWinter, 10.0);
+    trainingObservation($this->location, $this->item, $lastWinter, 15.0);
+
+    $this->artisan('qeema:nowcast:train', ['--country' => $this->country->code])
+        ->expectsOutputToContain('not enough history');
+
+    expect(lastTrainingCall($this->ml))->toBeNull();
+
+    $this->country->update(['index_config' => ['nowcast_training_days' => 365]]);
+
+    $this->artisan('qeema:nowcast:train', ['--country' => $this->country->code]);
+
+    expect(lastTrainingCall($this->ml)['count'])->toBe(2);
+});
+
 it('sends the target as a ratio to the national reference', function (): void {
     $today = CarbonImmutable::now()->toDateString();
 

@@ -312,6 +312,62 @@
                 }
             }
         },
+        "/countries/{countryCode}/locations": {
+            "get": {
+                "tags": [
+                    "reference"
+                ],
+                "summary": "The locations a country publishes for",
+                "description": "Every configured location with its slug, both names, region and coordinates. The slug is what the index routes take.",
+                "operationId": "681c32e20baa7bed7fef0a8f1d41b942",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "No such country"
+                    }
+                }
+            }
+        },
+        "/bootstrap/{countryCode}": {
+            "get": {
+                "tags": [
+                    "submissions"
+                ],
+                "summary": "Everything the reporter app needs to work offline",
+                "description": "The country, its currency, its locations, the current basket's items with the unit and quantity of one sold unit, and the unit list — in one response, so the reporter app can be installed once and used with no connection. This is the payload behind the price form, not a price feed.",
+                "operationId": "8b66f834e5abfd5edeb4676f19e48863",
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "No such active country"
+                    }
+                }
+            }
+        },
         "/health": {
             "get": {
                 "tags": [

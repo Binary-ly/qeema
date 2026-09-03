@@ -401,4 +401,22 @@ describe('the shipped Libya configuration', function () {
 
         expect(Country::query()->where('code', 'LY')->firstOrFail()->currency_minor_units)->toBe(3);
     });
+
+    it('keeps a country an operator switched off switched off across imports', function () {
+        // Whether a configured country is live on a deployment is the
+        // operator's call. The live deployment switched its second country
+        // off because sixteen towns of zeros dragged the health endpoint to
+        // "degraded", and the next config import silently switched it back.
+        $config = (new CountryConfigLoader)->load(base_path('../countries/ly.yaml'));
+        $importer = new CountryConfigImporter;
+        $importer->import($config);
+
+        $country = Country::query()->where('code', 'LY')->firstOrFail();
+        expect($country->is_active)->toBeTrue();
+
+        $country->forceFill(['is_active' => false])->save();
+        $importer->import($config);
+
+        expect(Country::query()->where('code', 'LY')->firstOrFail()->is_active)->toBeFalse();
+    });
 });

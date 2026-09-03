@@ -38,7 +38,7 @@ final class TrainNowcastCommand extends Command
 {
     protected $signature = 'qeema:nowcast:train
                             {--country= : ISO code; defaults to every active country}
-                            {--days=120 : How far back to draw training rows from}
+                            {--days= : How far back to draw training rows from; defaults to the country\'s index.nowcast_training_days}
                             {--limit=4000 : Maximum rows per country}';
 
     protected $description = 'Fit the nowcast quantile models on observed prices';
@@ -114,8 +114,16 @@ final class TrainNowcastCommand extends Command
      */
     private function collect(Country $country, NowcastFeatureBuilder $features): array
     {
+        // The horizon is the country's, not the command's. A daily crowd
+        // fills 120 days with thousands of rows; a monthly survey fills it
+        // with four per series, and the model rightly declines. The country
+        // file says how its sources report, so it says how far back to look.
+        $days = $this->option('days') !== null
+            ? (int) $this->option('days')
+            : $country->indexSettings()['nowcast_training_days'];
+
         $since = CarbonImmutable::now($country->timezone)
-            ->subDays((int) $this->option('days'))
+            ->subDays($days)
             ->toDateString();
 
         $observations = PriceObservation::query()

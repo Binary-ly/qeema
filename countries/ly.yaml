@@ -82,6 +82,12 @@ index:
   # window only decides when an item stops counting at all.
   observation_window_days: 30
   recency_half_life_days: 3
+  # A year, for the same reason the window above is a month. The nowcast needs
+  # 200 rows to train; 120 days of a monthly survey held 116 and the model
+  # declined, so every estimate on the live site came from the ±30% heuristic.
+  # A year of the same survey holds over a thousand rows and, more to the
+  # point, a full cycle of the seasons the estimator is meant to learn.
+  nowcast_training_days: 365
   min_observations_for_ci: 3
   bootstrap_draws: 500
   # Unset on purpose. The base period is the date at which the index reads 100,

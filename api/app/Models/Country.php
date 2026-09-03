@@ -61,17 +61,22 @@ final class Country extends Model
         'min_observations_for_ci' => 3,
         'bootstrap_draws' => 500,
         'base_date' => null,
+        // How far back the nowcast draws its training rows. 120 days is four
+        // points per series from a monthly source, which is why the live
+        // deployment's model declined to train on 116 rows while a year of
+        // the same source held over a thousand.
+        'nowcast_training_days' => 120,
     ];
 
     /**
-     * @return array{observation_window_days:int, recency_half_life_days:int, min_observations_for_ci:int, bootstrap_draws:int, base_date:string|null}
+     * @return array{observation_window_days:int, recency_half_life_days:int, min_observations_for_ci:int, bootstrap_draws:int, base_date:string|null, nowcast_training_days:int}
      */
     public function indexSettings(): array
     {
         /** @var array<string, mixed> $configured */
         $configured = $this->index_config ?? [];
 
-        /** @var array{observation_window_days:int, recency_half_life_days:int, min_observations_for_ci:int, bootstrap_draws:int, base_date:string|null} $merged */
+        /** @var array{observation_window_days:int, recency_half_life_days:int, min_observations_for_ci:int, bootstrap_draws:int, base_date:string|null, nowcast_training_days:int} $merged */
         $merged = array_merge(self::INDEX_DEFAULTS, $configured);
 
         return $merged;

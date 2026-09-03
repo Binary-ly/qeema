@@ -123,6 +123,26 @@ final class Paths
     )]
     public function submit(): void {}
 
+    #[OA\Get(
+        path: '/countries/{countryCode}/locations',
+        tags: ['reference'],
+        summary: 'The locations a country publishes for',
+        description: 'Every configured location with its slug, both names, region and coordinates. The slug is what the index routes take.',
+        parameters: [new OA\Parameter(name: 'countryCode', in: 'path', required: true, schema: new OA\Schema(type: 'string'))],
+        responses: [new OA\Response(response: 200, description: 'OK'), new OA\Response(response: 404, description: 'No such country')],
+    )]
+    public function locations(): void {}
+
+    #[OA\Get(
+        path: '/bootstrap/{countryCode}',
+        tags: ['submissions'],
+        summary: 'Everything the reporter app needs to work offline',
+        description: 'The country, its currency, its locations, the current basket\'s items with the unit and quantity of one sold unit, and the unit list — in one response, so the reporter app can be installed once and used with no connection. This is the payload behind the price form, not a price feed.',
+        parameters: [new OA\Parameter(name: 'countryCode', in: 'path', required: true, schema: new OA\Schema(type: 'string'))],
+        responses: [new OA\Response(response: 200, description: 'OK'), new OA\Response(response: 404, description: 'No such active country')],
+    )]
+    public function bootstrap(): void {}
+
     #[OA\Get(path: '/health', tags: ['ops'], summary: 'Service health', responses: [new OA\Response(response: 200, description: 'OK')])]
     public function health(): void {}
 }

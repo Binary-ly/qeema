@@ -97,8 +97,10 @@ final class CountryConfigImporter
         /** @var array<string, mixed> $adminLabels */
         $adminLabels = $data['admin_labels'] ?? [];
 
+        $code = strtoupper((string) $data['code']);
+
         return Country::query()->updateOrCreate(
-            ['code' => strtoupper((string) $data['code'])],
+            ['code' => $code],
             [
                 // Neither of these was ever written. Both country files carry an
                 // `index:` and an `fx:` block, both are parsed and validated, and
@@ -121,7 +123,14 @@ final class CountryConfigImporter
                 'timezone' => (string) ($data['timezone'] ?? 'UTC'),
                 'admin1_label' => (string) ($adminLabels['admin1'] ?? 'Region'),
                 'admin2_label' => $adminLabels['admin2'] ?? null,
-                'is_active' => true,
+                // Set only when the country is first created. Whether a
+                // configured country is *live* on a given deployment is the
+                // operator's decision, not the file's: the live deployment
+                // switched its second country off because sixteen towns of
+                // zeros were dragging the health endpoint to "degraded", and
+                // this line used to switch it straight back on at the next
+                // config import, with nothing to say it had.
+                ...(Country::query()->where('code', $code)->exists() ? [] : ['is_active' => true]),
             ],
         );
     }
