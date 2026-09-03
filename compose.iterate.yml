@@ -32,6 +32,11 @@ services:
       # mount rather than the whole directory: the image generates assets into
       # `public/` at build time that the working tree does not carry.
       - ./api/public/og.png:/app/public/og.png:ro
+      # The generated API specification, for the same reason: `/docs` renders
+      # whatever `public/openapi.json` the container can see, and after two
+      # endpoints were documented the live reference kept listing the image's
+      # older set while the repository's copy was current.
+      - ./api/public/openapi.json:/app/public/openapi.json:ro
       - ./api/lang:/app/lang:ro
       - ./api/app:/app/app:ro
       # Migrations, so a schema change is visible to `artisan migrate` in the
