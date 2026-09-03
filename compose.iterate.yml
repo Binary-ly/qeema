@@ -25,6 +25,13 @@ services:
     volumes:
       - ./api/resources:/app/resources:ro
       - ./api/public/build:/app/public/build:ro
+      # The share-card image. nginx runs inside this container and serves
+      # static files from the image's own `public/`, so a committed asset is
+      # invisible until the image is rebuilt — the link preview pointed at a
+      # URL that answered 404 while the file sat on the host. A single-file
+      # mount rather than the whole directory: the image generates assets into
+      # `public/` at build time that the working tree does not carry.
+      - ./api/public/og.png:/app/public/og.png:ro
       - ./api/lang:/app/lang:ro
       - ./api/app:/app/app:ro
       # Migrations, so a schema change is visible to `artisan migrate` in the
