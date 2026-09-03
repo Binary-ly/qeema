@@ -144,7 +144,14 @@ def main() -> int:
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["item", "price", "location", "unit", "quantity", "date", "currency", "external_id"])
+        # LF, not the csv module's default CRLF: the batch is keyed by the
+        # file's checksum, and a file whose line endings depend on the platform
+        # that wrote it is a file that imports twice.
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["item", "price", "location", "unit", "quantity", "date", "currency", "external_id"],
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(kept)
 
