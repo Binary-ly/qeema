@@ -360,7 +360,10 @@ final readonly class DashboardData
                 ...self::naming($item->name_en, $item->name_local, $preferLocalNames),
                 'weight' => (float) $entry->weight,
                 'quantity' => (float) $entry->quantity,
-                'unit' => (string) $entry->unit_code,
+                // The litre's code is a lone lowercase L, and "2 l" in a small
+                // grey face read as "21" on the live page. Upper-cased for
+                // display only; the code itself is what the basket stores.
+                'unit' => $entry->unit_code === 'l' ? 'L' : (string) $entry->unit_code,
                 // The line cost for the month's quantity, which is what the
                 // basket sums — not the unit price, which would make five kilos
                 // of flour look cheaper than one tin of formula.
