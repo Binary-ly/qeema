@@ -75,6 +75,14 @@ LABEL org.opencontainers.image.title="Qeema ML service" \
 ENV HF_HUB_OFFLINE=1 \
     TRANSFORMERS_OFFLINE=1
 
+# perl-base is Debian-essential but unused by this FastAPI service; force it
+# out here (after all building/pip-installing is done in earlier stages, in
+# case a wheel's build step ever shells out to it) to drop a chunk of this
+# image's CVE surface (CVE-2026-13221, CVE-2026-42496, CVE-2026-8376).
+RUN apt-get update -qq && apt-get purge -y --allow-remove-essential perl-base \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=deps /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 COPY --from=deps /usr/local/bin /usr/local/bin
 COPY --from=weights /opt/models/hf /opt/models/hf
